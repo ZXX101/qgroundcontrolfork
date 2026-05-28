@@ -25,12 +25,55 @@ Rectangle {
     height: ScreenTools.toolbarHeight
     color:  qgcPal.toolbarBackground
 
-    property var    _activeVehicle:     QGroundControl.multiVehicleManager.activeVehicle
-    property bool   _communicationLost: _activeVehicle ? _activeVehicle.vehicleLinkManager.communicationLost : false
-    property color  _mainStatusBGColor: qgcPal.brandingPurple
+    property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
+    property bool   _communicationLost:         _activeVehicle ? _activeVehicle.vehicleLinkManager.communicationLost : false
+    property bool   _healthAndArmingSupported:  _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.supported : false
+    property color  _mainStatusBGColor:         qgcPal.brandingPurple
+
+    function updateMainStatusBGColor() {
+        if (!_activeVehicle) {
+            _mainStatusBGColor = qgcPal.brandingPurple
+            return
+        }
+        if (_communicationLost) {
+            _mainStatusBGColor = "red"
+            return
+        }
+        if (_activeVehicle.armed) {
+            if (_healthAndArmingSupported && !_activeVehicle.healthAndArmingCheckReport.canArm) {
+                _mainStatusBGColor = "red"
+            } else if (_healthAndArmingSupported && _activeVehicle.healthAndArmingCheckReport.hasWarningsOrErrors) {
+                _mainStatusBGColor = "yellow"
+            } else {
+                _mainStatusBGColor = "green"
+            }
+        } else {
+            if (_healthAndArmingSupported && !_activeVehicle.healthAndArmingCheckReport.canArm) {
+                _mainStatusBGColor = "red"
+            } else if (_healthAndArmingSupported && _activeVehicle.healthAndArmingCheckReport.hasWarningsOrErrors) {
+                _mainStatusBGColor = "yellow"
+            } else {
+                _mainStatusBGColor = "green"
+            }
+        }
+    }
+
+    Connections {
+        target: _activeVehicle
+        function onArmedChanged() { updateMainStatusBGColor() }
+        function onFlyingChanged() { updateMainStatusBGColor() }
+        function onHealthAndArmingCheckReportChanged() { updateMainStatusBGColor() }
+    }
+
+    Connections {
+        target: QGroundControl.multiVehicleManager
+        function onActiveVehicleChanged() { updateMainStatusBGColor() }
+    }
+
+    Component.onCompleted: updateMainStatusBGColor()
 
     function dropMainStatusIndicatorTool() {
-        mainStatusIndicator.dropMainStatusIndicator();
+        // flightModeIndicator.dropMainStatusIndicator();
     }
 
     QGCPalette { id: qgcPal }
@@ -71,10 +114,11 @@ Rectangle {
             // onClicked:              mainWindow.showToolSelectDialog()
         }
 
-        //这是主状态指示器，不是模式指示器。
-        MainStatusIndicator {
-            id: mainStatusIndicator
+        //飞行模式指示器，带背景色
+        FlightModeIndicator {
+            id:                 flightModeIndicator
             Layout.preferredHeight: viewButtonRow.height
+            fontPointSize:      ScreenTools.largeFontPointSize
         }
 
         //断开连接的按钮，他只在连接断开时出现，保留。

@@ -44,7 +44,7 @@ Row {
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
             source:             modelData
-            visible:            item.showIndicator
+            visible:            item.showIndicator && !source.toString().includes("FlightModeIndicator")
         }
     }
 
