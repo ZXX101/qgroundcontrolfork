@@ -86,6 +86,31 @@ QString ScreenToolsController::normalFontFamily()
     return QStringLiteral("Open Sans");
 }
 
+QString ScreenToolsController::tecentFontFamily()
+{
+    return QStringLiteral("TencentSans");
+}
+
+QString ScreenToolsController::puhuiFontFamily()
+{
+    return QStringLiteral("Alibaba PuHuiTi 3.0");
+}
+
+QString ScreenToolsController::puhuiBoldFontFamily()
+{
+    return QStringLiteral("Alibaba PuHuiTi 3.0");
+}
+
+QString ScreenToolsController::puhuiMediumFontFamily()
+{
+    return QStringLiteral("Alibaba PuHuiTi 3.0");
+}
+
+QString ScreenToolsController::puhuiHeavyFontFamily()
+{
+    return QStringLiteral("Alibaba PuHuiTi 3.0");
+}
+
 double ScreenToolsController::defaultFontDescent(int pointSize)
 {
     return QFontMetrics(QFont(normalFontFamily(), pointSize)).descent();

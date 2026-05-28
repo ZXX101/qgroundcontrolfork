@@ -318,6 +318,13 @@ void QGCApplication::init()
         qCWarning(QGCApplicationLog) << "Could not load /fonts/opensans-demibold font";
     }
 
+    // Load Tecent and Puhui fonts
+    (void) QFontDatabase::addApplicationFont(":/fonts/Tecent-Bold");
+    (void) QFontDatabase::addApplicationFont(":/fonts/Puhui");
+    (void) QFontDatabase::addApplicationFont(":/fonts/Puhui-Bold");
+    (void) QFontDatabase::addApplicationFont(":/fonts/Puhui-Medium");
+    (void) QFontDatabase::addApplicationFont(":/fonts/Puhui-Heavy");
+
     if (_simpleBootTest) {
         // Since GStream builds are so problematic we initialize video during the simple boot test
         // to make sure it works and verfies plugin availability.

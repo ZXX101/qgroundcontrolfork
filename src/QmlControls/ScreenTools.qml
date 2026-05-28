@@ -122,6 +122,11 @@ Item {
 
     readonly property string normalFontFamily:      ScreenToolsController.normalFontFamily
     readonly property string fixedFontFamily:       ScreenToolsController.fixedFontFamily
+    readonly property string tecentFontFamily:      ScreenToolsController.tecentFontFamily
+    readonly property string puhuiFontFamily:       ScreenToolsController.puhuiFontFamily
+    readonly property string puhuiBoldFontFamily:   ScreenToolsController.puhuiBoldFontFamily
+    readonly property string puhuiMediumFontFamily: ScreenToolsController.puhuiMediumFontFamily
+    readonly property string puhuiHeavyFontFamily:  ScreenToolsController.puhuiHeavyFontFamily
     /* This mostly works but for some reason, reflowWidths() in SetupView doesn't change size.
        I've disabled (in release builds) until I figure out why. Changes require a restart for now.
     */

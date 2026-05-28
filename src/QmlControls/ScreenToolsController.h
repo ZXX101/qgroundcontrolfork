@@ -38,6 +38,11 @@ class ScreenToolsController : public QObject
     Q_PROPERTY(QString  iOSDevice           READ iOSDevice          CONSTANT)
     Q_PROPERTY(QString  fixedFontFamily     READ fixedFontFamily    CONSTANT)
     Q_PROPERTY(QString  normalFontFamily    READ normalFontFamily   CONSTANT)
+    Q_PROPERTY(QString  tecentFontFamily    READ tecentFontFamily   CONSTANT)
+    Q_PROPERTY(QString  puhuiFontFamily     READ puhuiFontFamily    CONSTANT)
+    Q_PROPERTY(QString  puhuiBoldFontFamily     READ puhuiBoldFontFamily    CONSTANT)
+    Q_PROPERTY(QString  puhuiMediumFontFamily    READ puhuiMediumFontFamily   CONSTANT)
+    Q_PROPERTY(QString  puhuiHeavyFontFamily     READ puhuiHeavyFontFamily   CONSTANT)
 
 public:
     explicit ScreenToolsController(QObject *parent = nullptr);
@@ -112,4 +117,9 @@ public:
     static QString iOSDevice();
     static QString fixedFontFamily();
     static QString normalFontFamily();
+    static QString tecentFontFamily();
+    static QString puhuiFontFamily();
+    static QString puhuiBoldFontFamily();
+    static QString puhuiMediumFontFamily();
+    static QString puhuiHeavyFontFamily();
 };
