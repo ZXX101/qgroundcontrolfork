@@ -66,9 +66,9 @@ Rectangle {
         QGCToolBarButton {
             id:                     currentButton
             Layout.preferredHeight: viewButtonRow.height
-            icon.source:            "/res/QGCLogoFull.svg"
+            icon.source:            "/xfres/LogoFull.png"
             logo:                   true
-            onClicked:              mainWindow.showToolSelectDialog()
+            // onClicked:              mainWindow.showToolSelectDialog()
         }
 
         MainStatusIndicator {
@@ -80,7 +80,7 @@ Rectangle {
             id:                 disconnectButton
             text:               qsTr("Disconnect")
             onClicked:          _activeVehicle.closeVehicle()
-            visible:            _activeVehicle && _communicationLost
+            visible:            false && _activeVehicle && _communicationLost
         }
     }
 

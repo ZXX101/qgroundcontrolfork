@@ -120,4 +120,31 @@
         <file alias="gcscontrol_gcs.svg">resources/gcscontrolIndicator/gcscontrol_gcs.svg</file>
         <file alias="gcscontrol_line.svg">resources/gcscontrolIndicator/gcscontrol_line.svg</file>
     </qresource>
+    <qresource prefix="/xfres">
+        <file>resources/XF/battery.png</file>
+        <file>resources/XF/center-on-device.png</file>
+        <file>resources/XF/center-on-remote.png</file>
+        <file>resources/XF/check-disconnected.png</file>
+        <file>resources/XF/check-no-risk.png</file>
+        <file>resources/XF/check-no-takeoff.png</file>
+        <file>resources/XF/check-risk.png</file>
+        <file>resources/XF/common.png</file>
+        <file>resources/XF/gps.png</file>
+        <file>resources/XF/landing-in-progress.png</file>
+        <file alias="LogoFull.png">resources/XF/logo-groundstation.png</file>
+        <file>resources/XF/message.png</file>
+        <file>resources/XF/mission.png</file>
+        <file>resources/XF/rangefinder.png</file>
+        <file>resources/XF/rtl-flying.png</file>
+        <file>resources/XF/rtl-not-flying.png</file>
+        <file>resources/XF/signal.png</file>
+        <file>resources/XF/takeoff-disabled.png</file>
+        <file>resources/XF/takeoff-enabled.png</file>
+        <file>resources/XF/takeoff-in-progress.png</file>
+        <file>resources/XF/timer.png</file>
+        <file>resources/XF/tools-collapse.png</file>
+        <file>resources/XF/tools-expand.png</file>
+        <file>resources/XF/uav-icon.png</file>
+        <file>resources/XF/video-window.png</file>
+    </qresource>
 </RCC>
