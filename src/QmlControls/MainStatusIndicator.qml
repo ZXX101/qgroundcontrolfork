@@ -30,6 +30,7 @@ RowLayout {
     property bool   _healthAndArmingChecksSupported: _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.supported : false
 
     function dropMainStatusIndicator() {
+        //根据是否连接飞机来确定显示离线页面（点击后打开连接popup弹窗）还是在线页面（）
         let overallStatusComponent = _activeVehicle ? overallStatusIndicatorPage : overallStatusOfflineIndicatorPage
         mainWindow.showIndicatorDrawer(overallStatusComponent, control)
     }
@@ -41,6 +42,7 @@ RowLayout {
         verticalAlignment:  Text.AlignVCenter
         text:               mainStatusText()
         font.pointSize:     ScreenTools.largeFontPointSize
+        font.family:        ScreenTools.tecentFontFamily
 
         property string _commLostText:      qsTr("Comms Lost")
         property string _readyToFlyText:    qsTr("Ready To Fly")
@@ -50,6 +52,7 @@ RowLayout {
         property string _flyingText:        qsTr("Flying")
         property string _landingText:       qsTr("Landing")
 
+        //这个菜单是飞行状态的。现在改成只使用颜色来表示，并且不能点开弹出菜单。
         function mainStatusText() {
             var statusText
             if (_activeVehicle) {
@@ -115,7 +118,9 @@ RowLayout {
             }
         }
 
+        //隐藏消息图标，后面要挪到后面重新改样式 TODO
         QGCColoredImage {
+            visible:                false
             id:                     vehicleMessagesIcon
             anchors.verticalCenter: parent.verticalCenter
             anchors.right:          parent.right
@@ -140,9 +145,10 @@ RowLayout {
             }
         }
 
+        //隐藏菜单。
         QGCMouseArea {
             anchors.fill:   parent
-            onClicked:      dropMainStatusIndicator()
+            // onClicked:      dropMainStatusIndicator()
         }
     }
 
@@ -164,12 +170,15 @@ RowLayout {
         }
     }
 
+
+    //1. 连接配置弹窗（离线时弹出）
     Component {
         id: overallStatusOfflineIndicatorPage
 
         MainStatusIndicatorOfflinePage { }
     }
 
+    //2. 警告日志弹窗（在线时弹出，和上一个互斥），包含两个组件
     Component {
         id: overallStatusIndicatorPage
 
@@ -181,6 +190,7 @@ RowLayout {
         }
     }
 
+    //2.1 警告日志
     Component {
         id: mainStatusContentComponent
 
@@ -334,6 +344,7 @@ RowLayout {
         }
     }
 
+    //2.2 警告日志拓展弹窗
     Component {
         id: mainStatusExpandedComponent
 
@@ -379,6 +390,7 @@ RowLayout {
         }
     }
 
+    //当连接垂起固定翼时会显示可切换旋翼状态或固定翼状态
     Component {
         id: vtolTransitionIndicatorPage
 

@@ -71,11 +71,13 @@ Rectangle {
             // onClicked:              mainWindow.showToolSelectDialog()
         }
 
+        //这是主状态指示器，不是模式指示器。
         MainStatusIndicator {
             id: mainStatusIndicator
             Layout.preferredHeight: viewButtonRow.height
         }
 
+        //断开连接的按钮，他只在连接断开时出现，保留。
         QGCButton {
             id:                 disconnectButton
             text:               qsTr("Disconnect")
@@ -84,6 +86,7 @@ Rectangle {
         }
     }
 
+    //这里放的是主状态指示器右侧的所有控件，现在统一移动到右侧，并且常驻显示。
     QGCFlickable {
         id:                     toolsFlickable
         anchors.leftMargin:     ScreenTools.defaultFontPixelWidth * ScreenTools.largeFontPointRatio * 1.5

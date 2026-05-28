@@ -628,6 +628,7 @@ ApplicationWindow {
             textFormat:         TextEdit.RichText
         }
 
+        //点击这里后拉起警告弹窗或者连接弹窗
         MouseArea {
             anchors.fill: parent
             onClicked: {
