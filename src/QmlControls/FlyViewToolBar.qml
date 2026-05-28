@@ -62,7 +62,11 @@ Rectangle {
         target: _activeVehicle
         function onArmedChanged() { updateMainStatusBGColor() }
         function onFlyingChanged() { updateMainStatusBGColor() }
-        function onHealthAndArmingCheckReportChanged() { updateMainStatusBGColor() }
+    }
+
+    Connections {
+        target: _activeVehicle ? _activeVehicle.healthAndArmingCheckReport : null
+        function onUpdated() { updateMainStatusBGColor() }
     }
 
     Connections {
@@ -89,13 +93,17 @@ Rectangle {
     }
 
     Rectangle {
-        anchors.fill: viewButtonRow
-        
+        anchors.top:        viewButtonRow.top
+        anchors.bottom:     viewButtonRow.bottom
+        anchors.left:       viewButtonRow.left
+        width:              viewButtonRow.width * 1.3
+
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0;                                     color: _mainStatusBGColor }
-            GradientStop { position: currentButton.x + currentButton.width; color: _mainStatusBGColor }
-            GradientStop { position: 1;                                     color: _root.color }
+            GradientStop { position: 0;                                                     color: _mainStatusBGColor }
+            // GradientStop { position: (currentButton.x + currentButton.width) / width;      color: _mainStatusBGColor }
+            GradientStop { position: viewButtonRow.width / width;                          color: _mainStatusBGColor }
+            GradientStop { position: 1;                                                     color: _root.color }
         }
     }
 

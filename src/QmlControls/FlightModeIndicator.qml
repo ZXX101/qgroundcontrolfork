@@ -44,13 +44,14 @@ RowLayout {
             mipmap:     true
             color:      qgcPal.text
             source:     "/qmlimages/FlightModesComponentIcon.png"
+            visible:    false
         }
 
         QGCLabel {
             text:               activeVehicle ? activeVehicle.flightMode : qsTr("N/A", "No data to display")
             font.pointSize:     fontPointSize
             Layout.alignment:   Qt.AlignCenter
-
+            font.family:        ScreenTools.tecentFontFamily
             MouseArea {
                 anchors.fill:   parent
                 onClicked:      mainWindow.showIndicatorDrawer(drawerComponent, control)
