@@ -15,6 +15,8 @@ if(NOT ANDROID AND NOT IOS)
     )
 endif()
 
+
+
 target_link_libraries(${CMAKE_PROJECT_NAME}
     PRIVATE
         Qt6::Charts

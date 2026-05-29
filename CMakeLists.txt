@@ -14,6 +14,10 @@ endif()
 set(CMAKE_REQUIRED_QUIET ON)
 set(CMAKE_POLICY_VERSION_MINIMUM 3.15)
 
+# # add Felgo hot reload
+# find_package(FelgoHotReload REQUIRED)
+# target_link_libraries(appCppBackendCharts PRIVATE FelgoHotReload)
+
 #######################################################
 #                Custom Build Configuration
 #######################################################

@@ -49,33 +49,35 @@ Item {
 
             QGCColoredImage {
                 id:                 gpsIcon
+                height:             ScreenTools.defaultFontPixelHeight * 1.5
                 width:              height
-                anchors.top:        parent.top
-                anchors.bottom:     parent.bottom
-                source:             "/qmlimages/Gps.svg"
-                fillMode:           Image.PreserveAspectFit
                 sourceSize.height:  height
+                sourceSize.width:   width
+                source:             "/xfres/gps.png"
+                fillMode:           Image.PreserveAspectFit
                 opacity:            (_activeVehicle && _activeVehicle.gps.count.value >= 0) ? 1 : 0.5
                 color:              qgcPal.buttonText
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
         Column {
             id:                     gpsValuesColumn
             anchors.verticalCenter: parent.verticalCenter
-            visible:                _activeVehicle && !isNaN(_activeVehicle.gps.hdop.value)
             spacing:                0
+
+            property bool _connected: _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
 
             QGCLabel {
                 anchors.horizontalCenter:   hdopValue.horizontalCenter
                 color:              qgcPal.buttonText
-                text:               _activeVehicle ? _activeVehicle.gps.count.valueString : ""
+                text:               gpsValuesColumn._connected ? _activeVehicle.gps.count.valueString : "--"
             }
 
             QGCLabel {
                 id:     hdopValue
                 color:  qgcPal.buttonText
-                text:   _activeVehicle ? _activeVehicle.gps.hdop.value.toFixed(1) : ""
+                text:   gpsValuesColumn._connected ? _activeVehicle.gps.hdop.value.toFixed(1) : "--"
             }
         }
     }

@@ -18,6 +18,7 @@ import QGroundControl.Palette
 import QGroundControl.MultiVehicleManager
 import QGroundControl.ScreenTools
 import QGroundControl.Controllers
+import QGroundControl.Toolbar
 
 Rectangle {
     id:     _root
@@ -129,12 +130,45 @@ Rectangle {
             fontPointSize:      ScreenTools.largeFontPointSize
         }
 
+        //车辆消息指示器
+        VehicleMessagesIndicator {
+            Layout.fillHeight:  true
+            Layout.leftMargin:  ScreenTools.defaultFontPixelWidth * 5
+        }
+
         //断开连接的按钮，他只在连接断开时出现，保留。
         QGCButton {
             id:                 disconnectButton
             text:               qsTr("Disconnect")
             onClicked:          _activeVehicle.closeVehicle()
             visible:            false && _activeVehicle && _communicationLost
+        }
+    }
+
+    //右侧固定指示器区域：GPS、电池、计时器
+    Row {
+        id:                     rightIndicatorsRow
+        anchors.right:          parent.right
+        anchors.top:            parent.top
+        anchors.bottom:         parent.bottom
+        anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
+        spacing:                ScreenTools.defaultFontPixelWidth
+
+        VehicleGPSIndicator {
+            anchors.top:        parent.top
+            anchors.bottom:     parent.bottom
+            showIndicator:      true
+        }
+
+        BatteryIndicator {
+            anchors.top:        parent.top
+            anchors.bottom:     parent.bottom
+            showIndicator:      true
+        }
+
+        TimerIndicator {
+            anchors.top:        parent.top
+            anchors.bottom:     parent.bottom
         }
     }
 
@@ -147,7 +181,7 @@ Rectangle {
         anchors.bottomMargin:   1
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
-        anchors.right:          parent.right
+        anchors.right:          rightIndicatorsRow.left
         contentWidth:           toolIndicators.width
         flickableDirection:     Flickable.HorizontalFlick
 

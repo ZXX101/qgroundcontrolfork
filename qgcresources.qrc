@@ -121,30 +121,36 @@
         <file alias="gcscontrol_line.svg">resources/gcscontrolIndicator/gcscontrol_line.svg</file>
     </qresource>
     <qresource prefix="/xfres">
-        <file>resources/XF/battery.png</file>
-        <file>resources/XF/center-on-device.png</file>
-        <file>resources/XF/center-on-remote.png</file>
-        <file>resources/XF/check-disconnected.png</file>
-        <file>resources/XF/check-no-risk.png</file>
-        <file>resources/XF/check-no-takeoff.png</file>
-        <file>resources/XF/check-risk.png</file>
-        <file>resources/XF/common.png</file>
-        <file>resources/XF/gps.png</file>
-        <file>resources/XF/landing-in-progress.png</file>
+        <file alias="center-on-device">resources/XF/center-on-device.png</file>
+        <file alias="center-on-remote.png">resources/XF/center-on-remote.png</file>
+        <file alias="check-disconnected.png">resources/XF/check-disconnected.png</file>
+        <file alias="check-no-risk.png">resources/XF/check-no-risk.png</file>
+        <file alias="check-no-takeoff.png">resources/XF/check-no-takeoff.png</file>
+        <file alias="check-risk.png">resources/XF/check-risk.png</file>
+        <file alias="common.png">resources/XF/common.png</file>
+        <file alias="gps.png">resources/XF/gps.png</file>
+        <file alias="landing-in-progress.png">resources/XF/landing-in-progress.png</file>
         <file alias="LogoFull.png">resources/XF/logo-groundstation.png</file>
-        <file>resources/XF/message.png</file>
-        <file>resources/XF/mission.png</file>
-        <file>resources/XF/rangefinder.png</file>
-        <file>resources/XF/rtl-flying.png</file>
-        <file>resources/XF/rtl-not-flying.png</file>
-        <file>resources/XF/signal.png</file>
-        <file>resources/XF/takeoff-disabled.png</file>
-        <file>resources/XF/takeoff-enabled.png</file>
-        <file>resources/XF/takeoff-in-progress.png</file>
-        <file>resources/XF/timer.png</file>
-        <file>resources/XF/tools-collapse.png</file>
-        <file>resources/XF/tools-expand.png</file>
-        <file>resources/XF/uav-icon.png</file>
-        <file>resources/XF/video-window.png</file>
+        <file alias="message.png">resources/XF/message.png</file>
+        <file alias="mission.png">resources/XF/mission.png</file>
+        <file alias="rangefinder.png">resources/XF/rangefinder.png</file>
+        <file alias="rtl-flying.png">resources/XF/rtl-flying.png</file>
+        <file alias="rtl-not-flying.png">resources/XF/rtl-not-flying.png</file>
+        <file alias="signal.png">resources/XF/signal.png</file>
+        <file alias="takeoff-disabled.png">resources/XF/takeoff-disabled.png</file>
+        <file alias="takeoff-enabled.png">resources/XF/takeoff-enabled.png</file>
+        <file alias="takeoff-in-progress.png">resources/XF/takeoff-in-progress.png</file>
+        <file alias="timer.png">resources/XF/timer.png</file>
+        <file alias="tools-collapse.png">resources/XF/tools-collapse.png</file>
+        <file alias="tools-expand.png">resources/XF/tools-expand.png</file>
+        <file alias="uav-icon.png">resources/XF/uav-icon.png</file>
+        <file alias="video-window.png">resources/XF/video-window.png</file>
+        <file alias="BatteryCritical.png">resources/XF/BatteryCritical.png</file>
+        <file alias="BatteryEMERGENCY.png">resources/XF/BatteryEMERGENCY.png</file>
+        <file alias="BatteryGreen.png">resources/XF/BatteryGreen.png</file>
+        <file alias="BatteryOrange.png">resources/XF/BatteryOrange.png</file>
+        <file alias="BatteryYellow.png">resources/XF/BatteryYellow.png</file>
+        <file alias="BatteryYellowGreen.png">resources/XF/BatteryYellowGreen.png</file>
+        <file alias="Battery.png">resources/XF/Battery.png</file>
     </qresource>
 </RCC>

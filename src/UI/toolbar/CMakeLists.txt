@@ -20,6 +20,8 @@ qt_add_qml_module(ToolbarModule
         RemoteIDIndicator.qml
         RTKGPSIndicator.qml
         TelemetryRSSIIndicator.qml
+        TimerIndicator.qml
         VehicleGPSIndicator.qml
+        VehicleMessagesIndicator.qml
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )

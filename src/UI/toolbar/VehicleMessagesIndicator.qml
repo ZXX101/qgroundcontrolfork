@@ -1,9 +1,6 @@
 /****************************************************************************
  *
- * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
- *
- * QGroundControl is licensed according to the terms in the file
- * COPYING.md in the root of the source code directory.
+ * Vehicle Messages Indicator for QGroundControl
  *
  ****************************************************************************/
 
@@ -17,141 +14,43 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 import QGroundControl.FactSystem
 
-RowLayout {
-    id:         control
-    spacing:    ScreenTools.defaultFontPixelWidth
+Item {
+    id:                 control
+    width:              messageIcon.width + ScreenTools.defaultFontPixelWidth
 
-    property var    _activeVehicle:     QGroundControl.multiVehicleManager.activeVehicle
-    property var    _vehicleInAir:      _activeVehicle ? _activeVehicle.flying || _activeVehicle.landing : false
-    property bool   _vtolInFWDFlight:   _activeVehicle ? _activeVehicle.vtolInFwdFlight : false
-    property bool   _armed:             _activeVehicle ? _activeVehicle.armed : false
-    property real   _margins:           ScreenTools.defaultFontPixelWidth
-    property real   _spacing:           ScreenTools.defaultFontPixelWidth / 2
+    property var    _activeVehicle:                 QGroundControl.multiVehicleManager.activeVehicle
+    property bool   _connected:                     _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
+    property bool   _armed:                         _activeVehicle ? _activeVehicle.armed : false
     property bool   _healthAndArmingChecksSupported: _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.supported : false
+    property real   _spacing:                       ScreenTools.defaultFontPixelWidth / 2
 
-    function dropMainStatusIndicator() {
-        //根据是否连接飞机来确定显示离线页面（点击后打开连接popup弹窗）还是在线页面（）
-        let overallStatusComponent = _activeVehicle ? overallStatusIndicatorPage : overallStatusOfflineIndicatorPage
-        mainWindow.showIndicatorDrawer(overallStatusComponent, control)
+    function getIconColor() {
+        if (!_connected) return qgcPal.text
+        if (_activeVehicle.messageTypeError) return qgcPal.colorRed
+        if (_activeVehicle.messageTypeWarning) return qgcPal.colorOrange
+        return qgcPal.text
     }
 
-    QGCLabel {
-        id:                 mainStatusLabel
-        Layout.fillHeight:  true
-        Layout.preferredWidth: contentWidth + vehicleMessagesIcon.width + control.spacing
-        verticalAlignment:  Text.AlignVCenter
-        text:               mainStatusText()
-        font.pointSize:     ScreenTools.largeFontPointSize
-        font.family:        ScreenTools.tecentFontFamily
+    QGCColoredImage {
+        id:                 messageIcon
+        height:             ScreenTools.defaultFontPixelHeight * 1.5
+        width:              height
 
-        property string _commLostText:      qsTr("Comms Lost")
-        property string _readyToFlyText:    qsTr("Ready To Fly")
-        property string _notReadyToFlyText: qsTr("Not Ready")
-        property string _disconnectedText:  qsTr("Disconnected - Click to manually connect")
-        property string _armedText:         qsTr("Armed")
-        property string _flyingText:        qsTr("Flying")
-        property string _landingText:       qsTr("Landing")
-
-        //这个菜单是飞行状态的。现在改成只使用颜色来表示，并且不能点开弹出菜单。
-        function mainStatusText() {
-            var statusText
-            if (_activeVehicle) {
-                if (_communicationLost) {
-                    _mainStatusBGColor = "red"
-                    return mainStatusLabel._commLostText
-                }
-                if (_activeVehicle.armed) {
-                    _mainStatusBGColor = "green"
-
-                    if (_healthAndArmingChecksSupported) {
-                        if (_activeVehicle.healthAndArmingCheckReport.canArm) {
-                            if (_activeVehicle.healthAndArmingCheckReport.hasWarningsOrErrors) {
-                                _mainStatusBGColor = "yellow"
-                            }
-                        } else {
-                            _mainStatusBGColor = "red"
-                        }
-                    }
-
-                    if (_activeVehicle.flying) {
-                        return mainStatusLabel._flyingText
-                    } else if (_activeVehicle.landing) {
-                        return mainStatusLabel._landingText
-                    } else {
-                        return mainStatusLabel._armedText
-                    }
-                } else {
-                    if (_healthAndArmingChecksSupported) {
-                        if (_activeVehicle.healthAndArmingCheckReport.canArm) {
-                            if (_activeVehicle.healthAndArmingCheckReport.hasWarningsOrErrors) {
-                                _mainStatusBGColor = "yellow"
-                            } else {
-                                _mainStatusBGColor = "green"
-                            }
-                            return mainStatusLabel._readyToFlyText
-                        } else {
-                            _mainStatusBGColor = "red"
-                            return mainStatusLabel._notReadyToFlyText
-                        }
-                    } else if (_activeVehicle.readyToFlyAvailable) {
-                        if (_activeVehicle.readyToFly) {
-                            _mainStatusBGColor = "green"
-                            return mainStatusLabel._readyToFlyText
-                        } else {
-                            _mainStatusBGColor = "yellow"
-                            return mainStatusLabel._notReadyToFlyText
-                        }
-                    } else {
-                        // Best we can do is determine readiness based on AutoPilot component setup and health indicators from SYS_STATUS
-                        if (_activeVehicle.allSensorsHealthy && _activeVehicle.autopilotPlugin.setupComplete) {
-                            _mainStatusBGColor = "green"
-                            return mainStatusLabel._readyToFlyText
-                        } else {
-                            _mainStatusBGColor = "yellow"
-                            return mainStatusLabel._notReadyToFlyText
-                        }
-                    }
-                }
-            } else {
-                _mainStatusBGColor = qgcPal.brandingPurple
-                return mainStatusLabel._disconnectedText
-            }
-        }
-
-        //隐藏菜单。
-        QGCMouseArea {
-            anchors.fill:   parent
-            // onClicked:      dropMainStatusIndicator()
-        }
+        sourceSize.height:  height
+        sourceSize.width:   width
+        source:             "/xfres/message.png"
+        fillMode:           Image.PreserveAspectFit
+        color:              getIconColor()
+        anchors.verticalCenter: parent.verticalCenter
+        opacity:            _connected && _activeVehicle.messageCount > 0 ? 1 : 0.5
     }
 
-    QGCLabel {
-        id:                 vtolModeLabel
-        Layout.fillHeight:  true
-        verticalAlignment:  Text.AlignVCenter
-        text:               _vtolInFWDFlight ? qsTr("FW(vtol)") : qsTr("MR(vtol)")
-        font.pointSize:     _vehicleInAir ? ScreenTools.largeFontPointSize : ScreenTools.defaultFontPointSize
-        visible:            _activeVehicle && _activeVehicle.vtol
-
-        QGCMouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (_vehicleInAir) {
-                    mainWindow.showIndicatorDrawer(vtolTransitionIndicatorPage)
-                }
-            }
-        }
+    QGCMouseArea {
+        anchors.fill:   parent
+        onClicked:      mainWindow.showIndicatorDrawer(overallStatusIndicatorPage, control)
     }
 
-
-    //1. 连接配置弹窗（离线时弹出）
-    Component {
-        id: overallStatusOfflineIndicatorPage
-
-        MainStatusIndicatorOfflinePage { }
-    }
-
-    //2. 警告日志弹窗（在线时弹出，和上一个互斥），包含两个组件
+    // 警告日志弹窗（在线时弹出）
     Component {
         id: overallStatusIndicatorPage
 
@@ -163,7 +62,7 @@ RowLayout {
         }
     }
 
-    //2.1 警告日志
+    // 警告日志内容
     Component {
         id: mainStatusContentComponent
 
@@ -172,9 +71,8 @@ RowLayout {
             spacing:    _spacing
 
             QGCButton {
-                // FIXME: forceArm is not possible anymore if _healthAndArmingChecksSupported == true
                 enabled:            _armed || !_healthAndArmingChecksSupported || _activeVehicle.healthAndArmingCheckReport.canArm
-                text:               _armed ?  qsTr("Disarm") : (forceArm ? qsTr("Force Arm") : qsTr("Arm"))
+                text:               _armed ? qsTr("Disarm") : (forceArm ? qsTr("Force Arm") : qsTr("Arm"))
                 Layout.alignment:   Qt.AlignLeft
 
                 property bool forceArm: false
@@ -197,17 +95,15 @@ RowLayout {
             }
 
             SettingsGroupLayout {
-                //Layout.fillWidth:   true
                 heading:            qsTr("Vehicle Messages")
                 visible:            !vehicleMessageList.noMessages
 
-                VehicleMessageList { 
+                VehicleMessageList {
                     id: vehicleMessageList
                 }
             }
 
             SettingsGroupLayout {
-                //Layout.fillWidth:   true
                 heading:            qsTr("Sensor Status")
                 visible:            !_healthAndArmingChecksSupported
 
@@ -230,11 +126,9 @@ RowLayout {
             }
 
             SettingsGroupLayout {
-                //Layout.fillWidth:   true
                 heading:            qsTr("Overall Status")
                 visible:            _healthAndArmingChecksSupported && _activeVehicle.healthAndArmingCheckReport.problemsForCurrentMode.count > 0
 
-                // List health and arming checks
                 Repeater {
                     model:      _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.problemsForCurrentMode : null
                     delegate:   listdelegate
@@ -287,7 +181,7 @@ RowLayout {
                         textFormat:         TextEdit.RichText
                         clip:               true
                         visible:            object.expanded
-                        
+
                         property var fact:  null
 
                         onLinkActivated: (link) => {
@@ -317,7 +211,7 @@ RowLayout {
         }
     }
 
-    //2.2 警告日志拓展弹窗
+    // 警告日志拓展弹窗
     Component {
         id: mainStatusExpandedComponent
 
@@ -338,13 +232,13 @@ RowLayout {
                 GridLayout {
                     columns:            2
                     rowSpacing:         ScreenTools.defaultFontPixelHeight / 2
-                    columnSpacing:      ScreenTools.defaultFontPixelWidth *2
+                    columnSpacing:      ScreenTools.defaultFontPixelWidth * 2
                     Layout.fillWidth:   true
 
                     QGCLabel { Layout.fillWidth: true; text: qsTr("Vehicle Parameters") }
                     QGCButton {
                         text: qsTr("Configure")
-                        onClicked: {                            
+                        onClicked: {
                             mainWindow.showVehicleConfigParametersPage()
                             mainWindow.closeIndicatorDrawer()
                         }
@@ -353,7 +247,7 @@ RowLayout {
                     QGCLabel { Layout.fillWidth: true; text: qsTr("Vehicle Configuration") }
                     QGCButton {
                         text: qsTr("Configure")
-                        onClicked: {                            
+                        onClicked: {
                             mainWindow.showVehicleConfig()
                             mainWindow.closeIndicatorDrawer()
                         }
@@ -362,27 +256,4 @@ RowLayout {
             }
         }
     }
-
-    //当连接垂起固定翼时会显示可切换旋翼状态或固定翼状态
-    Component {
-        id: vtolTransitionIndicatorPage
-
-        ToolIndicatorPage {
-            contentComponent: Component {
-                QGCButton {
-                    text: _vtolInFWDFlight ? qsTr("Transition to Multi-Rotor") : qsTr("Transition to Fixed Wing")
-
-                    onClicked: {
-                        if (_vtolInFWDFlight) {
-                            mainWindow.vtolTransitionToMRFlightRequest()
-                        } else {
-                            mainWindow.vtolTransitionToFwdFlightRequest()
-                        }
-                        mainWindow.closeIndicatorDrawer()
-                    }
-                }
-            }
-        }
-    }
 }
-

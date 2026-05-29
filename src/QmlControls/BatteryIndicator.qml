@@ -48,13 +48,25 @@ Item {
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
 
+        property bool _connected: _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
+
+        // 默认显示（未连接时）
+        Loader {
+            anchors.top:        parent.top
+            anchors.bottom:     parent.bottom
+            sourceComponent:    defaultBatteryVisual
+            visible:            !batteryIndicatorRow._connected || !_activeVehicle.batteries || _activeVehicle.batteries.length === 0
+        }
+
+        // 实际电池数据显示
         Repeater {
-            model: _activeVehicle ? _activeVehicle.batteries : 0
+            model: _activeVehicle && _activeVehicle.batteries ? _activeVehicle.batteries : 0
 
             Loader {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 sourceComponent:    batteryVisual
+                visible:            batteryIndicatorRow._connected
 
                 property var battery: object
             }
@@ -64,6 +76,35 @@ Item {
         anchors.fill:   parent
         onClicked: {
             mainWindow.showIndicatorDrawer(batteryPopup, control)
+        }
+    }
+
+    // 默认电池显示（未连接时）
+    Component {
+        id: defaultBatteryVisual
+
+        Row {
+            anchors.top:    parent.top
+            anchors.bottom: parent.bottom
+
+            QGCColoredImage {
+                height:                 ScreenTools.defaultFontPixelHeight * 2
+                width:                  height
+                sourceSize.height:      height
+                sourceSize.width:       width
+                source:                 "/xfres/Battery.png"
+                fillMode:               Image.PreserveAspectFit
+                color:                  qgcPal.text
+                anchors.verticalCenter: parent.verticalCenter
+                opacity:                0.5
+            }
+
+            QGCLabel {
+                text:                   "--"
+                font.pointSize:         ScreenTools.mediumFontPointSize
+                color:                  qgcPal.text
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
     }
 
@@ -116,27 +157,30 @@ Item {
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_OK:
                         if (!isNaN(battery.percentRemaining.rawValue)) {
                             if (battery.percentRemaining.rawValue > threshold1) {
-                                return "/qmlimages/BatteryGreen.svg"
+                                return "/xfres/BatteryGreen.png"
                             } else if (battery.percentRemaining.rawValue > threshold2) {
-                                return "/qmlimages/BatteryYellowGreen.svg"
+                                return "/xfres/BatteryYellowGreen.png"
                             } else {
-                                return "/qmlimages/BatteryYellow.svg"    
+                                return "/xfres/BatteryYellow.png"
                             } 
                         }
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_LOW:
-                        return "/qmlimages/BatteryOrange.svg" // Low with orange svg
+                        return "/xfres/BatteryOrange.png" // Low with orange svg
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_CRITICAL:
-                        return "/qmlimages/BatteryCritical.svg" // Critical with red svg
+                        return "/xfres/BatteryCritical.png" // Critical with red svg
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_EMERGENCY:
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_FAILED:
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_UNHEALTHY:
-                        return "/qmlimages/BatteryEMERGENCY.svg" // Exclamation mark
+                        return "/xfres/BatteryEMERGENCY.png" // Exclamation mark
                     default:
-                        return "/qmlimages/Battery.svg" // Fallback if percentage is unavailable
+                        return "/xfres/Battery.png" // Fallback if percentage is unavailable
                 }
             }
 
             function getBatteryPercentageText() {
+                if (!_activeVehicle || _activeVehicle.vehicleLinkManager.communicationLost) {
+                    return "--"
+                }
                 if (!isNaN(battery.percentRemaining.rawValue)) {
                     if (battery.percentRemaining.rawValue > 98.9) {
                         return qsTr("100%")
@@ -148,32 +192,35 @@ Item {
                 } else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
                     return battery.chargeState.enumStringValue
                 }
-                return qsTr("n/a")
+                return "--"
             }
 
             function getBatteryVoltageText() {
+                if (!_activeVehicle || _activeVehicle.vehicleLinkManager.communicationLost) {
+                    return "--"
+                }
                 if (!isNaN(battery.voltage.rawValue)) {
                     return battery.voltage.valueString + battery.voltage.units
                 } else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
                     return battery.chargeState.enumStringValue
                 }
-                return qsTr("n/a")
+                return "--"
             }
 
             QGCColoredImage {
-                anchors.top:        parent.top
-                anchors.bottom:     parent.bottom
-                width:              height
-                sourceSize.width:   width
-                source:             getBatterySvgSource()
-                fillMode:           Image.PreserveAspectFit
-                color:              getBatteryColor()
+                height:                 ScreenTools.defaultFontPixelHeight * 1.5
+                width:                  height
+                sourceSize.height:      height
+                sourceSize.width:       width
+                source:                 getBatterySvgSource()
+                fillMode:               Image.PreserveAspectFit
+                color:                  getBatteryColor()
+                anchors.verticalCenter: parent.verticalCenter
             }
 
            ColumnLayout {
                 id:                     batteryInfoColumn
-                anchors.top:            parent.top
-                anchors.bottom:         parent.bottom
+                anchors.verticalCenter: parent.verticalCenter
                 spacing:                0
 
                 QGCLabel {
