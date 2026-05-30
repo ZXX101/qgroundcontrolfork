@@ -139,7 +139,6 @@
         <file alias="signal.png">resources/XF/signal.png</file>
         <file alias="takeoff-disabled.png">resources/XF/takeoff-disabled.png</file>
         <file alias="takeoff-enabled.png">resources/XF/takeoff-enabled.png</file>
-        <file alias="takeoff-in-progress.png">resources/XF/takeoff-in-progress.png</file>
         <file alias="timer.png">resources/XF/timer.png</file>
         <file alias="tools-collapse.png">resources/XF/tools-collapse.png</file>
         <file alias="tools-expand.png">resources/XF/tools-expand.png</file>
@@ -152,5 +151,6 @@
         <file alias="BatteryYellow.png">resources/XF/BatteryYellow.png</file>
         <file alias="BatteryYellowGreen.png">resources/XF/BatteryYellowGreen.png</file>
         <file alias="Battery.png">resources/XF/Battery.png</file>
+        <file alias="land.png">resources/XF/land.png</file>
     </qresource>
 </RCC>

@@ -193,75 +193,108 @@ Item {
         spacing:                ScreenTools.defaultFontPixelWidth * 0.25
         visible:                !QGroundControl.videoManager.fullScreen
 
-        property var _guidedController: globals.guidedControllerFlyView
+        property var    _guidedController: globals.guidedControllerFlyView
+        property real   _buttonWidth:      ScreenTools.defaultFontPixelWidth * 7
+        property real   _imageScale:       0.5
 
-        //起飞/降落切换按钮，根据飞行状态切换显示，只显示图标
+        //起飞/降落切换按钮，根据飞行状态切换显示，显示图标+文字
         Rectangle {
             id:                 takeoffLandButton
-            width:              ScreenTools.defaultFontPixelWidth * 7
+            width:              flightActionButtons._buttonWidth
             height:             width
             radius:             ScreenTools.defaultFontPixelWidth / 2
-            color:              qgcPal.toolbarBackground
+            color:              (takeoffLandButtonMA.pressed || takeoffLandButtonMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
 
-            property bool _showTakeoff: _guidedController.showTakeoff
-            property bool _showLand:    _guidedController.showLand
+            property bool _showTakeoff: flightActionButtons._guidedController.showTakeoff
+            property bool _showLand:    flightActionButtons._guidedController.showLand
+            property string _buttonText: _showTakeoff ? qsTr("Takeoff") : qsTr("Land")
 
-            visible:            _showTakeoff || _showLand
+            visible:            takeoffLandButton._showTakeoff || takeoffLandButton._showLand
 
-            //起飞/降落图标
-            QGCColoredImage {
-                anchors.centerIn:       parent
-                width:                  parent.width * 0.6
-                height:                 width
-                source:                 _showTakeoff ? "/res/takeoff.svg" : "/res/land.svg"
-                fillMode:               Image.PreserveAspectFit
-                color:                  qgcPal.text
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                //起飞/降落图标（使用XF图标）
+                Image {
+                    width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
+                    height:                 width
+                    source:                 takeoffLandButton._showTakeoff ? "/xfres/takeoff-enabled.png" : "/xfres/land.png"
+                    fillMode:               Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //文字标签
+                QGCLabel {
+                    text:                       takeoffLandButton._buttonText
+                    color:                      (takeoffLandButtonMA.pressed || takeoffLandButtonMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.buttonText
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
             }
 
             //点击区域
             QGCMouseArea {
+                id:         takeoffLandButtonMA
                 fillItem:   parent
                 onClicked: {
-                    _guidedController.closeAll()
-                    if (_showTakeoff) {
-                        _guidedController.confirmAction(_guidedController.actionTakeoff)
+                    flightActionButtons._guidedController.closeAll()
+                    if (takeoffLandButton._showTakeoff) {
+                        flightActionButtons._guidedController.confirmAction(flightActionButtons._guidedController.actionTakeoff)
                     } else {
-                        _guidedController.confirmAction(_guidedController.actionLand)
+                        flightActionButtons._guidedController.confirmAction(flightActionButtons._guidedController.actionLand)
                     }
                 }
             }
         }
 
-        //返航按钮，触发返航操作，只显示图标
+        //返航按钮，触发返航操作，显示图标+文字
         Rectangle {
             id:                 rtlButton
-            width:              ScreenTools.defaultFontPixelWidth * 7
+            width:              flightActionButtons._buttonWidth
             height:             width
             radius:             ScreenTools.defaultFontPixelWidth / 2
-            color:              qgcPal.toolbarBackground
+            color:              (rtlButtonMA.pressed || rtlButtonMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
 
-            property bool _showRTL: _guidedController.showRTL
+            property bool _showRTL: flightActionButtons._guidedController.showRTL
 
             visible:            true
-            opacity:            _showRTL ? 1 : 0.5
+            opacity:            rtlButton._showRTL ? 1 : 0.5
 
-            //返航图标
-            QGCColoredImage {
-                anchors.centerIn:       parent
-                width:                  parent.width * 0.6
-                height:                 width
-                source:                 "/res/rtl.svg"
-                fillMode:               Image.PreserveAspectFit
-                color:                  qgcPal.text
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                //返航图标（使用XF图标）
+                Image {
+                    width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
+                    height:                 width
+                    source:                 rtlButton._showRTL ? "/xfres/rtl-flying.png" : "/xfres/rtl-not-flying.png"
+                    fillMode:               Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //文字标签
+                QGCLabel {
+                    text:                       qsTr("RTL")
+                    color:                      (rtlButtonMA.pressed || rtlButtonMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.buttonText
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
             }
 
             //点击区域
             QGCMouseArea {
+                id:         rtlButtonMA
                 fillItem:   parent
-                enabled:    _showRTL
+                enabled:    rtlButton._showRTL
                 onClicked: {
-                    _guidedController.closeAll()
-                    _guidedController.confirmAction(_guidedController.actionRTL)
+                    flightActionButtons._guidedController.closeAll()
+                    flightActionButtons._guidedController.confirmAction(flightActionButtons._guidedController.actionRTL)
                 }
             }
         }
