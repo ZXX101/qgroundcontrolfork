@@ -17,6 +17,8 @@ import QGroundControl.Controls
 import QGroundControl.Palette
 import QGroundControl.UTMSP
 
+//引导动作确认弹窗，显示引导操作确认界面（起飞、降落、返航、紧急停止等）
+//包含：操作消息、确认按钮、取消按钮、滑块（调整高度/速度等参数）
 Rectangle {
     id:         _root
     width:      ScreenTools.defaultFontPixelWidth * 35
@@ -57,6 +59,7 @@ Rectangle {
         }
     }
 
+    //显示确认弹窗函数
     function show(immediate) {
         if (immediate) {
             visible = true

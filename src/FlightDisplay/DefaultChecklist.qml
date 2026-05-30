@@ -17,26 +17,34 @@ import QGroundControl.Controls
 import QGroundControl.FlightDisplay
 import QGroundControl.Vehicle
 
+//默认起飞前检查清单模型，定义通用检查项目和顺序
+//包含：硬件检查、电池检查、传感器健康检查、GPS检查等
 Item {
     property var model: listModel
+    //起飞前检查模型功能组件，定义检查组和检查项
     PreFlightCheckModel {
         id:     listModel
+        //通用初始检查组
         PreFlightCheckGroup {
             name: qsTr("Generic Initial checks")
 
+            //硬件检查按钮，检查螺旋桨、机翼、尾翼安装
             PreFlightCheckButton {
                 name:           qsTr("Hardware")
                 manualText:     qsTr("Props mounted? Wings secured? Tail secured?")
             }
 
+            //电池检查组件，检查电池电量百分比
             PreFlightBatteryCheck {
                 failurePercent:                 40
                 allowFailurePercentOverride:    false
             }
 
+            //传感器健康检查组件，检查传感器状态
             PreFlightSensorsHealthCheck {
             }
 
+            //GPS检查组件，检查GPS锁定状态
             PreFlightGPSCheck {
                 failureSatCount:        9
                 allowOverrideSatCount:  true

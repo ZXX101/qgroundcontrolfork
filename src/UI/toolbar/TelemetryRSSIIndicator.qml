@@ -18,6 +18,8 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- Telemetry RSSI
+//遥测信号强度指示器，显示遥测链路RSSI值
+//点击弹出遥测详情面板：本地/远程RSSI、RX错误、错误修复、TX缓冲、本地/远程噪声
 Item {
     id:             control
     anchors.top:    parent.top

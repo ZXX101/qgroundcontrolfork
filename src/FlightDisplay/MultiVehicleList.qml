@@ -19,6 +19,8 @@ import QGroundControl.Vehicle
 import QGroundControl.FlightMap
 import QGroundControl.FlightDisplay
 
+//多机列表组件，显示已选车辆列表和引导操作按钮
+//包含：车辆列表视图、解锁/加锁按钮、开始任务按钮、暂停按钮等
 Item {
     property real   _margin:              ScreenTools.defaultFontPixelWidth / 2
     property real   _widgetHeight:        ScreenTools.defaultFontPixelHeight * 2.5
@@ -29,6 +31,7 @@ Item {
 
     implicitHeight: vehicleList.contentHeight
 
+    //检查解锁可用性函数，返回是否有车辆未解锁
     function armAvailable() {
         for (var i = 0; i < selectedVehicles.count; i++) {
             var vehicle = selectedVehicles.get(i)
@@ -39,7 +42,7 @@ Item {
         return false
     }
 
-
+    //检查加锁可用性函数，返回是否有车辆已解锁
     function disarmAvailable() {
         for (var i = 0; i < selectedVehicles.count; i++) {
             var vehicle = selectedVehicles.get(i)
@@ -50,6 +53,7 @@ Item {
         return false
     }
 
+    //检查开始任务可用性函数，返回是否有车辆可开始任务
     function startAvailable() {
         for (var i = 0; i < selectedVehicles.count; i++) {
             var vehicle = selectedVehicles.get(i)

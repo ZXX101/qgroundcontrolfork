@@ -19,6 +19,8 @@ import QGroundControl.Palette
 import QGroundControl.FactSystem
 import QGroundControl.FactControls
 
+//APM主状态指示器扩展内容组件，显示ArduPilot故障保护配置
+//包含：地面站通信丢失故障保护、故障保护选项
 ColumnLayout {
     spacing: ScreenTools.defaultFontPixelHeight / 2
 

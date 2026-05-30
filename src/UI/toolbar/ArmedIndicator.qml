@@ -19,6 +19,7 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- Armed Indicator
+//解锁状态指示器，显示Armed/Disarmed状态，下拉选择解锁或加锁操作
 QGCComboBox {
     anchors.verticalCenter: parent.verticalCenter
     alternateText:          _armed ? qsTr("Armed") : qsTr("Disarmed")

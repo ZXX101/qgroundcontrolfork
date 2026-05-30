@@ -1,3 +1,6 @@
+// Toolbar for Plan View
+//规划工具栏指示器，显示任务统计信息
+//包含：当前航点信息、任务总距离、任务时间、最大遥测距离、电池信息等
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -10,7 +13,6 @@ import QGroundControl.FactControls
 import QGroundControl.Palette
 import QGroundControl.UTMSP
 
-// Toolbar for Plan View
 Item {
     width: missionStats.width + _margins
 

@@ -19,6 +19,8 @@ import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import MAVLink
 
+//APM电池指示器，继承BatteryIndicator基类，显示ArduPilot电池状态
+//添加电池阈值配置扩展面板：低压故障保护、临界电压故障保护
 BatteryIndicator {
     waitForParameters: true
 

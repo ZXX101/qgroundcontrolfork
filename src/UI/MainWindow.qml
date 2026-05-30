@@ -25,6 +25,7 @@ import QGroundControl.UTMSP
 
 /// @brief Native QML top level window
 /// All properties defined here are visible to all QML pages.
+//主窗口，应用程序根容器，包含飞行页面、规划页面、工具抽屉、消息弹窗等
 ApplicationWindow {
     id:             mainWindow
     visible:        true
@@ -38,10 +39,12 @@ ApplicationWindow {
     }
 
     /// Saves main window position and size and re-opens it in the same position and size next time
+    //窗口状态保存功能组件，保存并恢复窗口位置和大小
     MainWindowSavedState {
         window: mainWindow
     }
 
+    //首次运行提示管理器功能组件，管理首次运行时的提示对话框序列
     QtObject {
         id: firstRunPromptManager
 
@@ -73,7 +76,7 @@ ApplicationWindow {
 
     //-------------------------------------------------------------------------
     //-- Global Scope Variables
-
+    //全局变量对象，存储全局可访问的属性，如活动车辆、文本尺寸、任务控制器等
     QtObject {
         id: globals
 
@@ -84,18 +87,19 @@ ApplicationWindow {
         readonly property var       guidedControllerFlyView:        flyView.guidedController
 
         // Number of QGCTextField's with validation errors. Used to prevent closing panels with validation errors.
-        property int                validationErrorCount:           0 
+        property int                validationErrorCount:           0
 
         // Property to manage RemoteID quick access to settings page
         property bool               commingFromRIDIndicator:        false
     }
 
     /// Default color palette used throughout the UI
+    //全局调色板功能组件，提供UI颜色方案
     QGCPalette { id: qgcPal; colorGroupEnabled: true }
 
     //-------------------------------------------------------------------------
     //-- Actions
-
+    //全局动作信号，用于触发解锁、加锁、VTOL转换等操作
     signal armVehicleRequest
     signal forceArmVehicleRequest
     signal disarmVehicleRequest
@@ -105,6 +109,7 @@ ApplicationWindow {
 
     //-------------------------------------------------------------------------
     //-- Global Scope Functions
+    //全局函数，提供视图切换、工具显示、消息对话框等功能
 
     // This function is used to prevent view switching if there are validation errors
     function allowViewSwitch(previousValidationErrorCount = 0) {
@@ -263,18 +268,21 @@ ApplicationWindow {
         color:          QGroundControl.globalPalette.window
     }
 
-    FlyView { 
+    //飞行页面，位于主窗口中央，显示飞行控制界面、地图、视频、仪表盘
+    FlyView {
         id:                     flyView
         anchors.fill:           parent
         utmspSendActTrigger:    _utmspSendActTrigger
     }
 
+    //任务规划页面，位于主窗口中央，显示任务编辑界面、地图、航点编辑器
     PlanView {
         id:             planView
         anchors.fill:   parent
         visible:        false
     }
 
+    //日志回放状态栏，位于主窗口底部，显示日志回放进度
     footer: LogReplayStatusBar {
         visible: QGroundControl.settingsManager.flyViewSettings.showLogReplayStatusBar.rawValue
     }
@@ -462,6 +470,7 @@ ApplicationWindow {
         }
     }
 
+    //工具抽屉，位于主窗口内，显示设置/分析/车辆配置等工具面板
     Rectangle {
         id:             toolDrawer
         anchors.fill:   parent
@@ -479,11 +488,13 @@ ApplicationWindow {
             }
         }
 
+        //阻塞鼠标区域，防止点击事件穿透到下层地图
         // This need to block click event leakage to underlying map.
         DeadMouseArea {
             anchors.fill: parent
         }
 
+        //工具抽屉工具栏，位于抽屉顶部，显示返回按钮和标题
         Rectangle {
             id:             toolDrawerToolbar
             anchors.left:   parent.left
@@ -522,6 +533,7 @@ ApplicationWindow {
             }
         }
 
+        //工具内容加载器，位于工具栏下方，加载工具页面内容
         Loader {
             id:             toolDrawerLoader
             anchors.left:   parent.left
@@ -539,7 +551,7 @@ ApplicationWindow {
 
     //-------------------------------------------------------------------------
     //-- Critical Vehicle Message Popup
-
+    //紧急车辆消息弹窗，位于工具栏下方，显示车辆错误警告信息
     function showCriticalVehicleMessage(message) {
         closeIndicatorDrawer()
         if (criticalVehicleMessagePopup.visible || QGroundControl.videoManager.fullScreen) {
@@ -553,6 +565,7 @@ ApplicationWindow {
         }
     }
 
+    //紧急消息弹窗控件，显示车辆错误消息
     Popup {
         id:                 criticalVehicleMessagePopup
         y:                  ScreenTools.toolbarHeight + ScreenTools.defaultFontPixelHeight
@@ -565,6 +578,7 @@ ApplicationWindow {
         property alias  criticalVehicleMessage:             criticalVehicleMessageText.text
         property bool   additionalCriticalMessagesReceived: false
 
+        //弹窗背景，红色警告样式
         background: Rectangle {
             anchors.fill:   parent
             color:          qgcPal.alertBackground
@@ -572,6 +586,7 @@ ApplicationWindow {
             border.color:   qgcPal.alertBorder
             border.width:   2
 
+            //错误标题标签，位于弹窗顶部中央
             Rectangle {
                 anchors.horizontalCenter:   parent.horizontalCenter
                 anchors.top:                parent.top
@@ -594,6 +609,7 @@ ApplicationWindow {
                 }
             }
 
+            //额外错误提示，位于弹窗底部中央
             Rectangle {
                 id:                         additionalErrorsIndicator
                 anchors.horizontalCenter:   parent.horizontalCenter
@@ -619,6 +635,7 @@ ApplicationWindow {
             }
         }
 
+        //错误消息文本，显示具体错误内容
         QGCLabel {
             id:                 criticalVehicleMessageText
             width:              criticalVehicleMessagePopup.width - ScreenTools.defaultFontPixelHeight
@@ -628,6 +645,7 @@ ApplicationWindow {
             textFormat:         TextEdit.RichText
         }
 
+        //点击区域，点击后关闭弹窗或拉起警告列表
         //点击这里后拉起警告弹窗或者连接弹窗
         MouseArea {
             anchors.fill: parent
@@ -645,6 +663,7 @@ ApplicationWindow {
 
     //-------------------------------------------------------------------------
     //-- Indicator Drawer
+    //指示器抽屉，点击toolbar指示器后弹出的面板，显示指示器详情
 
     function showIndicatorDrawer(drawerComponent, indicatorItem) {
         indicatorDrawer.sourceComponent = drawerComponent
@@ -656,6 +675,7 @@ ApplicationWindow {
         indicatorDrawer.close()
     }
 
+    //指示器抽屉弹窗控件，显示指示器详细内容
     Popup {
         id:             indicatorDrawer
         x:              calcXPosition()
@@ -695,6 +715,7 @@ ApplicationWindow {
             indicatorDrawerLoader.sourceComponent   = undefined
         }
 
+        //抽屉背景，半透明窗口样式
         background: Item {
             Rectangle {
                 id:             backgroundRect
@@ -704,6 +725,7 @@ ApplicationWindow {
                 opacity:        0.85
             }
 
+            //展开按钮，位于抽屉右上角，点击展开更多内容
             Rectangle {
                 anchors.horizontalCenter:   backgroundRect.right
                 anchors.verticalCenter:     backgroundRect.top
@@ -718,7 +740,7 @@ ApplicationWindow {
                     anchors.centerIn:   parent
                     text:               ">"
                     color:              QGroundControl.globalPalette.buttonText
-                }  
+                }
 
                 QGCMouseArea {
                     fillItem: parent
@@ -727,6 +749,7 @@ ApplicationWindow {
             }
         }
 
+        //抽屉内容滚动区域，显示指示器内容组件
         contentItem: QGCFlickable {
             id:             indicatorDrawerLoaderFlickable
             implicitWidth:  Math.min(mainWindow.contentItem.width - (2 * indicatorDrawer._margins) - (indicatorDrawer.padding * 2), indicatorDrawerLoader.width)
@@ -734,6 +757,7 @@ ApplicationWindow {
             contentWidth:   indicatorDrawerLoader.width
             contentHeight:  indicatorDrawerLoader.height
 
+            //内容加载器，加载指示器内容组件
             Loader {
                 id: indicatorDrawerLoader
 
@@ -752,6 +776,7 @@ ApplicationWindow {
         }
     }
 
+    //窗口化分析页面创建器，为分析工具创建独立窗口
     // We have to create the popup windows for the Analyze pages here so that the creation context is rooted
     // to mainWindow. Otherwise if they are rooted to the AnalyzeView itself they will die when the analyze viewSwitch
     // closes.
@@ -762,6 +787,7 @@ ApplicationWindow {
         windowedPage.source = source
     }
 
+    //窗口化分析页面组件，用于分析工具的独立窗口
     Component {
         id: windowedAnalyzePage
 
@@ -776,6 +802,7 @@ ApplicationWindow {
                 color:          QGroundControl.globalPalette.window
                 anchors.fill:   parent
 
+                //页面内容加载器，加载分析页面组件
                 Loader {
                     id:             loader
                     anchors.fill:   parent
@@ -790,6 +817,7 @@ ApplicationWindow {
         }
     }
 
+    //UTMSP激活触发信号连接功能组件，处理激活状态变化
     Connections{
          target: activationbar
          function onActivationTriggered(value){
@@ -797,6 +825,7 @@ ApplicationWindow {
          }
     }
 
+    //UTMSP激活状态栏，位于主窗口内，显示激活状态和飞行ID
     UTMSPActivationStatusBar{
          id:                         activationbar
          activationStartTimestamp:   UTMSPStateStorage.startTimeStamp

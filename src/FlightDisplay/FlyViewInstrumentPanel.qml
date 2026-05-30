@@ -12,6 +12,8 @@ import QtQuick
 import QGroundControl
 import QGroundControl.Controls
 
+//飞行仪表面板，显示飞行仪表组件（高度、速度、姿态球、指南针等）
+//支持选择不同的仪表组件布局
 SelectableControl {
     z:                      QGroundControl.zOrderWidgets
     selectionUIRightAnchor: true

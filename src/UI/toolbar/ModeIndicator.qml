@@ -19,6 +19,7 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- Mode Indicator
+//飞行模式指示器，显示当前飞行模式，下拉选择切换飞行模式
 QGCComboBox {
     anchors.verticalCenter: parent.verticalCenter
     alternateText:          _activeVehicle ? _activeVehicle.flightMode : ""

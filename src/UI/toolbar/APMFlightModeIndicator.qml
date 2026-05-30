@@ -19,6 +19,8 @@ import QGroundControl.Palette
 import QGroundControl.FactSystem
 import QGroundControl.FactControls
 
+//APM飞行模式指示器，继承FlightModeIndicator基类，显示ArduPilot飞行模式
+//添加返航高度配置扩展面板（多旋翼机型）
 FlightModeIndicator {
     waitForParameters:      true
     expandedPageComponent:  activeVehicle.multiRotor ? copterComponent : undefined

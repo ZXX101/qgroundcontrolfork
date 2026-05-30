@@ -18,6 +18,8 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 /// Dialog which shows up when a flight completes. Prompts the user for things like whether they should remove the plan from the vehicle.
+//任务完成对话框，飞行完成时弹出，提示用户是否从车辆移除任务
+//包含：任务是否完成检测、弹出确认对话框、移除任务选项等
 Item {
     visible: false
 
@@ -35,6 +37,7 @@ Item {
                                                     (missionController.containsItems || geoFenceController.containsItems || rallyPointController.containsItems ||
                                                      (_activeVehicle ? _activeVehicle.cameraTriggerPoints.count !== 0 : false))
 
+    //解锁状态变化处理，检测飞行完成
     on_VehicleArmedChanged: {
         if (_vehicleArmed) {
             _vehicleWasArmed = true

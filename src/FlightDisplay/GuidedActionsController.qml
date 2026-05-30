@@ -23,6 +23,8 @@ import QGroundControl.FlightMap
 
 /// This provides the smarts behind the guided mode commands, minus the user interface. This way you can change UI
 /// without affecting the underlying functionality.
+//引导动作控制器功能组件，管理引导飞行操作的智能逻辑
+//提供：紧急停止、解锁/加锁、返航、起飞、着陆、开始任务、暂停、改变高度、轨道、VTOL转换等操作的信号和处理
 Item {
     id: _root
 

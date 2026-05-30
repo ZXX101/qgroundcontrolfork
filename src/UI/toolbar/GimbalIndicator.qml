@@ -19,6 +19,9 @@ import QGroundControl.Palette
 import QGroundControl.FactSystem
 import QGroundControl.FactControls
 
+//云台指示器，显示云台状态和控制按钮
+//图标显示云台姿态（俯仰角/偏航角），点击弹出云台控制面板：
+//偏航锁定/跟随、居中、俯仰90°、指向Home、收回、获取/释放控制等
 Item {
     id:             control
     width:          gimbalIndicatorIcon.width * 1.1 + gimbalTelemetryLayout.childrenRect.width + margins
@@ -40,6 +43,7 @@ Item {
     property var    settingsPanelVisible:       false
 
     // Popup panel, appears when clicking top toolbar gimbal indicator
+    //云台控制面板组件，点击指示器弹出
     Component {
         id: gimbalControlsPage
 

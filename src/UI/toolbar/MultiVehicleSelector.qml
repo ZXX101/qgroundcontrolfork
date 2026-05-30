@@ -19,6 +19,8 @@ import QGroundControl.MultiVehicleManager
 import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
+//多机选择器，显示当前活动车辆ID，多机时可切换活动车辆
+//点击弹出车辆选择面板
 RowLayout {
     id:         control
     spacing:    0

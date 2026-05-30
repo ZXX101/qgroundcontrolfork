@@ -23,6 +23,8 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 import QGroundControl.Vehicle
 
+//飞行地图，位于飞行界面地图容器内，显示飞行区域、航线、车辆位置、围栏、集结点等
+//支持画中画模式、车辆跟踪、地图缩放、地图平移等功能
 FlightMap {
     id:                         _root
     allowGCSLocationCenter:     true
@@ -52,6 +54,7 @@ FlightMap {
     property bool   _keepVehicleCentered:       pipMode ? true : false
     property bool   _saveZoomLevelSetting:      true
 
+    //画中画模式缩放调整函数
     function _adjustMapZoomForPipMode() {
         _saveZoomLevelSetting = false
         if (pipMode) {

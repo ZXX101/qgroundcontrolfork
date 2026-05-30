@@ -18,6 +18,9 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- Remote ID Indicator
+//远程ID指示器，显示远程ID合规状态
+//图标颜色：绿色=健康、黄色=警告、红色=错误、灰色=不可用
+//点击弹出远程ID详情面板
 Item {
     id:             control
     width:          remoteIDIcon.width * 1.1
@@ -36,7 +39,7 @@ Item {
     property bool   emergencyDeclared:  activeVehicle && remoteIDManager ? remoteIDManager.emergencyDeclared  : false
     property bool   operatorIDFlag:     activeVehicle && remoteIDManager ? remoteIDManager.operatorIDGood     : false
     property int    remoteIDState:      getRemoteIDState()
-    
+
     property int    regionOperation:    QGroundControl.settingsManager.remoteIDSettings.region.value
 
     enum RIDState {
@@ -51,6 +54,7 @@ Item {
         EU
     }
 
+    //获取远程ID图标颜色，根据状态返回对应颜色
     function getRidColor() {
         switch (remoteIDState) {
             case RemoteIDIndicator.RIDState.HEALTHY: 

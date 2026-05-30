@@ -1,3 +1,6 @@
+//GCS控制指示器，显示多GCS控制状态
+//图标显示当前控制GCS ID，颜色：绿色=本GCS控制、白色=其他GCS控制
+//点击弹出控制请求面板，可发送控制请求或允许接管
 import QtQuick
 import QtQuick.Layouts
 
@@ -32,9 +35,9 @@ Item {
     property var    separatorHeight:                        buttonHeight * 0.9
     property var    settingsPanelVisible:                   false
     property bool   outdoorPalette:                         qgcPal.globalTheme === QGCPalette.Light
-    
+
     // Used by control request popup, when other GCS ask us for control
-    property var    receivedRequestTimeoutMs:               QGroundControl.settingsManager.flyViewSettings.requestControlTimeout.defaultValue // Use this as default in case something goes wrong. Usually it will be overriden on onRequestOperatorControlReceived 
+    property var    receivedRequestTimeoutMs:               QGroundControl.settingsManager.flyViewSettings.requestControlTimeout.defaultValue // Use this as default in case something goes wrong. Usually it will be overriden on onRequestOperatorControlReceived
     property var    requestSysIdRequestingControl:          0
     property var    requestAllowTakeover:                   false
 
@@ -43,6 +46,7 @@ Item {
     Connections {
         target: activeVehicle
         // Popup prompting user to accept control from other GCS
+        //控制请求接收处理，其他GCS请求控制时弹出确认面板
         onRequestOperatorControlReceived: (sysIdRequestingControl, allowTakeover, requestTimeoutSecs) => {
             // If we don't have the indicator visible ( not receiving CONTROL_STATUS ) don't proceed
             if (!control.showIndicator) {

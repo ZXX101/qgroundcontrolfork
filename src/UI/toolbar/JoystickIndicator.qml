@@ -17,6 +17,9 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
 // Joystick Indicator
+//摇杆指示器，显示摇杆连接状态（仅潜艇机型可见）
+//图标颜色：白色=已启用、黄色=未启用、红色=未连接
+//点击弹出摇杆状态面板
 Item {
     id:             control
     width:          joystickRow.width * 1.1

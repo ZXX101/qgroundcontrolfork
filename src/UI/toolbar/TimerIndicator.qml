@@ -12,6 +12,9 @@ import QGroundControl.Controls
 import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
+//计时器指示器，位于工具栏右侧，显示飞行计时（MM:ss格式）
+//点击启动计时，再次点击归零并停止
+//断开连接时显示"--"
 Item {
     id:                 control
     anchors.top:        parent.top

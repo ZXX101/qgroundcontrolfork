@@ -13,6 +13,8 @@ import QGroundControl
 import QGroundControl.ScreenTools
 import QGroundControl.Controls
 
+//车辆警告显示组件，显示GPS锁定警告和预解锁错误警告
+//当GPS未锁定或预解锁检查失败时显示警告消息
 Rectangle {
     anchors.margins:    -ScreenTools.defaultFontPixelHeight
     height:             warningsCol.height
@@ -29,6 +31,7 @@ Rectangle {
         id:         warningsCol
         spacing:    ScreenTools.defaultFontPixelHeight
 
+        //GPS锁定警告标签，显示"No GPS Lock for Vehicle"
         QGCLabel {
             anchors.horizontalCenter:   parent.horizontalCenter
             visible:                    _noGPSLockVisible
@@ -37,6 +40,7 @@ Rectangle {
             text:                       qsTr("No GPS Lock for Vehicle")
         }
 
+        //预解锁错误标签，显示具体错误信息
         QGCLabel {
             anchors.horizontalCenter:   parent.horizontalCenter
             visible:                    _prearmErrorVisible
@@ -45,6 +49,7 @@ Rectangle {
             text:                       _activeVehicle ? _activeVehicle.prearmError : ""
         }
 
+        //预解锁错误说明标签，显示"The vehicle has failed a pre-arm check..."
         QGCLabel {
             anchors.horizontalCenter:   parent.horizontalCenter
             visible:                    _prearmErrorVisible

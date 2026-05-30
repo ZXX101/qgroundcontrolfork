@@ -17,6 +17,8 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 import QGroundControl.Vehicle
 
+//连接链路指示器，显示通信链路状态和名称
+//多链路时可切换主链路，单链路时隐藏
 Item {
     anchors.top:    parent.top
     anchors.bottom: parent.bottom

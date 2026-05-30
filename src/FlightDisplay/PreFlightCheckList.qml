@@ -18,11 +18,15 @@ import QGroundControl.Controls
 import QGroundControl.FlightDisplay
 import QGroundControl.Vehicle
 
+//起飞前检查清单组件，显示起飞前检查项目列表
+//包含：检查组列表、检查项列表、全部通过状态等
+//支持自动展开下一组、重置检查状态等功能
 ColumnLayout {
     spacing: 0.8 * ScreenTools.defaultFontPixelWidth
 
     property real _verticalMargin: ScreenTools.defaultFontPixelHeight / 2
 
+    //检查清单模型加载器，加载默认或自定义检查清单
     Loader {
         id:     modelContainer
         source: "qrc:/qml/QGroundControl/FlightDisplay/DefaultChecklist.qml"
@@ -45,6 +49,7 @@ ColumnLayout {
         }
     }
 
+    //处理检查组通过状态变化函数，自动展开下一组
     function _handleGroupPassedChanged(index, passed) {
         if (passed) {
             // Collapse current group

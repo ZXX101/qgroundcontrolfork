@@ -20,6 +20,8 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 
+//右上角面板，位于飞行界面右上角，显示多机仪表盘（多机时显示）
+//包含：已选车辆列表、各车辆仪表盘视图（高度、速度、姿态球、指南针等）
 Rectangle {
     id:             topRightPanel
     width:          contentWidth
@@ -46,6 +48,7 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
+    //阻塞鼠标区域，防止点击事件穿透到下层地图
     DeadMouseArea {
         anchors.fill:       parent
     }

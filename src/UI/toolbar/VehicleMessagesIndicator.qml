@@ -14,6 +14,9 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 import QGroundControl.FactSystem
 
+//车辆消息指示器，位于飞行模式指示器后面，显示车辆警告/错误消息
+//图标颜色：默认白色、警告橙色、错误红色
+//点击弹出完整状态面板：Arm/Disarm按钮、Vehicle Messages列表、Sensor Status、Overall Status
 Item {
     id:                 control
     width:              messageIcon.width + ScreenTools.defaultFontPixelWidth
@@ -24,6 +27,7 @@ Item {
     property bool   _healthAndArmingChecksSupported: _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.supported : false
     property real   _spacing:                       ScreenTools.defaultFontPixelWidth / 2
 
+    //获取图标颜色，根据消息类型返回对应颜色
     function getIconColor() {
         if (!_connected) return qgcPal.text
         if (_activeVehicle.messageTypeError) return qgcPal.colorRed

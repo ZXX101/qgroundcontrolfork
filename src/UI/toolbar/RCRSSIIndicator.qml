@@ -18,6 +18,8 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- RC RSSI Indicator
+//遥控信号强度指示器，显示遥控接收机RSSI值
+//图标+信号强度条显示RSSI百分比，点击弹出RSSI详情面板
 Item {
     id:             control
     width:          rssiRow.width * 1.1

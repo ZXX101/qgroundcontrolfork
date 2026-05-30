@@ -17,6 +17,8 @@ import QGroundControl.Palette
 
 //-------------------------------------------------------------------------
 //-- Telemetry RSSI
+//APM支持转发指示器，显示MAVLink流量转发到支持服务器的状态
+//仅当MAVLink转发启用时显示，点击弹出转发详情面板
 Item {
     id:             control
     anchors.top:    parent.top
@@ -27,12 +29,12 @@ Item {
 
     Component {
         id: forwardingSupportInfoPage
-        
+
         ToolIndicatorPage {
             contentComponent: SettingsGroupLayout {
                 QGCLabel { text: qsTr("Mavlink traffic is being forwarded to a support server") }
 
-                LabelledLabel { 
+                LabelledLabel {
                     label:      qsTr("Server name:")
                     labelText:  QGroundControl.settingsManager.mavlinkSettings.forwardMavlinkAPMSupportHostName.value
                 }
@@ -49,7 +51,7 @@ Item {
         source:             "/qmlimages/ForwardingSupportIconGreen.svg"
         fillMode:           Image.PreserveAspectFit
     }
-    
+
     MouseArea {
         anchors.fill: parent
         onClicked:      mainWindow.showIndicatorDrawer(forwardingSupportInfoPage, control)

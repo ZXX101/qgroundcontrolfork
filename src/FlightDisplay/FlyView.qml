@@ -30,6 +30,15 @@ import QGroundControl.Vehicle
 // 3D Viewer modules
 import Viewer3D
 
+//飞行界面，位于主窗口内，显示飞行控制、地图、视频、仪表盘
+//包含以下部件：
+//  1. toolbar 标题栏 - 显示飞行状态和指示器
+//  2. 地图 - 显示飞行区域和航线
+//  3. 快捷按钮 - 左侧工具条
+//  4. 仪表盘 - 右侧飞行仪表
+//  5. 姿态球和指南针 - 飞行姿态显示
+//  6. 视频控件 - 飞行器视频画面
+
 Item {
     id: _root
 
@@ -40,6 +49,7 @@ Item {
     // Properties of UTM adapter
     property bool utmspSendActTrigger: false
 
+    //任务控制器功能组件，管理任务数据加载、保存、同步
     PlanMasterController {
         id:                     _planController
         flyView:                true
@@ -73,17 +83,20 @@ Item {
         toolbar.dropMainStatusIndicatorTool();
     }
 
+    //工具边距功能组件，管理UI元素的边距和避让区域
     QGCToolInsets {
         id:                     _toolInsets
         leftEdgeBottomInset:    _pipView.leftEdgeBottomInset
         bottomEdgeLeftInset:    _pipView.bottomEdgeLeftInset
     }
 
+    //顶部工具栏，位于界面顶部，显示飞行状态、GPS、电池等指示器
     FlyViewToolBar {
         id:         toolbar
         visible:    !QGroundControl.videoManager.fullScreen
     }
 
+    //地图容器，位于工具栏下方，包含飞行地图、视频控件和画中画视图
     Item {
         id:                 mapHolder
         anchors.top:        toolbar.bottom
@@ -91,6 +104,7 @@ Item {
         anchors.left:       parent.left
         anchors.right:      parent.right
 
+        //飞行地图，显示飞行区域、航线、车辆位置
         FlyViewMap {
             id:                     mapControl
             planMasterController:   _planController
@@ -102,11 +116,13 @@ Item {
             enabled:                !viewer3DWindow.isOpen
         }
 
+        //视频控件，显示飞行器视频画面
         FlyViewVideo {
             id:         videoControl
             pipView:    _pipView
         }
 
+        //画中画视图，切换地图和视频的主/副显示位置
         PipView {
             id:                     _pipView
             anchors.left:           parent.left
@@ -123,6 +139,7 @@ Item {
             property real bottomEdgeLeftInset: visible ? height + anchors.margins : 0
         }
 
+        //控件层，位于地图上方，显示飞行仪表盘、工具条等UI控件
         FlyViewWidgetLayer {
             id:                     widgetLayer
             anchors.top:            parent.top
@@ -137,6 +154,7 @@ Item {
             isViewer3DOpen:         viewer3DWindow.isOpen
         }
 
+        //自定义层，位于控件层上方，显示自定义控件叠加
         FlyViewCustomLayer {
             id:                 customOverlay
             anchors.fill:       widgetLayer
@@ -146,6 +164,7 @@ Item {
             visible:            !QGroundControl.videoManager.fullScreen
         }
 
+        //控件层边距查看器功能组件，开发工具，用于可视化UI边距
         // Development tool for visualizing the insets for a paticular layer, show if needed
         FlyViewInsetViewer {
             id:                     widgetLayerInsetViewer
@@ -155,15 +174,17 @@ Item {
             anchors.right:          guidedValueSlider.visible ? guidedValueSlider.left : parent.right
             z:                      widgetLayer.z + 1
             insetsToView:           widgetLayer.totalToolInsets
-            visible:                false
+            visible:                true
         }
 
+        //引导动作控制器功能组件，管理引导飞行操作如起飞、降落、返航等
         GuidedActionsController {
             id:                 guidedActionsController
             missionController:  _missionController
             guidedValueSlider:     _guidedValueSlider
         }
 
+        //引导值滑块，位于界面右侧，调整高度、速度等引导参数
         //-- Guided value slider (e.g. altitude)
         GuidedValueSlider {
             id:                 guidedValueSlider
@@ -174,6 +195,7 @@ Item {
             visible:            false
         }
 
+        //3D视图，位于地图容器内，显示3D飞行环境
         Viewer3D{
             id:                     viewer3DWindow
             anchors.fill:           parent

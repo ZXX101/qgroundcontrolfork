@@ -14,6 +14,9 @@ import QGroundControl.Controls
 import QGroundControl.Controllers
 import QGroundControl.ScreenTools
 
+//视频控件，位于飞行界面地图容器内，显示飞行器视频画面
+//支持流媒体视频（GStreamer/QtMultimedia）和UVC摄像头
+//支持画中画模式、全屏模式、云台屏幕控制
 Item {
     id: _root
 
@@ -23,6 +26,7 @@ Item {
     property int    _track_rec_x:       0
     property int    _track_rec_y:       0
 
+    //视频画中画状态功能组件，管理视频在画中画和全屏之间的切换
     PipState {
         id:         videoPipState
         pipView:    _root.pipView
@@ -45,6 +49,7 @@ Item {
         }
     }
 
+    //视频启动延迟定时器，切换窗口后延迟启动视频
     Timer {
         id:           videoStartDelay
         interval:     2000;
@@ -54,6 +59,7 @@ Item {
     }
 
     //-- Video Streaming
+    //流媒体视频显示组件，显示GStreamer或QtMultimedia视频流
     FlightDisplayViewVideo {
         id:             videoStreaming
         anchors.fill:   parent
@@ -61,6 +67,7 @@ Item {
         visible:        QGroundControl.videoManager.isStreamSource
     }
     //-- UVC Video (USB Camera or Video Device)
+    //UVC摄像头视频加载器，显示USB摄像头或视频设备画面
     Loader {
         id:             cameraLoader
         anchors.fill:   parent
@@ -68,6 +75,7 @@ Item {
         source:         QGroundControl.videoManager.uvcEnabled ? "qrc:/qml/QGroundControl/FlightDisplay/FlightDisplayViewUVC.qml" : "qrc:/qml/QGroundControl/FlightDisplay//FlightDisplayViewDummy.qml"
     }
 
+    //全屏退出提示标签，全屏时显示"Double-click to exit full screen"
     QGCLabel {
         text: qsTr("Double-click to exit full screen")
         font.pointSize: ScreenTools.largeFontPointSize
@@ -89,6 +97,7 @@ Item {
         }
     }
 
+    //云台屏幕控制器，显示云台触摸控制界面
     OnScreenGimbalController {
         id:                      onScreenGimbalController
         anchors.fill:            parent

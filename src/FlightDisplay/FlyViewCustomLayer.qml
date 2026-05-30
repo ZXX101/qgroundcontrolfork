@@ -29,6 +29,9 @@ import QGroundControl.Vehicle
 
 // To implement a custom overlay copy this code to your own control in your custom code source. Then override the
 // FlyViewCustomLayer.qml resource with your own qml. See the custom example and documentation for details.
+//飞行界面自定义层，位于控件层上方，用于放置自定义控件叠加
+//可在此添加自定义工具、指示器、控件等
+//继承parentToolInsets边距，传递给totalToolInsets
 Item {
     id: _root
 
@@ -37,6 +40,7 @@ Item {
     property var mapControl
 
     // since this file is a placeholder for the custom layer in a standard build, we will just pass through the parent insets
+    //工具边距功能组件，传递父级边距到自定义层
     QGCToolInsets {
         id:                     _toolInsets
         leftEdgeTopInset:       parentToolInsets.leftEdgeTopInset

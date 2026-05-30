@@ -20,6 +20,12 @@ import QGroundControl.ScreenTools
 import QGroundControl.Controllers
 import QGroundControl.Toolbar
 
+//顶部飞行工具栏，位于飞行界面顶部，显示Logo、飞行模式、消息指示器、GPS、电池、计时器等
+//包含以下部件：
+//  1. viewButtonRow 左侧按钮行 - Logo按钮、飞行模式指示器、消息指示器
+//  2. rightIndicatorsRow 右侧指示器行 - GPS指示器、电池指示器、计时器指示器
+//  3. toolsFlickable 中间滚动区域 - 显示动态工具指示器
+//  4. background gradient 背景渐变 - 根据飞行状态改变颜色
 Rectangle {
     id:     _root
     width:  parent.width
@@ -83,6 +89,7 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
+    //底部单像素分隔线，仅浅色主题显示
     /// Bottom single pixel divider
     Rectangle {
         anchors.left:   parent.left
@@ -93,6 +100,7 @@ Rectangle {
         visible:        qgcPal.globalTheme === QGCPalette.Light
     }
 
+    //背景渐变矩形，根据飞行状态显示不同颜色（绿色=正常、黄色=警告、红色=错误）
     Rectangle {
         anchors.top:        viewButtonRow.top
         anchors.bottom:     viewButtonRow.bottom
@@ -108,6 +116,7 @@ Rectangle {
         }
     }
 
+    //左侧按钮行，包含Logo按钮、飞行模式指示器、消息指示器
     RowLayout {
         id:                     viewButtonRow
         anchors.bottomMargin:   1
@@ -115,28 +124,29 @@ Rectangle {
         anchors.bottom:         parent.bottom
         spacing:                ScreenTools.defaultFontPixelWidth / 2
 
+        //Logo按钮，显示应用Logo，点击弹出工具选择菜单
         QGCToolBarButton {
             id:                     currentButton
             Layout.preferredHeight: viewButtonRow.height
             icon.source:            "/xfres/LogoFull.png"
             logo:                   true
-            // onClicked:              mainWindow.showToolSelectDialog()
+            onClicked:              mainWindow.showToolSelectDialog()
         }
 
-        //飞行模式指示器，带背景色
+        //飞行模式指示器，带背景色，显示当前飞行模式和状态
         FlightModeIndicator {
             id:                 flightModeIndicator
             Layout.preferredHeight: viewButtonRow.height
             fontPointSize:      ScreenTools.largeFontPointSize
         }
 
-        //车辆消息指示器
+        //车辆消息指示器，显示车辆警告/错误消息
         VehicleMessagesIndicator {
             Layout.fillHeight:  true
             Layout.leftMargin:  ScreenTools.defaultFontPixelWidth * 5
         }
 
-        //断开连接的按钮，他只在连接断开时出现，保留。
+        //断开连接的按钮，只在连接断开时出现，保留。
         QGCButton {
             id:                 disconnectButton
             text:               qsTr("Disconnect")
@@ -145,7 +155,7 @@ Rectangle {
         }
     }
 
-    //右侧固定指示器区域：GPS、电池、计时器
+    //右侧固定指示器区域：GPS、电池、计时器，位于工具栏右侧
     Row {
         id:                     rightIndicatorsRow
         anchors.right:          parent.right
@@ -154,24 +164,28 @@ Rectangle {
         anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
         spacing:                ScreenTools.defaultFontPixelWidth
 
+        //GPS指示器，显示卫星数和HDOP精度
         VehicleGPSIndicator {
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
             showIndicator:      true
         }
 
+        //电池指示器，显示电池电压和剩余电量
         BatteryIndicator {
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
             showIndicator:      true
         }
 
+        //计时器指示器，显示飞行计时
         TimerIndicator {
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
         }
     }
 
+    //中间可滚动指示器区域，显示动态工具指示器，位于左侧按钮行和右侧指示器之间
     //这里放的是主状态指示器右侧的所有控件，现在统一移动到右侧，并且常驻显示。
     QGCFlickable {
         id:                     toolsFlickable
@@ -185,11 +199,13 @@ Rectangle {
         contentWidth:           toolIndicators.width
         flickableDirection:     Flickable.HorizontalFlick
 
+        //工具栏指示器集合，显示车辆状态指示器
         FlyViewToolBarIndicators { id: toolIndicators }
     }
 
     //-------------------------------------------------------------------------
     //-- Branding Logo
+    //品牌Logo图片，位于工具栏右侧，显示自定义或车辆品牌图片（已隐藏）
     Image {
         anchors.right:          parent.right
         anchors.top:            parent.top
@@ -243,6 +259,7 @@ Rectangle {
     }
 
     // Small parameter download progress bar
+    //参数下载进度条（小），位于工具栏底部，显示参数下载进度
     Rectangle {
         anchors.bottom: parent.bottom
         height:         _root.height * 0.05
@@ -252,6 +269,7 @@ Rectangle {
     }
 
     // Large parameter download progress bar
+    //参数下载进度条（大），覆盖整个工具栏，显示初始参数下载进度
     Rectangle {
         id:             largeProgressBar
         anchors.bottom: parent.bottom
@@ -270,6 +288,7 @@ Rectangle {
             function onActiveVehicleChanged(activeVehicle) { largeProgressBar._userHide = false }
         }
 
+        //进度条内容，显示下载进度百分比
         Rectangle {
             anchors.top:    parent.top
             anchors.bottom: parent.bottom
@@ -277,12 +296,14 @@ Rectangle {
             color:          qgcPal.colorGreen
         }
 
+        //下载状态标签，显示"Downloading"
         QGCLabel {
             anchors.centerIn:   parent
             text:               qsTr("Downloading")
             font.pointSize:     ScreenTools.largeFontPointSize
         }
 
+        //隐藏提示标签，显示"Click anywhere to hide"
         QGCLabel {
             anchors.margins:    _margin
             anchors.right:      parent.right
@@ -292,6 +313,7 @@ Rectangle {
             property real _margin: ScreenTools.defaultFontPixelWidth / 2
         }
 
+        //点击隐藏区域，点击后隐藏进度条
         MouseArea {
             anchors.fill:   parent
             onClicked:      largeProgressBar._userHide = true

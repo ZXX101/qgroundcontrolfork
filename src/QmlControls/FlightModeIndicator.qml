@@ -20,6 +20,8 @@ import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import QGroundControl.AutoPilotPlugin
 
+//飞行模式指示器，显示当前飞行模式名称
+//点击弹出飞行模式选择面板，可切换飞行模式
 RowLayout {
     id:         control
     spacing:    0
@@ -36,6 +38,7 @@ RowLayout {
     RowLayout {
         Layout.fillWidth: true
 
+        //飞行模式图标（已隐藏）
         QGCColoredImage {
             id:         flightModeIcon
             width:      ScreenTools.defaultFontPixelWidth * 3
@@ -47,6 +50,7 @@ RowLayout {
             visible:    false
         }
 
+        //飞行模式名称标签，显示当前飞行模式
         QGCLabel {
             text:               activeVehicle ? activeVehicle.flightMode : qsTr("N/A", "No data to display")
             font.pointSize:     fontPointSize
@@ -59,6 +63,7 @@ RowLayout {
         }
     }
 
+    //飞行模式抽屉组件，点击标签弹出
     Component {
         id: drawerComponent
 
