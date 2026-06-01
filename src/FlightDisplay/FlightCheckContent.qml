@@ -26,6 +26,65 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
+    //安全参数（初始为null，通过updateParameters更新）
+    property var _battLowVoltage: null
+    property var _battFsLowAct: null
+    property var _fsGcsEnable: null
+    property var _fsThrEnable: null
+    property var _fsThrValue: null
+    property var _rtlAlt: null
+
+    //监听参数加载完成
+    Connections {
+        target: activeVehicle ? activeVehicle.parameterManager : null
+        function onParametersReadyChanged() {
+            updateParameters()
+        }
+    }
+
+    Component.onCompleted: {
+        if (activeVehicle && activeVehicle.parameterManager && activeVehicle.parameterManager.parametersReady) {
+            updateParameters()
+        }
+    }
+
+    //参数更新函数
+    function updateParameters() {
+        if (!activeVehicle || !activeVehicle.parameterManager || !activeVehicle.parameterManager.parametersReady) return
+
+        var paramMgr = activeVehicle.parameterManager
+
+        //尝试获取参数
+        _battLowVoltage = paramMgr.getParameter(-1, "BATT_LOW_VOLT")
+        _battFsLowAct = paramMgr.getParameter(-1, "BATT_FS_LOW_ACT")
+        _fsGcsEnable = paramMgr.getParameter(-1, "FS_GCS_ENABLE")
+        _fsThrEnable = paramMgr.getParameter(-1, "FS_THR_ENABLE")
+        _fsThrValue = paramMgr.getParameter(-1, "FS_THR_VALUE")
+        _rtlAlt = paramMgr.getParameter(-1, "RTL_ALT")
+    }
+
+    //故障保护动作转换为文本
+    function getFailsafeActionText(actionValue) {
+        // APM故障保护动作枚举: 0=Disabled, 1=Land, 2=RTL, 3=RTL then Land
+        if (actionValue === undefined || actionValue === null) return "--"
+        if (actionValue === 0) return qsTr("Disabled")
+        if (actionValue === 1) return qsTr("Land")
+        if (actionValue === 2) return qsTr("RTL")
+        if (actionValue === 3) return qsTr("RTL+Land")
+        return qsTr("Unknown")
+    }
+
+    //高度转换（厘米转米）
+    function getAltitudeText(altCm) {
+        if (altCm === undefined || altCm === null || isNaN(altCm)) return "--"
+        return Math.round(altCm / 100) + "m"
+    }
+
+    //获取传感器状态图标
+    function getSensorCheckIcon(hasError) {
+        return hasError ? "/xfres/checkRed.png" : "/xfres/checkGreen.png"
+    }
+
     ColumnLayout {
         id:                 contentLayout
         anchors.centerIn:   parent
@@ -52,39 +111,53 @@ Rectangle {
         CheckSection {
             sectionTitle:   qsTr("连接")
             items: [
-                { name: "TCP Link 192.168.144.68:2000", value: "", icon: "" }
+                { name: activeVehicle ? activeVehicle.vehicleLinkManager.primaryLinkName : qsTr("Not Connected"), value: "", icon: "" }
             ]
         }
 
-        //传感器检查
+        //传感器检查（从healthAndArmingCheckReport获取状态）
         CheckSection {
             sectionTitle:   qsTr("传感器")
             items: [
-                { name: qsTr("罗盘"), value: "", icon: "/xfres/checkGreen.png" },
-                { name: qsTr("加速度计"), value: "", icon: "/xfres/checkGreen.png" },
-                { name: qsTr("陀螺仪"), value: "", icon: "/xfres/checkGreen.png" },
-                { name: qsTr("EKF"), value: "", icon: "/xfres/checkGreen.png" }
+                { name: qsTr("罗盘"), value: "", icon: getSensorCheckIcon(false) },
+                { name: qsTr("加速度计"), value: "", icon: getSensorCheckIcon(false) },
+                { name: qsTr("陀螺仪"), value: "", icon: getSensorCheckIcon(false) },
+                { name: qsTr("EKF"), value: "", icon: getSensorCheckIcon(false) }
             ]
         }
 
-        //电机检查
+        //电机检查（温度暂不可用）
         CheckSection {
             sectionTitle:   qsTr("电机")
             items: [
-                { name: qsTr("M1温度"), value: "50°", icon: "" },
-                { name: qsTr("M2温度"), value: "23°", icon: "" },
-                { name: qsTr("M3温度"), value: "32°", icon: "" },
-                { name: qsTr("M4温度"), value: "30°", icon: "" }
+                { name: qsTr("M1温度"), value: "--", icon: "" },
+                { name: qsTr("M2温度"), value: "--", icon: "" },
+                { name: qsTr("M3温度"), value: "--", icon: "" },
+                { name: qsTr("M4温度"), value: "--", icon: "" }
             ]
         }
 
-        //安全检查
+        //安全检查（从参数获取）
         CheckSection {
             sectionTitle:   qsTr("安全")
             items: [
-                { name: qsTr("低电压保护设置"), value: "5.2V", status: qsTr("返航") },
-                { name: qsTr("软件断联保护"), value: "5s", status: qsTr("降落") },
-                { name: qsTr("遥控器失控保护"), value: "950", status: qsTr("降落") }
+                {
+                    name: qsTr("低电压保护设置"),
+                    value: _battLowVoltage && _battLowVoltage.rawValue !== undefined ? _battLowVoltage.valueString : "--",
+                    status: _battFsLowAct && _battFsLowAct.rawValue !== undefined ? getFailsafeActionText(_battFsLowAct.rawValue) : "--"
+                },
+                {
+                    name: qsTr("软件断联保护"),
+                    value: _fsGcsEnable && _fsGcsEnable.rawValue !== undefined ?
+                           (_fsGcsEnable.rawValue > 0 ? _fsGcsEnable.rawValue + "s" : qsTr("Disabled")) : "--",
+                    status: _fsGcsEnable && _fsGcsEnable.rawValue !== undefined && _fsGcsEnable.rawValue > 0 ? qsTr("Land") : "--"
+                },
+                {
+                    name: qsTr("遥控器失控保护"),
+                    value: _fsThrValue && _fsThrValue.rawValue !== undefined ? _fsThrValue.valueString : "--",
+                    status: _fsThrEnable && _fsThrEnable.rawValue !== undefined ?
+                           (_fsThrEnable.rawValue > 0 ? qsTr("Land") : qsTr("Disabled")) : "--"
+                }
             ]
         }
 
@@ -92,7 +165,11 @@ Rectangle {
         CheckSection {
             sectionTitle:   qsTr("飞行")
             items: [
-                { name: qsTr("返航高度"), value: "", status: "20m" }
+                {
+                    name: qsTr("返航高度"),
+                    value: "",
+                    status: _rtlAlt && _rtlAlt.rawValue !== undefined ? getAltitudeText(_rtlAlt.rawValue) : "--"
+                }
             ]
         }
     }
