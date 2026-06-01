@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export COLUMNS=80)",
+      "Bash(node /home/zxx/.claude/plugins/cache/claude-hud/claude-hud/0.1.0/dist/index.js)"
+    ]
+  }
+}

@@ -151,7 +151,7 @@ Rectangle {
             id:                 disconnectButton
             text:               qsTr("Disconnect")
             onClicked:          _activeVehicle.closeVehicle()
-            visible:            false && _activeVehicle && _communicationLost
+            visible:            _activeVehicle && _communicationLost
         }
     }
 
