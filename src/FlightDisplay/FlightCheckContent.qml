@@ -54,13 +54,21 @@ Rectangle {
     property var _apmAccOffsY:      _paramsReady && _isAPM ? activeVehicle.parameterManager.getParameter(-1, "INS_ACCOFFS_Y") : null
     property var _apmAccOffsZ:      _paramsReady && _isAPM ? activeVehicle.parameterManager.getParameter(-1, "INS_ACCOFFS_Z") : null
 
-    //安全参数
-    property var _battLowVoltage: null
-    property var _battFsLowAct: null
-    property var _fsGcsEnable: null
-    property var _fsThrEnable: null
-    property var _fsThrValue: null
-    property var _rtlAlt: null
+    //安全参数 - APM
+    property var _battLowVoltage:    null
+    property var _battFsLowAct:      null
+    property var _fsGcsEnable:       null  // 数据链路断联动作（APM没有单独超时参数）
+    property var _fsThrEnable:       null
+    property var _fsThrValue:        null
+    property var _rtlAlt:            null
+
+    //安全参数 - PX4
+    property var _px4LowBattAction:    null
+    property var _px4BatLowThr:        null  // 电池低电量百分比阈值
+    property var _px4DlLossAction:     null  // 数据链路断联动作
+    property var _px4DlLossTimeout:    null  // 数据链路断联超时
+    property var _px4RcLossAction:     null  // 遥控器失控动作
+    property var _px4RcLossTimeout:    null  // 遥控器失控超时
 
     //监听参数加载完成
     Connections {
@@ -82,13 +90,24 @@ Rectangle {
 
         var paramMgr = activeVehicle.parameterManager
 
-        //安全参数（APM参数名）
-        _battLowVoltage = paramMgr.getParameter(-1, "BATT_LOW_VOLT")
-        _battFsLowAct = paramMgr.getParameter(-1, "BATT_FS_LOW_ACT")
-        _fsGcsEnable = paramMgr.getParameter(-1, "FS_GCS_ENABLE")
-        _fsThrEnable = paramMgr.getParameter(-1, "FS_THR_ENABLE")
-        _fsThrValue = paramMgr.getParameter(-1, "FS_THR_VALUE")
-        _rtlAlt = paramMgr.getParameter(-1, "RTL_ALT")
+        if (_isAPM) {
+            // APM安全参数
+            _battLowVoltage = paramMgr.getParameter(-1, "BATT_LOW_VOLT")
+            _battFsLowAct = paramMgr.getParameter(-1, "BATT_FS_LOW_ACT")
+            _fsGcsEnable = paramMgr.getParameter(-1, "FS_GCS_ENABLE")
+            _fsThrEnable = paramMgr.getParameter(-1, "FS_THR_ENABLE")
+            _fsThrValue = paramMgr.getParameter(-1, "FS_THR_VALUE")
+            _rtlAlt = paramMgr.getParameter(-1, "RTL_ALT")
+        } else if (_isPX4) {
+            // PX4安全参数
+            _px4LowBattAction = paramMgr.getParameter(-1, "COM_LOW_BAT_ACT")
+            _px4BatLowThr = paramMgr.getParameter(-1, "BAT_LOW_THR")
+            _px4DlLossAction = paramMgr.getParameter(-1, "NAV_DLL_ACT")
+            _px4DlLossTimeout = paramMgr.getParameter(-1, "COM_DL_LOSS_T")
+            _px4RcLossAction = paramMgr.getParameter(-1, "NAV_RCL_ACT")
+            _px4RcLossTimeout = paramMgr.getParameter(-1, "COM_RC_LOSS_T")
+            _rtlAlt = paramMgr.getParameter(-1, "RTL_RETURN_ALT")
+        }
     }
 
     //检查APM罗盘是否已校准（参考APMSensorsComponent::compassSetupNeeded逻辑）
@@ -168,20 +187,18 @@ Rectangle {
         return "/xfres/checkWhite.png"
     }
 
-    //故障保护动作转换为文本
-    function getFailsafeActionText(actionValue) {
-        if (actionValue === undefined || actionValue === null) return "--"
-        if (actionValue === 0) return qsTr("Disabled")
-        if (actionValue === 1) return qsTr("Land")
-        if (actionValue === 2) return qsTr("RTL")
-        if (actionValue === 3) return qsTr("RTL+Land")
-        return qsTr("Unknown")
-    }
-
-    //高度转换（厘米转米）
-    function getAltitudeText(altCm) {
-        if (altCm === undefined || altCm === null || isNaN(altCm)) return "--"
-        return Math.round(altCm / 100) + "m"
+    //高度转换（APM的RTL_ALT是厘米，PX4的RTL_RETURN_ALT是米）
+    function getAltitudeText(altValue, isPX4) {
+        if (altValue === undefined || altValue === null || isNaN(altValue)) return "--"
+        if (isPX4) {
+            // PX4: RTL_RETURN_ALT单位是米
+            if (altValue === 0) return qsTr("current")
+            return Math.round(altValue) + "m"
+        } else {
+            // APM: RTL_ALT单位是厘米
+            if (altValue === 0) return qsTr("current")
+            return Math.round(altValue / 100) + "m"
+        }
     }
 
     ColumnLayout {
@@ -242,20 +259,23 @@ Rectangle {
             items: [
                 {
                     name: qsTr("低电压保护设置"),
-                    value: _battLowVoltage && _battLowVoltage.rawValue !== undefined ? _battLowVoltage.valueString : "--",
-                    status: _battFsLowAct && _battFsLowAct.rawValue !== undefined ? getFailsafeActionText(_battFsLowAct.rawValue) : "--"
+                    value: _isAPM && _battLowVoltage && _battLowVoltage.rawValue !== undefined ? _battLowVoltage.valueString :
+                           _isPX4 && _px4BatLowThr && _px4BatLowThr.rawValue !== undefined ? _px4BatLowThr.valueString + "%" : "--",
+                    status: _isAPM && _battFsLowAct && _battFsLowAct.rawValue !== undefined ? _battFsLowAct.enumStringValue :
+                            _isPX4 && _px4LowBattAction && _px4LowBattAction.rawValue !== undefined ? _px4LowBattAction.enumStringValue : "--"
                 },
                 {
-                    name: qsTr("软件断联保护"),
-                    value: _fsGcsEnable && _fsGcsEnable.rawValue !== undefined ?
-                           (_fsGcsEnable.rawValue > 0 ? _fsGcsEnable.rawValue + "s" : qsTr("Disabled")) : "--",
-                    status: _fsGcsEnable && _fsGcsEnable.rawValue !== undefined && _fsGcsEnable.rawValue > 0 ? qsTr("Land") : "--"
+                    name: qsTr("数据链路断联保护"),
+                    value: _isPX4 && _px4DlLossTimeout && _px4DlLossTimeout.rawValue !== undefined ? _px4DlLossTimeout.valueString + "s" : "--",
+                    status: _isAPM && _fsGcsEnable && _fsGcsEnable.rawValue !== undefined ? _fsGcsEnable.enumStringValue :
+                            _isPX4 && _px4DlLossAction && _px4DlLossAction.rawValue !== undefined ? _px4DlLossAction.enumStringValue : "--"
                 },
                 {
                     name: qsTr("遥控器失控保护"),
-                    value: _fsThrValue && _fsThrValue.rawValue !== undefined ? _fsThrValue.valueString : "--",
-                    status: _fsThrEnable && _fsThrEnable.rawValue !== undefined ?
-                           (_fsThrEnable.rawValue > 0 ? qsTr("Land") : qsTr("Disabled")) : "--"
+                    value: _isAPM && _fsThrValue && _fsThrValue.rawValue !== undefined ? _fsThrValue.valueString :
+                            _isPX4 && _px4RcLossTimeout && _px4RcLossTimeout.rawValue !== undefined ? _px4RcLossTimeout.valueString + "s" : "--",
+                    status: _isAPM && _fsThrEnable && _fsThrEnable.rawValue !== undefined ? _fsThrEnable.enumStringValue :
+                            _isPX4 && _px4RcLossAction && _px4RcLossAction.rawValue !== undefined ? _px4RcLossAction.enumStringValue : "--"
                 }
             ]
         }
@@ -267,7 +287,7 @@ Rectangle {
                 {
                     name: qsTr("返航高度"),
                     value: "",
-                    status: _rtlAlt && _rtlAlt.rawValue !== undefined ? getAltitudeText(_rtlAlt.rawValue) : "--"
+                    status: _rtlAlt && _rtlAlt.rawValue !== undefined ? getAltitudeText(_rtlAlt.rawValue, _isPX4) : "--"
                 }
             ]
         }
