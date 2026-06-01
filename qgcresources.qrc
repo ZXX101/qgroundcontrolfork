@@ -123,10 +123,6 @@
     <qresource prefix="/xfres">
         <file alias="center-on-device">resources/XF/center-on-device.png</file>
         <file alias="center-on-remote.png">resources/XF/center-on-remote.png</file>
-        <file alias="check-disconnected.png">resources/XF/check-disconnected.png</file>
-        <file alias="check-no-risk.png">resources/XF/check-no-risk.png</file>
-        <file alias="check-no-takeoff.png">resources/XF/check-no-takeoff.png</file>
-        <file alias="check-risk.png">resources/XF/check-risk.png</file>
         <file alias="common.png">resources/XF/common.png</file>
         <file alias="gps.png">resources/XF/gps.png</file>
         <file alias="landing-in-progress.png">resources/XF/landing-in-progress.png</file>
@@ -152,5 +148,9 @@
         <file alias="BatteryYellowGreen.png">resources/XF/BatteryYellowGreen.png</file>
         <file alias="Battery.png">resources/XF/Battery.png</file>
         <file alias="land.png">resources/XF/land.png</file>
+        <file alias="checkGreen">resources/XF/checkGreen.png</file>
+        <file alias="checkOrange">resources/XF/checkOrange.png</file>
+        <file alias="checkRed">resources/XF/checkRed.png</file>
+        <file alias="checkWhite">resources/XF/checkWhite.png</file>
     </qresource>
 </RCC>
