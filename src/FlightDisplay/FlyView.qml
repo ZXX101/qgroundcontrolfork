@@ -174,7 +174,7 @@ Item {
             anchors.right:          guidedValueSlider.visible ? guidedValueSlider.left : parent.right
             z:                      widgetLayer.z + 1
             insetsToView:           widgetLayer.totalToolInsets
-            visible:                true
+            visible:                false
         }
 
         //引导动作控制器功能组件，管理引导飞行操作如起飞、降落、返航等

@@ -182,7 +182,7 @@ Item {
         }
     }
 
-    //左侧飞行操作按钮（起飞/降落、返航），位于左上角
+    //左侧飞行操作按钮（检查、起飞/降落、返航），位于左上角
     Column {
         id:                     flightActionButtons
         anchors.leftMargin:     _toolsMargin + parentToolInsets.leftEdgeCenterInset
@@ -196,6 +196,116 @@ Item {
         property var    _guidedController: globals.guidedControllerFlyView
         property real   _buttonWidth:      ScreenTools.defaultFontPixelWidth * 7
         property real   _imageScale:       0.5
+        property bool   _checkPopupVisible: false
+
+        //检查按钮，显示系统状态检查，点击弹出检查详情面板（第一个位置）
+        Rectangle {
+            id:                 checkButton
+            width:              flightActionButtons._buttonWidth
+            height:             width
+            radius:             ScreenTools.defaultFontPixelWidth / 2
+            color:              (checkButtonMA.pressed || checkButtonMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
+
+            property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
+            property bool   _communicationLost:         _activeVehicle ? _activeVehicle.vehicleLinkManager.communicationLost : false
+            property bool   _healthAndArmingSupported:  _activeVehicle ? _activeVehicle.healthAndArmingCheckReport.supported : false
+
+            //状态颜色名称（字符串）
+            property string _statusColorName: "default"
+
+            //状态颜色对象（根据名称转换）
+            property color _statusColorObj: {
+                if (_statusColorName === "red") return "red"
+                if (_statusColorName === "yellow") return "yellow"
+                if (_statusColorName === "green") return "green"
+                return qgcPal.toolbarBackground
+            }
+
+            //状态颜色更新函数，与toolbar的updateMainStatusBGColor逻辑一致
+            function updateStatusColor() {
+                if (!_activeVehicle) {
+                    _statusColorName = "default"
+                    return
+                }
+                if (_communicationLost) {
+                    _statusColorName = "red"
+                    return
+                }
+                if (_healthAndArmingSupported) {
+                    if (!_activeVehicle.healthAndArmingCheckReport.canArm) {
+                        _statusColorName = "red"
+                    } else if (_activeVehicle.healthAndArmingCheckReport.hasWarningsOrErrors) {
+                        _statusColorName = "yellow"
+                    } else {
+                        _statusColorName = "green"
+                    }
+                } else {
+                    //当不支持healthAndArming检查时，默认显示绿色
+                    _statusColorName = "green"
+                }
+            }
+
+            //状态图标路径，根据颜色名称返回对应的check图标
+            property string _statusIcon: {
+                if (_statusColorName === "red") return "/xfres/checkRed.png"
+                if (_statusColorName === "yellow") return "/xfres/checkOrange.png"
+                if (_statusColorName === "green") return "/xfres/checkGreen.png"
+                return "/xfres/checkWhite.png"
+            }
+
+            visible:            true
+
+            Connections {
+                target: _activeVehicle
+                function onArmedChanged() { checkButton.updateStatusColor() }
+                function onFlyingChanged() { checkButton.updateStatusColor() }
+            }
+
+            Connections {
+                target: _activeVehicle ? _activeVehicle.healthAndArmingCheckReport : null
+                function onUpdated() { checkButton.updateStatusColor() }
+            }
+
+            Connections {
+                target: QGroundControl.multiVehicleManager
+                function onActiveVehicleChanged() { checkButton.updateStatusColor() }
+            }
+
+            Component.onCompleted: checkButton.updateStatusColor()
+
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                //检查图标（使用XF图标，颜色随状态变化）
+                Image {
+                    width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
+                    height:                 width
+                    source:                 checkButton._statusIcon
+                    fillMode:               Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //文字标签
+                QGCLabel {
+                    text:                       qsTr("Check")
+                    color:                      (checkButtonMA.pressed || checkButtonMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.text
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
+            }
+
+            //点击区域
+            QGCMouseArea {
+                id:         checkButtonMA
+                fillItem:   parent
+                onClicked: {
+                    flightActionButtons._checkPopupVisible = !flightActionButtons._checkPopupVisible
+                }
+            }
+        }
 
         //起飞/降落切换按钮，根据飞行状态切换显示，显示图标+文字
         Rectangle {
@@ -240,6 +350,7 @@ Item {
                 id:         takeoffLandButtonMA
                 fillItem:   parent
                 onClicked: {
+                    flightActionButtons._checkPopupVisible = false  //关闭检查弹窗
                     flightActionButtons._guidedController.closeAll()
                     if (takeoffLandButton._showTakeoff) {
                         flightActionButtons._guidedController.confirmAction(flightActionButtons._guidedController.actionTakeoff)
@@ -293,11 +404,48 @@ Item {
                 fillItem:   parent
                 enabled:    rtlButton._showRTL
                 onClicked: {
+                    flightActionButtons._checkPopupVisible = false  //关闭检查弹窗
                     flightActionButtons._guidedController.closeAll()
                     flightActionButtons._guidedController.confirmAction(flightActionButtons._guidedController.actionRTL)
                 }
             }
         }
+    }
+
+    //检查详情弹窗，直接显示在按钮右侧，无边框无底色
+    Rectangle {
+        id:                     flightCheckPopup
+        anchors.left:           flightActionButtons.right
+        anchors.top:            flightActionButtons.top
+        anchors.leftMargin:     ScreenTools.defaultFontPixelWidth * 0.5
+        z:                      QGroundControl.zOrderWidgets + 1
+        visible:                flightActionButtons._checkPopupVisible
+        color:                  "transparent"  //无底色
+        border.width:           0  //无边框
+
+        //点击外部关闭弹窗的遮罩
+        MouseArea {
+            anchors.fill:       parent
+            onPressed: {
+                //点击弹窗内部不关闭
+            }
+        }
+
+        FlightCheckContent {
+            activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+        }
+    }
+
+    //全局遮罩，点击弹窗外部区域时关闭弹窗
+    MouseArea {
+        anchors.fill:       parent
+        z:                  QGroundControl.zOrderWidgets
+        visible:            flightActionButtons._checkPopupVisible
+        onPressed: {
+            flightActionButtons._checkPopupVisible = false
+        }
+        //允许点击事件传递到下层控件（除了弹窗区域）
+        propagateComposedEvents: true
     }
 
     //原左侧工具条（已隐藏）

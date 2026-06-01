@@ -148,9 +148,9 @@
         <file alias="BatteryYellowGreen.png">resources/XF/BatteryYellowGreen.png</file>
         <file alias="Battery.png">resources/XF/Battery.png</file>
         <file alias="land.png">resources/XF/land.png</file>
-        <file alias="checkGreen">resources/XF/checkGreen.png</file>
-        <file alias="checkOrange">resources/XF/checkOrange.png</file>
-        <file alias="checkRed">resources/XF/checkRed.png</file>
-        <file alias="checkWhite">resources/XF/checkWhite.png</file>
+        <file alias="checkGreen.png">resources/XF/checkGreen.png</file>
+        <file alias="checkOrange.png">resources/XF/checkOrange.png</file>
+        <file alias="checkRed.png">resources/XF/checkRed.png</file>
+        <file alias="checkWhite.png">resources/XF/checkWhite.png</file>
     </qresource>
 </RCC>
