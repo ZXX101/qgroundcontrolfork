@@ -52,7 +52,7 @@ RowLayout {
 
         //飞行模式名称标签，显示当前飞行模式
         QGCLabel {
-            text:               activeVehicle ? activeVehicle.flightMode : qsTr("N/A", "No data to display")
+            text:               activeVehicle ? activeVehicle.flightMode : qsTr("Not Connected", "No data to display")
             font.pointSize:     fontPointSize
             Layout.alignment:   Qt.AlignCenter
             font.family:        ScreenTools.tecentFontFamily
