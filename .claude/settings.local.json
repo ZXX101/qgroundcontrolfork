@@ -7,7 +7,8 @@
       "Bash(xargs ls -la)",
       "Bash(cp /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/Viewer3D/Viewer3DQml/*.qml /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/QmlControls/Viewer3D/)",
       "Bash(cp /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/Viewer3D/Viewer3DQml/Models3D/*.qml /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/QmlControls/Viewer3D/Models3D/)",
-      "Bash(cp /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/Viewer3D/Viewer3DQml/Drones/*.qml /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/QmlControls/Viewer3D/Models3D/Drones/)"
+      "Bash(cp /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/Viewer3D/Viewer3DQml/Drones/*.qml /mnt/d/Dev/Proj/QGC5-XF/qgroundcontrolfork/src/QmlControls/Viewer3D/Models3D/Drones/)",
+      "Bash(grep -E \"\\\\.qml$\")"
     ]
   }
 }

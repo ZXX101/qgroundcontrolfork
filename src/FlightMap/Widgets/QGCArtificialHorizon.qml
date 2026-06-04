@@ -36,8 +36,8 @@ Item {
             smooth: true
             antialiasing: true
             gradient: Gradient {
-                GradientStop { position: 0.25; color: Qt.hsla(0.6, 1.0, 0.25) }
-                GradientStop { position: 0.5;  color: Qt.hsla(0.6, 0.5, 0.55) }
+                GradientStop { position: 0.25; color: Qt.hsla(126/360, 26/100, 7/100, 1) }   // 天空顶部 HSL(126, 26, 7)
+                GradientStop { position: 0.5;  color: Qt.hsla(129/360, 89/100, 11/100, 1) } // 天空底部 HSL(129, 89, 11)
             }
         }
         Rectangle {
@@ -51,8 +51,8 @@ Item {
             smooth: true
             antialiasing: true
             gradient: Gradient {
-                GradientStop { position: 0.0;  color: Qt.hsla(0.25,  0.5, 0.45) }
-                GradientStop { position: 0.25; color: Qt.hsla(0.25, 0.75, 0.25) }
+                GradientStop { position: 0.0;  color: Qt.hsla(0/360, 0/100, 6/100, 1) }   // 地面顶部 HSL(0, 0, 6)
+                GradientStop { position: 0.25; color: Qt.hsla(0/360, 0/100, 0/100, 1) }   // 地面底部 HSL(0, 0, 0)
             }
         }
         transform: [
