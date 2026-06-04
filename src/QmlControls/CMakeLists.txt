@@ -229,6 +229,25 @@ qt_add_qml_module(QGroundControlControlsModule
         # src/QtLocationPlugin/QMLControl/
         OfflineMapEditor.qml
 
+        # src/QmlControls/QGroundControl/UTMSP/ (dummy files)
+        QGroundControl/UTMSP/UTMSPActivationStatusBar.qml
+        QGroundControl/UTMSP/UTMSPAdapterEditor.qml
+        QGroundControl/UTMSP/UTMSPFlightStatusIndicator.qml
+        QGroundControl/UTMSP/UTMSPMapPolygonVisuals.qml
+        QGroundControl/UTMSP/UTMSPMapVisuals.qml
+        QGroundControl/UTMSP/UTMSPNotificationSlider.qml
+        QGroundControl/UTMSP/UTMSPStateStorage.qml
+
+        # src/QmlControls/Viewer3D/ (dummy files)
+        Viewer3D/Viewer3D.qml
+        Viewer3D/Viewer3DProgressBar.qml
+        Viewer3D/Models3D/CameraLightModel.qml
+        Viewer3D/Models3D/Line3D.qml
+        Viewer3D/Models3D/Viewer3DModel.qml
+        Viewer3D/Models3D/Viewer3DVehicleItems.qml
+        Viewer3D/Models3D/Waypoint3DModel.qml
+        Viewer3D/Models3D/Drones/DroneModelDjiF450.qml
+
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )
 
