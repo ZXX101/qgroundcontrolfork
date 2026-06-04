@@ -18,12 +18,15 @@ import QGroundControl.Palette
 Canvas {
     id:                 control
     anchors.centerIn:   parent
-    width:              compassSize * 1/3
+    width:              compassSize * 1/5
     height:             width
 
     property real compassSize
     property real heading
-    property bool simplified:    false
+    property bool simplified:           false
+    property color arrowColorLeft:      "#0C7B2B"  // 箭头左侧颜色 RGB(12, 124, 43)
+    property color arrowColorRight:     "#45A961"  // 箭头右侧颜色 RGB(69, 169, 97)
+    // property color strokeColor:         simplified ? "#0C7B2B" : "#FFFFFF"  // 边框颜色
 
     property var _qgcPal: QGroundControl.globalPalette
 
@@ -32,11 +35,19 @@ Canvas {
         onGlobalThemeChanged:   control.requestPaint()
     }
 
+    onHeadingChanged: requestPaint()
+    onArrowColorLeftChanged: requestPaint()
+    onArrowColorRightChanged: requestPaint()
+
     onPaint: {
         var ctx = getContext("2d")
-        ctx.strokeStyle = simplified ? "#EE3424" : _qgcPal.text
-        ctx.fillStyle = "#EE3424"
+        ctx.clearRect(0, 0, width, height)
+
+        ctx.strokeStyle = arrowColorRight
         ctx.lineWidth = 1
+
+        // 绘制箭头右侧（右侧三角形）
+        ctx.fillStyle = arrowColorRight
         ctx.beginPath()
         ctx.moveTo(width / 2, 0)
         ctx.lineTo(width, height)
@@ -44,7 +55,10 @@ Canvas {
         ctx.lineTo(width / 2, 0)
         ctx.fill()
         ctx.stroke()
-        ctx.fillStyle = "#C72B27"
+
+        ctx.strokeStyle = arrowColorLeft
+        // 绘制箭头左侧（左侧三角形）
+        ctx.fillStyle = arrowColorLeft
         ctx.beginPath()
         ctx.moveTo(width / 2, 0)
         ctx.lineTo(0, height)

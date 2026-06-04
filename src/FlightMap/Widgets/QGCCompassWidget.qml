@@ -146,10 +146,11 @@ Rectangle {
         }
     }
 
-    QGCLabel {
-        anchors.horizontalCenter:   parent.horizontalCenter
-        y:                          size * 0.74
-        text:                       vehicle && !usedByMultipleVehicleList ? _heading.toFixed(0) + "°" : ""
-        horizontalAlignment:        Text.AlignHCenter
-    }
+    // 航向数值显示（已隐藏）
+    // QGCLabel {
+    //     anchors.horizontalCenter:   parent.horizontalCenter
+    //     y:                          size * 0.74
+    //     text:                       vehicle && !usedByMultipleVehicleList ? _heading.toFixed(0) + "°" : ""
+    //     horizontalAlignment:        Text.AlignHCenter
+    // }
 }
