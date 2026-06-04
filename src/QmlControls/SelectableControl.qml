@@ -28,12 +28,19 @@ Control {
     bottomPadding:  0
     leftPadding:    0
     rightPadding:   0
-    
+
     property Fact selectedControl               ///< Fact which has enumStrings/Values where values are the qml file for the control
     property bool selectionUIRightAnchor: false
     property var  innerControl:           loader.item
 
     property bool _showSelectionUI: false
+
+    // 当解锁UI显示时，同步解锁innerControl的数据面板设置
+    on_ShowSelectionUIChanged: {
+        if (innerControl && innerControl.settingsUnlocked !== undefined) {
+            innerControl.settingsUnlocked = _showSelectionUI
+        }
+    }
 
     background: Item {
         RowLayout {
@@ -56,8 +63,8 @@ Control {
     }
 
     contentItem: Item {
-        implicitWidth:  loader.item.width
-        implicitHeight: loader.item.height
+        implicitWidth:  loader.item ? loader.item.width : 0
+        implicitHeight: loader.item ? loader.item.height : 0
 
         Loader {
             id:     loader
@@ -67,14 +74,22 @@ Control {
         QGCMouseArea {
             anchors.fill:       parent
             acceptedButtons:    Qt.LeftButton | Qt.RightButton
+            propagateComposedEvents: true  // 允许事件传递到下层控件
 
             onClicked: (mouse) => {
                 if (!ScreenTools.isMobile && mouse.button === Qt.RightButton) {
                     _showSelectionUI = true
+                    mouse.accepted = true
+                } else {
+                    // 左键点击传递到下层（数据面板）
+                    mouse.accepted = false
                 }
             }
 
-            onPressAndHold: _showSelectionUI = true
+            onPressAndHold: {
+                _showSelectionUI = true
+                mouse.accepted = false  // 长按解锁后传递事件到下层
+            }
         }
     }
 }

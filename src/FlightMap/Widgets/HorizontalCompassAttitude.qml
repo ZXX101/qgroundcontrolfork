@@ -29,6 +29,12 @@ Rectangle {
     property real extraInset:           0
     property real extraValuesWidth:     dataPanel.implicitWidth
 
+    // 解锁状态属性，外部设置时同步解锁数据面板
+    property bool settingsUnlocked: false
+    onSettingsUnlockedChanged: {
+        dataPanel.factValueGrid.settingsUnlocked = settingsUnlocked
+    }
+
     property var  _activeVehicle:       globals.activeVehicle
     property real _margin:              ScreenTools.defaultFontPixelWidth / 2
     property real _spacing:             ScreenTools.defaultFontPixelWidth
@@ -52,9 +58,11 @@ Rectangle {
         }
 
         //数据面板，使用TelemetryValuesBar，位于中间（垂直居中）
+        // z 设置为较高值，确保点击事件能传递到数据面板内部
         Item {
             width:  dataPanel.implicitWidth
             height: control._widgetSize
+            z:      10  // 提高z-order，确保事件优先处理
 
             TelemetryValuesBar {
                 id:                     dataPanel
