@@ -107,17 +107,17 @@ Item {
         property real rightEdgeCenterInset: rightEdgeTopInset
     }
 
-    //右下角行布局，显示多机列表、引导动作按钮等
+    //右下角行布局，显示多机列表、引导动作按钮等，位于底部中间
     FlyViewBottomRightRowLayout {
         id:                 bottomRightRowLayout
-        anchors.margins:    _layoutMargin
+        anchors.bottomMargin: _layoutMargin
         anchors.bottom:     parent.bottom
-        anchors.right:      parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing:            _layoutSpacing
 
-        property real bottomEdgeRightInset:     height + _layoutMargin
-        property real bottomEdgeCenterInset:    bottomEdgeRightInset
-        property real rightEdgeBottomInset:     width + _layoutMargin
+        property real bottomEdgeCenterInset:    height + _layoutMargin
+        property real bottomEdgeRightInset:     bottomEdgeCenterInset
+        property real rightEdgeBottomInset:     0  // 不再在右侧，边距为0
     }
 
     FlyViewMissionCompleteDialog {

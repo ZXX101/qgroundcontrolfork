@@ -51,12 +51,18 @@ Rectangle {
             vehicle: globals.activeVehicle
         }
 
-        //数据面板，使用TelemetryValuesBar，位于中间
-        TelemetryValuesBar {
-            id:                     dataPanel
-            extraWidth:             0
-            settingsGroup:          factValueGrid.telemetryBarSettingsGroup
-            specificVehicleForCard: null  // 使用活动车辆
+        //数据面板，使用TelemetryValuesBar，位于中间（垂直居中）
+        Item {
+            width:  dataPanel.implicitWidth
+            height: control._widgetSize
+
+            TelemetryValuesBar {
+                id:                     dataPanel
+                anchors.centerIn:       parent
+                extraWidth:             0
+                settingsGroup:          factValueGrid.telemetryBarSettingsGroup
+                specificVehicleForCard: null  // 使用活动车辆
+            }
         }
 
         //指南针控件，显示heading，位于右侧

@@ -14,14 +14,8 @@ import QGroundControl
 import QGroundControl.Controls
 import QGroundControl.FlightDisplay
 
+//底部中间行布局，显示仪表盘面板（姿态球、数据面板、指南针）
 RowLayout {
-    TelemetryValuesBar {
-        Layout.alignment:       Qt.AlignBottom
-        extraWidth:             instrumentPanel.extraValuesWidth
-        settingsGroup:          factValueGrid.telemetryBarSettingsGroup
-        specificVehicleForCard: null // Tracks active vehicle
-    }
-
     FlyViewInstrumentPanel {
         id:                 instrumentPanel
         Layout.alignment:   Qt.AlignBottom
