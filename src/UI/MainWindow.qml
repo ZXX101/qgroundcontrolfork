@@ -166,6 +166,11 @@ ApplicationWindow {
         }
     }
 
+    function showXFCommonView() {
+        flyView.visible = false
+        xfCommonView.visible = true
+    }
+
     //-------------------------------------------------------------------------
     //-- Global simple message dialog
 
@@ -278,6 +283,13 @@ ApplicationWindow {
     //任务规划页面，位于主窗口中央，显示任务编辑界面、地图、航点编辑器
     PlanView {
         id:             planView
+        anchors.fill:   parent
+        visible:        false
+    }
+
+    //通用配置页面，覆盖整个窗口，显示连接、设备配置、飞行参数等配置界面
+    XFCommonView {
+        id:             xfCommonView
         anchors.fill:   parent
         visible:        false
     }

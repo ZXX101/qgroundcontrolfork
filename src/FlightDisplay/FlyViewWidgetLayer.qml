@@ -184,7 +184,7 @@ Item {
                 id:         commonButtonMA
                 fillItem:   parent
                 onClicked: {
-                    // TODO: 通用按钮功能
+                    mainWindow.showXFCommonView()
                 }
             }
         }
