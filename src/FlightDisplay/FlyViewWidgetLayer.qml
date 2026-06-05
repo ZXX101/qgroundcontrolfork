@@ -92,6 +92,104 @@ Item {
         property real rightEdgeCenterInset: rightEdgeTopInset
     }
 
+    //右上角按钮行，包含任务按钮和通用按钮，直接位于右上角
+    Row {
+        id:                     topRightButtons
+        anchors.top:            parent.top
+        anchors.topMargin:      _layoutMargin
+        anchors.right:          parent.right
+        anchors.rightMargin:    _layoutMargin
+        spacing:                ScreenTools.defaultFontPixelWidth * 0.5
+        visible:                !QGroundControl.videoManager.fullScreen
+
+        property real _buttonWidth:      ScreenTools.defaultFontPixelWidth * 7
+        property real _imageScale:       0.5
+
+        //任务按钮，位于通用按钮左侧
+        Rectangle {
+            id:                 missionButton
+            width:              topRightButtons._buttonWidth
+            height:             width
+            radius:             ScreenTools.defaultFontPixelWidth / 2
+            color:              (missionButtonMA.pressed || missionButtonMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
+
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                //任务图标
+                Image {
+                    width:                  topRightButtons._buttonWidth * topRightButtons._imageScale
+                    height:                 width
+                    source:                 "/xfres/mission.png"
+                    fillMode:               Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //文字标签
+                QGCLabel {
+                    text:                       qsTr("Mission")
+                    color:                      (missionButtonMA.pressed || missionButtonMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.buttonText
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
+            }
+
+            //点击区域
+            QGCMouseArea {
+                id:         missionButtonMA
+                fillItem:   parent
+                onClicked: {
+                    // TODO: 任务按钮功能
+                }
+            }
+        }
+
+        //通用按钮，位于右上角
+        Rectangle {
+            id:                 commonButton
+            width:              topRightButtons._buttonWidth
+            height:             width
+            radius:             ScreenTools.defaultFontPixelWidth / 2
+            color:              (commonButtonMA.pressed || commonButtonMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
+
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                //通用图标
+                Image {
+                    width:                  topRightButtons._buttonWidth * topRightButtons._imageScale
+                    height:                 width
+                    source:                 "/xfres/common.png"
+                    fillMode:               Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //文字标签
+                QGCLabel {
+                    text:                       qsTr("Common")
+                    color:                      (commonButtonMA.pressed || commonButtonMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.buttonText
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
+            }
+
+            //点击区域
+            QGCMouseArea {
+                id:         commonButtonMA
+                fillItem:   parent
+                onClicked: {
+                    // TODO: 通用按钮功能
+                }
+            }
+        }
+    }
+
     //右上角列布局，显示简化飞行仪表（当右上角面板隐藏时）
     FlyViewTopRightColumnLayout {
         id:                 topRightColumnLayout
