@@ -48,61 +48,30 @@ T.HorizontalFactValueGrid {
                 Repeater {
                     model: _root.columns
 
+                    // 每列使用 GridLayout，保持两行布局
                     GridLayout {
                         rows:           object.count
-                        columns:        2
-                        rowSpacing:     0
-                        columnSpacing:  ScreenTools.defaultFontPixelWidth / 4
+                        columns:        1
+                        rowSpacing:     ScreenTools.defaultFontPixelHeight * 0.25
+                        columnSpacing:  0
                         flow:           GridLayout.TopToBottom
 
                         Repeater {
-                            id:     labelRepeater
-                            model:  object
+                            model: object
 
-                            InstrumentValueLabel {
-                                Layout.fillHeight:      true
-                                Layout.alignment:       Qt.AlignRight
-                                instrumentValueData:    object
-                            }
-                        }
+                            // 每个数据项：数值在上，标签在下
+                            ColumnLayout {
+                                spacing: 0
+                                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
-                        Repeater {
-                            id:     valueRepeater
-                            model:  object
-
-                            property real   _index:     index
-                            property real   maxWidth:   0
-                            property var    lastCheck:  new Date().getTime()
-
-                            function recalcWidth() {
-                                var newMaxWidth = 0
-                                for (var i=0; i<valueRepeater.count; i++) {
-                                    newMaxWidth = Math.max(newMaxWidth, valueRepeater.itemAt(i).contentWidth)
-                                }
-                                maxWidth = Math.min(maxWidth, newMaxWidth)
-                            }
-
-                            InstrumentValueValue {
-                                Layout.fillHeight:      true
-                                Layout.alignment:       Qt.AlignLeft
-                                Layout.preferredWidth:  valueRepeater.maxWidth
-                                instrumentValueData:    object
-
-                                property real lastContentWidth
-
-                                Component.onCompleted:  {
-                                    valueRepeater.maxWidth = Math.max(valueRepeater.maxWidth, contentWidth)
-                                    lastContentWidth = contentWidth
+                                InstrumentValueValue {
+                                    Layout.alignment:       Qt.AlignHCenter
+                                    instrumentValueData:    object
                                 }
 
-                                onContentWidthChanged: {
-                                    valueRepeater.maxWidth = Math.max(valueRepeater.maxWidth, contentWidth)
-                                    lastContentWidth = contentWidth
-                                    var currentTime = new Date().getTime()
-                                    if (currentTime - valueRepeater.lastCheck > 30 * 1000) {
-                                        valueRepeater.lastCheck = currentTime
-                                        valueRepeater.recalcWidth()
-                                    }
+                                InstrumentValueLabel {
+                                    Layout.alignment:       Qt.AlignHCenter
+                                    instrumentValueData:    object
                                 }
                             }
                         }
@@ -117,7 +86,7 @@ T.HorizontalFactValueGrid {
                 QGCButton {
                     Layout.preferredWidth:  ScreenTools.minTouchPixels
                     Layout.fillHeight:      true
-                    topPadding:             0                
+                    topPadding:             0
                     bottomPadding:          0
                     leftPadding:            0
                     rightPadding:           0
@@ -129,7 +98,7 @@ T.HorizontalFactValueGrid {
                 QGCButton {
                     Layout.preferredWidth:  ScreenTools.minTouchPixels
                     Layout.fillHeight:      true
-                    topPadding:             0                
+                    topPadding:             0
                     bottomPadding:          0
                     leftPadding:            0
                     rightPadding:           0
@@ -148,7 +117,7 @@ T.HorizontalFactValueGrid {
             QGCButton {
                 Layout.fillWidth:       true
                 Layout.preferredHeight: ScreenTools.minTouchPixels
-                topPadding:             0                
+                topPadding:             0
                 bottomPadding:          0
                 leftPadding:            0
                 rightPadding:           0
@@ -160,7 +129,7 @@ T.HorizontalFactValueGrid {
             QGCButton {
                 Layout.fillWidth:       true
                 Layout.preferredHeight: parent.height
-                topPadding:             0                
+                topPadding:             0
                 bottomPadding:          0
                 leftPadding:            0
                 rightPadding:           0
@@ -183,12 +152,13 @@ T.HorizontalFactValueGrid {
 
         onClicked: (mouse) => {
             var columnGridLayoutItem = labelValueColumnLayout.childAt(mouse.x, mouse.y)
-            //console.log(mouse.x, mouse.y, columnGridLayoutItem)
             var mappedMouse = labelValueColumnLayout.mapToItem(columnGridLayoutItem, mouse.x, mouse.y)
-            var labelOrDataItem = columnGridLayoutItem.childAt(mappedMouse.x, mappedMouse.y)
-            //console.log(mappedMouse.x, mappedMouse.y, labelOrDataItem, labelOrDataItem ? labelOrDataItem.instrumentValueData : "null", labelOrDataItem && labelOrDataItem.parent ? labelOrDataItem.parent.instrumentValueData : "null")
-            if (labelOrDataItem && labelOrDataItem.instrumentValueData !== undefined) {
-                valueEditDialog.createObject(mainWindow, { instrumentValueData: labelOrDataItem.instrumentValueData }).open()
+            var dataColumnItem = columnGridLayoutItem.childAt(mappedMouse.x, mappedMouse.y)
+            if (dataColumnItem && dataColumnItem.children.length > 0) {
+                var valueOrLabelItem = dataColumnItem.childAt(dataColumnItem.width / 2, mappedMouse.y - dataColumnItem.y)
+                if (valueOrLabelItem && valueOrLabelItem.instrumentValueData !== undefined) {
+                    valueEditDialog.createObject(mainWindow, { instrumentValueData: valueOrLabelItem.instrumentValueData }).open()
+                }
             }
         }
     }

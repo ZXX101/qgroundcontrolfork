@@ -34,8 +34,8 @@ ColumnLayout {
 
     QGCLabel {
         id:                 label
-        Layout.alignment:   Qt.AlignVCenter
-        font.pointSize:     _fontSize
+        Layout.alignment:   Qt.AlignVCenter | Qt.AlignHCenter
+        font.pointSize:     _fontSize * 0.8  // 字体减小
         color:              instrumentValueData.isValidColor(instrumentValueData.currentColor) ? instrumentValueData.currentColor : qgcPal.text
         text:               valueText()
 

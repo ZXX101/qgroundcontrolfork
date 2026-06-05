@@ -31,7 +31,7 @@ Item {
         id:         backgroundRect
         width:      control.width + extraWidth
         height:     control.height
-        color:      qgcPal.window
+        color:      "transparent"  // 去掉背景底色
         radius:     ScreenTools.defaultFontPixelWidth / 2
         opacity:    0.75
     }

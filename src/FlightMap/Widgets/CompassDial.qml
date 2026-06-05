@@ -19,7 +19,7 @@ import QtQuick.Shapes
 Item {
     id: control
 
-    property real offsetRadius: width / 2 - ScreenTools.defaultFontPixelHeight / 2 - ScreenTools.defaultFontPixelHeight * 0.55
+    property real offsetRadius: width / 2 - ScreenTools.defaultFontPixelHeight / 2 - ScreenTools.defaultFontPixelHeight * 0.25
 
     function translateCenterToAngleX(radius, angle) {
         return radius * Math.sin(angle * (Math.PI / 180))

@@ -32,9 +32,9 @@ ColumnLayout {
 
     QGCColoredImage {
         id:                         valueIcon
-        Layout.alignment:           Qt.AlignVCenter
-        height:                     _tightHeight * 0.75
-        width:                      _tightHeight * 0.85
+        Layout.alignment:           Qt.AlignVCenter | Qt.AlignHCenter
+        height:                     _tightHeight * 0.5  // 图标高度从0.75改为0.5
+        width:                      _tightHeight * 0.6  // 图标宽度从0.85改为0.6
         sourceSize.height:          height
         fillMode:                   Image.PreserveAspectFit
         mipmap:                     true
@@ -65,9 +65,9 @@ ColumnLayout {
     }
 
     QGCLabel {
-        Layout.alignment:   Qt.AlignVCenter
-        height:             _tightHeight
-        font.pointSize:     ScreenTools.smallFontPointSize
+        Layout.alignment:   Qt.AlignVCenter | Qt.AlignHCenter
+        height:             _tightHeight * 0.7  // 标签高度减小
+        font.pointSize:     ScreenTools.smallFontPointSize * 0.8  // 字体减小
         text:               instrumentValueData.text
         color:              _color
         opacity:            instrumentValueData.currentOpacity

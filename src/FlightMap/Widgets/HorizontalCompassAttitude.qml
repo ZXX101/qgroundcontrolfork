@@ -38,7 +38,7 @@ Rectangle {
     property var  _activeVehicle:       globals.activeVehicle
     property real _margin:              ScreenTools.defaultFontPixelWidth / 2
     property real _spacing:             ScreenTools.defaultFontPixelWidth
-    property real _widgetSize:          ScreenTools.defaultFontPixelHeight * 5  // 仪表盘固定尺寸（直径）
+    property real _widgetSize:          ScreenTools.defaultFontPixelHeight * 3.25  // 仪表盘直径，约等于数据面板高度
 
     DeadMouseArea { anchors.fill: parent }
 
