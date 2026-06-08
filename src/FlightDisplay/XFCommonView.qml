@@ -265,10 +265,16 @@ Rectangle {
                     text: pageList[1].name
                     icon.source: pageList[1].icon
                     Layout.fillWidth: true
+                    icon.color: "white"
+                    textColor:  "white"
                     checked: currentPageIndex === 1
-
+                    background: Rectangle {
+                        color:      qgcPal.buttonHighlight
+                        opacity:    parent.hovered ? .2 : 0
+                        radius:     ScreenTools.defaultFontPixelWidth / 2
+                    }
                     QGCColoredImage {
-                        height: parent.height/2
+                        height: parent.height/3
                         width: height
                         fillMode: Image.PreserveAspectFit
                         // color: qgcPal.colorGreen
