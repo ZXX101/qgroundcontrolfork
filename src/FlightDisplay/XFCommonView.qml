@@ -17,160 +17,387 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 //通用页面主容器，覆盖整个窗口，显示通用配置界面
-//包含左侧导航面板、右侧内容区域、顶部返回按钮
-//左侧导航面板包含8个子页面项：连接、设备配置、飞行参数、安全、设备日志、Mavlink Console、Mavlink Analyze、软件设置
+//包含左侧导航按钮列表、右侧内容区域、顶部返回按钮
+//左侧导航包含8个子页面项：连接、设备配置（含二级菜单）、飞行参数、安全、设备日志、Mavlink Console、Mavlink Analyze、软件设置
 Rectangle {
-    id:                 xfCommonView
-    anchors.fill:       parent
-    visible:            false
-    color:              qgcPal.window
-    z:                  QGroundControl.zOrderTopMost
+    id: xfCommonView
+    anchors.fill: parent
+    visible: false
+    color: qgcPal.window
+    z: QGroundControl.zOrderTopMost
 
-    //当前选中的页面索引
-    property int        currentPageIndex:          0
+    readonly property real _defaultTextHeight: ScreenTools.defaultFontPixelHeight
+    readonly property real _defaultTextWidth: ScreenTools.defaultFontPixelWidth
+    readonly property real _horizontalMargin: _defaultTextWidth / 2
+    readonly property real _verticalMargin: _defaultTextHeight / 2
+
+    //当前选中的一级菜单索引（0-7）
+    property int currentPageIndex: 0
+    //设备配置二级菜单索引
+    property int deviceConfigSubIndex: 0
 
     //页面列表数据
-    property var        pageList: [
-        { name: qsTr("连接"), url: "qrc:/qml/QGroundControl/AppSettings/LinkSettings.qml" },
-        { name: qsTr("设备配置"), url: "" },  // 特殊处理，有二级菜单
-        { name: qsTr("飞行参数"), url: "qrc:/qml/QGroundControl/AppSettings/FlyViewSettings.qml" },
-        { name: qsTr("安全"), url: "qrc:/qml/QGroundControl/AppSettings/RemoteIDSettings.qml" },
-        { name: qsTr("设备日志"), url: "qrc:/qml/QGroundControl/AnalyzeView/LogDownloadPage.qml" },
-        { name: qsTr("Mavlink Console"), url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkConsolePage.qml" },
-        { name: qsTr("Mavlink Analyze"), url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkInspectorPage.qml" },
-        { name: qsTr("软件设置"), url: "qrc:/qml/QGroundControl/AppSettings/GeneralSettings.qml" }
+    property var pageList: [
+        {
+            name: qsTr("连接"),
+            url: "qrc:/qml/QGroundControl/AppSettings/LinkSettings.qml",
+            icon: "qrc:/xfres/link.png"
+        },
+        {
+            name: qsTr("设备配置"),
+            url: "",
+            icon: "qrc:/xfres/deviceConfig.png"
+        },
+        {
+            name: qsTr("飞行参数"),
+            url: "qrc:/qml/QGroundControl/AppSettings/FlyViewSettings.qml",
+            icon: "qrc:/xfres/flightParams.png"
+        },
+        {
+            name: qsTr("安全"),
+            url: "qrc:/qml/QGroundControl/AppSettings/RemoteIDSettings.qml",
+            icon: "qrc:/xfres/safety.png"
+        },
+        {
+            name: qsTr("设备日志"),
+            url: "qrc:/qml/QGroundControl/AnalyzeView/LogDownloadPage.qml",
+            icon: "qrc:/xfres/deviceLog.png"
+        },
+        {
+            name: qsTr("Mavlink Console"),
+            url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkConsolePage.qml",
+            icon: "qrc:/xfres/mavlink.png"
+        },
+        {
+            name: qsTr("Mavlink Analyze"),
+            url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkInspectorPage.qml",
+            icon: "qrc:/xfres/mavlinkInspect.png"
+        },
+        {
+            name: qsTr("软件设置"),
+            url: "qrc:/qml/QGroundControl/AppSettings/GeneralSettings.qml",
+            icon: "qrc:/xfres/softwareSettings.png"
+        }
     ]
 
     //设备配置二级菜单页面列表
-    property var        deviceConfigPages: [
-        { name: qsTr("概况"), url: "qrc:/qml/QGroundControl/VehicleSetup/VehicleSummary.qml" },
-        { name: qsTr("机架"), url: "" },  // 动态加载
-        { name: qsTr("传感器"), url: "" },  // 动态加载
-        { name: qsTr("通道设置"), url: "" },  // 动态加载
-        { name: qsTr("电源"), url: "" },  // 动态加载
-        { name: qsTr("电机"), url: "" },  // 动态加载
-        { name: qsTr("遥控器"), url: "qrc:/qml/QGroundControl/VehicleSetup/JoystickConfig.qml" },
-        { name: qsTr("PID调参"), url: "" },  // 动态加载
-        { name: qsTr("参数"), url: "qrc:/qml/QGroundControl/VehicleSetup/SetupParameterEditor.qml" }
+    property var deviceConfigPages: [
+        {
+            name: qsTr("概况"),
+            url: "qrc:/qml/QGroundControl/VehicleSetup/VehicleSummary.qml"
+        },
+        {
+            name: qsTr("机架"),
+            url: ""
+        },
+        {
+            name: qsTr("传感器"),
+            url: ""
+        },
+        {
+            name: qsTr("通道设置"),
+            url: ""
+        },
+        {
+            name: qsTr("电源"),
+            url: ""
+        },
+        {
+            name: qsTr("电机"),
+            url: ""
+        },
+        {
+            name: qsTr("遥控器"),
+            url: "qrc:/qml/QGroundControl/VehicleSetup/JoystickConfig.qml"
+        },
+        {
+            name: qsTr("PID调参"),
+            url: ""
+        },
+        {
+            name: qsTr("参数"),
+            url: "qrc:/qml/QGroundControl/VehicleSetup/SetupParameterEditor.qml"
+        }
     ]
 
     //设备配置二级菜单是否展开
-    property bool       deviceConfigExpanded:      false
-    //当前设备配置二级菜单索引
-    property int        currentDeviceConfigIndex:  0
+    property bool deviceConfigExpanded: false
 
-    QGCPalette { id: qgcPal }
+    //选择页面的函数
+    function selectPage(index) {
+        if (mainWindow.allowViewSwitch()) {
+            currentPageIndex = index;
+            deviceConfigExpanded = false;
+            if (pageList[index].url !== "") {
+                contentLoader.source = pageList[index].url;
+            }
+            updateButtonChecked();
+        }
+    }
 
-    //阻塞鼠标区域，防止点击事件穿透到下层
+    //选择设备配置子页面
+    function selectDeviceConfigPage(subIndex) {
+        if (mainWindow.allowViewSwitch()) {
+            currentPageIndex = 1;
+            deviceConfigExpanded = true;
+            deviceConfigSubIndex = subIndex;
+            if (deviceConfigPages[subIndex].url !== "") {
+                contentLoader.source = deviceConfigPages[subIndex].url;
+            }
+            updateButtonChecked();
+        }
+    }
+
+    //更新按钮选中状态
+    function updateButtonChecked() {
+        button0.checked = (currentPageIndex === 0);
+        button1.checked = (currentPageIndex === 1);
+        button2.checked = (currentPageIndex === 2);
+        button3.checked = (currentPageIndex === 3);
+        button4.checked = (currentPageIndex === 4);
+        button5.checked = (currentPageIndex === 5);
+        button6.checked = (currentPageIndex === 6);
+        button7.checked = (currentPageIndex === 7);
+    }
+
+    Component.onCompleted: {
+        updateButtonChecked();
+    }
+
+    //阻塞鼠标区域
     DeadMouseArea {
-        anchors.fill:   parent
+        anchors.fill: parent
+    }
+
+    QGCPalette {
+        id: qgcPal
     }
 
     //顶部返回按钮区域
     Rectangle {
-        id:                 toolbar
-        anchors.top:        parent.top
-        anchors.left:       parent.left
-        anchors.right:      parent.right
-        height:             ScreenTools.toolbarHeight
-        color:              qgcPal.toolbarBackground
+        id: toolbar
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: ScreenTools.toolbarHeight
+        color: qgcPal.toolbarBackground
 
         RowLayout {
-            anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
-            anchors.left:           parent.left
+            anchors.leftMargin: _defaultTextWidth
+            anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            spacing:                ScreenTools.defaultFontPixelWidth
+            spacing: _defaultTextWidth
 
-            //返回图标
             QGCLabel {
-                text:               "<"
-                font.pointSize:     ScreenTools.largeFontPointSize
+                text: qsTr("XF地面站 通用配置")
+                font.pointSize: ScreenTools.largeFontPointSize
+                font.family: ScreenTools.tecentFontFamily
             }
-
-            //返回文字
-            QGCLabel {
-                text:               qsTr("Exit 通用配置")
-                font.pointSize:     ScreenTools.largeFontPointSize
+            QGCButton {
+                id: buttonBack
+                text: "Back"
+                iconSource: "qrc:/xfres/back.png"
+                // Layout.fillWidth: true
+                // checked: currentPageIndex === 0
+                // 后期要改颜色就该qgcPal里面的值
+                // background: Rectangle {
+                //     color:      qgcPal.buttonHighlight
+                //     opacity:    pressed ? 1 : enabled && hovered ? .6 : .2
+                //     radius:     ScreenTools.defaultFontPixelWidth / 2
+                // }
+                onClicked: {
+                    if (mainWindow.allowViewSwitch()) {
+                        xfCommonView.visible = false;
+                        mainWindow.showFlyView();
+                    }
+                }
             }
         }
 
-        //点击返回
         QGCMouseArea {
-            anchors.fill:       parent
+            anchors.fill: parent
             onClicked: {
                 if (mainWindow.allowViewSwitch()) {
-                    xfCommonView.visible = false
-                    mainWindow.showFlyView()
+                    xfCommonView.visible = false;
+                    mainWindow.showFlyView();
                 }
             }
         }
     }
 
-    //左侧导航面板
-    XFCommonLeftPanel {
-        id:                 leftPanel
-        anchors.left:       parent.left
-        anchors.top:        toolbar.bottom
-        anchors.bottom:     parent.bottom
-        width:              ScreenTools.defaultFontPixelWidth * 18
+    //左侧按钮列表（使用QGCFlickable + ColumnLayout，与SetupView一致）
+    QGCFlickable {
+        id: buttonScroll
+        width: _defaultTextWidth * 18
+        anchors.topMargin: _verticalMargin
+        anchors.top: toolbar.bottom
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: _horizontalMargin
+        anchors.left: parent.left
+        contentHeight: buttonColumn.height
+        flickableDirection: Flickable.VerticalFlick
+        clip: true
 
-        currentPageIndex:       xfCommonView.currentPageIndex
-        deviceConfigExpanded:   xfCommonView.deviceConfigExpanded
-        currentDeviceConfigIndex: xfCommonView.currentDeviceConfigIndex
+        ColumnLayout {
+            id: buttonColumn
+            spacing: _defaultTextHeight / 4
+            width: buttonScroll.width - _defaultTextWidth
 
-        onPageSelected: function(index) {
-            xfCommonView.currentPageIndex = index
-            xfCommonView.deviceConfigExpanded = false
-            if (xfCommonView.pageList[index].url !== "") {
-                contentLoader.source = xfCommonView.pageList[index].url
+            //页面0: 连接
+            ConfigButton {
+                id: button0
+                text: pageList[0].name
+                icon.source: pageList[0].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 0
+                onClicked: selectPage(0)
+
+
             }
-        }
 
-        onDeviceConfigSelected: function(subIndex) {
-            xfCommonView.currentPageIndex = 1  // 设备配置页
-            xfCommonView.deviceConfigExpanded = true
-            xfCommonView.currentDeviceConfigIndex = subIndex
-            if (xfCommonView.deviceConfigPages[subIndex].url !== "") {
-                contentLoader.source = xfCommonView.deviceConfigPages[subIndex].url
+            //页面1: 设备配置（含二级菜单）
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: _defaultTextHeight / 4
+
+                ConfigButton {
+                    id: button1
+                    text: pageList[1].name
+                    icon.source: pageList[1].icon
+                    Layout.fillWidth: true
+                    checked: currentPageIndex === 1
+
+                    QGCColoredImage {
+                        height: parent.height/2
+                        width: height
+                        fillMode: Image.PreserveAspectFit
+                        // color: qgcPal.colorGreen
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: deviceConfigExpanded ? "qrc:/xfres/menuExpand.png" : "qrc:/xfres/menuCollapse.png"
+                    }
+
+                    onClicked: {
+                        if (deviceConfigExpanded) {
+                            deviceConfigExpanded = false;
+                        } else {
+                            deviceConfigExpanded = true;
+                            deviceConfigSubIndex = 0;
+                            if (deviceConfigPages[0].url !== "") {
+                                contentLoader.source = deviceConfigPages[0].url;
+                            }
+                        }
+                        currentPageIndex = 1;
+                        updateButtonChecked();
+                    }
+                }
+
+
+                //设备配置二级菜单
+                ColumnLayout {
+                    visible: deviceConfigExpanded
+                    spacing: _defaultTextHeight / 8
+                    Layout.fillWidth: true
+                    Layout.leftMargin: _defaultTextWidth
+
+                    Repeater {
+                        model: deviceConfigPages
+
+                        ConfigButton {
+                            text: modelData.name
+                            Layout.fillWidth: true
+                            font.pointSize: ScreenTools.defaultFontPointSize * 0.9
+                            checked: deviceConfigSubIndex === index
+
+                            onClicked: {
+                                currentPageIndex = 1;
+                                deviceConfigSubIndex = index;
+                                if (modelData.url !== "") {
+                                    contentLoader.source = modelData.url;
+                                }
+                                updateButtonChecked();
+                            }
+                        }
+                    }
+                }
             }
-        }
 
-        onBackToMainPage: function() {
-            xfCommonView.deviceConfigExpanded = false
+            //页面2-7
+            ConfigButton {
+                id: button2
+                text: pageList[2].name
+                icon.source: pageList[2].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 2
+                onClicked: selectPage(2)
+            }
+            ConfigButton {
+                id: button3
+                text: pageList[3].name
+                icon.source: pageList[3].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 3
+                onClicked: selectPage(3)
+            }
+            ConfigButton {
+                id: button4
+                text: pageList[4].name
+                icon.source: pageList[4].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 4
+                onClicked: selectPage(4)
+            }
+            ConfigButton {
+                id: button5
+                text: pageList[5].name
+                icon.source: pageList[5].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 5
+                onClicked: selectPage(5)
+            }
+            ConfigButton {
+                id: button6
+                text: pageList[6].name
+                icon.source: pageList[6].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 6
+                onClicked: selectPage(6)
+            }
+            ConfigButton {
+                id: button7
+                text: pageList[7].name
+                icon.source: pageList[7].icon
+                Layout.fillWidth: true
+                checked: currentPageIndex === 7
+                onClicked: selectPage(7)
+            }
         }
     }
 
     //分隔线
     Rectangle {
-        anchors.left:       leftPanel.right
-        anchors.top:        toolbar.bottom
-        anchors.bottom:     parent.bottom
-        width:              1
-        color:              qgcPal.windowShade
+        id: divider
+        anchors.topMargin: _verticalMargin
+        anchors.bottomMargin: _verticalMargin
+        anchors.leftMargin: _horizontalMargin
+        anchors.left: buttonScroll.right
+        anchors.top: toolbar.bottom
+        anchors.bottom: parent.bottom
+        width: 1
+        color: qgcPal.windowShade
     }
 
     //右侧内容区域
-    Item {
-        anchors.left:       leftPanel.right
-        anchors.leftMargin: ScreenTools.defaultFontPixelWidth
-        anchors.right:      parent.right
-        anchors.top:        toolbar.bottom
-        anchors.topMargin:  ScreenTools.defaultFontPixelWidth
-        anchors.bottom:     parent.bottom
-
-        //内容加载器
-        Loader {
-            id:                 contentLoader
-            anchors.fill:       parent
-            source:             xfCommonView.pageList[0].url  // 默认加载连接页面
-
-            //显示当前页面名称（占位符）
-            QGCLabel {
-                anchors.centerIn:   parent
-                text:               xfCommonView.pageList[xfCommonView.currentPageIndex].name
-                font.pointSize:     ScreenTools.largeFontPointSize
-                visible:            contentLoader.status !== Loader.Ready
-            }
-        }
+    Loader {
+        id: contentLoader
+        anchors.topMargin: _verticalMargin
+        anchors.bottomMargin: _verticalMargin
+        anchors.leftMargin: _horizontalMargin
+        anchors.rightMargin: _horizontalMargin
+        anchors.left: divider.right
+        anchors.right: parent.right
+        anchors.top: toolbar.bottom
+        anchors.bottom: parent.bottom
+        source: pageList[0].url
     }
 }
