@@ -40,42 +40,42 @@ Rectangle {
     property var pageList: [
         {
             name: qsTr("连接"),
-            url: "qrc:/qml/QGroundControl/AppSettings/LinkSettings.qml",
+            url: "qrc:/qml/QGroundControl/AppSettings/XFLinkSettings.qml",
             icon: "qrc:/xfres/link.png"
         },
         {
             name: qsTr("设备配置"),
-            url: "",
+            url: "qrc:/qml/QGroundControl/FlightDisplay/XFDeviceConfig.qml",
             icon: "qrc:/xfres/deviceConfig.png"
         },
         {
             name: qsTr("飞行参数"),
-            url: "qrc:/qml/QGroundControl/AppSettings/FlyViewSettings.qml",
+            url: "",
             icon: "qrc:/xfres/flightParams.png"
         },
         {
             name: qsTr("安全"),
-            url: "qrc:/qml/QGroundControl/AppSettings/RemoteIDSettings.qml",
+            url: "",
             icon: "qrc:/xfres/safety.png"
         },
         {
             name: qsTr("设备日志"),
-            url: "qrc:/qml/QGroundControl/AnalyzeView/LogDownloadPage.qml",
+            url: "qrc:/qml/QGroundControl/AnalyzeView/XFLogDownloadPage.qml",
             icon: "qrc:/xfres/deviceLog.png"
         },
         {
             name: qsTr("Mavlink Console"),
-            url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkConsolePage.qml",
+            url: "qrc:/qml/QGroundControl/AnalyzeView/XFMAVLinkConsolePage.qml",
             icon: "qrc:/xfres/mavlink.png"
         },
         {
             name: qsTr("Mavlink Analyze"),
-            url: "qrc:/qml/QGroundControl/AnalyzeView/MAVLinkInspectorPage.qml",
+            url: "qrc:/qml/QGroundControl/AnalyzeView/XFMAVLinkInspectorPage.qml",
             icon: "qrc:/xfres/mavlinkInspect.png"
         },
         {
             name: qsTr("软件设置"),
-            url: "qrc:/qml/QGroundControl/AppSettings/GeneralSettings.qml",
+            url: "qrc:/qml/QGroundControl/AppSettings/XFGeneralSettings.qml",
             icon: "qrc:/xfres/softwareSettings.png"
         }
     ]
@@ -84,7 +84,7 @@ Rectangle {
     property var deviceConfigPages: [
         {
             name: qsTr("概况"),
-            url: "qrc:/qml/QGroundControl/VehicleSetup/VehicleSummary.qml"
+            url: "qrc:/qml/QGroundControl/VehicleSetup/XFVehicleSummary.qml"
         },
         {
             name: qsTr("机架"),

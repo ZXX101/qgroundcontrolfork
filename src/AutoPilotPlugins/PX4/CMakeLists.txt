@@ -75,5 +75,10 @@ qt_add_qml_module(AutoPilotPluginsPX4Module
         SensorsComponentSummary.qml
         SensorsComponentSummaryFixedWing.qml
         SensorsSetup.qml
+        XFAirframeComponent.qml
+        XFPowerComponent.qml
+        XFSafetyComponent.qml
+        XFSensorsComponent.qml
+        XFPX4TuningComponent.qml
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )
