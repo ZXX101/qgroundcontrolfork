@@ -278,6 +278,7 @@ ApplicationWindow {
         id:                     flyView
         anchors.fill:           parent
         utmspSendActTrigger:    _utmspSendActTrigger
+        visible: false
     }
 
     //任务规划页面，位于主窗口中央，显示任务编辑界面、地图、航点编辑器
@@ -291,7 +292,7 @@ ApplicationWindow {
     XFCommonView {
         id:             xfCommonView
         anchors.fill:   parent
-        visible:        false
+        visible:        true
     }
 
     //日志回放状态栏，位于主窗口底部，显示日志回放进度

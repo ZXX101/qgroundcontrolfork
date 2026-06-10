@@ -28,5 +28,8 @@ qt_add_qml_module(AppSettingsModule
         VideoSettings.qml
         XFGeneralSettings.qml
         XFLinkSettings.qml
+        XFTcpSettings.qml
+        XFSerialSettings.qml
+        XFUdpSettings.qml
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )
