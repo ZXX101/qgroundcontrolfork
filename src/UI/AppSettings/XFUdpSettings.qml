@@ -37,18 +37,18 @@ ColumnLayout {
         QGCLabel { text: qsTr("Port") }
         QGCTextField {
             id:                     portField
-            text:                   subEditConfig.localPort.toString()
+            text:                   subEditConfig ? subEditConfig.localPort.toString() : "14540"
             focus:                  true
             Layout.preferredWidth:  _secondColumnWidth
             inputMethodHints:       Qt.ImhFormattedNumbersOnly
-            onTextChanged:          subEditConfig.localPort = parseInt(portField.text)
+            onTextChanged:          if (subEditConfig) subEditConfig.localPort = parseInt(portField.text)
         }
     }
 
     QGCLabel { text: qsTr("Server Addresses (optional)") }
 
     Repeater {
-        model: subEditConfig.hostList
+        model: subEditConfig ? subEditConfig.hostList : []
 
         delegate: RowLayout {
             spacing: _colSpacing
@@ -60,7 +60,8 @@ ColumnLayout {
 
             QGCButton {
                 text:       qsTr("Remove")
-                onClicked:  subEditConfig.removeHost(modelData)
+                enabled:    subEditConfig !== null
+                onClicked:  if (subEditConfig) subEditConfig.removeHost(modelData)
             }
         }
     }
@@ -75,8 +76,8 @@ ColumnLayout {
         }
         QGCButton {
             text:       qsTr("Add Server")
-            enabled:    hostField.text !== ""
-            onClicked: {
+            enabled:    hostField.text !== "" && subEditConfig !== null
+            onClicked:  if (subEditConfig) {
                 subEditConfig.addHost(hostField.text)
                 hostField.text = ""
             }

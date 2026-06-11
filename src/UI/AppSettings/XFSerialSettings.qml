@@ -35,9 +35,8 @@ ColumnLayout {
             enabled:                QGroundControl.linkManager.serialPorts.length > 0
 
             onActivated: (index) => {
-                if (index != -1) {
+                if (index != -1 && subEditConfig) {
                     if (index >= QGroundControl.linkManager.serialPortStrings.length) {
-                        // This item was adding at the end, must use added text as name
                         subEditConfig.portName = commPortCombo.textAt(index)
                     } else {
                         subEditConfig.portName = QGroundControl.linkManager.serialPorts[index]
@@ -52,13 +51,15 @@ ColumnLayout {
                     for (var i=0; i<QGroundControl.linkManager.serialPortStrings.length; i++) {
                         serialPorts.push(QGroundControl.linkManager.serialPortStrings[i])
                     }
-                    if (subEditConfig.portDisplayName === "" && QGroundControl.linkManager.serialPorts.length > 0) {
+                    if (subEditConfig && subEditConfig.portDisplayName === "" && QGroundControl.linkManager.serialPorts.length > 0) {
                         subEditConfig.portName = QGroundControl.linkManager.serialPorts[0]
                     }
-                    index = serialPorts.indexOf(subEditConfig.portDisplayName)
-                    if (index === -1) {
-                        serialPorts.push(subEditConfig.portName)
-                        index = serialPorts.indexOf(subEditConfig.portName)
+                    if (subEditConfig) {
+                        index = serialPorts.indexOf(subEditConfig.portDisplayName)
+                        if (index === -1) {
+                            serialPorts.push(subEditConfig.portName)
+                            index = serialPorts.indexOf(subEditConfig.portName)
+                        }
                     }
                 }
                 if (serialPorts.length === 0) {
@@ -77,7 +78,7 @@ ColumnLayout {
             model:                  QGroundControl.linkManager.serialBaudRates
 
             onActivated: (index) => {
-                if (index !== -1) {
+                if (index !== -1 && subEditConfig) {
                     subEditConfig.baud = parseInt(QGroundControl.linkManager.serialBaudRates[index])
                 }
             }
@@ -112,8 +113,8 @@ ColumnLayout {
         QGCCheckBox {
             Layout.columnSpan:  2
             text:               qsTr("Enable Flow Control")
-            checked:            subEditConfig.flowControl !== 0
-            onCheckedChanged:   subEditConfig.flowControl = checked ? 1 : 0
+            checked:            subEditConfig ? subEditConfig.flowControl !== 0 : false
+            onCheckedChanged:   if (subEditConfig) subEditConfig.flowControl = checked ? 1 : 0
         }
 
         QGCLabel { text: qsTr("Parity") }
@@ -122,22 +123,27 @@ ColumnLayout {
             model:                  [qsTr("None"), qsTr("Even"), qsTr("Odd")]
 
             onActivated: (index) => {
-                // Hard coded values from qserialport.h
-                switch (index) {
-                case 0:
-                    subEditConfig.parity = 0
-                    break
-                case 1:
-                    subEditConfig.parity = 2
-                    break
-                case 2:
-                    subEditConfig.parity = 3
-                    break
+                if (subEditConfig) {
+                    switch (index) {
+                    case 0:
+                        subEditConfig.parity = 0
+                        break
+                    case 1:
+                        subEditConfig.parity = 2
+                        break
+                    case 2:
+                        subEditConfig.parity = 3
+                        break
+                    }
                 }
             }
 
             Component.onCompleted: {
-                switch (subEditConfig.parity) {
+                var parity = 0
+                if (subEditConfig) {
+                    parity = subEditConfig.parity
+                }
+                switch (parity) {
                 case 0:
                     currentIndex = 0
                     break
@@ -148,7 +154,7 @@ ColumnLayout {
                     currentIndex = 2
                     break
                 default:
-                    console.warn("Unknown parity", subEditConfig.parity)
+                    currentIndex = 0
                     break
                 }
             }
@@ -158,16 +164,16 @@ ColumnLayout {
         QGCComboBox {
             Layout.preferredWidth:  _secondColumnWidth
             model:                  [ "5", "6", "7", "8" ]
-            currentIndex:           Math.max(Math.min(subEditConfig.dataBits - 5, 3), 0)
-            onActivated: (index) => { subEditConfig.dataBits = index + 5 }
+            currentIndex:           subEditConfig ? Math.max(Math.min(subEditConfig.dataBits - 5, 3), 0) : 3
+            onActivated: (index) => { if (subEditConfig) subEditConfig.dataBits = index + 5 }
         }
 
         QGCLabel { text: qsTr("Stop Bits") }
         QGCComboBox {
             Layout.preferredWidth:  _secondColumnWidth
             model:                  [ "1", "2" ]
-            currentIndex:           Math.max(Math.min(subEditConfig.stopBits - 1, 1), 0)
-            onActivated: (index) => { subEditConfig.stopBits = index + 1 }
+            currentIndex:           subEditConfig ? Math.max(Math.min(subEditConfig.stopBits - 1, 1), 0) : 0
+            onActivated: (index) => { if (subEditConfig) subEditConfig.stopBits = index + 1 }
         }
     }
 }
