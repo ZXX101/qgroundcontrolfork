@@ -22,52 +22,27 @@ QGCFlickable {
     property var _linkManager: QGroundControl.linkManager
     property var _autoConnectSettings: QGroundControl.settingsManager.autoConnectSettings
 
-    // 类型到URL的映射
-    property var typeToURL: ({
-            [LinkConfiguration.TypeTcp]: "XFTcpSettings.qml",
-            [LinkConfiguration.TypeUdp]: "XFUdpSettings.qml",
-            [LinkConfiguration.TypeSerial]: "XFSerialSettings.qml"
-        })
-
     RowLayout {
         anchors.fill: parent
         spacing: ScreenTools.defaultDialogControlSpacing * 5
-        Loader {
-            sourceComponent: connectpage
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "red"
-                z: -1
-            }
-        }
 
-        Loader {
-            id: settingPageLoader
-            sourceComponent: settingPage
-            Layout.preferredWidth: item ? item.implicitWidth : 0
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-        }
-    }
-
-    //连接页面
-    Component {
-        id: connectpage
+        // 左侧：连接列表
         ColumnLayout {
-            id: connectlistlayout
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 20
+
             QGCLabel {
-                id: noconnectionlabel
-                text: "No protocol,please config protocol in right panel!"
-                Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                visible: _linkManager.linkConfigurations.count === 0
+                text: "Links"
+                font.bold: true
+                font.pointSize: ScreenTools.defaultFontPointSize * 1.2
             }
+
             Repeater {
                 model: _linkManager.linkConfigurations
+                Layout.fillWidth: true
 
                 RowLayout {
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                     Layout.fillWidth: true
                     visible: !object.dynamic
 
@@ -99,9 +74,9 @@ QGCFlickable {
                         QGCMouseArea {
                             fillItem: parent
                             onClicked: {
-                                var item = settingPageLoader.item;
-                                var editingConfig = _linkManager.startConfigurationEditing(object);
-                                item.showDronesPage(object, editingConfig);
+                                var editingConfig = _linkManager.startConfigurationEditing(object)
+                                editLoader.sourceComponent = editPage
+                                editLoader.item.editConfig(object, editingConfig)
                             }
                         }
                     }
@@ -123,7 +98,7 @@ QGCFlickable {
                         QGCMouseArea {
                             fillItem: parent
                             onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
-                                _linkManager.removeConfiguration(object);
+                                _linkManager.removeConfiguration(object)
                             })
                         }
                     }
@@ -131,344 +106,113 @@ QGCFlickable {
                         text: object.link ? qsTr("Disconnect") : qsTr("Connect")
                         onClicked: {
                             if (object.link) {
-                                object.link.disconnect();
+                                object.link.disconnect()
                             } else {
-                                _linkManager.createConnectedLink(object);
+                                _linkManager.createConnectedLink(object)
                             }
                         }
                     }
                 }
             }
         }
-    }
 
-    Component {
-        id: settingPage
-
-        ColumnLayout {
-            property alias tabIndex: bar.currentIndex
-            property alias dronesItem: dronesPageLoader.item
-
-            function showDronesPage(object, config) {
-                if (dronesPageLoader.item) {
-                    dronesPageLoader.item.reset();
-                }
-                dronesPageLoader.active = true;
-                dronesPageLoader.item.editConfig(object, config);
-                bar.currentIndex = 0;
-            }
-
-            function hideDronesPage() {
-                if (dronesPageLoader.item) {
-                    dronesPageLoader.item.reset();
-                }
-                dronesPageLoader.active = false;
-            }
-
-            TabBar {
-                id: bar
-                Layout.fillWidth: true
-
-                TabButton {
-                    text: qsTr("Drones")
-                }
-                TabButton {
-                    text: qsTr("POD")
-                }
-                TabButton {
-                    text: qsTr("Others")
-                }
-            }
-
-            StackLayout {
-                id: settingsPageStack
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                currentIndex: bar.currentIndex
-                Loader {
-                    id: dronesPageLoader
-                    sourceComponent: dronesPage
-                    active: false
-                }
-                Loader {
-                    sourceComponent: podPage
-                }
-                Loader {
-                    sourceComponent: othersPage
-                }
-            }
+        // 右侧：编辑页面
+        Loader {
+            id: editLoader
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 40
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
         }
     }
 
-    //无人机页面
+    // 编辑页面 Component
     Component {
-        id: dronesPage
+        id: editPage
 
         ColumnLayout {
-            id: dronesPageRoot
             property var originalConfig: null
             property var editingConfig: null
-            property string settingsURL: ""
-            property int selectedType: -1
-            property bool editingReady: false
+            property bool editing: false
 
             function editConfig(object, config) {
-                originalConfig = object;
-                editingConfig = config;
-                selectedType = config.linkType;
-                settingsURL = typeToURL[config.linkType] || "XFTcpSettings.qml";
-                editingReady = true;
-                console.log("editingConfig.name",editingConfig.name)
-                console.log("editingConfig.host",editingConfig.host)
-                console.log("editingConfig.port",editingConfig.port)
-                console.log("editingConfig.hostList",editingConfig.hostList)
-                console.log("editingConfig.localPort",editingConfig.localPort)
-                console.log("editingConfig.baud",editingConfig.baud)
-                console.log("editingConfig.portName",editingConfig.portName)
+                originalConfig = object
+                editingConfig = config
+                editing = true
             }
 
-            function reset() {
-                if (editingConfig) {
-                    _linkManager.cancelConfigurationEditing(editingConfig);
-                }
-                originalConfig = null;
-                editingConfig = null;
-                selectedType = -1;
-                settingsURL = "";
-                editingReady = false;
+            QGCLabel {
+                text: "Edit Link"
+                font.bold: true
+                font.pointSize: ScreenTools.defaultFontPointSize * 1.2
             }
 
-            // 使用Repeater简化RadioButton
             RowLayout {
-                QGCLabel {
-                    text: "Type"
-                }
-                Repeater {
-                    model: [
-                        {
-                            type: LinkConfiguration.TypeTcp,
-                            name: "TCP",
-                            url: "XFTcpSettings.qml"
-                        },
-                        {
-                            type: LinkConfiguration.TypeSerial,
-                            name: "Serial",
-                            url: "XFSerialSettings.qml"
-                        },
-                        {
-                            type: LinkConfiguration.TypeUdp,
-                            name: "UDP",
-                            url: "XFUdpSettings.qml"
-                        }
-                    ]
-                    QGCRadioButton {
-                        text: modelData.name
-                        checked: dronesPageRoot.selectedType === modelData.type
-                        enabled: dronesPageRoot.originalConfig == null
-                        onCheckedChanged: if (checked) {
-                            dronesPageRoot.settingsURL = modelData.url;
-                            dronesPageRoot.editingConfig = _linkManager.createConfiguration(modelData.type, nameField.text);
-                        }
-                    }
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Name"
-                }
+                QGCLabel { text: qsTr("Name") }
                 QGCTextField {
                     id: nameField
                     Layout.fillWidth: true
-                    text: dronesPageRoot.editingConfig ? dronesPageRoot.editingConfig.name : ""
-                    placeholderText: qsTr("enter protocol name")
+                    text: editingConfig ? editingConfig.name : ""
+                    placeholderText: qsTr("Enter name")
                 }
             }
+
+            QGCCheckBoxSlider {
+                Layout.fillWidth: true
+                text: qsTr("Automatically Connect on Start")
+                checked: editingConfig ? editingConfig.autoConnect : false
+                onCheckedChanged: if (editingConfig) editingConfig.autoConnect = checked
+            }
+
             QGCCheckBoxSlider {
                 Layout.fillWidth: true
                 text: qsTr("High Latency")
-                checked: dronesPageRoot.editingConfig ? dronesPageRoot.editingConfig.highLatency : false
-                onCheckedChanged: if (dronesPageRoot.editingConfig)
-                    dronesPageRoot.editingConfig.highLatency = checked
+                checked: editingConfig ? editingConfig.highLatency : false
+                onCheckedChanged: if (editingConfig) editingConfig.highLatency = checked
             }
 
             Loader {
                 id: linkSettingsLoader
-                source: subSettingsURL
-                active: dronesPageRoot.editingReady
+                source: subEditConfig ? settingsURLForType(subEditConfig.linkType) : ""
 
-                Component.onCompleted: {
-                    console.log("subEditConfig.name",subEditConfig.name)
-                    console.log("subEditConfig.host",subEditConfig.host)
-                    console.log("subEditConfig.port",subEditConfig.port)
-                }
-
-                property var subEditConfig: dronesPageRoot.editingConfig
-                property string subSettingsURL: dronesPageRoot.settingsURL
+                property var subEditConfig: editingConfig
                 property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
                 property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 30
                 property int _rowSpacing: ScreenTools.defaultFontPixelHeight / 2
                 property int _colSpacing: ScreenTools.defaultFontPixelWidth / 2
             }
-            QGCCheckBoxSlider {
-                Layout.fillWidth: true
-                text: qsTr("Automatically Connect on Start")
-                checked: dronesPageRoot.editingConfig ? dronesPageRoot.editingConfig.autoConnect : false
-                onCheckedChanged: if (dronesPageRoot.editingConfig)
-                    dronesPageRoot.editingConfig.autoConnect = checked
+
+            function settingsURLForType(type) {
+                switch (type) {
+                case LinkConfiguration.TypeTcp: return "XFTcpSettings.qml"
+                case LinkConfiguration.TypeUdp: return "XFUdpSettings.qml"
+                case LinkConfiguration.TypeSerial: return "XFSerialSettings.qml"
+                default: return ""
+                }
             }
+
             RowLayout {
                 Layout.fillWidth: true
                 QGCButton {
-                    Text {
-                        id: btnAccept
-                        text: qsTr("OK")
-                    }
+                    text: qsTr("OK")
                     onClicked: {
                         if (linkSettingsLoader.item) {
-                            console.log("editingConfig.name",dronesPageRoot.editingConfig.name)
-                            console.log("editingConfig.name",linkSettingsLoader.item.subEditConfig.name)
-                            console.log("editingConfig.host",linkSettingsLoader.item.subEditConfig.name)
-                            console.log("editingConfig.port",linkSettingsLoader.item.subEditConfig.name)
-                            linkSettingsLoader.item.saveSettings();
+                            linkSettingsLoader.item.saveSettings()
                         }
-                        if (dronesPageRoot.editingConfig) {
-                            dronesPageRoot.editingConfig.name = nameField.text;
-                            if (dronesPageRoot.originalConfig) {
-                                _linkManager.endConfigurationEditing(dronesPageRoot.originalConfig, dronesPageRoot.editingConfig);
-                            } else {
-                                dronesPageRoot.editingConfig.dynamic = false;
-                                _linkManager.endCreateConfiguration(dronesPageRoot.editingConfig);
+                        if (editingConfig) {
+                            editingConfig.name = nameField.text
+                            if (originalConfig) {
+                                _linkManager.endConfigurationEditing(originalConfig, editingConfig)
                             }
                         }
-                        settingPageLoader.item.hideDronesPage();
+                        editLoader.sourceComponent = null
                     }
                 }
                 QGCButton {
-                    Text {
-                        id: btnReject
-                        text: qsTr("Cancel")
-                    }
+                    text: qsTr("Cancel")
                     onClicked: {
-                        _linkManager.cancelConfigurationEditing(dronesPageRoot.editingConfig);
-                        settingPageLoader.item.hideDronesPage();
+                        _linkManager.cancelConfigurationEditing(editingConfig)
+                        editLoader.sourceComponent = null
                     }
-                }
-            }
-        }
-    }
-
-    //云台页面
-    Component {
-        id: podPage
-
-        ColumnLayout {
-            RowLayout {
-                LabelledFactComboBox {
-                    Layout.fillWidth: true
-                    label: qsTr("Source")
-                    indexModel: false
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Name"
-                }
-                QGCTextField {
-                    placeholderText: "enter protocol name"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "High Latency"
-                }
-                QGCCheckBox {
-                    checked: false
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Host Address"
-                }
-                QGCTextField {
-                    placeholderText: "0.0.0.0"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Port"
-                }
-                QGCTextField {
-                    placeholderText: "14540"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Auto Connect"
-                }
-                QGCCheckBox {
-                    checked: false
-                }
-            }
-        }
-    }
-
-    //其他页面
-    Component {
-        id: othersPage
-
-        ColumnLayout {
-            RowLayout {
-                QGCLabel {
-                    text: "Type"
-                }
-                QGCRadioButton {
-                    text: "TCP"
-                }
-                QGCRadioButton {
-                    text: "UART"
-                }
-                QGCRadioButton {
-                    text: "UDP"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Name"
-                }
-                QGCTextField {
-                    placeholderText: "enter protocol name"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "High Latency"
-                }
-                QGCCheckBox {
-                    checked: false
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Host Address"
-                }
-                QGCTextField {
-                    placeholderText: "0.0.0.0"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Port"
-                }
-                QGCTextField {
-                    placeholderText: "14540"
-                }
-            }
-            RowLayout {
-                QGCLabel {
-                    text: "Auto Connect"
-                }
-                QGCCheckBox {
-                    checked: false
                 }
             }
         }

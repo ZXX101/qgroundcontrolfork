@@ -22,24 +22,22 @@ GridLayout {
     columnSpacing:  _colSpacing
 
     function saveSettings() {
-        if (subEditConfig) {
-            subEditConfig.host = hostField.text
-            subEditConfig.port = parseInt(portField.text)
-        }
+        subEditConfig.host = hostField.text
+        subEditConfig.port = parseInt(portField.text)
     }
 
     QGCLabel { text: qsTr("Server Address") }
     QGCTextField {
         id:                     hostField
         Layout.preferredWidth:  _secondColumnWidth
-        text:                   subEditConfig ? subEditConfig.host : "0.0.0.0"
+        text:                   subEditConfig.host
     }
 
     QGCLabel { text: qsTr("Port") }
     QGCTextField {
         id:                     portField
         Layout.preferredWidth:  _secondColumnWidth
-        text:                   subEditConfig ? subEditConfig.port.toString() : "5760"
+        text:                   subEditConfig.port.toString()
         inputMethodHints:       Qt.ImhFormattedNumbersOnly
     }
 }
