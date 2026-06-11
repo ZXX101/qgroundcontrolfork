@@ -263,6 +263,7 @@ QGCFlickable {
             function init(orig, config) {
                 originalConfig = orig
                 editingConfig = config
+                linkSettingsLoader.source = settingsURLForType(config.linkType)
             }
 
             QGCLabel {
@@ -297,7 +298,6 @@ QGCFlickable {
 
             Loader {
                 id: linkSettingsLoader
-                source: settingsURLForType(editingConfig.linkType)
 
                 property var subEditConfig: editingConfig
                 property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
