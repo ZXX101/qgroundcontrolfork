@@ -218,6 +218,13 @@ QGCFlickable {
                 selectedType = config.linkType;
                 settingsURL = typeToURL[config.linkType] || "XFTcpSettings.qml";
                 editingReady = true;
+                console.log("editingConfig.name",editingConfig.name)
+                console.log("editingConfig.hostList",editingConfig.hostList)
+                console.log("editingConfig.localPort",editingConfig.localPort)
+                console.log("editingConfig.baud",editingConfig.baud)
+                console.log("editingConfig.portName",editingConfig.portName)
+                console.log("editingConfig.host",editingConfig.host)
+                console.log("editingConfig.port",editingConfig.port)
             }
 
             function reset() {
