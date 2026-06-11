@@ -219,12 +219,12 @@ QGCFlickable {
                 settingsURL = typeToURL[config.linkType] || "XFTcpSettings.qml";
                 editingReady = true;
                 console.log("editingConfig.name",editingConfig.name)
+                console.log("editingConfig.host",editingConfig.host)
+                console.log("editingConfig.port",editingConfig.port)
                 console.log("editingConfig.hostList",editingConfig.hostList)
                 console.log("editingConfig.localPort",editingConfig.localPort)
                 console.log("editingConfig.baud",editingConfig.baud)
                 console.log("editingConfig.portName",editingConfig.portName)
-                console.log("editingConfig.host",editingConfig.host)
-                console.log("editingConfig.port",editingConfig.port)
             }
 
             function reset() {
@@ -296,6 +296,12 @@ QGCFlickable {
                 source: subSettingsURL
                 active: dronesPageRoot.editingReady
 
+                Component.onCompleted: {
+                    console.log("subEditConfig.name",subEditConfig.name)
+                    console.log("subEditConfig.host",subEditConfig.host)
+                    console.log("subEditConfig.port",subEditConfig.port)
+                }
+
                 property var subEditConfig: dronesPageRoot.editingConfig
                 property string subSettingsURL: dronesPageRoot.settingsURL
                 property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
@@ -319,6 +325,10 @@ QGCFlickable {
                     }
                     onClicked: {
                         if (linkSettingsLoader.item) {
+                            console.log("editingConfig.name",dronesPageRoot.editingConfig.name)
+                            console.log("editingConfig.name",linkSettingsLoader.item.subEditConfig.name)
+                            console.log("editingConfig.host",linkSettingsLoader.item.subEditConfig.name)
+                            console.log("editingConfig.port",linkSettingsLoader.item.subEditConfig.name)
                             linkSettingsLoader.item.saveSettings();
                         }
                         if (dronesPageRoot.editingConfig) {
