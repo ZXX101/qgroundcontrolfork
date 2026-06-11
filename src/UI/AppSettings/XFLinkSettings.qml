@@ -22,6 +22,55 @@ QGCFlickable {
     property var _linkManager: QGroundControl.linkManager
     property var _autoConnectSettings: QGroundControl.settingsManager.autoConnectSettings
 
+    // 编辑状态
+    property var currentOriginalConfig: null
+    property var currentEditingConfig: null
+    property bool isEditing: false
+
+    function startEditing(object) {
+        if (currentEditingConfig && isEditing) {
+            _linkManager.cancelConfigurationEditing(currentEditingConfig)
+        }
+        var editingConfig = _linkManager.startConfigurationEditing(object)
+        currentOriginalConfig = object
+        currentEditingConfig = editingConfig
+        isEditing = true
+        bar.currentIndex = 0
+    }
+
+    function cancelEditing() {
+        if (currentEditingConfig) {
+            _linkManager.cancelConfigurationEditing(currentEditingConfig)
+        }
+        isEditing = false
+        currentOriginalConfig = null
+        currentEditingConfig = null
+    }
+
+    function saveAndClose() {
+        if (linkSettingsLoader.item) {
+            linkSettingsLoader.item.saveSettings()
+        }
+        if (currentEditingConfig) {
+            currentEditingConfig.name = nameField.text
+            if (currentOriginalConfig) {
+                _linkManager.endConfigurationEditing(currentOriginalConfig, currentEditingConfig)
+            }
+        }
+        isEditing = false
+        currentOriginalConfig = null
+        currentEditingConfig = null
+    }
+
+    function settingsURLForType(type) {
+        switch (type) {
+        case LinkConfiguration.TypeTcp: return "XFTcpSettings.qml"
+        case LinkConfiguration.TypeUdp: return "XFUdpSettings.qml"
+        case LinkConfiguration.TypeSerial: return "XFSerialSettings.qml"
+        default: return ""
+        }
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: ScreenTools.defaultDialogControlSpacing * 5
@@ -73,11 +122,7 @@ QGCFlickable {
 
                         QGCMouseArea {
                             fillItem: parent
-                            onClicked: {
-                                var editingConfig = _linkManager.startConfigurationEditing(object)
-                                editLoader.sourceComponent = editPage
-                                editLoader.item.editConfig(object, editingConfig)
-                            }
+                            onClicked: startEditing(object)
                         }
                     }
                     QGCColoredImage {
@@ -116,102 +161,214 @@ QGCFlickable {
             }
         }
 
-        // 右侧：编辑页面
-        Loader {
-            id: editLoader
+        // 右侧：编辑页面（始终显示）
+        ColumnLayout {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 40
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-        }
-    }
 
-    // 编辑页面 Component
-    Component {
-        id: editPage
+            TabBar {
+                id: bar
+                Layout.fillWidth: true
 
-        ColumnLayout {
-            property var originalConfig: null
-            property var editingConfig: null
-            property bool editing: false
-
-            function editConfig(object, config) {
-                originalConfig = object
-                editingConfig = config
-                editing = true
-            }
-
-            QGCLabel {
-                text: "Edit Link"
-                font.bold: true
-                font.pointSize: ScreenTools.defaultFontPointSize * 1.2
-            }
-
-            RowLayout {
-                QGCLabel { text: qsTr("Name") }
-                QGCTextField {
-                    id: nameField
-                    Layout.fillWidth: true
-                    text: editingConfig ? editingConfig.name : ""
-                    placeholderText: qsTr("Enter name")
+                TabButton {
+                    text: qsTr("Drones")
+                }
+                TabButton {
+                    text: qsTr("POD")
+                }
+                TabButton {
+                    text: qsTr("Others")
                 }
             }
 
-            QGCCheckBoxSlider {
+            StackLayout {
                 Layout.fillWidth: true
-                text: qsTr("Automatically Connect on Start")
-                checked: editingConfig ? editingConfig.autoConnect : false
-                onCheckedChanged: if (editingConfig) editingConfig.autoConnect = checked
-            }
+                Layout.fillHeight: true
+                currentIndex: bar.currentIndex
 
-            QGCCheckBoxSlider {
-                Layout.fillWidth: true
-                text: qsTr("High Latency")
-                checked: editingConfig ? editingConfig.highLatency : false
-                onCheckedChanged: if (editingConfig) editingConfig.highLatency = checked
-            }
+                // 无人机页面
+                ColumnLayout {
+                    // 编辑状态时显示编辑表单
+                    visible: isEditing
 
-            Loader {
-                id: linkSettingsLoader
-                source: subEditConfig ? settingsURLForType(subEditConfig.linkType) : ""
+                    QGCLabel {
+                        text: "Edit Link"
+                        font.bold: true
+                        font.pointSize: ScreenTools.defaultFontPointSize * 1.2
+                    }
 
-                property var subEditConfig: editingConfig
-                property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
-                property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 30
-                property int _rowSpacing: ScreenTools.defaultFontPixelHeight / 2
-                property int _colSpacing: ScreenTools.defaultFontPixelWidth / 2
-            }
-
-            function settingsURLForType(type) {
-                switch (type) {
-                case LinkConfiguration.TypeTcp: return "XFTcpSettings.qml"
-                case LinkConfiguration.TypeUdp: return "XFUdpSettings.qml"
-                case LinkConfiguration.TypeSerial: return "XFSerialSettings.qml"
-                default: return ""
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                QGCButton {
-                    text: qsTr("OK")
-                    onClicked: {
-                        if (linkSettingsLoader.item) {
-                            linkSettingsLoader.item.saveSettings()
+                    RowLayout {
+                        QGCLabel { text: qsTr("Name") }
+                        QGCTextField {
+                            id: nameField
+                            Layout.fillWidth: true
+                            text: currentEditingConfig ? currentEditingConfig.name : ""
+                            placeholderText: qsTr("Enter name")
                         }
-                        if (editingConfig) {
-                            editingConfig.name = nameField.text
-                            if (originalConfig) {
-                                _linkManager.endConfigurationEditing(originalConfig, editingConfig)
-                            }
+                    }
+
+                    QGCCheckBoxSlider {
+                        Layout.fillWidth: true
+                        text: qsTr("Automatically Connect on Start")
+                        checked: currentEditingConfig ? currentEditingConfig.autoConnect : false
+                        onCheckedChanged: if (currentEditingConfig) currentEditingConfig.autoConnect = checked
+                    }
+
+                    QGCCheckBoxSlider {
+                        Layout.fillWidth: true
+                        text: qsTr("High Latency")
+                        checked: currentEditingConfig ? currentEditingConfig.highLatency : false
+                        onCheckedChanged: if (currentEditingConfig) currentEditingConfig.highLatency = checked
+                    }
+
+                    Loader {
+                        id: linkSettingsLoader
+                        source: currentEditingConfig ? settingsURLForType(currentEditingConfig.linkType) : ""
+
+                        property var subEditConfig: currentEditingConfig
+                        property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
+                        property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 30
+                        property int _rowSpacing: ScreenTools.defaultFontPixelHeight / 2
+                        property int _colSpacing: ScreenTools.defaultFontPixelWidth / 2
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        QGCButton {
+                            text: qsTr("OK")
+                            onClicked: saveAndClose()
                         }
-                        editLoader.sourceComponent = null
+                        QGCButton {
+                            text: qsTr("Cancel")
+                            onClicked: cancelEditing()
+                        }
                     }
                 }
-                QGCButton {
-                    text: qsTr("Cancel")
-                    onClicked: {
-                        _linkManager.cancelConfigurationEditing(editingConfig)
-                        editLoader.sourceComponent = null
+
+                // 空白页面（不在编辑时显示）
+                ColumnLayout {
+                    visible: !isEditing
+                    QGCLabel {
+                        text: "Select a link to edit"
+                        font.pointSize: ScreenTools.defaultFontPointSize * 1.1
+                    }
+                }
+
+                // 云台页面
+                ColumnLayout {
+                    RowLayout {
+                        QGCLabel {
+                            text: "Source"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "Select source"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Name"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "enter protocol name"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "High Latency"
+                        }
+                        QGCCheckBox {
+                            checked: false
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Host Address"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "0.0.0.0"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Port"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "14540"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Auto Connect"
+                        }
+                        QGCCheckBox {
+                            checked: false
+                        }
+                    }
+                }
+
+                // 其他页面
+                ColumnLayout {
+                    RowLayout {
+                        QGCLabel {
+                            text: "Type"
+                        }
+                        QGCRadioButton {
+                            text: "TCP"
+                        }
+                        QGCRadioButton {
+                            text: "UART"
+                        }
+                        QGCRadioButton {
+                            text: "UDP"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Name"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "enter protocol name"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "High Latency"
+                        }
+                        QGCCheckBox {
+                            checked: false
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Host Address"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "0.0.0.0"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Port"
+                        }
+                        QGCTextField {
+                            Layout.fillWidth: true
+                            placeholderText: "14540"
+                        }
+                    }
+                    RowLayout {
+                        QGCLabel {
+                            text: "Auto Connect"
+                        }
+                        QGCCheckBox {
+                            checked: false
+                        }
                     }
                 }
             }
