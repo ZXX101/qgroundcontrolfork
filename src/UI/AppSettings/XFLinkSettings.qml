@@ -321,6 +321,13 @@ QGCFlickable {
                 originalConfig = orig;
                 editingConfig = config;
                 linkSettingsLoader.source = settingsURLForType(config.linkType);
+                updateRadioButtons();
+            }
+
+            function updateRadioButtons() {
+                for (var i = 0; i < typeRepeater.count; i++) {
+                    typeRepeater.itemAt(i).checked = editingConfig && editingConfig.linkType === typeRepeater.model[i].type;
+                }
             }
 
             QGCFlickable {
@@ -343,6 +350,7 @@ QGCFlickable {
                             text: qsTr("Type")
                         }
                         Repeater {
+                            id: typeRepeater
                             model: [
                                 {
                                     type: LinkConfiguration.TypeTcp,
@@ -364,9 +372,6 @@ QGCFlickable {
                                     var newConfig = _linkManager.createConfiguration(modelData.type, nameField.text);
                                     editingConfig = newConfig;
                                     linkSettingsLoader.source = settingsURLForType(newConfig.linkType);
-                                }
-                                Component.onCompleted:  {
-                                    checked = editingConfig && editingConfig.linkType === modelData.type;
                                 }
                             }
                         }
