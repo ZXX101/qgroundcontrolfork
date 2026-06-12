@@ -29,7 +29,7 @@ QGCFlickable {
         // 左侧：连接列表
         ColumnLayout {
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            // Layout.fillHeight: true
             Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 20
 
             QGCLabel {
@@ -81,6 +81,18 @@ QGCFlickable {
                             }
                         }
                     }
+
+                    QGCButton {
+                        text: object.link ? qsTr("Disconnect") : qsTr("Connect")
+                        iconSource: "qrc:/xfres/linkDisconnected.png"
+                        onClicked: {
+                            if (object.link) {
+                                object.link.disconnect()
+                            } else {
+                                _linkManager.createConnectedLink(object)
+                            }
+                        }
+                    }
                     QGCColoredImage {
                         height: ScreenTools.minTouchPixels
                         width: height
@@ -89,7 +101,7 @@ QGCFlickable {
                         mipmap: true
                         smooth: true
                         color: qgcPalDelete.text
-                        source: "/res/TrashDelete.svg"
+                        source: "/res/deleteProtocol.png"
 
                         QGCPalette {
                             id: qgcPalDelete
@@ -101,16 +113,6 @@ QGCFlickable {
                             onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
                                 _linkManager.removeConfiguration(object)
                             })
-                        }
-                    }
-                    QGCButton {
-                        text: object.link ? qsTr("Disconnect") : qsTr("Connect")
-                        onClicked: {
-                            if (object.link) {
-                                object.link.disconnect()
-                            } else {
-                                _linkManager.createConnectedLink(object)
-                            }
                         }
                     }
                 }
@@ -270,6 +272,27 @@ QGCFlickable {
                 text: originalConfig ? "Edit Link" : "New Link"
                 font.bold: true
                 font.pointSize: ScreenTools.defaultFontPointSize * 1.2
+            }
+
+            RowLayout {
+                QGCLabel { text: qsTr("Type") }
+                Repeater {
+                    model: [
+                        { type: LinkConfiguration.TypeTcp, name: "TCP" },
+                        { type: LinkConfiguration.TypeUdp, name: "UDP" },
+                        { type: LinkConfiguration.TypeSerial, name: "Serial" }
+                    ]
+                    QGCRadioButton {
+                        text: modelData.name
+                        checked: editingConfig ? editingConfig.linkType === modelData.type : false
+                        enabled: originalConfig == null
+                        onCheckedChanged: if (checked && originalConfig == null) {
+                            var newConfig = _linkManager.createConfiguration(modelData.type, nameField.text)
+                            editingConfig = newConfig
+                            linkSettingsLoader.source = settingsURLForType(newConfig.linkType)
+                        }
+                    }
+                }
             }
 
             RowLayout {
