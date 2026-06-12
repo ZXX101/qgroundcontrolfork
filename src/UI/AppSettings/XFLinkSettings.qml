@@ -24,18 +24,19 @@ QGCFlickable {
 
     RowLayout {
         anchors.fill: parent
-        spacing: ScreenTools.defaultDialogControlSpacing * 5
+        spacing: ScreenTools.defaultDialogControlSpacing * 2
 
         // 左侧：连接列表
         ColumnLayout {
             Layout.fillWidth: true
-            // Layout.fillHeight: true
+            Layout.fillHeight: true
             Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 20
+            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
             QGCLabel {
-                text: "Links"
+                text: _linkManager.linkConfigurations.count === 0 ? "已有协议":"暂无协议，在右侧表单输入协议进行连接"
                 font.bold: true
-                font.pointSize: ScreenTools.defaultFontPointSize * 1.2
+                font.pointSize: ScreenTools.defaultFontPointSize
             }
 
             Repeater {
@@ -44,7 +45,15 @@ QGCFlickable {
 
                 RowLayout {
                     Layout.fillWidth: true
+                    Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2
                     visible: !object.dynamic
+
+                    Rectangle {
+                        color: "black"
+                        anchors.fill: parent
+                        z: -1
+                        radius: width/4
+                    }
 
                     QGCLabel {
                         Layout.fillWidth: false
@@ -92,6 +101,7 @@ QGCFlickable {
                                 _linkManager.createConnectedLink(object)
                             }
                         }
+                        backgroundColor: "transparent"
                     }
                     QGCColoredImage {
                         height: ScreenTools.minTouchPixels
@@ -101,7 +111,7 @@ QGCFlickable {
                         mipmap: true
                         smooth: true
                         color: qgcPalDelete.text
-                        source: "/res/deleteProtocol.png"
+                        source: "/xfres/deleteProtocol.png"
 
                         QGCPalette {
                             id: qgcPalDelete
