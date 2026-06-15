@@ -14,6 +14,7 @@ import QtQuick.Layouts
 
 import QGroundControl
 import QGroundControl.Controls
+import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import QGroundControl.ScreenTools
 import QGroundControl.Palette
@@ -21,6 +22,23 @@ import QGroundControl.Palette
 QGCFlickable {
     property var _linkManager: QGroundControl.linkManager
     property var _autoConnectSettings: QGroundControl.settingsManager.autoConnectSettings
+
+    //videosettings page property
+    // property var _settingsManager: QGroundControl.settingsManager
+    // property var _videoManager: QGroundControl.videoManager
+    // property var _videoSettings: _settingsManager.videoSettings
+    // property string _videoSource: _videoSettings.videoSource.rawValue
+    // property bool _isGST: _videoManager.gstreamerEnabled
+    // property bool _isStreamSource: _videoManager.isStreamSource
+    // property bool _isUDP264: _isStreamSource && (_videoSource === _videoSettings.udp264VideoSource)
+    // property bool _isUDP265: _isStreamSource && (_videoSource === _videoSettings.udp265VideoSource)
+    // property bool _isRTSP: _isStreamSource && (_videoSource === _videoSettings.rtspVideoSource)
+    // property bool _isTCP: _isStreamSource && (_videoSource === _videoSettings.tcpVideoSource)
+    // property bool _isMPEGTS: _isStreamSource && (_videoSource === _videoSettings.mpegtsVideoSource)
+    // property bool _videoAutoStreamConfig: _videoManager.autoStreamConfigured
+    // property bool _videoSourceDisabled: _videoSource === _videoSettings.disabledVideoSource
+    // property real _urlFieldWidth: ScreenTools.defaultFontPixelWidth * 40
+    // property bool _requiresUDPUrl: _isUDP264 || _isUDP265 || _isMPEGTS
 
     RowLayout {
         anchors.fill: parent
@@ -106,27 +124,23 @@ QGCFlickable {
                             }
                             backgroundColor: "transparent"
                         }
-                        QGCColoredImage {
-                            height: ScreenTools.minTouchPixels
-                            width: height
-                            sourceSize.height: height
-                            fillMode: Image.PreserveAspectFit
-                            mipmap: true
-                            smooth: true
-                            color: qgcPalDelete.text
-                            source: "/xfres/deleteProtocol.png"
+                    }
+                    Image {
+                        height: ScreenTools.minTouchPixels
+                        width: height
+                        sourceSize.height: height
+                        fillMode: Image.PreserveAspectFit
+                        source: "/xfres/deleteProtocol.png"
+                        anchors.horizontalCenter: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
 
-                            QGCPalette {
-                                id: qgcPalDelete
-                                colorGroupEnabled: parent.enabled
-                            }
 
-                            QGCMouseArea {
-                                fillItem: parent
-                                onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
-                                    _linkManager.removeConfiguration(object);
-                                })
-                            }
+
+                        QGCMouseArea {
+                            fillItem: parent
+                            onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
+                                _linkManager.removeConfiguration(object);
+                            })
                         }
                     }
                 }
@@ -166,118 +180,15 @@ QGCFlickable {
                 }
 
                 // 云台页面
-                ColumnLayout {
-                    RowLayout {
-                        QGCLabel {
-                            text: "Source"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "Select source"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Name"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "enter protocol name"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "High Latency"
-                        }
-                        QGCCheckBox {
-                            checked: false
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Host Address"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "0.0.0.0"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Port"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "14540"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Auto Connect"
-                        }
-                        QGCCheckBox {
-                            checked: false
-                        }
-                    }
+                Loader {
+                    id: podPageLoader
+                    sourceComponent: podSettingComponent
                 }
-
                 // 其他页面
                 ColumnLayout {
                     RowLayout {
                         QGCLabel {
-                            text: "Type"
-                        }
-                        QGCRadioButton {
-                            text: "TCP"
-                        }
-                        QGCRadioButton {
-                            text: "UART"
-                        }
-                        QGCRadioButton {
-                            text: "UDP"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Name"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "enter protocol name"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "High Latency"
-                        }
-                        QGCCheckBox {
-                            checked: false
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Host Address"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "0.0.0.0"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Port"
-                        }
-                        QGCTextField {
-                            Layout.fillWidth: true
-                            placeholderText: "14540"
-                        }
-                    }
-                    RowLayout {
-                        QGCLabel {
-                            text: "Auto Connect"
-                        }
-                        QGCCheckBox {
-                            checked: false
+                            text: "Nothing here"
                         }
                     }
                 }
@@ -336,7 +247,7 @@ QGCFlickable {
                 contentWidth: columnLayout.width
                 contentHeight: columnLayout.height
                 ColumnLayout {
-                    id:columnLayout
+                    id: columnLayout
                     Layout.alignment: Qt.AlignTop
                     Layout.fillHeight: true
                     QGCLabel {
@@ -346,6 +257,7 @@ QGCFlickable {
                     }
 
                     RowLayout {
+                        Layout.fillWidth: true
                         QGCLabel {
                             text: qsTr("Type")
                         }
@@ -467,6 +379,66 @@ QGCFlickable {
                     return "XFSerialSettings.qml";
                 default:
                     return "";
+                }
+            }
+        }
+    }
+
+    //视频编辑页面
+    Component {
+        id: podSettingComponent
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            QGCFlickable {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                // contentWidth: videoSettings.item.implicitWidth
+                contentHeight: videoSettings.item ? videoSettings.item.implicitHeight : 0
+                Loader {
+                    id: videoSettings
+                    source: "XFVideoSettings.qml"
+                    width: parent.width
+                }
+            }
+            RowLayout {
+                Layout.alignment: Qt.AlignBottom
+                Layout.fillWidth: true
+                QGCButton {
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 0
+                    text: qsTr("OK")
+                    onClicked: {
+                        if (linkSettingsLoader.item) {
+                            linkSettingsLoader.item.saveSettings();
+                        }
+                        if (editingConfig) {
+                            editingConfig.name = nameField.text;
+                            if (originalConfig) {
+                                _linkManager.endConfigurationEditing(originalConfig, editingConfig);
+                            } else {
+                                editingConfig.dynamic = false;
+                                _linkManager.endCreateConfiguration(editingConfig);
+                            }
+                        }
+                        dronesPageLoader.sourceComponent = newLinkComponent;
+                    }
+                }
+                QGCButton {
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 0
+                    text: qsTr("Cancel")
+                    onClicked: {
+                        if (editingConfig) {
+                            if (originalConfig) {
+                                _linkManager.cancelConfigurationEditing(editingConfig);
+                            } else {
+                                delete editingConfig;
+                            }
+                        }
+                        dronesPageLoader.sourceComponent = newLinkComponent;
+                    }
                 }
             }
         }
