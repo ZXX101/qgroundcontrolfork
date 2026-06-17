@@ -32,7 +32,7 @@ Rectangle {
     readonly property real _verticalMargin: _defaultTextHeight / 2
 
     //当前选中的一级菜单索引（0-7）
-    property int currentPageIndex: 0
+    property int currentPageIndex: 7
     //设备配置二级菜单索引
     property int deviceConfigSubIndex: 0
 
@@ -135,18 +135,6 @@ Rectangle {
         }
     }
 
-    //选择设备配置子页面
-    function selectDeviceConfigPage(subIndex) {
-        if (mainWindow.allowViewSwitch()) {
-            currentPageIndex = 1;
-            deviceConfigExpanded = true;
-            deviceConfigSubIndex = subIndex;
-            if (deviceConfigPages[subIndex].url !== "") {
-                contentLoader.source = deviceConfigPages[subIndex].url;
-            }
-            updateButtonChecked();
-        }
-    }
 
     //更新按钮选中状态
     function updateButtonChecked() {
@@ -251,8 +239,6 @@ Rectangle {
                 Layout.fillWidth: true
                 checked: currentPageIndex === 0
                 onClicked: selectPage(0)
-
-
             }
 
             //页面1: 设备配置（含二级菜单）
@@ -404,6 +390,6 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: toolbar.bottom
         anchors.bottom: parent.bottom
-        source: pageList[0].url
+        source: pageList[currentPageIndex].url
     }
 }
