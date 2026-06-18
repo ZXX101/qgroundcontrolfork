@@ -51,12 +51,12 @@ Rectangle {
         },
         {
             name: qsTr("飞行参数"),
-            url: "",
+            componentName: "flyparam",
             icon: "qrc:/xfres/flightParams.png"
         },
         {
             name: qsTr("安全"),
-            url: "",
+            componentName: "safety",
             icon: "qrc:/xfres/safety.png"
         },
         {
@@ -141,6 +141,8 @@ Rectangle {
             if (componentName === "power" && name === "power") return comp
             if (componentName === "motors" && (name === "motors" || name === "actuators")) return comp
             if (componentName === "tuning" && (name === "pid tuning" || name === "tuning")) return comp
+            if (componentName === "safety" && name === "safety") return comp
+            if (componentName === "flyparam" && name === "flight behavior") return comp
         }
         return null
     }
@@ -149,6 +151,22 @@ Rectangle {
     function getUrlForPage(page) {
         if (page.url && page.url !== "") return page.url
         if (page.componentName) {
+            //对于safety和flyparam，直接返回XF定制版URL（不依赖C++返回的setupSource）
+            if (page.componentName === "safety") {
+                //根据飞控类型返回XF定制版，默认为PX4
+                if (_activeVehicle && _activeVehicle.apmFirmware) {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml"
+                } else {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFSafetyComponent.qml"
+                }
+            } else if (page.componentName === "flyparam") {
+                if (_activeVehicle && _activeVehicle.apmFirmware) {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml"
+                } else {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFFlyParamComponent.qml"
+                }
+            }
+            //其他组件从vehicleComponents获取
             var comp = findVehicleComponent(page.componentName)
             if (comp && comp.setupSource.toString() !== "") {
                 var url = comp.setupSource.toString()
@@ -200,6 +218,8 @@ Rectangle {
     function isPageVisible(page) {
         if (page.url && page.url !== "") return true
         if (page.componentName) {
+            //对于safety和flyparam，始终可见
+            if (page.componentName === "safety" || page.componentName === "flyparam") return true
             var comp = findVehicleComponent(page.componentName)
             return comp && comp.setupSource.toString() !== ""
         }
@@ -211,8 +231,12 @@ Rectangle {
         if (mainWindow.allowViewSwitch()) {
             currentPageIndex = index;
             deviceConfigExpanded = false;
-            if (pageList[index].url !== "") {
-                contentLoader.source = pageList[index].url;
+            var url = getUrlForPage(pageList[index]);
+            if (url !== "") {
+                var comp = findVehicleComponent(pageList[index].componentName);
+                contentLoader.vehicleComponent = comp || null;
+                contentLoader.source = "";
+                contentLoader.source = url;
             }
             updateButtonChecked();
         }
