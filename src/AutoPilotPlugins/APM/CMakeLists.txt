@@ -93,5 +93,8 @@ qt_add_qml_module(AutoPilotPluginsAPMModule
         XFAPMSafetyComponent.qml
         XFAPMSensorsComponent.qml
         XFAPMFlyParamComponent.qml
+        XFAPMFlightModesComponent.qml
+        XFAPMMotorComponent.qml
+        XFAPMTuningComponentCopter.qml
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )

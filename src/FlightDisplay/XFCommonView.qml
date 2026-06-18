@@ -15,6 +15,8 @@ import QGroundControl
 import QGroundControl.Controls
 import QGroundControl.Palette
 import QGroundControl.ScreenTools
+import QGroundControl.AutoPilotPlugin
+import QGroundControl.MultiVehicleManager
 
 //通用页面主容器，覆盖整个窗口，显示通用配置界面
 //包含左侧导航按钮列表、右侧内容区域、顶部返回按钮
@@ -87,23 +89,23 @@ Rectangle {
         },
         {
             name: qsTr("机架"),
-            url: ""
+            componentName: "airframe"
         },
         {
             name: qsTr("传感器"),
-            url: ""
+            componentName: "sensors"
         },
         {
             name: qsTr("通道设置"),
-            url: ""
+            componentName: "flightModes"
         },
         {
             name: qsTr("电源"),
-            url: ""
+            componentName: "power"
         },
         {
             name: qsTr("电机"),
-            url: ""
+            componentName: "motors"
         },
         {
             name: qsTr("遥控器"),
@@ -111,7 +113,7 @@ Rectangle {
         },
         {
             name: qsTr("PID调参"),
-            url: ""
+            componentName: "tuning"
         },
         {
             name: qsTr("参数"),
@@ -121,6 +123,88 @@ Rectangle {
 
     //设备配置二级菜单是否展开
     property bool deviceConfigExpanded: false
+
+    //飞控相关属性
+    property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+    property bool _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && (!_activeVehicle || !_activeVehicle.parameterManager.missingParameters)
+    property var _vehicleComponents: _fullParameterVehicleAvailable && _activeVehicle ? _activeVehicle.autopilotPlugin.vehicleComponents : []
+
+    //通过componentName查找对应的VehicleComponent对象
+    function findVehicleComponent(componentName) {
+        if (!_vehicleComponents || _vehicleComponents.length === 0) return null
+        for (var i = 0; i < _vehicleComponents.length; i++) {
+            var comp = _vehicleComponents[i]
+            var name = comp.name.toLowerCase()
+            if (componentName === "airframe" && (name === "airframe" || name === "frame")) return comp
+            if (componentName === "sensors" && name === "sensors") return comp
+            if (componentName === "flightModes" && name === "flight modes") return comp
+            if (componentName === "power" && name === "power") return comp
+            if (componentName === "motors" && (name === "motors" || name === "actuators")) return comp
+            if (componentName === "tuning" && (name === "pid tuning" || name === "tuning")) return comp
+        }
+        return null
+    }
+
+    //获取某菜单项的QML加载URL（优先使用XF定制版）
+    function getUrlForPage(page) {
+        if (page.url && page.url !== "") return page.url
+        if (page.componentName) {
+            var comp = findVehicleComponent(page.componentName)
+            if (comp && comp.setupSource.toString() !== "") {
+                var url = comp.setupSource.toString()
+                //替换为XF定制版QML
+                if (page.componentName === "airframe") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFAirframeComponent.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMAirframeComponent.qml"
+                    }
+                } else if (page.componentName === "sensors") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFSensorsComponent.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml"
+                    }
+                } else if (page.componentName === "flightModes") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPX4FlightModes.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml"
+                    }
+                } else if (page.componentName === "power") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPowerComponent.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMPowerComponent.qml"
+                    }
+                } else if (page.componentName === "motors") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFActuatorComponent.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMMotorComponent.qml"
+                    }
+                } else if (page.componentName === "tuning") {
+                    if (url.indexOf("PX4") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml"
+                    } else if (url.indexOf("APM") !== -1) {
+                        return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml"
+                    }
+                }
+                return url
+            }
+        }
+        return ""
+    }
+
+    //检查某菜单项是否可见（组件存在且setupSource非空）
+    function isPageVisible(page) {
+        if (page.url && page.url !== "") return true
+        if (page.componentName) {
+            var comp = findVehicleComponent(page.componentName)
+            return comp && comp.setupSource.toString() !== ""
+        }
+        return false
+    }
 
     //选择页面的函数
     function selectPage(index) {
@@ -274,8 +358,11 @@ Rectangle {
                         } else {
                             deviceConfigExpanded = true;
                             deviceConfigSubIndex = 0;
-                            if (deviceConfigPages[0].url !== "") {
-                                contentLoader.source = deviceConfigPages[0].url;
+                            var url = getUrlForPage(deviceConfigPages[0]);
+                            if (url !== "") {
+                                contentLoader.vehicleComponent = null;
+                                contentLoader.source = "";
+                                contentLoader.source = url;
                             }
                         }
                         currentPageIndex = 1;
@@ -297,14 +384,19 @@ Rectangle {
                         ConfigButton {
                             text: modelData.name
                             Layout.fillWidth: true
-                            font.pointSize: ScreenTools.defaultFontPointSize * 0.9
+                            font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                             checked: deviceConfigSubIndex === index
+                            visible: isPageVisible(modelData)
 
                             onClicked: {
                                 currentPageIndex = 1;
                                 deviceConfigSubIndex = index;
-                                if (modelData.url !== "") {
-                                    contentLoader.source = modelData.url;
+                                var url = getUrlForPage(modelData);
+                                if (url !== "") {
+                                    var comp = findVehicleComponent(modelData.componentName);
+                                    contentLoader.vehicleComponent = comp || null;
+                                    contentLoader.source = "";
+                                    contentLoader.source = url;
                                 }
                                 updateButtonChecked();
                             }
@@ -390,5 +482,22 @@ Rectangle {
         anchors.top: toolbar.bottom
         anchors.bottom: parent.bottom
         source: pageList[currentPageIndex].url
+        property var vehicleComponent
+    }
+
+    //监听飞控连接状态变化
+    Connections {
+        target: QGroundControl.multiVehicleManager
+        onParameterReadyVehicleAvailableChanged: {
+            //飞控连接变化时，刷新二级菜单
+            if (currentPageIndex === 1 && deviceConfigExpanded) {
+                var url = getUrlForPage(deviceConfigPages[deviceConfigSubIndex]);
+                if (url !== "") {
+                    contentLoader.vehicleComponent = null;
+                    contentLoader.source = "";
+                    contentLoader.source = url;
+                }
+            }
+        }
     }
 }
