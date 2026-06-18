@@ -45,7 +45,6 @@ Rectangle {
         },
         {
             name: qsTr("设备配置"),
-            url: "qrc:/qml/QGroundControl/FlightDisplay/XFDeviceConfig.qml",
             icon: "qrc:/xfres/deviceConfig.png"
         },
         {
