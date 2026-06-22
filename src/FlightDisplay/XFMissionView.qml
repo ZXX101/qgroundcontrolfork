@@ -195,7 +195,7 @@ Item {
 
     XFMissionInfoPopup {
         id:                 missionInfoPopup
-        anchors.right:      parent.right-ScreenTools.defaultFontPixelWidth * 40
+        anchors.right:      parent.right
         anchors.top:        toolbar.bottom
         anchors.margins:    ScreenTools.defaultFontPixelWidth
         width:              ScreenTools.defaultFontPixelWidth * 40

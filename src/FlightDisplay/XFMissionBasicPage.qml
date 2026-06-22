@@ -83,6 +83,8 @@ ColumnLayout {
         }
         QGCButton {
             text: "-10"
+            _horizontalPadding: 0
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
                 if (_defaultAltitude) {
                     _defaultAltitude.rawValue = Math.max(0, _defaultAltitude.rawValue - 10)
@@ -91,6 +93,8 @@ ColumnLayout {
         }
         QGCButton {
             text: "+10"
+            _horizontalPadding: 0
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
                 if (_defaultAltitude) {
                     _defaultAltitude.rawValue = _defaultAltitude.rawValue + 10
@@ -116,11 +120,16 @@ ColumnLayout {
         }
         QGCButton {
             text: "-1"
+
+            _horizontalPadding: 0
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
             }
         }
         QGCButton {
             text: "+1"
+            _horizontalPadding: 0
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
             }
         }

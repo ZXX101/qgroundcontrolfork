@@ -65,6 +65,7 @@ Rectangle {
 
                 QGCButton {
                     text: "Delete"
+                    _horizontalPadding: 0
                     onClicked: {
                         if (planMasterController) {
                             planMasterController.removeAllFromVehicle();
@@ -74,6 +75,7 @@ Rectangle {
 
                 QGCButton {
                     text: "Open"
+                    _horizontalPadding: 0
                     onClicked: {
                         if (typeof loadFromSelectedFile === "function") {
                             loadFromSelectedFile();
@@ -83,6 +85,7 @@ Rectangle {
 
                 QGCButton {
                     text: "Save"
+                    _horizontalPadding: 0
                     onClicked: {
                         if (typeof saveToSelectedFile === "function") {
                             saveToSelectedFile();
@@ -104,36 +107,34 @@ Rectangle {
 
                 ColumnLayout {
                     id: tabColumn
-                    Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 6
-                    spacing: ScreenTools.defaultFontPixelWidth / 2
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    spacing: ScreenTools.defaultFontPixelWidth /2
                     Layout.alignment: Qt.AlignTop
                     QGCButton {
                         text: qsTr("Basic")
+                        // _horizontalPadding: 0
                         checked: currentTab === "basic"
                         onClicked: currentTab = "basic"
                         Layout.fillWidth: true
                     }
                     QGCButton {
                         text: qsTr("List")
+                        // _horizontalPadding: 0
                         checked: currentTab === "list"
                         onClicked: currentTab = "list"
                         Layout.fillWidth: true
                     }
                 }
-
-                Rectangle {
+                Loader {
+                    id: contentLoader
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    color: qgcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth / 4
+                    source: currentTab === "basic" ? "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
 
-                    Loader {
-                        id: contentLoader
-                        anchors.fill: parent
-                        anchors.margins: ScreenTools.defaultFontPixelWidth / 2
-                        source: currentTab === "basic" ? "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
-
-                        property var missionController: popup.missionController
+                    property var missionController: popup.missionController
+                    Rectangle {
+                        anchors.fill: contentLoader
+                        color: qgcPal.windowShade
+                        radius: ScreenTools.defaultFontPixelWidth / 4
                     }
                 }
             }

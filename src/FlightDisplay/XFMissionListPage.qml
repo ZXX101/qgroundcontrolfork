@@ -17,7 +17,6 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 ColumnLayout {
-    anchors.fill: parent
     QGCPalette { id: qgcPal }
 
     QGCListView {
