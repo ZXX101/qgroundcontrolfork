@@ -109,7 +109,7 @@ Rectangle {
         },
         {
             name: qsTr("遥控器"),
-            url: "qrc:/qml/QGroundControl/VehicleSetup/JoystickConfig.qml"
+            componentName: "radio"
         },
         {
             name: qsTr("PID调参"),
@@ -143,6 +143,7 @@ Rectangle {
             if (componentName === "tuning" && (name === "pid tuning" || name === "tuning")) return comp
             if (componentName === "safety" && name === "safety") return comp
             if (componentName === "flyparam" && name === "flight behavior") return comp
+            if (componentName === "radio" && name === "radio") return comp
         }
         return null
     }
@@ -207,6 +208,8 @@ Rectangle {
                     } else if (url.indexOf("APM") !== -1) {
                         return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml"
                     }
+                } else if (page.componentName === "radio") {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/Common/XFRadioComponent.qml"
                 }
                 return url
             }
@@ -218,8 +221,8 @@ Rectangle {
     function isPageVisible(page) {
         if (page.url && page.url !== "") return true
         if (page.componentName) {
-            //对于safety和flyparam，始终可见
-            if (page.componentName === "safety" || page.componentName === "flyparam") return true
+            //对于safety、flyparam和radio，始终可见
+            if (page.componentName === "safety" || page.componentName === "flyparam" || page.componentName === "radio") return true
             var comp = findVehicleComponent(page.componentName)
             return comp && comp.setupSource.toString() !== ""
         }

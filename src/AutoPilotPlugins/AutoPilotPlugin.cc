@@ -67,12 +67,12 @@ void AutoPilotPlugin::parametersReadyPreChecks()
         }
     }
 
-    if (!_setupComplete) {
-        // Take the user to Vehicle Config Summary
-        qgcApp()->showVehicleConfig();
-        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        qgcApp()->showAppMessage(tr("One or more vehicle components require setup prior to flight."));
-    }
+    // if (!_setupComplete) {
+    //     // Take the user to Vehicle Config Summary
+    //     qgcApp()->showVehicleConfig();
+    //     QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    //     qgcApp()->showAppMessage(tr("One or more vehicle components require setup prior to flight."));
+    // }
 }
 
 VehicleComponent *AutoPilotPlugin::findKnownVehicleComponent(KnownVehicleComponent knownVehicleComponent)
