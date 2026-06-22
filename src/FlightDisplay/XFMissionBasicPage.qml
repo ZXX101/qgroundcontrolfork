@@ -19,17 +19,35 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 ColumnLayout {
-    spacing:            ScreenTools.defaultFontPixelHeight / 2
-    anchors.margins:    ScreenTools.defaultFontPixelWidth
+    id: rootLayout
+    // anchors.fill: parent
+    // width: parent.width
+    // Layout.fillWidth: true
+    // spacing:            ScreenTools.defaultFontPixelHeight / 2
 
     QGCPalette { id: qgcPal }
 
     property var _appSettings: QGroundControl.settingsManager.appSettings
     property var _defaultAltitude: _appSettings ? _appSettings.defaultMissionItemAltitude : null
     property var _missionSettings: missionController && missionController.visualItems.count > 0 ? missionController.visualItems.get(0) : null
-
+    QGCTextField {
+        Layout.fillWidth: true
+        text: _missionSettings && _missionSettings.missionName ? _missionSettings.missionName : ""
+        onTextChanged: {
+            if (_missionSettings) {
+                try {
+                    _missionSettings.missionName = text
+                } catch(e) {}
+            }
+        }
+    }
     RowLayout {
-        QGCLabel { text: qsTr("Mission Name") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("Mission Name")
+            // Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCTextField {
             Layout.fillWidth: true
             text: _missionSettings && _missionSettings.missionName ? _missionSettings.missionName : ""
@@ -44,7 +62,12 @@ ColumnLayout {
     }
 
     RowLayout {
-        QGCLabel { text: qsTr("Flight Altitude") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("Flight Altitude")
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCTextField {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
             text: _defaultAltitude ? _defaultAltitude.rawValue : "50"
@@ -54,7 +77,10 @@ ColumnLayout {
                 }
             }
         }
-        QGCLabel { text: "m" }
+        QGCLabel {
+            text: "m"
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+        }
         QGCButton {
             text: "-10"
             onClicked: {
@@ -74,12 +100,20 @@ ColumnLayout {
     }
 
     RowLayout {
-        QGCLabel { text: qsTr("Flight Speed") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("Flight Speed")
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCTextField {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
             text: "10"
         }
-        QGCLabel { text: "m/s" }
+        QGCLabel {
+            text: "m/s"
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+        }
         QGCButton {
             text: "-1"
             onClicked: {
@@ -93,10 +127,16 @@ ColumnLayout {
     }
 
     RowLayout {
-        QGCLabel { text: qsTr("End Action") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("End Action")
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCComboBox {
             model: [qsTr("RTL"), qsTr("Land"), qsTr("Hover")]
             currentIndex: 0
+            Layout.fillWidth: true
         }
     }
 
@@ -107,18 +147,30 @@ ColumnLayout {
     }
 
     RowLayout {
-        QGCLabel { text: qsTr("Total Distance") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("Total Distance")
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCLabel {
             text: missionController ? (missionController.missionTotalDistance / 1000).toFixed(2) + " km" : "0 km"
             font.bold: true
+            color: qgcPal.buttonHighlightText
         }
     }
 
     RowLayout {
-        QGCLabel { text: qsTr("Waypoints") }
+        Layout.fillWidth: true
+
+        QGCLabel {
+            text: qsTr("Waypoints")
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+        }
         QGCLabel {
             text: missionController ? (missionController.visualItems.count - 1).toString() : "0"
             font.bold: true
+            color: qgcPal.buttonHighlightText
         }
     }
 }

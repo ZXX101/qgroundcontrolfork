@@ -17,151 +17,162 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 Rectangle {
-    id:                 popup
-    color:              qgcPal.window
-    radius:             ScreenTools.defaultFontPixelWidth / 2
-    border.width:       1
-    border.color:       qgcPal.windowShade
+    id: popup
+    color: qgcPal.window
+    radius: ScreenTools.defaultFontPixelWidth / 2
+    border.width: 1
+    border.color: qgcPal.windowShade
 
-    property var        missionController
-    property var        planMasterController
-    property bool       expanded: true
+    property var missionController
+    property var planMasterController
+    property bool expanded: true
 
     property string currentTab: "basic"
 
-    QGCPalette { id: qgcPal }
-
-    Rectangle {
-        id:                 titleBar
-        anchors.top:        parent.top
-        anchors.left:       parent.left
-        anchors.right:      parent.right
-        height:             ScreenTools.defaultFontPixelHeight * 2.5
-        color:              qgcPal.toolbarBackground
-        radius:             parent.radius
-        // radius:             0
-
-        RowLayout {
-            anchors.fill:   parent
-            anchors.margins: ScreenTools.defaultFontPixelWidth / 2
-            spacing:        ScreenTools.defaultFontPixelWidth / 2
-
-            QGCButton {
-                text:       expanded ? "◀" : "▶"
-                onClicked:  expanded = !expanded
-            }
-
-            QGCLabel {
-                text:       qsTr("Mission Info")
-                font.bold:  true
-                Layout.fillWidth: true
-            }
-
-            QGCButton {
-                text:       "Delete"
-                onClicked:  {
-                    if (planMasterController) {
-                        planMasterController.removeAllFromVehicle()
-                    }
-                }
-            }
-
-            QGCButton {
-                text:       "Open"
-                onClicked:  {
-                    if (typeof loadFromSelectedFile === "function") {
-                        loadFromSelectedFile()
-                    }
-                }
-            }
-
-            QGCButton {
-                text:       "Save"
-                onClicked:  {
-                    if (typeof saveToSelectedFile === "function") {
-                        saveToSelectedFile()
-                    }
-                }
-            }
-        }
+    QGCPalette {
+        id: qgcPal
     }
 
-    Item {
-        id:                 contentArea
-        anchors.top:        titleBar.bottom
-        anchors.left:       parent.left
-        anchors.right:      parent.right
-        anchors.bottom:     bottomBar.top
-        visible:            expanded
+    ColumnLayout {
+        anchors.fill: parent
 
-        ColumnLayout {
-            id:                 tabColumn
-            anchors.left:       parent.left
-            anchors.top:        parent.top
-            anchors.margins:    ScreenTools.defaultFontPixelWidth
-            spacing:            ScreenTools.defaultFontPixelWidth / 2
+        Rectangle {
+            id: titleBar
+            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+            Layout.fillWidth: true
+            color: qgcPal.toolbarBackground
 
-            QGCButton {
-                text:           qsTr("Basic")
-                checked:        currentTab === "basic"
-                onClicked:      currentTab = "basic"
-            }
-            QGCButton {
-                text:           qsTr("List")
-                checked:        currentTab === "list"
-                onClicked:      currentTab = "list"
-            }
-        }
+            radius: popup.radius
+            clip: true
 
-        Loader {
-            id:                 contentLoader
-            anchors.left:       tabColumn.right
-            anchors.leftMargin: ScreenTools.defaultFontPixelWidth
-            anchors.right:      parent.right
-            anchors.top:        parent.top
-            anchors.bottom:     parent.bottom
-            source:             currentTab === "basic" ?
-                                "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
+            RowLayout {
+                anchors.fill: parent
+                anchors.margins: ScreenTools.defaultFontPixelWidth / 2
+                spacing: ScreenTools.defaultFontPixelWidth / 2
 
-            property var missionController: popup.missionController
-        }
-    }
+                QGCButton {
+                    text: expanded ? "◀" : "▶"
+                    onClicked: expanded = !expanded
+                }
 
-    Rectangle {
-        id:                 bottomBar
-        anchors.bottom:     parent.bottom
-        anchors.left:       parent.left
-        anchors.right:      parent.right
-        height:             ScreenTools.defaultFontPixelHeight * 2.5
-        color:              qgcPal.toolbarBackground
-        // radius:             0
-        radius:             parent.radius
+                QGCLabel {
+                    text: qsTr("Mission Info")
+                    font.bold: true
+                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.2
+                    color: qgcPal.buttonText
+                    Layout.fillWidth: true
+                }
 
-        RowLayout {
-            anchors.centerIn: parent
-            spacing:            ScreenTools.defaultFontPixelWidth
+                QGCButton {
+                    text: "Delete"
+                    onClicked: {
+                        if (planMasterController) {
+                            planMasterController.removeAllFromVehicle();
+                        }
+                    }
+                }
 
-            QGCButton {
-                text:           qsTr("Upload")
-                onClicked:      {
-                    if (typeof upload === "function") {
-                        upload()
+                QGCButton {
+                    text: "Open"
+                    onClicked: {
+                        if (typeof loadFromSelectedFile === "function") {
+                            loadFromSelectedFile();
+                        }
+                    }
+                }
+
+                QGCButton {
+                    text: "Save"
+                    onClicked: {
+                        if (typeof saveToSelectedFile === "function") {
+                            saveToSelectedFile();
+                        }
                     }
                 }
             }
-            QGCButton {
-                text:           qsTr("Download")
-                onClicked:      {
-                    if (planMasterController) {
-                        planMasterController.loadFromVehicle()
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            visible: expanded
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.margins: ScreenTools.defaultFontPixelWidth / 2
+                spacing: ScreenTools.defaultFontPixelWidth / 2
+
+                ColumnLayout {
+                    id: tabColumn
+                    Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 6
+                    spacing: ScreenTools.defaultFontPixelWidth / 2
+                    Layout.alignment: Qt.AlignTop
+                    QGCButton {
+                        text: qsTr("Basic")
+                        checked: currentTab === "basic"
+                        onClicked: currentTab = "basic"
+                        Layout.fillWidth: true
+                    }
+                    QGCButton {
+                        text: qsTr("List")
+                        checked: currentTab === "list"
+                        onClicked: currentTab = "list"
+                        Layout.fillWidth: true
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    color: qgcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth / 4
+
+                    Loader {
+                        id: contentLoader
+                        anchors.fill: parent
+                        anchors.margins: ScreenTools.defaultFontPixelWidth / 2
+                        source: currentTab === "basic" ? "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
+
+                        property var missionController: popup.missionController
                     }
                 }
             }
-            QGCButton {
-                text:           qsTr("Clear")
-                onClicked:      {
-                    if (planMasterController) {
-                        planMasterController.removeAllFromVehicle()
+        }
+
+        Rectangle {
+            id: bottomBar
+            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+            Layout.fillWidth: true
+            color: qgcPal.toolbarBackground
+            radius: popup.radius
+            clip: true
+
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: ScreenTools.defaultFontPixelWidth
+
+                QGCButton {
+                    text: qsTr("Upload")
+                    onClicked: {
+                        if (typeof upload === "function") {
+                            upload();
+                        }
+                    }
+                }
+                QGCButton {
+                    text: qsTr("Download")
+                    onClicked: {
+                        if (planMasterController) {
+                            planMasterController.loadFromVehicle();
+                        }
+                    }
+                }
+                QGCButton {
+                    text: qsTr("Clear")
+                    onClicked: {
+                        if (planMasterController) {
+                            planMasterController.removeAllFromVehicle();
+                        }
                     }
                 }
             }

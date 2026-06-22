@@ -298,14 +298,14 @@ ApplicationWindow {
     XFCommonView {
         id:             xfCommonView
         anchors.fill:   parent
-        visible:        true
+        visible:        false
     }
 
     //任务页面，覆盖整个窗口，显示任务编辑界面、地图、航点列表
     XFMissionView {
         id:             xfMissionView
         anchors.fill:   parent
-        visible:        false
+        visible:        true
     }
 
     //日志回放状态栏，位于主窗口底部，显示日志回放进度

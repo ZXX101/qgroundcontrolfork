@@ -71,42 +71,42 @@ Item {
         }
     }
 
-    QGCFileDialog {
-        id:             fileDialog
-        folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+    // QGCFileDialog {
+    //     id:             fileDialog
+    //     folder:         QGroundControl.settingsManager.appSettings.missionSavePath
 
-        property bool planFiles: true
+    //     property bool planFiles: true
 
-        function openForLoad() {
-            fileMode = FileDialog.OpenFile
-            if (planFiles) {
-                nameFilters = _planMasterController.loadNameFilters
-            }
-            open()
-        }
+    //     function openForLoad() {
+    //         fileMode = FileDialog.OpenFile
+    //         if (planFiles) {
+    //             nameFilters = _planMasterController.loadNameFilters
+    //         }
+    //         open()
+    //     }
 
-        function openForSave() {
-            fileMode = FileDialog.SaveFile
-            if (planFiles) {
-                nameFilters = _planMasterController.saveNameFilters
-            }
-            open()
-        }
+    //     function openForSave() {
+    //         fileMode = FileDialog.SaveFile
+    //         if (planFiles) {
+    //             nameFilters = _planMasterController.saveNameFilters
+    //         }
+    //         open()
+    //     }
 
-        // onAccepted: {
-        //     if (planFiles) {
-        //         _planMasterController.saveToFile(fileUrl)
-        //     } else {
-        //         _planMasterController.saveToKml(fileUrl)
-        //     }
-        //     close()
-        // }
+    //     // onAccepted: {
+    //     //     if (planFiles) {
+    //     //         _planMasterController.saveToFile(fileUrl)
+    //     //     } else {
+    //     //         _planMasterController.saveToKml(fileUrl)
+    //     //     }
+    //     //     close()
+    //     // }
 
-        onAcceptedForLoad: {
-            _planMasterController.loadFromFile(fileUrl)
-            close()
-        }
-    }
+    //     onAcceptedForLoad: {
+    //         _planMasterController.loadFromFile(fileUrl)
+    //         close()
+    //     }
+    // }
 
     FlightMap {
         id:                 missionMap
@@ -195,11 +195,13 @@ Item {
 
     XFMissionInfoPopup {
         id:                 missionInfoPopup
-        anchors.right:      parent.right
+        anchors.right:      parent.right-ScreenTools.defaultFontPixelWidth * 40
         anchors.top:        toolbar.bottom
         anchors.margins:    ScreenTools.defaultFontPixelWidth
         width:              ScreenTools.defaultFontPixelWidth * 40
+        anchors.bottom:  parent.bottom
         visible:            true
+
 
         missionController:          _missionController
         planMasterController:       _planMasterController

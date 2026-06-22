@@ -16,28 +16,35 @@ import QGroundControl.Controls
 import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
-QGCListView {
-    id:                 missionListView
-    spacing:            ScreenTools.defaultFontPixelHeight / 4
-    orientation:        ListView.Vertical
-    model:              missionController ? missionController.visualItems : null
-    cacheBuffer:        Math.max(height * 2, 0)
-    clip:               true
+ColumnLayout {
+    anchors.fill: parent
+    QGCPalette { id: qgcPal }
 
-    delegate: XFMissionWaypointCard {
-        missionItem:    object
-        width:          missionListView.width
-        onClicked: (sequenceNumber) => {
-            if (missionController) {
-                missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
+    QGCListView {
+        id:                 missionListView
+        Layout.fillWidth:   true
+        Layout.fillHeight:  true
+        spacing:            ScreenTools.defaultFontPixelHeight / 4
+        orientation:        ListView.Vertical
+        model:              missionController ? missionController.visualItems : null
+        cacheBuffer:        Math.max(height * 2, 0)
+        clip:               true
+
+        delegate: XFMissionWaypointCard {
+            missionItem:    object
+            width:          missionListView.width
+            onClicked: (sequenceNumber) => {
+                if (missionController) {
+                    missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
+                }
             }
-        }
-        onRemove: {
-            if (missionController) {
-                var removeIndex = index
-                missionController.removeVisualItem(removeIndex)
-                if (removeIndex >= missionController.visualItems.count) {
-                    removeIndex--
+            onRemove: {
+                if (missionController) {
+                    var removeIndex = index
+                    missionController.removeVisualItem(removeIndex)
+                    if (removeIndex >= missionController.visualItems.count) {
+                        removeIndex--
+                    }
                 }
             }
         }
