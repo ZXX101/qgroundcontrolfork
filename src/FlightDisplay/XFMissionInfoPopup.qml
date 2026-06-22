@@ -33,6 +33,12 @@ Rectangle {
         id: qgcPal
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onPressed: mouse.accepted = true
+        onWheel: wheel.accepted = true
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
