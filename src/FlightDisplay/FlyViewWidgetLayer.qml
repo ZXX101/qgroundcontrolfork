@@ -142,7 +142,7 @@ Item {
                 id:         missionButtonMA
                 fillItem:   parent
                 onClicked: {
-                    // TODO: 任务按钮功能
+                    mainWindow.showXFMissionView()
                 }
             }
         }

@@ -171,6 +171,12 @@ ApplicationWindow {
         xfCommonView.visible = true
     }
 
+    function showXFMissionView() {
+        flyView.visible = false
+        xfCommonView.visible = false
+        xfMissionView.visible = true
+    }
+
     //-------------------------------------------------------------------------
     //-- Global simple message dialog
 
@@ -293,6 +299,13 @@ ApplicationWindow {
         id:             xfCommonView
         anchors.fill:   parent
         visible:        true
+    }
+
+    //任务页面，覆盖整个窗口，显示任务编辑界面、地图、航点列表
+    XFMissionView {
+        id:             xfMissionView
+        anchors.fill:   parent
+        visible:        false
     }
 
     //日志回放状态栏，位于主窗口底部，显示日志回放进度

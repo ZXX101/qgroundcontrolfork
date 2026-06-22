@@ -65,5 +65,11 @@ qt_add_qml_module(FlightDisplayModule
         VehicleWarnings.qml
         VirtualJoystick.qml
         XFCommonView.qml
+        XFMissionView.qml
+        XFMissionToolStrip.qml
+        XFMissionInfoPopup.qml
+        XFMissionBasicPage.qml
+        XFMissionListPage.qml
+        XFMissionWaypointCard.qml
     NO_PLUGIN # Required by Qt 6.6.3. TODO: Remove when no longer supported.
 )
