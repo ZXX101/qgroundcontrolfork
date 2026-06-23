@@ -136,7 +136,14 @@ Item {
             }
             var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false);
             var nextIndex = _missionController.currentPlanViewVIIndex + 1;
-            _missionController.insertSimpleMissionItem(coordinate, nextIndex, true);
+
+            // 第一次点击（只有Mission Settings）：添加Takeoff
+            // 后续点击：添加Waypoint
+            if (_missionController.visualItems.count === 1) {
+                _missionController.insertTakeoffItem(coordinate, nextIndex, true);
+            } else {
+                _missionController.insertSimpleMissionItem(coordinate, nextIndex, true);
+            }
         }
 
         Repeater {
