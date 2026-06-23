@@ -31,7 +31,7 @@ ColumnLayout {
 
         delegate: XFMissionWaypointCard {
             missionItem:    object
-            width:          missionListView.width
+            width:          missionListView.width - deleteButtonWidth / 2
             onClicked: (sequenceNumber) => {
                 if (missionController) {
                     missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)

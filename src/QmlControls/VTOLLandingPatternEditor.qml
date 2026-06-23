@@ -20,7 +20,11 @@ import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import QGroundControl.Palette
 
-// Editor for Fixed Wing Landing Pattern complex mission item
+//显示类组件 - VTOL降落模式编辑器
+//编辑垂直起降飞机降落模式的参数，包括：
+//  1. 降落距离 - 从盘旋点到降落的水平距离
+//  2. 下降角度 - 下降时的角度
+//  3. 目的地高度 - 降落后的目标高度
 Rectangle {
     id:         _root
     height:     visible ? ((editorColumn.visible ? editorColumn.height : editorColumnNeedLandingPoint.height) + (_margin * 2)) : 0

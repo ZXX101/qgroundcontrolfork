@@ -11,7 +11,14 @@ import QGroundControl.Palette
 import QGroundControl.SettingsManager
 import QGroundControl.Controllers
 
-// Editor for Mission Settings
+//显示类组件 - 任务设置编辑器
+//编辑任务全局设置，包括：
+//  1. 高度模式 - 设置所有航点的altitude模式（相对/绝对/地形/混合）
+//  2. 初始航点高度 - 设置新航点的默认高度
+//  3. 飞行速度 - 巡航速度和悬停速度设置
+//  4. 相机设置 - 相机相关全局参数
+//  5. 车辆信息 - 显示/选择固件类型和车辆类型
+//  6. 起飞位置 - 设置任务规划的起飞位置
 Rectangle {
     id:                 valuesRect
     width:              availableWidth

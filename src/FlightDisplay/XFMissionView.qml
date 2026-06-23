@@ -25,20 +25,25 @@ import QGroundControl.ScreenTools
 import QGroundControl.Vehicle
 
 Item {
-    id:             xfMissionView
-    anchors.fill:   parent
-    visible:        false
-    z:              QGroundControl.zOrderTopMost
+    id: xfMissionView
+    anchors.fill: parent
+    visible: false
+    z: QGroundControl.zOrderTopMost
 
-    QGCPalette { id: qgcPal }
+    QGCPalette {
+        id: qgcPal
+    }
 
-    property var    _planMasterController:  planMasterController
-    property var    _missionController:     _planMasterController ? _planMasterController.missionController : null
+    property var _planMasterController: planMasterController
+    property var _missionController: _planMasterController ? _planMasterController.missionController : null
 
     PlanMasterController {
-        id:         planMasterController
-        flyView:    false
-        Component.onCompleted: start()
+        id: planMasterController
+        flyView: false
+        Component.onCompleted: {
+            start();
+            _missionController.setCurrentPlanViewSeqNum(0, true);
+        }
     }
 
     Rectangle {
@@ -63,8 +68,8 @@ Item {
                 text: "Back"
                 onClicked: {
                     if (mainWindow.allowViewSwitch()) {
-                        xfMissionView.visible = false
-                        flyView.visible = true
+                        xfMissionView.visible = false;
+                        flyView.visible = true;
                     }
                 }
             }
@@ -109,39 +114,41 @@ Item {
     // }
 
     FlightMap {
-        id:                 missionMap
-        anchors.topMargin:  ScreenTools.toolbarHeight
-        anchors.fill:       parent
-        mapName:            "MissionEditor"
-        allowGCSLocationCenter:     true
+        id: missionMap
+        anchors.topMargin: ScreenTools.toolbarHeight
+        anchors.fill: parent
+        mapName: "MissionEditor"
+        allowGCSLocationCenter: true
         allowVehicleLocationCenter: true
-        planView:           true
+        planView: true
 
-        zoomLevel:          QGroundControl.flightMapZoom
-        center:             QGroundControl.flightMapPosition
+        zoomLevel: QGroundControl.flightMapZoom
+        center: QGroundControl.flightMapPosition
 
         Component.onCompleted: center = QGroundControl.flightMapPosition
 
         onZoomLevelChanged: QGroundControl.flightMapZoom = missionMap.zoomLevel
-        onCenterChanged:    QGroundControl.flightMapPosition = missionMap.center
+        onCenterChanged: QGroundControl.flightMapPosition = missionMap.center
 
-        onMapClicked: (mouse) => {
+        onMapClicked: mouse => {
             if (!mainWindow.allowViewSwitch()) {
-                return
+                return;
             }
-            var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false)
-            var nextIndex = _missionController.currentPlanViewVIIndex + 1
-            _missionController.insertSimpleMissionItem(coordinate, nextIndex, true)
+            var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false);
+            var nextIndex = _missionController.currentPlanViewVIIndex + 1;
+            _missionController.insertSimpleMissionItem(coordinate, nextIndex, true);
         }
 
         Repeater {
             model: _missionController.visualItems
             delegate: MissionItemMapVisual {
-                map:         missionMap
-                opacity:     1
+                map: missionMap
+                opacity: 1
                 interactive: true
-                vehicle:     _planMasterController.controllerVehicle
-                onClicked:   (sequenceNumber) => { _missionController.setCurrentPlanViewSeqNum(sequenceNumber, false) }
+                vehicle: _planMasterController.controllerVehicle
+                onClicked: sequenceNumber => {
+                    _missionController.setCurrentPlanViewSeqNum(sequenceNumber, false);
+                }
             }
         }
 
@@ -152,40 +159,40 @@ Item {
         MapItemView {
             model: _missionController.directionArrows
             delegate: MapLineArrow {
-                fromCoord:      object ? object.coordinate1 : undefined
-                toCoord:        object ? object.coordinate2 : undefined
-                arrowPosition:  3
-                z:              QGroundControl.zOrderWaypointLines + 1
+                fromCoord: object ? object.coordinate1 : undefined
+                toCoord: object ? object.coordinate2 : undefined
+                arrowPosition: 3
+                z: QGroundControl.zOrderWaypointLines + 1
             }
         }
 
         MapItemView {
             model: QGroundControl.multiVehicleManager.vehicles
             delegate: VehicleMapItem {
-                vehicle:        object
-                coordinate:     object.coordinate
-                map:            missionMap
-                size:           ScreenTools.defaultFontPixelHeight * 3
-                z:              QGroundControl.zOrderMapItems - 1
+                vehicle: object
+                coordinate: object.coordinate
+                map: missionMap
+                size: ScreenTools.defaultFontPixelHeight * 3
+                z: QGroundControl.zOrderMapItems - 1
             }
         }
     }
 
     XFMissionToolStrip {
-        id:                 toolStrip
-        anchors.left:       parent.left
-        anchors.top:        toolbar.bottom
-        anchors.margins:    ScreenTools.defaultFontPixelWidth
+        id: toolStrip
+        anchors.left: parent.left
+        anchors.top: toolbar.bottom
+        anchors.margins: ScreenTools.defaultFontPixelWidth
 
         onWaypointClicked: {
-            _addMode = _addMode === "waypoint" ? "" : "waypoint"
+            _addMode = _addMode === "waypoint" ? "" : "waypoint";
         }
         onRoiClicked: {
-            _addMode = _addMode === "roi" ? "" : "roi"
+            _addMode = _addMode === "roi" ? "" : "roi";
         }
         onVehicleClicked: {
             if (_activeVehicle) {
-                missionMap.center = _activeVehicle.coordinate
+                missionMap.center = _activeVehicle.coordinate;
             }
         }
 
@@ -194,64 +201,62 @@ Item {
     }
 
     XFMissionInfoPopup {
-        id:                 missionInfoPopup
-        anchors.right:      parent.right
-        anchors.top:        toolbar.bottom
-        anchors.margins:    ScreenTools.defaultFontPixelWidth
-        width:              ScreenTools.defaultFontPixelWidth * 40
-        anchors.bottom:  parent.bottom
-        visible:            true
+        id: missionInfoPopup
+        anchors.right: parent.right
+        anchors.top: toolbar.bottom
+        anchors.margins: ScreenTools.defaultFontPixelWidth
+        width: ScreenTools.defaultFontPixelWidth * 40
+        anchors.bottom: parent.bottom
+        visible: true
 
-
-        missionController:          _missionController
-        planMasterController:       _planMasterController
+        missionController: _missionController
+        planMasterController: _planMasterController
 
         property bool _planFiles: true
 
         function upload() {
             if (!checkReadyForSaveUpload(false)) {
-                return
+                return;
             }
             switch (_missionController.sendToVehiclePreCheck()) {
-                case MissionController.SendToVehiclePreCheckStateOk:
-                    _planMasterController.sendToVehicle()
-                    break
-                case MissionController.SendToVehiclePreCheckStateActiveMission:
-                    mainWindow.showMessageDialog(qsTr("Send To Vehicle"), qsTr("Current mission must be paused prior to uploading a new Plan"))
-                    break
-                case MissionController.SendToVehiclePreCheckStateFirwmareVehicleMismatch:
-                    mainWindow.showMessageDialog(qsTr("Plan Upload"),
-                                                 qsTr("This Plan was created for a different firmware or vehicle type."),
-                                                 Dialog.Ok | Dialog.Cancel,
-                                                 function() { _planMasterController.sendToVehicle() })
-                    break
+            case MissionController.SendToVehiclePreCheckStateOk:
+                _planMasterController.sendToVehicle();
+                break;
+            case MissionController.SendToVehiclePreCheckStateActiveMission:
+                mainWindow.showMessageDialog(qsTr("Send To Vehicle"), qsTr("Current mission must be paused prior to uploading a new Plan"));
+                break;
+            case MissionController.SendToVehiclePreCheckStateFirwmareVehicleMismatch:
+                mainWindow.showMessageDialog(qsTr("Plan Upload"), qsTr("This Plan was created for a different firmware or vehicle type."), Dialog.Ok | Dialog.Cancel, function () {
+                    _planMasterController.sendToVehicle();
+                });
+                break;
             }
         }
 
         function checkReadyForSaveUpload(save) {
             if (_planMasterController.readyForSaveState() == VisualMissionItem.NotReadyForSaveData) {
-                var saveOrUpload = save ? qsTr("Save") : qsTr("Upload")
-                mainWindow.showMessageDialog(qsTr("Unable to %1").arg(saveOrUpload), qsTr("Plan has incomplete items."))
-                return false
+                var saveOrUpload = save ? qsTr("Save") : qsTr("Upload");
+                mainWindow.showMessageDialog(qsTr("Unable to %1").arg(saveOrUpload), qsTr("Plan has incomplete items."));
+                return false;
             }
-            return true
+            return true;
         }
 
         function loadFromSelectedFile() {
-            fileDialog.title =          qsTr("Select Plan File")
-            fileDialog.planFiles =      true
-            fileDialog.nameFilters =    _planMasterController.loadNameFilters
-            fileDialog.openForLoad()
+            fileDialog.title = qsTr("Select Plan File");
+            fileDialog.planFiles = true;
+            fileDialog.nameFilters = _planMasterController.loadNameFilters;
+            fileDialog.openForLoad();
         }
 
         function saveToSelectedFile() {
             if (!checkReadyForSaveUpload(true)) {
-                return
+                return;
             }
-            fileDialog.title =          qsTr("Save Plan")
-            fileDialog.planFiles =      true
-            fileDialog.nameFilters =    _planMasterController.saveNameFilters
-            fileDialog.openForSave()
+            fileDialog.title = qsTr("Save Plan");
+            fileDialog.planFiles = true;
+            fileDialog.nameFilters = _planMasterController.saveNameFilters;
+            fileDialog.openForSave();
         }
     }
 }

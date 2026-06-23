@@ -16,7 +16,8 @@ import QGroundControl.ScreenTools
 import QGroundControl.Controls
 import QGroundControl.Palette
 
-/// Toolbar used for things like Polygon editing tools
+//显示类组件 - 编辑工具栏
+//用于多边形编辑等任务的工具栏，显示操作指令和功能按钮
 Item {
     width:  Math.min(toolsRowLayout.width + (_margins * 2), availableWidth)
     height: toolsFlickable.y + toolsFlickable.height + _margins

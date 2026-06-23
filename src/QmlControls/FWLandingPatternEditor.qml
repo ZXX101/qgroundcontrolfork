@@ -20,7 +20,14 @@ import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import QGroundControl.Palette
 
-// Editor for Fixed Wing Landing Pattern complex mission item
+//显示类组件 - 固定翼降落模式编辑器
+//编辑固定翼飞机降落模式的参数，包括：
+//  1. 降落距离 - 从盘旋点到降落的水平距离
+//  2. 盘旋高度 - 降落前盘旋的高度
+//  3. 最终高度 - 接地时的高度
+//  4. 滑翔斜率 - 下滑角度
+//  5. 盘旋半径 - 降落盘旋圈的半径
+//  6. 转向方向 - 左转/右转
 Rectangle {
     id:         _root
     height:     visible ? ((editorColumn.visible ? editorColumn.height : editorColumnNeedLandingPoint.height) + (_margin * 2)) : 0

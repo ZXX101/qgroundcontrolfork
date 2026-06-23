@@ -11,6 +11,12 @@ import QGroundControl.FactControls
 import QGroundControl.Palette
 import QGroundControl.FlightMap
 
+//显示类组件 - 走廊扫描编辑器
+//编辑走廊扫描任务的参数，包括：
+//  1. 走廊宽度 - 扫描区域的宽度
+//  2. 转向距离 - 边缘转向距离
+//  3. 相机触发距离 - 触发拍照的距离间隔
+//继承自 TransectStyleComplexItemEditor
 TransectStyleComplexItemEditor {
     transectAreaDefinitionComplete: _missionItem.corridorPolyline.isValid
     transectAreaDefinitionHelp:     qsTr("Use the Polyline Tools to create the polyline which defines the corridor.")

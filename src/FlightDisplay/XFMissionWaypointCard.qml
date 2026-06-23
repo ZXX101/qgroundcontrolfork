@@ -25,6 +25,7 @@ Rectangle {
     border.color:       qgcPal.windowShade
 
     property var        missionItem
+    readonly property real deleteButtonWidth: waypointDeleteBtn.implicitWidth
 
     signal clicked(int sequenceNumber)
     signal remove(int index)
@@ -104,17 +105,30 @@ Rectangle {
             }
         }
 
-        QGCButton {
-            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
-            text:       "Delete"
-            visible:    missionItem && missionItem.sequenceNumber !== 0
-            onClicked:  {
+    }
+    Image {
+        id: waypointDeleteBtn
+        z: 1
+        height: ScreenTools.minTouchPixels
+        width: height
+        sourceSize.height: height
+        fillMode: Image.PreserveAspectFit
+        source: "/xfres/deleteProtocol.png"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.right
+        anchors.leftMargin: -width / 2
+        visible: missionItem && missionItem.sequenceNumber !== 0
+
+        QGCMouseArea {
+            fillItem: parent
+            onClicked: {
                 remove(index)
             }
         }
     }
 
     QGCMouseArea {
+        z: 0
         anchors.fill: parent
         onClicked: {
             if (missionItem) {

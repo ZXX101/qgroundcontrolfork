@@ -5,6 +5,8 @@ import QGroundControl
 import QGroundControl.ScreenTools
 import QGroundControl.Controls
 
+//显示类组件 - 集结点编辑器头部
+//显示集结点说明信息和基本配置，包含功能描述
 QGCFlickable {
     height:         outerEditorRect.height
     contentHeight:  outerEditorRect.height

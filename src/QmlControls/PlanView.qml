@@ -28,12 +28,12 @@ import QGroundControl.FlightDisplay
 import QGroundControl.UTMSP
 
 
-//任务规划界面，位于主窗口内，显示任务编辑、地图、航点编辑器、围栏编辑器等
-//包含以下部件：
+//功能类组件 - 任务规划界面主容器
+//任务规划界面，位于主窗口内，包含以下功能模块：
 //  1. planToolBar 标题栏 - 显示规划状态和操作按钮
-//  2. editorMap 编辑地图 - 显示任务航线和航点
-//  3. toolStrip 左侧工具条 - 添加航点/围栏/集结点等
-//  4. rightPanel 右侧面板 - 显示航点编辑器、围栏编辑器等
+//  2. editorMap 编辑地图 - 显示任务航线、航点、围栏、集结点
+//  3. toolStrip 左侧工具条 - 添加航点/起飞/降落/围栏/集结点/复杂模式等
+//  4. rightPanel 右侧面板 - 显示航点编辑器、围���编辑器等
 //  5. terrainStatus 地形状态 - 显示航线路径高度剖面
 Item {
     id: _root
@@ -90,7 +90,8 @@ Item {
     property bool _firstRallyLoadComplete:      false
     property bool _firstLoadComplete:           false
 
-    //地图适应功能组件，提供地图视图适应到航点/围栏/集结点的功能
+    //功能类组件 - 地图适配功能
+    //提供地图视图适应到航点/围栏/集结点的功能
     MapFitFunctions {
         id:                         mapFitFunctions  // The name for this id cannot be changed without breaking references outside of this code. Beware!
         map:                        editorMap
@@ -166,7 +167,8 @@ Item {
         }
     }
 
-    //任务控制器功能组件，管理任务数据加载、保存、上传、下载
+    //功能类组件 - 任务主控制器
+    //管理任务数据加载、保存、上传、下载，管理任务/围栏/集结点
     PlanMasterController {
         id:         planMasterController
         flyView:    false
@@ -335,13 +337,15 @@ Item {
         }
     }
 
-    //顶部规划工具栏，位于界面顶部，显示规划状态和操作按钮
+    //显示类组件 - 顶部规划工具栏
+    //位于界面顶部，显示退出按钮、规划状态指示器、同步进度条等
     PlanViewToolBar {
         id:                     planToolBar
         planMasterController:   _planMasterController
     }
 
-    //面板容器，位于工具栏下方，包含编辑地图和右侧编辑控件
+    //功能类组件 - 面板容器
+    //位于工具栏下方，包含编辑地图和右侧编辑控件
     Item {
         id:             panel
         anchors.left:   parent.left
@@ -349,7 +353,8 @@ Item {
         anchors.top:    planToolBar.bottom
         anchors.bottom: parent.bottom
 
-        //编辑地图，显示任务航线、航点、围栏、集结点、车辆位置
+        //显示类组件 - 编辑地图
+        //显示任务航线、航点、围栏、集结点、车辆位置，支持点击添加航点
         FlightMap {
             id:                         editorMap
             anchors.fill:               parent
@@ -371,7 +376,8 @@ Item {
             // Initial map position duplicates Fly view position
             Component.onCompleted: editorMap.center = QGroundControl.flightMapPosition
 
-            //地图调色板功能组件，提供地图颜色方案
+            //功能类组件 - 地图调色板
+            //提供地图颜色方案，根据卫星图/街道图切换明暗主题
             QGCMapPalette { id: mapPal; lightColors: editorMap.isSatelliteMap }
 
             onZoomLevelChanged: {
@@ -563,8 +569,8 @@ Item {
         }
 
         //-----------------------------------------------------------
-        // Left tool strip
-        //左侧工具条，位于地图左侧，添加航点、起飞、降落、围栏、集结点等
+        //显示类组件 - 左侧工具条
+        //位于地图左侧，提供添加航点、起飞、降落、围栏、集结点、复杂模式等功能按钮
         ToolStrip {
             id:                 toolStrip
             anchors.margins:    _toolsMargin
@@ -585,7 +591,8 @@ Item {
             property bool _isMissionLayer:  _editingLayer == _layerMission
             property bool _isUtmspLayer:     _editingLayer == _layerUTMSP
 
-            //工具条动作列表功能组件，定义工具条按钮和动作
+            //功能类组件 - 工具条动作列表
+            //定义工具条按钮和动作，包括File/Takeoff/Waypoint/ROI/Pattern/Land/Center
             ToolStripActionList {
                 id: toolStripActionList
                 model: [
@@ -681,8 +688,8 @@ Item {
         }
 
         //-----------------------------------------------------------
-        // Right pane for mission editing controls
-        //右侧面板，位于地图右侧，显示航点编辑器、围栏编辑器、集结点编辑器等
+        //显示类组件 - 右侧面板
+        //位于地图右侧，显示航点编辑器、围栏编辑器、集结点编辑器等
         Rectangle {
             id:                 rightPanel
             height:             parent.height
@@ -752,10 +759,10 @@ Item {
                     }
                 }
             }
-            //-------------------------------------------------------
-            // Mission Item Editor
-            //航点编辑器，位于右侧面板内，编辑航点参数和顺序
-            Item {
+//-------------------------------------------------------
+                //显示类组件 - 航点编辑器容器
+                //位于右侧面板内，用于显示航点列表和编辑器
+                Item {
                 id:                     missionItemEditor
                 anchors.left:           parent.left
                 anchors.right:          parent.right
@@ -764,7 +771,8 @@ Item {
                 anchors.bottom:         parent.bottom
                 anchors.bottomMargin:   ScreenTools.defaultFontPixelHeight * 0.25
                 visible:                _editingLayer == _layerMission && !planControlColapsed
-                //航点列表视图，显示所有航点项
+                //显示类组件 - 航点列表视图
+                //显示所有航点项，支持拖拽排序和点击选择
                 QGCListView {
                     id:                 missionItemEditorListView
                     anchors.fill:       parent
@@ -777,7 +785,8 @@ Item {
                     highlightMoveDuration: 250
                     visible:            _editingLayer == _layerMission && !planControlColapsed
                     //-- List Elements
-                    //航点编辑器委托组件，编辑单个航点
+                    //显示类组件 - 航点编辑器委托
+                    //编辑单个航点的参数和顺序
                     delegate: MissionItemEditor {
                         map:            editorMap
                         masterController:  _planMasterController
@@ -796,8 +805,8 @@ Item {
                     }
                 }
             }
-            // GeoFence Editor
-            //围栏编辑器，位于右侧面板内，编辑地理围栏区域
+            //显示类组件 - 围栏编辑器
+            //位于右侧面板内，编辑地理围栏区域和多边形
             GeoFenceEditor {
                 anchors.top:            rightControls.bottom
                 anchors.topMargin:      ScreenTools.defaultFontPixelHeight * 0.25
@@ -809,8 +818,8 @@ Item {
                 visible:                _editingLayer == _layerGeoFence
             }
 
-            // Rally Point Editor
-            //集结点编辑器头部，位于右侧面板内，显示集结点列表和操作按钮
+            //显示类组件 - 集结点编辑器头部
+            //位于右侧面板内，显示集结点列表和操作按钮
             RallyPointEditorHeader {
                 id:                     rallyPointHeader
                 anchors.top:            rightControls.bottom
@@ -820,7 +829,8 @@ Item {
                 visible:                _editingLayer == _layerRallyPoints
                 controller:             _rallyPointController
             }
-            //集结点编辑器，编辑单个集结点参数
+            //显示类组件 - 集结点编辑器
+            //编辑单个集结点参数（高度、半径等）
             RallyPointItemEditor {
                 id:                     rallyPointEditor
                 anchors.top:            rallyPointHeader.bottom
@@ -848,7 +858,8 @@ Item {
             }
         }
 
-        //地形高度提供商版权标签，位于地形状态上方
+        //显示类组件 - 地形高度提供商版权标签
+        //位于地形状态上方，显示地形数据来源
         QGCLabel {
             // Elevation provider notice on top of terrain plot
             readonly property string _licenseString: QGroundControl.elevationProviderNotice
@@ -862,7 +873,8 @@ Item {
             text:                       qsTr("Powered by %1").arg(_licenseString)
         }
 
-        //地形状态，位于界面底部，显示航线路径的高度剖面和地形障碍
+        //显示类组件 - 地形状态
+        //位于界面底部，显示航线路径的高度剖面和地形障碍信息
         TerrainStatus {
             id:                 terrainStatus
             anchors.margins:    _toolsMargin
@@ -884,7 +896,8 @@ Item {
             }
         }
 
-        //地图比例尺，位于界面左下角，显示地图缩放比例和地形按钮
+        //显示类组件 - 地图比例尺
+        //位于界面左下角，显示地图缩放比例和地形开关按钮
         MapScale {
             id:                     mapScale
             anchors.margins:        _toolsMargin

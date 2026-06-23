@@ -12,6 +12,13 @@ import QGroundControl.FactControls
 import QGroundControl.Palette
 import QGroundControl.FlightMap
 
+//显示类组件 - 测绘区域编辑器
+//编辑多边形测绘任务的参数，包括：
+//  1. 格点角度 - 飞行航线的角度
+//  2. 转向距离 - 边缘转向距离
+//  3. 相机触发距离 - 触发拍照的距离间隔
+//  4. 航向角度 - 飞行方向
+//继承自 TransectStyleComplexItemEditor
 TransectStyleComplexItemEditor {
     transectAreaDefinitionComplete: missionItem.surveyAreaPolygon.isValid
     transectAreaDefinitionHelp:     qsTr("Use the Polygon Tools to create the polygon which outlines your survey area.")

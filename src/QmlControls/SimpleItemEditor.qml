@@ -9,7 +9,13 @@ import QGroundControl.Controls
 import QGroundControl.FactControls
 import QGroundControl.Palette
 
-// Editor for Simple mission items
+//显示类组件 - 简单航点编辑器
+//编辑简单任务项目的详细参数，包括：
+//  1. 命令描述 - 显示当前命令的描述信息
+//  2. 高度设置 - 设置航点高度和高度模式（相对/绝对/地形）
+//  3. 参数字段 - 显示命令的参数输入框（下拉框、文本框、复选框）
+//  4. 速度设置 - 可选的飞行速度设置
+//  5. 相机设置 - 相机触发相关参数
 Rectangle {
     width:  availableWidth
     height: editorColumn.height + (_margin * 2)

@@ -134,6 +134,7 @@ Rectangle {
                 Loader {
                     id: contentLoader
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     source: currentTab === "basic" ? "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
 
                     property var missionController: popup.missionController

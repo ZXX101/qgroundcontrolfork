@@ -19,11 +19,11 @@ import QGroundControl.MultiVehicleManager
 import QGroundControl.ScreenTools
 import QGroundControl.Controllers
 
-//顶部规划工具栏，位于规划界面顶部，显示退出按钮、规划状态指示器、同步进度条等
-//包含以下部件：
-//  1. viewButtonRow 左侧按钮行 - 退出按钮，点击返回飞行界面
-//  2. toolsFlickable 中间滚动区域 - 显示规划状态指示器
-//  3. progressBar 进度条 - 显示任务同步进度
+//显示类组件 - 顶部规划工具栏
+//位于规划界面顶部，显示以下模块：
+//  1. viewButtonRow - 退出按钮，点击返回飞行界面
+//  2. toolsFlickable - 中间滚动区域，显示规划状态指示器
+//  3. progressBar - 任务同步进度条
 Rectangle {
     id:     _root
     width:  parent.width

@@ -9,6 +9,12 @@ import QGroundControl.Controls
 import QGroundControl.FactSystem
 import QGroundControl.FactControls
 
+//显示类组件 - 地理围栏编辑器
+//编辑地理围栏参数和形状，包括：
+//  1. 围栏参数 - 设置围栏最大距离、高度等参数
+//  2. 多边形围栏 - 添加/编辑/删除多边形围栏区域
+//  3. 圆形围栏 - 添加/编辑/删除圆形围栏区域
+//  4. 违规返回点 - 设置触发围栏后的返回点位置和高度
 QGCFlickable {
     id:             root
     contentHeight:  geoFenceEditorRect.height

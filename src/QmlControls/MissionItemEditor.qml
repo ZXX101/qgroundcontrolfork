@@ -12,7 +12,11 @@ import QGroundControl.FactControls
 import QGroundControl.Palette
 
 
-/// Mission item edit control
+//显示类组件 - 航点编辑器基类
+//显示单个航点的基本信息和参数编辑区域，包含：
+//  1. 命令选择 - 显示当前命令名称和点击选择其他命令
+//  2. 加载器 - 动态加载对应命令的详细编辑器（SimpleItemEditor等）
+//  3. 删除按钮 - 删除当前航点
 Rectangle {
     id:             _root
     height:         _currentItem ? (editorLoader.y + editorLoader.height + _innerMargin) : (topRowLayout.y + topRowLayout.height + _margin)
