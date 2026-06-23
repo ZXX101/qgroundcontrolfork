@@ -29,20 +29,32 @@ ColumnLayout {
         cacheBuffer:        Math.max(height * 2, 0)
         clip:               true
 
-        delegate: XFMissionWaypointCard {
-            missionItem:    object
-            width:          missionListView.width - deleteButtonWidth / 2
-            onClicked: (sequenceNumber) => {
-                if (missionController) {
-                    missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
-                }
+        delegate: Loader {
+            sourceComponent: object.sequenceNumber === 0 ? nullComponent : waypointCardComponent
+            width: missionListView.width - (ScreenTools.defaultFontPixelWidth * 3)
+            asynchronous: false
+
+            Component {
+                id: nullComponent
+                Item { width: 0; height: 0 }
             }
-            onRemove: {
-                if (missionController) {
-                    var removeIndex = index
-                    missionController.removeVisualItem(removeIndex)
-                    if (removeIndex >= missionController.visualItems.count) {
-                        removeIndex--
+
+            Component {
+                id: waypointCardComponent
+                XFMissionWaypointCard {
+                    missionItem:    object
+                    onClicked: (sequenceNumber) => {
+                        if (missionController) {
+                            missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
+                        }
+                    }
+                    onRemove: {
+                        if (missionController) {
+                            var actualIndex = missionController.visualItems.indexOf(missionItem)
+                            if (actualIndex > 0) {
+                                missionController.removeVisualItem(actualIndex)
+                            }
+                        }
                     }
                 }
             }

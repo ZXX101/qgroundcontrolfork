@@ -63,7 +63,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       missionItem && missionItem.coordinate ? missionItem.coordinate.altitude.toFixed(1) + " m" : "0 m"
+                    text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.altitude)) ? missionItem.coordinate.altitude.toFixed(1) + " m" : "-- m"
                     font.bold:  true
                 }
             }
@@ -75,7 +75,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       missionItem ? missionItem.speed.toFixed(1) + " m/s" : "0 m/s"
+                    text:       (missionItem && !isNaN(missionItem.speed)) ? missionItem.speed.toFixed(1) + " m/s" : "-- m/s"
                     font.bold:  true
                 }
             }
@@ -87,7 +87,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       missionItem && missionItem.coordinate ? missionItem.coordinate.longitude.toFixed(6) : "0"
+                    text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude)) ? missionItem.coordinate.longitude.toFixed(6) : "--"
                     font.bold:  true
                 }
             }
@@ -99,7 +99,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       missionItem && missionItem.coordinate ? missionItem.coordinate.latitude.toFixed(6) : "0"
+                    text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude)) ? missionItem.coordinate.latitude.toFixed(6) : "--"
                     font.bold:  true
                 }
             }
