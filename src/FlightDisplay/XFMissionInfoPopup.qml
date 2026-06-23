@@ -13,6 +13,7 @@ import QtQuick.Layouts
 
 import QGroundControl
 import QGroundControl.Controls
+import QGroundControl.FactSystem
 import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
@@ -28,6 +29,7 @@ Rectangle {
     property bool expanded: true
 
     property string currentTab: "basic"
+    property int editSequenceNumber: -1
 
     QGCPalette {
         id: qgcPal
@@ -114,30 +116,70 @@ Rectangle {
                 ColumnLayout {
                     id: tabColumn
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    spacing: ScreenTools.defaultFontPixelWidth /2
+                    spacing: ScreenTools.defaultFontPixelWidth / 2
                     Layout.alignment: Qt.AlignTop
+                    Layout.fillHeight: true
+
                     QGCButton {
                         text: qsTr("Basic")
-                        // _horizontalPadding: 0
                         checked: currentTab === "basic"
-                        onClicked: currentTab = "basic"
+                        onClicked: { currentTab = "basic"; editSequenceNumber = -1 }
                         Layout.fillWidth: true
                     }
                     QGCButton {
                         text: qsTr("List")
-                        // _horizontalPadding: 0
                         checked: currentTab === "list"
-                        onClicked: currentTab = "list"
+                        onClicked: { currentTab = "list"; editSequenceNumber = -1 }
                         Layout.fillWidth: true
                     }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 1
+                        color: qgcPal.windowShade
+                        visible: missionController && missionController.visualItems.count > 1
+                    }
+
+                    Repeater {
+                        model: missionController ? missionController.visualItems : null
+
+                        QGCButton {
+                            required property int index
+                            required property var object
+                            text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
+                            visible: object.sequenceNumber !== 0
+                            checked: editSequenceNumber === object.sequenceNumber
+                            Layout.fillWidth: true
+                            onClicked: {
+                                editSequenceNumber = object.sequenceNumber
+                                currentTab = "editor"
+                            }
+                        }
+                    }
+
+                    Item { Layout.fillHeight: true }
                 }
                 Loader {
                     id: contentLoader
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    source: currentTab === "basic" ? "XFMissionBasicPage.qml" : "XFMissionListPage.qml"
+                    source: {
+                        if (currentTab === "basic") return "XFMissionBasicPage.qml"
+                        if (currentTab === "list") return "XFMissionListPage.qml"
+                        if (currentTab === "editor") return "XFMissionItemEditor.qml"
+                        return ""
+                    }
 
                     property var missionController: popup.missionController
+                    property var missionItem: {
+                        if (editSequenceNumber < 0 || !missionController) return null
+                        for (var i = 0; i < missionController.visualItems.count; i++) {
+                            var item = missionController.visualItems.get(i)
+                            if (item.sequenceNumber === editSequenceNumber) return item
+                        }
+                        return null
+                    }
+
                     Rectangle {
                         anchors.fill: contentLoader
                         color: qgcPal.windowShade
