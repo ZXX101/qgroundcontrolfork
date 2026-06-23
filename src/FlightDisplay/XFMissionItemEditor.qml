@@ -56,10 +56,11 @@ ColumnLayout {
             Layout.fillWidth: true
             currentIndex: {
                 if (!missionItem) return -1
+                var cmd = missionItem.command
                 for (var i = 0; i < _commandModel.length; i++) {
-                    if (_commandModel[i].value === missionItem.command) return i
+                    if (_commandModel[i].value == cmd) return i
                 }
-                return -1
+                return 0
             }
             onActivated: {
                 if (missionItem && currentIndex >= 0) {
@@ -67,6 +68,24 @@ ColumnLayout {
                 }
             }
         }
+    }
+
+    function getCoord() {
+        if (!missionItem || !missionItem.coordinate) return QtPositioning.coordinate(0, 0, 0)
+        var coord = missionItem.coordinate
+        var lat = isNaN(coord.latitude) ? 0 : coord.latitude
+        var lon = isNaN(coord.longitude) ? 0 : coord.longitude
+        var alt = isNaN(coord.altitude) ? 0 : coord.altitude
+        return QtPositioning.coordinate(lat, lon, alt)
+    }
+
+    function setCoord(lat, lon, alt) {
+        if (!missionItem) return
+        var c = getCoord()
+        var newLat = !isNaN(lat) ? lat : c.latitude
+        var newLon = !isNaN(lon) ? lon : c.longitude
+        var newAlt = !isNaN(alt) ? alt : c.altitude
+        missionItem.coordinate = QtPositioning.coordinate(newLat, newLon, newAlt)
     }
 
     RowLayout {
@@ -79,16 +98,12 @@ ColumnLayout {
         QGCTextField {
             id: lonField
             Layout.fillWidth: true
-            text: (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude))
-                  ? missionItem.coordinate.longitude.toFixed(7) : ""
+            text: {
+                var c = getCoord()
+                return c.longitude.toFixed(7)
+            }
             onEditingFinished: {
-                if (missionItem) {
-                    var val = parseFloat(text)
-                    if (!isNaN(val)) {
-                        var coord = QtPositioning.coordinate(missionItem.coordinate.latitude, val, missionItem.coordinate.altitude)
-                        missionItem.coordinate = coord
-                    }
-                }
+                setCoord(NaN, parseFloat(text), NaN)
             }
         }
         QGCLabel {
@@ -107,16 +122,12 @@ ColumnLayout {
         QGCTextField {
             id: latField
             Layout.fillWidth: true
-            text: (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude))
-                  ? missionItem.coordinate.latitude.toFixed(7) : ""
+            text: {
+                var c = getCoord()
+                return c.latitude.toFixed(7)
+            }
             onEditingFinished: {
-                if (missionItem) {
-                    var val = parseFloat(text)
-                    if (!isNaN(val)) {
-                        var coord = QtPositioning.coordinate(val, missionItem.coordinate.longitude, missionItem.coordinate.altitude)
-                        missionItem.coordinate = coord
-                    }
-                }
+                setCoord(parseFloat(text), NaN, NaN)
             }
         }
         QGCLabel {
@@ -135,16 +146,12 @@ ColumnLayout {
         QGCTextField {
             id: altField
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-            text: (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.altitude))
-                  ? missionItem.coordinate.altitude.toFixed(1) : "0"
+            text: {
+                var c = getCoord()
+                return c.altitude.toFixed(1)
+            }
             onEditingFinished: {
-                if (missionItem) {
-                    var val = parseFloat(text)
-                    if (!isNaN(val)) {
-                        var coord = QtPositioning.coordinate(missionItem.coordinate.latitude, missionItem.coordinate.longitude, val)
-                        missionItem.coordinate = coord
-                    }
-                }
+                setCoord(NaN, NaN, parseFloat(text))
             }
         }
         QGCLabel {
@@ -156,13 +163,8 @@ ColumnLayout {
             _horizontalPadding: 0
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
-                if (missionItem && !isNaN(missionItem.coordinate.altitude)) {
-                    var coord = QtPositioning.coordinate(
-                        missionItem.coordinate.latitude,
-                        missionItem.coordinate.longitude,
-                        missionItem.coordinate.altitude - 10)
-                    missionItem.coordinate = coord
-                }
+                var c = getCoord()
+                setCoord(NaN, NaN, c.altitude - 10)
             }
         }
         QGCButton {
@@ -170,13 +172,8 @@ ColumnLayout {
             _horizontalPadding: 0
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
-                if (missionItem && !isNaN(missionItem.coordinate.altitude)) {
-                    var coord = QtPositioning.coordinate(
-                        missionItem.coordinate.latitude,
-                        missionItem.coordinate.longitude,
-                        missionItem.coordinate.altitude + 10)
-                    missionItem.coordinate = coord
-                }
+                var c = getCoord()
+                setCoord(NaN, NaN, c.altitude + 10)
             }
         }
     }
@@ -191,8 +188,13 @@ ColumnLayout {
         QGCTextField {
             id: speedField
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-            text: (_speed && _speed.specifyFlightSpeed && _speed.flightSpeed && !isNaN(_speed.flightSpeed.rawValue))
-                  ? _speed.flightSpeed.rawValue.toFixed(1) : "--"
+            text: {
+                if (_speed && _speed.specifyFlightSpeed && _speed.flightSpeed) {
+                    var v = _speed.flightSpeed.rawValue
+                    return isNaN(v) ? "0" : v.toFixed(1)
+                }
+                return "0"
+            }
             onEditingFinished: {
                 if (_speed) {
                     var val = parseFloat(text)
@@ -212,8 +214,12 @@ ColumnLayout {
             _horizontalPadding: 0
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
-                if (_speed && _speed.specifyFlightSpeed && !isNaN(_speed.flightSpeed.rawValue)) {
-                    _speed.flightSpeed.rawValue = Math.max(0, _speed.flightSpeed.rawValue - 1)
+                if (_speed) {
+                    _speed.specifyFlightSpeed = true
+                    if (!_speed.flightSpeed) return
+                    var v = _speed.flightSpeed.rawValue
+                    var cur = isNaN(v) ? 0 : v
+                    _speed.flightSpeed.rawValue = Math.max(0, cur - 1)
                 }
             }
         }
@@ -222,8 +228,11 @@ ColumnLayout {
             _horizontalPadding: 0
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
-                if (_speed && _speed.specifyFlightSpeed) {
-                    var cur = isNaN(_speed.flightSpeed.rawValue) ? 0 : _speed.flightSpeed.rawValue
+                if (_speed) {
+                    _speed.specifyFlightSpeed = true
+                    if (!_speed.flightSpeed) return
+                    var v = _speed.flightSpeed.rawValue
+                    var cur = isNaN(v) ? 0 : v
                     _speed.flightSpeed.rawValue = cur + 1
                 }
             }
@@ -243,12 +252,12 @@ ColumnLayout {
             textRole: "text"
             Layout.fillWidth: true
             currentIndex: {
-                if (!_camera) return -1
+                if (!_camera) return 0
                 var rawVal = _camera.cameraAction.rawValue
                 for (var i = 0; i < _cameraActionModel.length; i++) {
-                    if (_cameraActionModel[i].value === rawVal) return i
+                    if (_cameraActionModel[i].value == rawVal) return i
                 }
-                return -1
+                return 0
             }
             onActivated: {
                 if (_camera && currentIndex >= 0) {
@@ -287,8 +296,13 @@ ColumnLayout {
         QGCTextField {
             id: gimbalPitchField
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-            text: (_camera && _camera.gimbalPitch && !isNaN(_camera.gimbalPitch.rawValue))
-                  ? _camera.gimbalPitch.rawValue.toFixed(0) : "0"
+            text: {
+                if (_camera && _camera.gimbalPitch) {
+                    var v = _camera.gimbalPitch.rawValue
+                    return isNaN(v) ? "0" : v.toFixed(0)
+                }
+                return "0"
+            }
             onEditingFinished: {
                 if (_camera && _camera.gimbalPitch) {
                     var val = parseFloat(text)
@@ -308,7 +322,9 @@ ColumnLayout {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
                 if (_camera && _camera.gimbalPitch) {
-                    _camera.gimbalPitch.rawValue = Math.max(-90, _camera.gimbalPitch.rawValue - 10)
+                    var v = _camera.gimbalPitch.rawValue
+                    var cur = isNaN(v) ? 0 : v
+                    _camera.gimbalPitch.rawValue = Math.max(-90, cur - 10)
                 }
             }
         }
@@ -318,7 +334,9 @@ ColumnLayout {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
                 if (_camera && _camera.gimbalPitch) {
-                    _camera.gimbalPitch.rawValue = Math.min(0, _camera.gimbalPitch.rawValue + 10)
+                    var v = _camera.gimbalPitch.rawValue
+                    var cur = isNaN(v) ? 0 : v
+                    _camera.gimbalPitch.rawValue = Math.min(0, cur + 10)
                 }
             }
         }
@@ -335,8 +353,13 @@ ColumnLayout {
         QGCTextField {
             id: gimbalYawField
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-            text: (_camera && _camera.gimbalYaw && !isNaN(_camera.gimbalYaw.rawValue))
-                  ? _camera.gimbalYaw.rawValue.toFixed(0) : "0"
+            text: {
+                if (_camera && _camera.gimbalYaw) {
+                    var v = _camera.gimbalYaw.rawValue
+                    return isNaN(v) ? "0" : v.toFixed(0)
+                }
+                return "0"
+            }
             onEditingFinished: {
                 if (_camera && _camera.gimbalYaw) {
                     var val = parseFloat(text)
@@ -356,7 +379,9 @@ ColumnLayout {
             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
             onClicked: {
                 if (_camera && _camera.gimbalYaw) {
-                    _camera.gimbalYaw.rawValue = Math.max(-180, _camera.gimbalYaw.rawValue - 10)
+                    var v = _camera.gimbalYaw.rawValue
+                    var cur = isNaN(v) ? 0 : v
+                    _camera.gimbalYaw.rawValue = Math.max(-180, cur - 10)
                 }
             }
         }

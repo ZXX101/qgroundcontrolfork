@@ -123,13 +123,19 @@ Rectangle {
                     QGCButton {
                         text: qsTr("Basic")
                         checked: currentTab === "basic"
-                        onClicked: { currentTab = "basic"; editSequenceNumber = -1 }
+                        onClicked: {
+                            currentTab = "basic";
+                            editSequenceNumber = -1;
+                        }
                         Layout.fillWidth: true
                     }
                     QGCButton {
                         text: qsTr("List")
                         checked: currentTab === "list"
-                        onClicked: { currentTab = "list"; editSequenceNumber = -1 }
+                        onClicked: {
+                            currentTab = "list";
+                            editSequenceNumber = -1;
+                        }
                         Layout.fillWidth: true
                     }
 
@@ -151,33 +157,53 @@ Rectangle {
                             checked: editSequenceNumber === object.sequenceNumber
                             Layout.fillWidth: true
                             onClicked: {
-                                editSequenceNumber = object.sequenceNumber
-                                currentTab = "editor"
+                                editSequenceNumber = object.sequenceNumber;
+                                currentTab = "editor";
                             }
                         }
                     }
 
-                    Item { Layout.fillHeight: true }
+                    Item {
+                        Layout.fillHeight: true
+                    }
                 }
                 Loader {
                     id: contentLoader
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     source: {
-                        if (currentTab === "basic") return "XFMissionBasicPage.qml"
-                        if (currentTab === "list") return "XFMissionListPage.qml"
-                        if (currentTab === "editor") return "XFMissionItemEditor.qml"
-                        return ""
+                        if (currentTab === "basic")
+                            return "XFMissionBasicPage.qml";
+                        if (currentTab === "list")
+                            return "XFMissionListPage.qml";
+                            // return "";
+                        if (currentTab === "editor")
+                            return "XFMissionItemEditor.qml";
+                        return "";
                     }
 
                     property var missionController: popup.missionController
-                    property var missionItem: {
-                        if (editSequenceNumber < 0 || !missionController) return null
+                    property var currentEditItem: {
+                        if (currentTab !== "editor" || editSequenceNumber < 0 || !missionController) return null
                         for (var i = 0; i < missionController.visualItems.count; i++) {
-                            var item = missionController.visualItems.get(i)
-                            if (item.sequenceNumber === editSequenceNumber) return item
+                            var itm = missionController.visualItems.get(i);
+                            if (itm.sequenceNumber === editSequenceNumber) return itm;
                         }
-                        return null
+                        return null;
+                    }
+
+                    onLoaded: {
+                        updateMissionItem();
+                    }
+
+                    function updateMissionItem() {
+                        if (item && item.hasOwnProperty("missionItem")) {
+                            item.missionItem = currentEditItem;
+                        }
+                    }
+
+                    onCurrentEditItemChanged: {
+                        updateMissionItem();
                     }
 
                     Rectangle {
@@ -187,41 +213,41 @@ Rectangle {
                     }
                 }
             }
-        }
 
-        Rectangle {
-            id: bottomBar
-            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
-            Layout.fillWidth: true
-            color: qgcPal.toolbarBackground
-            radius: popup.radius
-            clip: true
+            Rectangle {
+                id: bottomBar
+                Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+                Layout.fillWidth: true
+                color: qgcPal.toolbarBackground
+                radius: popup.radius
+                clip: true
 
-            RowLayout {
-                anchors.centerIn: parent
-                spacing: ScreenTools.defaultFontPixelWidth
+                RowLayout {
+                    anchors.centerIn: parent
+                    spacing: ScreenTools.defaultFontPixelWidth
 
-                QGCButton {
-                    text: qsTr("Upload")
-                    onClicked: {
-                        if (typeof upload === "function") {
-                            upload();
+                    QGCButton {
+                        text: qsTr("Upload")
+                        onClicked: {
+                            if (typeof upload === "function") {
+                                upload();
+                            }
                         }
                     }
-                }
-                QGCButton {
-                    text: qsTr("Download")
-                    onClicked: {
-                        if (planMasterController) {
-                            planMasterController.loadFromVehicle();
+                    QGCButton {
+                        text: qsTr("Download")
+                        onClicked: {
+                            if (planMasterController) {
+                                planMasterController.loadFromVehicle();
+                            }
                         }
                     }
-                }
-                QGCButton {
-                    text: qsTr("Clear")
-                    onClicked: {
-                        if (planMasterController) {
-                            planMasterController.removeAllFromVehicle();
+                    QGCButton {
+                        text: qsTr("Clear")
+                        onClicked: {
+                            if (planMasterController) {
+                                planMasterController.removeAllFromVehicle();
+                            }
                         }
                     }
                 }
