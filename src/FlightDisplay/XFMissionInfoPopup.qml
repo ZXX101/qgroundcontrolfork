@@ -30,6 +30,22 @@ Rectangle {
 
     property string currentTab: "basic"
     property int editSequenceNumber: -1
+    property int currentSequenceNumber: -1
+
+    Component.onCompleted: {
+        if (missionController) {
+            currentSequenceNumber = missionController.currentPlanViewVIIndex
+        }
+    }
+
+    function syncToSequenceNumber(seqNum) {
+        if (seqNum > 0 && missionController) {
+            currentSequenceNumber = seqNum
+            currentTab = "editor"
+            editSequenceNumber = seqNum
+            contentLoader.updateMissionItemForce()
+        }
+    }
 
     QGCPalette {
         id: qgcPal
@@ -171,11 +187,14 @@ Rectangle {
                                         required property var object
                                         text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
                                         visible: object.sequenceNumber !== 0
-                                        checked: editSequenceNumber === object.sequenceNumber
+                                        checked: currentSequenceNumber === object.sequenceNumber
                                         Layout.fillWidth: true
                                         onClicked: {
                                             editSequenceNumber = object.sequenceNumber;
                                             currentTab = "editor";
+                                            if (missionController) {
+                                                missionController.setCurrentPlanViewSeqNum(object.sequenceNumber, false);
+                                            }
                                         }
                                     }
                                 }
@@ -207,18 +226,24 @@ Rectangle {
                         return null;
                     }
 
-                    onLoaded: {
-                        updateMissionItem();
-                    }
-
-                    function updateMissionItem() {
+                    function updateMissionItemForce() {
                         if (item && item.hasOwnProperty("missionItem")) {
-                            item.missionItem = currentEditItem;
+                            var mi = null;
+                            if (missionController && editSequenceNumber > 0) {
+                                for (var i = 0; i < missionController.visualItems.count; i++) {
+                                    var itm = missionController.visualItems.get(i);
+                                    if (itm.sequenceNumber === editSequenceNumber) {
+                                        mi = itm;
+                                        break;
+                                    }
+                                }
+                            }
+                            item.missionItem = mi;
                         }
                     }
 
-                    onCurrentEditItemChanged: {
-                        updateMissionItem();
+                    onLoaded: {
+                        updateMissionItemForce();
                     }
 
                     Rectangle {

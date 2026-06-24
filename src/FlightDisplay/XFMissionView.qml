@@ -93,7 +93,6 @@ Item {
 
         onAcceptedForLoad: file => {
             _planMasterController.loadFromFile(file)
-            _planMasterController.fitViewportToItems()
             close()
         }
     }
@@ -205,6 +204,17 @@ Item {
         planMasterController: _planMasterController
 
         property bool _planFiles: true
+
+        Connections {
+            target: _missionController
+            onCurrentPlanViewVIIndexChanged: {
+                var seqNum = _missionController.currentPlanViewVIIndex
+                missionInfoPopup.currentSequenceNumber = seqNum
+                if (seqNum > 0) {
+                    missionInfoPopup.syncToSequenceNumber(seqNum)
+                }
+            }
+        }
 
         function upload() {
             if (!checkReadyForSaveUpload(false)) {

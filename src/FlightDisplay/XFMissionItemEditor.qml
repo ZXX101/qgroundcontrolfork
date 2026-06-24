@@ -68,6 +68,26 @@ Item {
         }
     ]
 
+    function getCoord() {
+        if (!missionItem || !missionItem.coordinate)
+            return QtPositioning.coordinate(0, 0, 0);
+        var coord = missionItem.coordinate;
+        var lat = isNaN(coord.latitude) ? 0 : coord.latitude;
+        var lon = isNaN(coord.longitude) ? 0 : coord.longitude;
+        var alt = isNaN(coord.altitude) ? 0 : coord.altitude;
+        return QtPositioning.coordinate(lat, lon, alt);
+    }
+
+    function setCoord(lat, lon, alt) {
+        if (!missionItem)
+            return;
+        var c = getCoord();
+        var newLat = !isNaN(lat) ? lat : c.latitude;
+        var newLon = !isNaN(lon) ? lon : c.longitude;
+        var newAlt = !isNaN(alt) ? alt : c.altitude;
+        missionItem.coordinate = QtPositioning.coordinate(newLat, newLon, newAlt);
+    }
+
     QGCFlickable {
         anchors.fill: parent
         clip: true
@@ -107,26 +127,6 @@ Item {
                         }
                     }
                 }
-            }
-
-            function getCoord() {
-                if (!missionItem || !missionItem.coordinate)
-                    return QtPositioning.coordinate(0, 0, 0);
-                var coord = missionItem.coordinate;
-                var lat = isNaN(coord.latitude) ? 0 : coord.latitude;
-                var lon = isNaN(coord.longitude) ? 0 : coord.longitude;
-                var alt = isNaN(coord.altitude) ? 0 : coord.altitude;
-                return QtPositioning.coordinate(lat, lon, alt);
-            }
-
-            function setCoord(lat, lon, alt) {
-                if (!missionItem)
-                    return;
-                var c = getCoord();
-                var newLat = !isNaN(lat) ? lat : c.latitude;
-                var newLon = !isNaN(lon) ? lon : c.longitude;
-                var newAlt = !isNaN(alt) ? alt : c.altitude;
-                missionItem.coordinate = QtPositioning.coordinate(newLat, newLon, newAlt);
             }
 
             RowLayout {
