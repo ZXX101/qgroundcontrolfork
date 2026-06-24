@@ -110,6 +110,7 @@ Rectangle {
 
             RowLayout {
                 anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: ScreenTools.defaultFontPixelWidth / 2
@@ -120,8 +121,6 @@ Rectangle {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                     Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 8
                     Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 8
-                    spacing: ScreenTools.defaultFontPixelWidth / 2
-                    Layout.alignment: Qt.AlignTop
                     Layout.fillHeight: true
 
                     QGCButton {
@@ -147,28 +146,41 @@ Rectangle {
                         Layout.fillWidth: true
                         height: 1
                         color: qgcPal.windowShade
-                        visible: missionController && missionController.visualItems.count > 1
-                    }
-
-                    Repeater {
-                        model: missionController ? missionController.visualItems : null
-
-                        QGCButton {
-                            required property int index
-                            required property var object
-                            text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
-                            visible: object.sequenceNumber !== 0
-                            checked: editSequenceNumber === object.sequenceNumber
-                            Layout.fillWidth: true
-                            onClicked: {
-                                editSequenceNumber = object.sequenceNumber;
-                                currentTab = "editor";
-                            }
-                        }
                     }
 
                     Item {
+                        Layout.fillWidth: true
                         Layout.fillHeight: true
+
+                        QGCFlickable {
+                            anchors.fill: parent
+                            clip: true
+                            flickableDirection: Flickable.VerticalFlick
+                            contentHeight: waypointColumn.height
+
+                            ColumnLayout {
+                                id: waypointColumn
+                                width: parent.width
+                                spacing: ScreenTools.defaultFontPixelWidth / 2
+
+                                Repeater {
+                                    model: missionController ? missionController.visualItems : null
+
+                                    QGCButton {
+                                        required property int index
+                                        required property var object
+                                        text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
+                                        visible: object.sequenceNumber !== 0
+                                        checked: editSequenceNumber === object.sequenceNumber
+                                        Layout.fillWidth: true
+                                        onClicked: {
+                                            editSequenceNumber = object.sequenceNumber;
+                                            currentTab = "editor";
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 Loader {
