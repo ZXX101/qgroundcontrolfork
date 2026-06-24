@@ -251,6 +251,27 @@ Item {
             fileDialog.openForLoad();
         }
 
+        function downloadClicked(title) {
+            if (_planMasterController.dirty) {
+                mainWindow.showMessageDialog(title,
+                                             qsTr("You have unsaved/unsent changes. Loading from the Vehicle will lose these changes. Are you sure you want to load from the Vehicle?"),
+                                             Dialog.Yes | Dialog.Cancel,
+                                             function() { _planMasterController.loadFromVehicle() })
+            } else {
+                _planMasterController.loadFromVehicle()
+            }
+        }
+
+        function clearButtonClicked() {
+            mainWindow.showMessageDialog(qsTr("Clear"),
+                                         qsTr("Are you sure you want to remove all mission items and clear the mission from the vehicle?"),
+                                         Dialog.Yes | Dialog.Cancel,
+                                         function() {
+                                             _planMasterController.removeAllFromVehicle();
+                                             _missionController.setCurrentPlanViewSeqNum(0, true);
+                                         })
+        }
+
         function saveToSelectedFile() {
             if (!checkReadyForSaveUpload(true)) {
                 return;

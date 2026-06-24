@@ -269,7 +269,9 @@ Rectangle {
                 QGCButton {
                     text: qsTr("Download")
                     onClicked: {
-                        if (planMasterController) {
+                        if (planMasterController && typeof downloadClicked === "function") {
+                            downloadClicked(qsTr("Plan overwrite"));
+                        } else if (planMasterController) {
                             planMasterController.loadFromVehicle();
                         }
                     }
@@ -277,7 +279,9 @@ Rectangle {
                 QGCButton {
                     text: qsTr("Clear")
                     onClicked: {
-                        if (planMasterController) {
+                        if (typeof clearButtonClicked === "function") {
+                            clearButtonClicked();
+                        } else if (planMasterController) {
                             planMasterController.removeAllFromVehicle();
                         }
                     }
