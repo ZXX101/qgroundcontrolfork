@@ -109,13 +109,17 @@ Rectangle {
             visible: expanded
 
             RowLayout {
-                anchors.fill: parent
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.margins: ScreenTools.defaultFontPixelWidth / 2
                 spacing: ScreenTools.defaultFontPixelWidth / 2
 
                 ColumnLayout {
                     id: tabColumn
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 8
+                    Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 8
                     spacing: ScreenTools.defaultFontPixelWidth / 2
                     Layout.alignment: Qt.AlignTop
                     Layout.fillHeight: true
@@ -176,7 +180,6 @@ Rectangle {
                             return "XFMissionBasicPage.qml";
                         if (currentTab === "list")
                             return "XFMissionListPage.qml";
-                            // return "";
                         if (currentTab === "editor")
                             return "XFMissionItemEditor.qml";
                         return "";
@@ -213,41 +216,41 @@ Rectangle {
                     }
                 }
             }
+        }
 
-            Rectangle {
-                id: bottomBar
-                Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
-                Layout.fillWidth: true
-                color: qgcPal.toolbarBackground
-                radius: popup.radius
-                clip: true
+        Rectangle {
+            id: bottomBar
+            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+            Layout.fillWidth: true
+            color: qgcPal.toolbarBackground
+            radius: popup.radius
+            clip: true
 
-                RowLayout {
-                    anchors.centerIn: parent
-                    spacing: ScreenTools.defaultFontPixelWidth
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: ScreenTools.defaultFontPixelWidth
 
-                    QGCButton {
-                        text: qsTr("Upload")
-                        onClicked: {
-                            if (typeof upload === "function") {
-                                upload();
-                            }
+                QGCButton {
+                    text: qsTr("Upload")
+                    onClicked: {
+                        if (typeof upload === "function") {
+                            upload();
                         }
                     }
-                    QGCButton {
-                        text: qsTr("Download")
-                        onClicked: {
-                            if (planMasterController) {
-                                planMasterController.loadFromVehicle();
-                            }
+                }
+                QGCButton {
+                    text: qsTr("Download")
+                    onClicked: {
+                        if (planMasterController) {
+                            planMasterController.loadFromVehicle();
                         }
                     }
-                    QGCButton {
-                        text: qsTr("Clear")
-                        onClicked: {
-                            if (planMasterController) {
-                                planMasterController.removeAllFromVehicle();
-                            }
+                }
+                QGCButton {
+                    text: qsTr("Clear")
+                    onClicked: {
+                        if (planMasterController) {
+                            planMasterController.removeAllFromVehicle();
                         }
                     }
                 }

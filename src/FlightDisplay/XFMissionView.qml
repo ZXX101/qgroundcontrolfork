@@ -76,42 +76,27 @@ Item {
         }
     }
 
-    // QGCFileDialog {
-    //     id:             fileDialog
-    //     folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+    QGCFileDialog {
+        id:             fileDialog
+        folder:         QGroundControl.settingsManager.appSettings.missionSavePath
 
-    //     property bool planFiles: true
+        property bool planFiles: true
 
-    //     function openForLoad() {
-    //         fileMode = FileDialog.OpenFile
-    //         if (planFiles) {
-    //             nameFilters = _planMasterController.loadNameFilters
-    //         }
-    //         open()
-    //     }
+        onAcceptedForSave: file => {
+            if (planFiles) {
+                _planMasterController.saveToFile(file)
+            } else {
+                _planMasterController.saveToKml(file)
+            }
+            close()
+        }
 
-    //     function openForSave() {
-    //         fileMode = FileDialog.SaveFile
-    //         if (planFiles) {
-    //             nameFilters = _planMasterController.saveNameFilters
-    //         }
-    //         open()
-    //     }
-
-    //     // onAccepted: {
-    //     //     if (planFiles) {
-    //     //         _planMasterController.saveToFile(fileUrl)
-    //     //     } else {
-    //     //         _planMasterController.saveToKml(fileUrl)
-    //     //     }
-    //     //     close()
-    //     // }
-
-    //     onAcceptedForLoad: {
-    //         _planMasterController.loadFromFile(fileUrl)
-    //         close()
-    //     }
-    // }
+        onAcceptedForLoad: file => {
+            _planMasterController.loadFromFile(file)
+            _planMasterController.fitViewportToItems()
+            close()
+        }
+    }
 
     FlightMap {
         id: missionMap

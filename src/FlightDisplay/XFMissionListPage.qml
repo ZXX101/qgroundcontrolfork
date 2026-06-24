@@ -17,53 +17,53 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 ColumnLayout {
-    // QGCPalette { id: qgcPal }
+    QGCPalette { id: qgcPal }
 
-    // QGCListView {
-    //     id:                 missionListView
-    //     Layout.fillWidth:   true
-    //     Layout.fillHeight:  true
-    //     spacing:            ScreenTools.defaultFontPixelHeight / 4
-    //     orientation:        ListView.Vertical
-    //     model:              missionController ? missionController.visualItems : null
-    //     cacheBuffer:        Math.max(height * 2, 0)
-    //     clip:               true
+    QGCListView {
+        id:                 missionListView
+        Layout.fillWidth:   true
+        Layout.fillHeight:  true
+        spacing:            ScreenTools.defaultFontPixelHeight / 4
+        orientation:        ListView.Vertical
+        model:              missionController ? missionController.visualItems : null
+        cacheBuffer:        Math.max(height * 2, 0)
+        clip:               true
 
-    //     delegate: Loader {
-    //         sourceComponent: object.sequenceNumber === 0 ? nullComponent : waypointCardComponent
-    //         width: missionListView.width - (ScreenTools.defaultFontPixelWidth)
-    //         asynchronous: false
+        delegate: Loader {
+            sourceComponent: object.sequenceNumber === 0 ? nullComponent : waypointCardComponent
+            width: missionListView.width - (ScreenTools.defaultFontPixelWidth)
+            asynchronous: false
 
-    //         Component {
-    //             id: nullComponent
-    //             Item { width: 0; height: 0 }
-    //         }
+            Component {
+                id: nullComponent
+                Item { width: 0; height: 0 }
+            }
 
-    //         Component {
-    //             id: waypointCardComponent
-    //             XFMissionWaypointCard {
-    //                 missionItem:    object
-    //                 onClicked: (sequenceNumber) => {
-    //                     if (missionController) {
-    //                         missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
-    //                     }
-    //                 }
-    //                 onRemove: {
-    //                     if (missionController) {
-    //                         var actualIndex = -1
-    //                         for (var i = 0; i < missionController.visualItems.count; i++) {
-    //                             if (missionController.visualItems.get(i) === missionItem) {
-    //                                 actualIndex = i
-    //                                 break
-    //                             }
-    //                         }
-    //                         if (actualIndex > 0) {
-    //                             missionController.removeVisualItem(actualIndex)
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+            Component {
+                id: waypointCardComponent
+                XFMissionWaypointCard {
+                    missionItem:    object
+                    onClicked: (sequenceNumber) => {
+                        if (missionController) {
+                            missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
+                        }
+                    }
+                    onRemove: {
+                        if (missionController) {
+                            var actualIndex = -1
+                            for (var i = 0; i < missionController.visualItems.count; i++) {
+                                if (missionController.visualItems.get(i) === missionItem) {
+                                    actualIndex = i
+                                    break
+                                }
+                            }
+                            if (actualIndex > 0) {
+                                missionController.removeVisualItem(actualIndex)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
