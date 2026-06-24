@@ -196,7 +196,7 @@ Item {
         anchors.right: parent.right
         anchors.top: toolbar.bottom
         anchors.margins: ScreenTools.defaultFontPixelWidth
-        width: ScreenTools.defaultFontPixelWidth * 40
+        width: missionInfoPopup.expanded ? ScreenTools.defaultFontPixelWidth * 40 : ScreenTools.defaultFontPixelWidth * 10
         anchors.bottom: parent.bottom
         visible: true
 

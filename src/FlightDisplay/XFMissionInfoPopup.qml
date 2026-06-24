@@ -34,22 +34,20 @@ Rectangle {
 
     Component.onCompleted: {
         if (missionController) {
-            currentSequenceNumber = missionController.currentPlanViewVIIndex
+            currentSequenceNumber = missionController.currentPlanViewVIIndex;
         }
     }
 
     function syncToSequenceNumber(seqNum) {
         if (seqNum > 0 && missionController) {
-            currentSequenceNumber = seqNum
-            currentTab = "editor"
-            editSequenceNumber = seqNum
-            contentLoader.updateMissionItemForce()
+            currentSequenceNumber = seqNum;
+            currentTab = "editor";
+            editSequenceNumber = seqNum;
+            contentLoader.updateMissionItemForce();
         }
     }
 
-    QGCPalette {
-        id: qgcPal
-    }
+    QGCPalette { id: qgcPal }
 
     MouseArea {
         anchors.fill: parent
@@ -65,7 +63,6 @@ Rectangle {
             Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
             Layout.fillWidth: true
             color: qgcPal.toolbarBackground
-
             radius: popup.radius
             clip: true
 
@@ -85,11 +82,13 @@ Rectangle {
                     font.pointSize: ScreenTools.defaultFontPixelSize * 1.2
                     color: qgcPal.buttonText
                     Layout.fillWidth: true
+                    visible: popup.expanded
                 }
 
                 QGCButton {
                     text: "Delete"
                     _horizontalPadding: 0
+                    visible: popup.expanded
                     onClicked: {
                         if (planMasterController) {
                             planMasterController.removeAllFromVehicle();
@@ -100,6 +99,7 @@ Rectangle {
                 QGCButton {
                     text: "Open"
                     _horizontalPadding: 0
+                    visible: popup.expanded
                     onClicked: {
                         if (typeof loadFromSelectedFile === "function") {
                             loadFromSelectedFile();
@@ -110,6 +110,7 @@ Rectangle {
                 QGCButton {
                     text: "Save"
                     _horizontalPadding: 0
+                    visible: popup.expanded
                     onClicked: {
                         if (typeof saveToSelectedFile === "function") {
                             saveToSelectedFile();
@@ -119,82 +120,72 @@ Rectangle {
             }
         }
 
-        Item {
+        RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            visible: expanded
 
-            RowLayout {
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: ScreenTools.defaultFontPixelWidth / 2
-                spacing: ScreenTools.defaultFontPixelWidth / 2
+            ColumnLayout {
+                id: tabColumn
+                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 8
+                Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 8
+                Layout.fillHeight: true
 
-                ColumnLayout {
-                    id: tabColumn
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 8
-                    Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 8
+                QGCButton {
+                    text: qsTr("Basic")
+                    checked: currentTab === "basic"
+                    onClicked: {
+                        currentTab = "basic";
+                        editSequenceNumber = -1;
+                    }
+                    Layout.fillWidth: true
+                }
+                QGCButton {
+                    text: qsTr("List")
+                    checked: currentTab === "list"
+                    onClicked: {
+                        currentTab = "list";
+                        editSequenceNumber = -1;
+                    }
+                    Layout.fillWidth: true
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: 1
+                    color: qgcPal.windowShade
+                }
+
+                Item {
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    QGCButton {
-                        text: qsTr("Basic")
-                        checked: currentTab === "basic"
-                        onClicked: {
-                            currentTab = "basic";
-                            editSequenceNumber = -1;
-                        }
-                        Layout.fillWidth: true
-                    }
-                    QGCButton {
-                        text: qsTr("List")
-                        checked: currentTab === "list"
-                        onClicked: {
-                            currentTab = "list";
-                            editSequenceNumber = -1;
-                        }
-                        Layout.fillWidth: true
-                    }
+                    QGCFlickable {
+                        anchors.fill: parent
+                        clip: true
+                        flickableDirection: Flickable.VerticalFlick
+                        contentHeight: waypointColumn.height
 
-                    Rectangle {
-                        Layout.fillWidth: true
-                        height: 1
-                        color: qgcPal.windowShade
-                    }
+                        ColumnLayout {
+                            id: waypointColumn
+                            width: parent.width
+                            spacing: ScreenTools.defaultFontPixelWidth / 2
 
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+                            Repeater {
+                                model: missionController ? missionController.visualItems : null
 
-                        QGCFlickable {
-                            anchors.fill: parent
-                            clip: true
-                            flickableDirection: Flickable.VerticalFlick
-                            contentHeight: waypointColumn.height
-
-                            ColumnLayout {
-                                id: waypointColumn
-                                width: parent.width
-                                spacing: ScreenTools.defaultFontPixelWidth / 2
-
-                                Repeater {
-                                    model: missionController ? missionController.visualItems : null
-
-                                    QGCButton {
-                                        required property int index
-                                        required property var object
-                                        text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
-                                        visible: object.sequenceNumber !== 0
-                                        checked: currentSequenceNumber === object.sequenceNumber
-                                        Layout.fillWidth: true
-                                        onClicked: {
-                                            editSequenceNumber = object.sequenceNumber;
-                                            currentTab = "editor";
-                                            if (missionController) {
-                                                missionController.setCurrentPlanViewSeqNum(object.sequenceNumber, false);
-                                            }
+                                QGCButton {
+                                    required property int index
+                                    required property var object
+                                    text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
+                                    visible: object.sequenceNumber !== 0
+                                    checked: currentSequenceNumber === object.sequenceNumber
+                                    Layout.fillWidth: true
+                                    onClicked: {
+                                        editSequenceNumber = object.sequenceNumber;
+                                        currentTab = "editor";
+                                        if (missionController) {
+                                            missionController.setCurrentPlanViewSeqNum(object.sequenceNumber, false);
                                         }
                                     }
                                 }
@@ -202,55 +193,54 @@ Rectangle {
                         }
                     }
                 }
-                Loader {
-                    id: contentLoader
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    source: {
-                        if (currentTab === "basic")
-                            return "XFMissionBasicPage.qml";
-                        if (currentTab === "list")
-                            return "XFMissionListPage.qml";
-                        if (currentTab === "editor")
-                            return "XFMissionItemEditor.qml";
-                        return "";
-                    }
+            }
 
-                    property var missionController: popup.missionController
-                    property var currentEditItem: {
-                        if (currentTab !== "editor" || editSequenceNumber < 0 || !missionController) return null
-                        for (var i = 0; i < missionController.visualItems.count; i++) {
-                            var itm = missionController.visualItems.get(i);
-                            if (itm.sequenceNumber === editSequenceNumber) return itm;
-                        }
-                        return null;
-                    }
+            Loader {
+                id: contentLoader
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                visible: popup.expanded
+                source: {
+                    if (currentTab === "basic") return "XFMissionBasicPage.qml";
+                    if (currentTab === "list") return "XFMissionListPage.qml";
+                    if (currentTab === "editor") return "XFMissionItemEditor.qml";
+                    return "";
+                }
 
-                    function updateMissionItemForce() {
-                        if (item && item.hasOwnProperty("missionItem")) {
-                            var mi = null;
-                            if (missionController && editSequenceNumber > 0) {
-                                for (var i = 0; i < missionController.visualItems.count; i++) {
-                                    var itm = missionController.visualItems.get(i);
-                                    if (itm.sequenceNumber === editSequenceNumber) {
-                                        mi = itm;
-                                        break;
-                                    }
+                property var missionController: popup.missionController
+                property var currentEditItem: {
+                    if (currentTab !== "editor" || editSequenceNumber < 0 || !missionController) return null;
+                    for (var i = 0; i < missionController.visualItems.count; i++) {
+                        var itm = missionController.visualItems.get(i);
+                        if (itm.sequenceNumber === editSequenceNumber) return itm;
+                    }
+                    return null;
+                }
+
+                function updateMissionItemForce() {
+                    if (item && item.hasOwnProperty("missionItem")) {
+                        var mi = null;
+                        if (missionController && editSequenceNumber > 0) {
+                            for (var i = 0; i < missionController.visualItems.count; i++) {
+                                var itm = missionController.visualItems.get(i);
+                                if (itm.sequenceNumber === editSequenceNumber) {
+                                    mi = itm;
+                                    break;
                                 }
                             }
-                            item.missionItem = mi;
                         }
+                        item.missionItem = mi;
                     }
+                }
 
-                    onLoaded: {
-                        updateMissionItemForce();
-                    }
+                onLoaded: {
+                    updateMissionItemForce();
+                }
 
-                    Rectangle {
-                        anchors.fill: contentLoader
-                        color: qgcPal.windowShade
-                        radius: ScreenTools.defaultFontPixelWidth / 4
-                    }
+                Rectangle {
+                    anchors.fill: parent
+                    color: qgcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth / 4
                 }
             }
         }
@@ -262,6 +252,7 @@ Rectangle {
             color: qgcPal.toolbarBackground
             radius: popup.radius
             clip: true
+            visible: popup.expanded
 
             RowLayout {
                 anchors.centerIn: parent
