@@ -69,23 +69,56 @@ Item {
     ]
 
     function getCoord() {
-        if (!missionItem || !missionItem.coordinate)
+        if (!missionItem || !missionItem.coordinate) {
             return QtPositioning.coordinate(0, 0, 0);
+        }
         var coord = missionItem.coordinate;
         var lat = isNaN(coord.latitude) ? 0 : coord.latitude;
         var lon = isNaN(coord.longitude) ? 0 : coord.longitude;
-        var alt = isNaN(coord.altitude) ? 0 : coord.altitude;
+        var alt = isNaN(coord.altitude) ? missionItem.altitude.rawValue : coord.altitude;
+        if (isNaN(alt)) {
+            alt = 0;
+        }
         return QtPositioning.coordinate(lat, lon, alt);
     }
 
     function setCoord(lat, lon, alt) {
         if (!missionItem)
             return;
-        var c = getCoord();
-        var newLat = !isNaN(lat) ? lat : c.latitude;
-        var newLon = !isNaN(lon) ? lon : c.longitude;
-        var newAlt = !isNaN(alt) ? alt : c.altitude;
+        var currentCoord = missionItem.coordinate;
+        var currentAlt = missionItem.altitude ? missionItem.altitude.rawValue : 0;
+        if (isNaN(currentAlt)) currentAlt = 0;
+
+        var newLat = !isNaN(lat) ? lat : (isNaN(currentCoord.latitude) ? 0 : currentCoord.latitude);
+        var newLon = !isNaN(lon) ? lon : (isNaN(currentCoord.longitude) ? 0 : currentCoord.longitude);
+        var newAlt = !isNaN(alt) ? alt : currentAlt;
+
         missionItem.coordinate = QtPositioning.coordinate(newLat, newLon, newAlt);
+        missionItem.altitude.rawValue = newAlt;
+    }
+
+    function getSpeed() {
+        if (!_speed || !_speed.specifyFlightSpeed || !_speed.flightSpeed) {
+            return 5.0;
+        }
+        var v = _speed.flightSpeed.rawValue;
+        return isNaN(v) ? 5.0 : v;
+    }
+
+    function getSpeedEnabled() {
+        return _speed ? _speed.specifyFlightSpeed : false;
+    }
+
+    function setSpeedEnabled(enabled) {
+        if (_speed) {
+            _speed.specifyFlightSpeed = enabled;
+        }
+    }
+
+    function setSpeedValue(val) {
+        if (_speed && _speed.flightSpeed) {
+            _speed.flightSpeed.rawValue = val;
+        }
     }
 
     QGCFlickable {
@@ -139,12 +172,16 @@ Item {
                 QGCTextField {
                     id: lonField
                     Layout.fillWidth: true
-                    text: {
-                        var c = getCoord();
-                        return c.longitude.toFixed(7);
-                    }
+                    text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude) ? missionItem.coordinate.longitude.toFixed(7) : "0"
                     onEditingFinished: {
-                        setCoord(NaN, parseFloat(text), NaN);
+                        var val = parseFloat(text);
+                        if (!isNaN(val) && missionItem && missionItem.coordinate) {
+                            var coord = missionItem.coordinate;
+                            missionItem.coordinate = QtPositioning.coordinate(
+                                isNaN(coord.latitude) ? 0 : coord.latitude,
+                                val,
+                                isNaN(coord.altitude) ? 0 : coord.altitude);
+                        }
                     }
                 }
                 QGCLabel {
@@ -163,12 +200,16 @@ Item {
                 QGCTextField {
                     id: latField
                     Layout.fillWidth: true
-                    text: {
-                        var c = getCoord();
-                        return c.latitude.toFixed(7);
-                    }
+                    text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude) ? missionItem.coordinate.latitude.toFixed(7) : "0"
                     onEditingFinished: {
-                        setCoord(parseFloat(text), NaN, NaN);
+                        var val = parseFloat(text);
+                        if (!isNaN(val) && missionItem && missionItem.coordinate) {
+                            var coord = missionItem.coordinate;
+                            missionItem.coordinate = QtPositioning.coordinate(
+                                val,
+                                isNaN(coord.longitude) ? 0 : coord.longitude,
+                                isNaN(coord.altitude) ? 0 : coord.altitude);
+                        }
                     }
                 }
                 QGCLabel {
@@ -184,16 +225,10 @@ Item {
                     text: qsTr("Altitude")
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
+                FactTextField {
                     id: altField
+                    fact: missionItem ? missionItem.altitude : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: {
-                        var c = getCoord();
-                        return c.altitude.toFixed(1);
-                    }
-                    onEditingFinished: {
-                        setCoord(NaN, NaN, parseFloat(text));
-                    }
                 }
                 QGCLabel {
                     text: "m"
@@ -226,25 +261,10 @@ Item {
                     text: qsTr("Speed")
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
+                FactTextField {
                     id: speedField
+                    fact: _speed && _speed.specifyFlightSpeed ? _speed.flightSpeed : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: {
-                        if (_speed && _speed.specifyFlightSpeed && _speed.flightSpeed) {
-                            var v = _speed.flightSpeed.rawValue;
-                            return isNaN(v) ? "0" : v.toFixed(1);
-                        }
-                        return "0";
-                    }
-                    onEditingFinished: {
-                        if (_speed) {
-                            var val = parseFloat(text);
-                            if (!isNaN(val)) {
-                                _speed.specifyFlightSpeed = true;
-                                _speed.flightSpeed.rawValue = val;
-                            }
-                        }
-                    }
                 }
                 QGCLabel {
                     text: "m/s"
@@ -255,14 +275,9 @@ Item {
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
                     onClicked: {
-                        if (_speed) {
-                            _speed.specifyFlightSpeed = true;
-                            if (!_speed.flightSpeed)
-                                return;
-                            var v = _speed.flightSpeed.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _speed.flightSpeed.rawValue = Math.max(0, cur - 1);
-                        }
+                        var cur = getSpeed();
+                        setSpeedEnabled(true);
+                        setSpeedValue(Math.max(0, cur - 1));
                     }
                 }
                 QGCButton {
@@ -270,14 +285,9 @@ Item {
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
                     onClicked: {
-                        if (_speed) {
-                            _speed.specifyFlightSpeed = true;
-                            if (!_speed.flightSpeed)
-                                return;
-                            var v = _speed.flightSpeed.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _speed.flightSpeed.rawValue = cur + 1;
-                        }
+                        var cur = getSpeed();
+                        setSpeedEnabled(true);
+                        setSpeedValue(cur + 1);
                     }
                 }
             }
@@ -338,24 +348,10 @@ Item {
                     text: qsTr("Pitch")
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
+                FactTextField {
                     id: gimbalPitchField
+                    fact: _camera ? _camera.gimbalPitch : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: {
-                        if (_camera && _camera.gimbalPitch) {
-                            var v = _camera.gimbalPitch.rawValue;
-                            return isNaN(v) ? "0" : v.toFixed(0);
-                        }
-                        return "0";
-                    }
-                    onEditingFinished: {
-                        if (_camera && _camera.gimbalPitch) {
-                            var val = parseFloat(text);
-                            if (!isNaN(val)) {
-                                _camera.gimbalPitch.rawValue = Math.max(-90, Math.min(0, val));
-                            }
-                        }
-                    }
                 }
                 QGCLabel {
                     text: "°"
@@ -395,24 +391,10 @@ Item {
                     text: qsTr("Yaw")
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
+                FactTextField {
                     id: gimbalYawField
+                    fact: _camera ? _camera.gimbalYaw : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: {
-                        if (_camera && _camera.gimbalYaw) {
-                            var v = _camera.gimbalYaw.rawValue;
-                            return isNaN(v) ? "0" : v.toFixed(0);
-                        }
-                        return "0";
-                    }
-                    onEditingFinished: {
-                        if (_camera && _camera.gimbalYaw) {
-                            var val = parseFloat(text);
-                            if (!isNaN(val)) {
-                                _camera.gimbalYaw.rawValue = Math.max(-180, Math.min(180, val));
-                            }
-                        }
-                    }
                 }
                 QGCLabel {
                     text: "°"
