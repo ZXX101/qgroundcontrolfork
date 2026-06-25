@@ -230,10 +230,6 @@ Item {
                     fact: missionItem ? missionItem.altitude : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                 }
-                QGCLabel {
-                    text: "m"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
-                }
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
@@ -257,37 +253,52 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
 
+                QGCCheckBox {
+                    id: speedCheckBox
+                    checked: _speed ? _speed.specifyFlightSpeed : false
+                    onClicked: {
+                        if (_speed) {
+                            _speed.specifyFlightSpeed = checked;
+                        }
+                    }
+                    visible: _speed ? _speed.available : false
+                }
                 QGCLabel {
                     text: qsTr("Speed")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                 }
                 FactTextField {
                     id: speedField
-                    fact: _speed && _speed.specifyFlightSpeed ? _speed.flightSpeed : null
+                    fact: _speed ? _speed.flightSpeed : null
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
-                QGCLabel {
-                    text: "m/s"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    enabled: speedCheckBox.checked
                 }
                 QGCButton {
                     text: "-1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    enabled: speedCheckBox.checked
                     onClicked: {
-                        var cur = getSpeed();
-                        setSpeedEnabled(true);
-                        setSpeedValue(Math.max(0, cur - 1));
+                        if (_speed && _speed.flightSpeed) {
+                            _speed.specifyFlightSpeed = true;
+                            var v = _speed.flightSpeed.rawValue;
+                            var cur = isNaN(v) ? 0 : v;
+                            _speed.flightSpeed.rawValue = Math.max(0, cur - 1);
+                        }
                     }
                 }
                 QGCButton {
                     text: "+1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    enabled: speedCheckBox.checked
                     onClicked: {
-                        var cur = getSpeed();
-                        setSpeedEnabled(true);
-                        setSpeedValue(cur + 1);
+                        if (_speed && _speed.flightSpeed) {
+                            _speed.specifyFlightSpeed = true;
+                            var v = _speed.flightSpeed.rawValue;
+                            var cur = isNaN(v) ? 0 : v;
+                            _speed.flightSpeed.rawValue = cur + 1;
+                        }
                     }
                 }
             }
