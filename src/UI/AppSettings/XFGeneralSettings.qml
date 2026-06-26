@@ -30,7 +30,7 @@ QGCFlickable {
     property Fact _appSavePath: _appSettings.savePath
     ColumnLayout {
         width: parent.width
-        height: parent.height
+        Layout.fillHeight: true
         Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
         TabBar {
@@ -145,5 +145,8 @@ QGCFlickable {
                 text: "RTK settings"
             }
         }
+    }
+    Item {
+        Layout.fillHeight: true
     }
 }
