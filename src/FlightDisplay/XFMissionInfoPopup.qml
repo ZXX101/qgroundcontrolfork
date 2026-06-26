@@ -27,6 +27,7 @@ Rectangle {
     property var missionController
     property var planMasterController
     property bool expanded: true
+    property string missionName: "Mission"
 
     property string currentTab: "basic"
     property int editSequenceNumber: -1
@@ -208,6 +209,7 @@ Rectangle {
                 }
 
                 property var missionController: popup.missionController
+                property string missionName: popup.missionName
                 property var currentEditItem: {
                     if (currentTab !== "editor" || editSequenceNumber < 0 || !missionController) return null;
                     for (var i = 0; i < missionController.visualItems.count; i++) {

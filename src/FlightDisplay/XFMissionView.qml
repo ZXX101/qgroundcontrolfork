@@ -36,6 +36,7 @@ Item {
 
     property var _planMasterController: planMasterController
     property var _missionController: _planMasterController ? _planMasterController.missionController : null
+    property string missionName: "Mission"
 
     PlanMasterController {
         id: planMasterController
@@ -93,6 +94,9 @@ Item {
 
         onAcceptedForLoad: file => {
             _planMasterController.loadFromFile(file)
+            var fileName = file.split('/').pop()
+            fileName = fileName.replace(/\.[^/.]+$/, "")
+            missionName = fileName
             close()
         }
     }
@@ -202,6 +206,7 @@ Item {
 
         missionController: _missionController
         planMasterController: _planMasterController
+        missionName: xfMissionView.missionName
 
         property bool _planFiles: true
 
@@ -279,6 +284,7 @@ Item {
             fileDialog.title = qsTr("Save Plan");
             fileDialog.planFiles = true;
             fileDialog.nameFilters = _planMasterController.saveNameFilters;
+            fileDialog.defaultFileName = missionName;
             fileDialog.openForSave();
         }
     }

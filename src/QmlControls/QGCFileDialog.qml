@@ -20,6 +20,7 @@ Item {
     property string title
     property bool   selectFolder:   false
     property string defaultSuffix:  ""
+    property string defaultFileName: ""
 
     signal acceptedForLoad(string file)
     signal acceptedForSave(string file)
@@ -188,6 +189,13 @@ Item {
             id:         mobileFileSaveDialog
             title:      _root.title
             buttons:    Dialog.Cancel | Dialog.Ok
+            property string _defaultFileName: _root.defaultFileName
+
+            Component.onCompleted: {
+                if (_defaultFileName !== "") {
+                    filenameTextField.text = _defaultFileName
+                }
+            }
 
             onAccepted: {
                 if (filenameTextField.text == "") {

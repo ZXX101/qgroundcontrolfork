@@ -26,6 +26,7 @@ Item {
     property var _appSettings: QGroundControl.settingsManager.appSettings
     property var _defaultAltitude: _appSettings ? _appSettings.defaultMissionItemAltitude : null
     property var _missionSettings: missionController && missionController.visualItems.count > 0 ? missionController.visualItems.get(0) : null
+    property string missionName: "Mission"
 
     QGCFlickable {
         anchors.fill: parent
@@ -46,13 +47,9 @@ Item {
                 }
                 QGCTextField {
                     Layout.fillWidth: true
-                    text: _missionSettings && _missionSettings.missionName ? _missionSettings.missionName : ""
+                    text: missionName
                     onTextChanged: {
-                        if (_missionSettings) {
-                            try {
-                                _missionSettings.missionName = text
-                            } catch(e) {}
-                        }
+                        missionName = text
                     }
                 }
             }
