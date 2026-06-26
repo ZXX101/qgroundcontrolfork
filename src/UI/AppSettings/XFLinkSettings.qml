@@ -156,15 +156,73 @@ QGCFlickable {
             TabBar {
                 id: bar
                 Layout.fillWidth: true
+                spacing: 0
+                background: Rectangle {
+                    color: "transparent"
+                }
 
                 TabButton {
                     text: qsTr("Drones")
+                    contentItem: Text {
+                        text: parent.text
+                        font: parent.font
+                        color: qgcPal.buttonText
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    background: Rectangle {
+                        color: "transparent"
+                        Rectangle {
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width * 0.8
+                            height: 2
+                            color: "#154D25"
+                            visible: parent.parent.checked
+                        }
+                    }
                 }
                 TabButton {
                     text: qsTr("POD")
+                    contentItem: Text {
+                        text: parent.text
+                        font: parent.font
+                        color: qgcPal.buttonText
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    background: Rectangle {
+                        color: "transparent"
+                        Rectangle {
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width * 0.8
+                            height: 2
+                            color: "#154D25"
+                            visible: parent.parent.checked
+                        }
+                    }
                 }
                 TabButton {
                     text: qsTr("Others")
+                    contentItem: Text {
+                        text: parent.text
+                        font: parent.font
+                        color: qgcPal.buttonText
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    background: Rectangle {
+                        color: "transparent"
+                        Rectangle {
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width * 0.8
+                            height: 2
+                            color: "#154D25"
+                            visible: parent.parent.checked
+                        }
+                    }
                 }
             }
 
