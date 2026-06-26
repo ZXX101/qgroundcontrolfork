@@ -28,6 +28,8 @@ ColumnLayout {
         model:              missionController ? missionController.visualItems : null
         cacheBuffer:        Math.max(height * 2, 0)
         clip:               true
+        currentIndex:       missionController ? missionController.currentPlanViewSeqNum : -1
+        highlightMoveDuration: 250
 
         delegate: Loader {
             sourceComponent: object.sequenceNumber === 0 ? nullComponent : waypointCardComponent

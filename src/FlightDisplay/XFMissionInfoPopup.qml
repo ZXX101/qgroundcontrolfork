@@ -34,7 +34,7 @@ Rectangle {
 
     Component.onCompleted: {
         if (missionController) {
-            currentSequenceNumber = missionController.currentPlanViewVIIndex;
+            currentSequenceNumber = missionController.currentPlanViewSeqNum;
         }
     }
 

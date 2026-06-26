@@ -207,8 +207,8 @@ Item {
 
         Connections {
             target: _missionController
-            onCurrentPlanViewVIIndexChanged: {
-                var seqNum = _missionController.currentPlanViewVIIndex
+            onCurrentPlanViewSeqNumChanged: {
+                var seqNum = _missionController.currentPlanViewSeqNum
                 missionInfoPopup.currentSequenceNumber = seqNum
                 if (seqNum > 0) {
                     missionInfoPopup.syncToSequenceNumber(seqNum)
