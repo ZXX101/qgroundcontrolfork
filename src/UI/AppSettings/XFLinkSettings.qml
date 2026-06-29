@@ -149,7 +149,8 @@ QGCFlickable {
 
         // 右侧：编辑页面（始终显示）
         ColumnLayout {
-            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 40
+            Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 50
+            Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 50
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
@@ -282,7 +283,9 @@ QGCFlickable {
     Component {
         id: editLinkComponent
 
-        ColumnLayout {
+        Item {
+            anchors.fill: parent
+
             property var originalConfig: null
             property var editingConfig: null
 
@@ -300,14 +303,16 @@ QGCFlickable {
             }
 
             QGCFlickable {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                contentWidth: columnLayout.width
-                contentHeight: columnLayout.height
+                anchors.fill:   parent
+                contentWidth:   mainLayout.width
+                contentHeight:  mainLayout.height
+
                 ColumnLayout {
-                    id: columnLayout
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillHeight: true
+                    id: mainLayout
+                    x:          Math.max(0, parent.width / 2 - width / 2)
+                    width:      Math.max(implicitWidth, ScreenTools.defaultFontPixelWidth * 50)
+                    spacing:    ScreenTools.defaultFontPixelHeight
+
                     QGCLabel {
                         text: originalConfig ? "Edit Link" : "New Link"
                         font.bold: true

@@ -34,7 +34,7 @@ Rectangle {
     readonly property real _verticalMargin: _defaultTextHeight / 2
 
     //当前选中的一级菜单索引（0-7）
-    property int currentPageIndex: 7
+    property int currentPageIndex: 0
     //设备配置二级菜单索引
     property int deviceConfigSubIndex: 0
 
