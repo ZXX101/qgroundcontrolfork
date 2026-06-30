@@ -90,6 +90,57 @@ Rectangle {
     property bool _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && (!_activeVehicle || !_activeVehicle.parameterManager.missingParameters)
     property var _vehicleComponents: _fullParameterVehicleAvailable && _activeVehicle ? _activeVehicle.autopilotPlugin.vehicleComponents : []
 
+    // 从 setupSource URL 提取组件标识
+    function getComponentIdFromUrl(url) {
+        var urlStr = url.toString().toLowerCase()
+        if (urlStr.indexOf("airframe") >= 0) return "airframe"
+        if (urlStr.indexOf("sensors") >= 0) return "sensors"
+        if (urlStr.indexOf("flightmodes") >= 0) return "flightModes"
+        if (urlStr.indexOf("power") >= 0) return "power"
+        if (urlStr.indexOf("actuator") >= 0 || urlStr.indexOf("motor") >= 0) return "motors"
+        if (urlStr.indexOf("radio") >= 0) return "radio"
+        if (urlStr.indexOf("tuning") >= 0) return "tuning"
+        if (urlStr.indexOf("camera") >= 0) return "camera"
+        if (urlStr.indexOf("esp8266") >= 0 || urlStr.indexOf("remote") >= 0) return "esp8266"
+        if (urlStr.indexOf("safety") >= 0) return "safety"
+        if (urlStr.indexOf("syslink") >= 0) return "syslink"
+        if (urlStr.indexOf("flightbehavior") >= 0) return "flightBehavior"
+        if (urlStr.indexOf("follow") >= 0) return "follow"
+        if (urlStr.indexOf("heli") >= 0) return "heli"
+        if (urlStr.indexOf("lights") >= 0) return "lights"
+        if (urlStr.indexOf("subframe") >= 0 || urlStr.indexOf("sub frame") >= 0) return "subFrame"
+        return ""
+    }
+
+    // 过滤并排序后的组件列表（排除Safety/FlightBehavior/ESP8266/Camera等，按指定顺序排列）
+    property var _vehicleComponentsList: _fullParameterVehicleAvailable && _activeVehicle ? _activeVehicle.autopilotPlugin.vehicleComponents : []
+    property var _filteredComponents: {
+        // 依赖 _filterRefreshCounter 确保在连接状态变化时强制刷新
+        var refresh = _filterRefreshCounter
+        var all = _vehicleComponentsList
+        // 目标顺序
+        var order = ["airframe", "sensors", "flightModes", "power", "motors", "radio", "tuning"]
+        // 需要排除的组件标识
+        var exclude = ["safety", "camera", "esp8266", "syslink", "flightBehavior", "follow", "heli", "lights", "subFrame"]
+
+        var filtered = []
+        for (var i = 0; i < all.length; i++) {
+            var url = all[i].setupSource.toString()
+            var id = getComponentIdFromUrl(url)
+            if (!id || exclude.indexOf(id) >= 0) continue
+            var idx = order.indexOf(id)
+            filtered.push({component: all[i], order: idx >= 0 ? idx : 999})
+        }
+        filtered.sort(function(a, b) { return a.order - b.order })
+        return filtered.map(function(item) { return item.component })
+    }
+
+    // 刷新过滤后的组件列表
+    property int _filterRefreshCounter: 0
+    function _refreshFilteredComponents() {
+        _filterRefreshCounter++
+    }
+
     //通过componentName查找对应的VehicleComponent对象
     function findVehicleComponent(componentName) {
         if (!_vehicleComponents || _vehicleComponents.length === 0) return null
@@ -410,7 +461,7 @@ Rectangle {
 
                     Repeater {
                         id: vehicleComponentsRepeater
-                        model: _fullParameterVehicleAvailable ? _activeVehicle.autopilotPlugin.vehicleComponents : 0
+                        model: _fullParameterVehicleAvailable ? _filteredComponents : 0
 
                         ConfigButton {
                             text: modelData.name
@@ -543,6 +594,10 @@ Rectangle {
     Connections {
         target: QGroundControl.multiVehicleManager
         onParameterReadyVehicleAvailableChanged: {
+            
+            // 强制刷新 _filteredComponents
+            _refreshFilteredComponents()
+
             if (!_fullParameterVehicleAvailable) {
                 if (currentPageIndex === 1) {
                     _showDeviceConfigSummary()
@@ -563,4 +618,6 @@ Rectangle {
             updateButtonChecked()
         }
     }
+
+
 }
