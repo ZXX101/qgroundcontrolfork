@@ -124,6 +124,9 @@ Rectangle {
     //设备配置二级菜单是否展开
     property bool deviceConfigExpanded: false
 
+    //飞控未连接时显示的页面（概况、遥控器、参数）
+    property var _deviceConfigPagesDisconnected: [deviceConfigPages[0], deviceConfigPages[6], deviceConfigPages[8]]
+
     //飞控相关属性
     property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
     property bool _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && (!_activeVehicle || !_activeVehicle.parameterManager.missingParameters)
@@ -224,7 +227,7 @@ Rectangle {
             //对于safety、flyparam和radio，始终可见
             if (page.componentName === "safety" || page.componentName === "flyparam" || page.componentName === "radio") return true
             var comp = findVehicleComponent(page.componentName)
-            return comp && comp.setupSource.toString() !== ""
+            return comp !== null && comp.setupSource.toString() !== ""
         }
         return false
     }
@@ -406,14 +409,14 @@ Rectangle {
                     Layout.leftMargin: _defaultTextWidth
 
                     Repeater {
-                        model: deviceConfigPages
+                        model: _fullParameterVehicleAvailable ? deviceConfigPages : _deviceConfigPagesDisconnected
 
                         ConfigButton {
                             text: modelData.name
                             Layout.fillWidth: true
                             font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                             checked: deviceConfigSubIndex === index
-                            visible: isPageVisible(modelData)
+                            visible: true
 
                             onClicked: {
                                 currentPageIndex = 1;
@@ -439,6 +442,7 @@ Rectangle {
                 icon.source: pageList[2].icon
                 Layout.fillWidth: true
                 checked: currentPageIndex === 2
+                visible: isPageVisible(pageList[2])
                 onClicked: selectPage(2)
             }
             ConfigButton {
@@ -447,6 +451,7 @@ Rectangle {
                 icon.source: pageList[3].icon
                 Layout.fillWidth: true
                 checked: currentPageIndex === 3
+                visible: isPageVisible(pageList[3])
                 onClicked: selectPage(3)
             }
             ConfigButton {
@@ -516,14 +521,16 @@ Rectangle {
     Connections {
         target: QGroundControl.multiVehicleManager
         onParameterReadyVehicleAvailableChanged: {
-            //飞控连接变化时，刷新二级菜单
-            if (currentPageIndex === 1 && deviceConfigExpanded) {
-                var url = getUrlForPage(deviceConfigPages[deviceConfigSubIndex]);
-                if (url !== "") {
-                    contentLoader.vehicleComponent = null;
-                    contentLoader.source = "";
-                    contentLoader.source = url;
-                }
+            //飞控连接变化时，刷新当前页面内容
+            var url = getUrlForPage(currentPageIndex === 1 ? deviceConfigPages[deviceConfigSubIndex] : pageList[currentPageIndex])
+            if (url !== "") {
+                var comp = findVehicleComponent(currentPageIndex === 1 ? deviceConfigPages[deviceConfigSubIndex].componentName : pageList[currentPageIndex].componentName)
+                contentLoader.vehicleComponent = comp || null
+                contentLoader.source = ""
+                contentLoader.source = url
+            } else if (!_fullParameterVehicleAvailable) {
+                contentLoader.vehicleComponent = null
+                contentLoader.source = ""
             }
         }
     }
