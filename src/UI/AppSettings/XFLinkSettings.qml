@@ -399,6 +399,7 @@ QGCFlickable {
                     Layout.fillWidth: true
                     QGCButton {
                         Layout.fillWidth: true
+                        Layout.preferredWidth: 0
                         text: qsTr("OK")
                         onClicked: {
                             if (linkSettingsLoader.item) linkSettingsLoader.item.saveSettings();
@@ -416,6 +417,7 @@ QGCFlickable {
                     }
                     QGCButton {
                         Layout.fillWidth: true
+                        Layout.preferredWidth: 0
                         text: qsTr("Cancel")
                         onClicked: {
                             if (editingConfig) {
