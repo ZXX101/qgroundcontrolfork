@@ -184,47 +184,47 @@ Rectangle {
     //根据vehicleComponent获取XF定制版URL
     function getUrlForVehicleComponent(vehicleComponent) {
         if (!vehicleComponent || !vehicleComponent.setupSource) return ""
-        var url = vehicleComponent.setupSource.toString()
+        var url = vehicleComponent.setupSource.toString().toLowerCase()
         if (url === "") return ""
 
-        var name = vehicleComponent.name.toLowerCase()
-        if (name === "airframe" || name === "frame") {
-            if (url.indexOf("PX4") !== -1) {
+        // 通过 URL 路径匹配，不管 name 是什么语言
+        if (url.indexOf("airframe") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFAirframeComponent.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMAirframeComponent.qml"
             }
-        } else if (name === "sensors") {
-            if (url.indexOf("PX4") !== -1) {
+        } else if (url.indexOf("sensor") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFSensorsComponent.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml"
             }
-        } else if (name === "flight modes") {
-            if (url.indexOf("PX4") !== -1) {
+        } else if (url.indexOf("flightmode") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPX4FlightModes.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml"
             }
-        } else if (name === "power") {
-            if (url.indexOf("PX4") !== -1) {
+        } else if (url.indexOf("power") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPowerComponent.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMPowerComponent.qml"
             }
-        } else if (name === "motors" || name === "actuators") {
-            if (url.indexOf("PX4") !== -1) {
+        } else if (url.indexOf("actuator") !== -1 || url.indexOf("motor") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFActuatorComponent.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMMotorComponent.qml"
             }
-        } else if (name === "pid tuning" || name === "tuning") {
-            if (url.indexOf("PX4") !== -1) {
+        } else if (url.indexOf("tuning") !== -1) {
+            if (url.indexOf("px4") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml"
-            } else if (url.indexOf("APM") !== -1) {
+            } else if (url.indexOf("apm") !== -1) {
                 return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml"
             }
-        } else if (name === "radio") {
+        } else if (url.indexOf("radio") !== -1) {
             return "qrc:/qml/QGroundControl/AutoPilotPlugins/Common/XFRadioComponent.qml"
         }
         return url
@@ -593,7 +593,7 @@ Rectangle {
     Connections {
         target: QGroundControl.multiVehicleManager
         onParameterReadyVehicleAvailableChanged: {
-            
+
             // 强制刷新 _filteredComponents
             _refreshFilteredComponents()
 
