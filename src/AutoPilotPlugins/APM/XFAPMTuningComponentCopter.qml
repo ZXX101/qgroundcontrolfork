@@ -458,18 +458,19 @@ SetupPage {
                 } // Rectangle - Channel 6 Tuning options wrap
             }// Column
             Loader {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: parent.availableWidth
                 sourceComponent: advanced ? advancePageComponent : undefined
+                property real availableWidth: parent.availableWidth
+                property real availableHeight: parent.availableHeight
             }
 
             Component {
                 id: advancePageComponent
 
                 PIDTuning {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: availableHeight
+                    Layout.fillWidth: true
+                    availableWidth: parent.availableWidth
+                    availableHeight: parent.availableHeight
 
                     property var roll: QtObject {
                         property string name: qsTr("Roll")
