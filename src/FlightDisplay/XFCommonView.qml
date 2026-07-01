@@ -465,7 +465,6 @@ Rectangle {
 
                         ConfigButton {
                             text: modelData.name
-                            icon.source: modelData.iconResource
                             Layout.fillWidth: true
                             font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                             checked: deviceConfigSubIndex === index
