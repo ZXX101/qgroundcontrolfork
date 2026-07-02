@@ -28,7 +28,7 @@ SetupPage {
         id: tuningPageComponent
 
         ColumnLayout {
-            anchors.fill: parent
+            width: availableWidth
             spacing: ScreenTools.defaultFontPixelHeight
 
             TabBar {
@@ -365,21 +365,235 @@ SetupPage {
                         }
                     }
 
-                    Item { Layout.fillHeight: true }
+                    XFPIDTuning {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        availableWidth: width
+                        availableHeight: height
+                        title: qsTr("姿态")
+                        tuningMode: Vehicle.ModeDisabled
+                        unit: qsTr("deg")
+                        chartDisplaySec: 8
+
+                        property var roll: QtObject {
+                            property string name: qsTr("横滚")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.roll ? globals.activeVehicle.roll.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.roll.value : NaN }
+                            ]
+                        }
+                        property var pitch: QtObject {
+                            property string name: qsTr("俯仰")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.pitch ? globals.activeVehicle.pitch.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.pitch.value : NaN }
+                            ]
+                        }
+                        property var yaw: QtObject {
+                            property string name: qsTr("偏航")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.heading ? globals.activeVehicle.heading.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.yaw.value : NaN }
+                            ]
+                        }
+                        axis: [roll, pitch, yaw]
+                    }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    spacing: ScreenTools.defaultFontPixelHeight
 
-                    Item { Layout.fillHeight: true }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: ScreenTools.defaultFontPixelWidth * 4
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                            QGCLabel {
+                                text: qsTr("水平(Horizontal)")
+                                font.bold: true
+                                Layout.fillWidth: true
+                            }
+
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                            QGCLabel {
+                                text: qsTr("垂直(Vertical)")
+                                font.bold: true
+                                Layout.fillWidth: true
+                            }
+
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                        }
+                    }
+
+                    XFPIDTuning {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        availableWidth: width
+                        availableHeight: height
+                        title: qsTr("速度")
+                        tuningMode: Vehicle.ModeDisabled
+                        unit: qsTr("m/s")
+                        chartDisplaySec: 8
+
+                        property var horizontal: QtObject {
+                            property string name: qsTr("水平")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.vy.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.vy.value : NaN }
+                            ]
+                        }
+                        property var vertical: QtObject {
+                            property string name: qsTr("垂直")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.vz.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.vz.value : NaN }
+                            ]
+                        }
+                        axis: [horizontal, vertical]
+                    }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    spacing: ScreenTools.defaultFontPixelHeight
 
-                    Item { Layout.fillHeight: true }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: ScreenTools.defaultFontPixelWidth * 4
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                            QGCLabel {
+                                text: qsTr("水平(Horizontal)")
+                                font.bold: true
+                                Layout.fillWidth: true
+                            }
+
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                            QGCLabel {
+                                text: qsTr("垂直(Vertical)")
+                                font.bold: true
+                                Layout.fillWidth: true
+                            }
+
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.3-3"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5 }
+                                QGCTextField { placeholderText: "0.0"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                        }
+                    }
+
+                    XFPIDTuning {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        availableWidth: width
+                        availableHeight: height
+                        title: qsTr("位置")
+                        tuningMode: Vehicle.ModeDisabled
+                        unit: qsTr("m")
+                        chartDisplaySec: 50
+
+                        property var horizontal: QtObject {
+                            property string name: qsTr("水平")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.y.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.y.value : NaN }
+                            ]
+                        }
+                        property var vertical: QtObject {
+                            property string name: qsTr("垂直")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.z.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.z.value : NaN }
+                            ]
+                        }
+                        axis: [horizontal, vertical]
+                    }
                 }
             }
         }
