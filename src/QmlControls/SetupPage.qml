@@ -26,8 +26,8 @@ Item {
     enabled:        !_disableDueToArmed && !_disableDueToFlying
 
     property alias  pageComponent:          pageLoader.sourceComponent
-    property string pageName:               vehicleComponent ? vehicleComponent.name : ""
-    property string pageDescription:        vehicleComponent ? vehicleComponent.description : ""
+    property string pageName:               vehicleComponent ? (vehicleComponent.name || "") : ""
+    property string pageDescription:        vehicleComponent ? (vehicleComponent.description || "") : ""
     property real   availableWidth:         width - pageLoader.x
     property real   availableHeight:        height - pageLoader.y
     property bool   showAdvanced:           false
@@ -61,6 +61,7 @@ Item {
             spacing:            _margins
             layoutDirection:    Qt.RightToLeft
             visible:            showAdvanced || (pageDescription !== "" && !ScreenTools.isShortScreen)
+            height:             visible ? implicitHeight : 0
 
             QGCCheckBox {
                 id:         advancedCheckBox
@@ -90,7 +91,7 @@ Item {
 
         Loader {
             id:                 pageLoader
-            anchors.topMargin:  _margins
+            anchors.topMargin:  headingRow.visible ? _margins : 0
             anchors.top:        headingRow.bottom
         }
 

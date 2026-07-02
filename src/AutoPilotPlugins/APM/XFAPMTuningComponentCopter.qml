@@ -31,10 +31,7 @@ SetupPage {
         ColumnLayout {
             width: availableWidth
             spacing: ScreenTools.defaultFontPixelHeight
-            Rectangle{
-                color: "red"
-                anchors.fill: parent
-            }
+
             TabBar {
                 id: tabBar
                 Layout.fillWidth: true
