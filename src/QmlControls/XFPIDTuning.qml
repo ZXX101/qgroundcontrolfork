@@ -179,38 +179,7 @@ ColumnLayout {
         margins.left:           0
         margins.right:          0
 
-        MouseArea {
-            property var _startPoint: undefined
-            property double _scaling: 0
-            anchors.fill: parent
-            onPressed: (mouse) => {
-                _startPoint = Qt.point(mouse.x, mouse.y)
-                var start = chart.mapToValue(_startPoint)
-                var next = chart.mapToValue(Qt.point(mouse.x+1, mouse.y+1))
-                _scaling = next.x - start.x
-            }
-            onWheel: (wheel) => {
-                if (wheel.angleDelta.y > 0)
-                    chartDisplaySec /= 1.2
-                else
-                    chartDisplaySec *= 1.2
-                _xAxis.min = _xAxis.max - chartDisplaySec
-            }
-            onPositionChanged: (mouse) => {
-                if(_startPoint != undefined) {
-                    dataTimer.running = false
-                    var cp = Qt.point(mouse.x, mouse.y)
-                    var dx = (cp.x - _startPoint.x) * _scaling
-                    _startPoint = cp
-                    _xAxis.max -= dx
-                    _xAxis.min -= dx
-                }
-            }
 
-            onReleased: {
-                _startPoint = undefined
-            }
-        }
     }
 
     RowLayout {
