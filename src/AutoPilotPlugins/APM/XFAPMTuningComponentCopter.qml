@@ -10,7 +10,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtCharts
 
+import QGroundControl
 import QGroundControl.FactSystem
 import QGroundControl.FactControls
 import QGroundControl.Palette
@@ -133,12 +135,6 @@ SetupPage {
                     Layout.fillHeight: true
                     spacing: ScreenTools.defaultFontPixelHeight
 
-                    QGCLabel {
-                        text: qsTr("速率 PID")
-                        font.bold: true
-                        font.pointSize: ScreenTools.defaultFontPointSize * 1.2
-                    }
-
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: ScreenTools.defaultFontPixelWidth * 4
@@ -234,7 +230,39 @@ SetupPage {
                         }
                     }
 
-                    Item { Layout.fillHeight: true }
+                    XFPIDTuning {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        availableWidth: width
+                        availableHeight: height
+                        title: qsTr("速率")
+                        tuningMode: Vehicle.ModeDisabled
+                        unit: qsTr("deg/s")
+                        chartDisplaySec: 3
+
+                        property var roll: QtObject {
+                            property string name: qsTr("横滚")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.rollRate ? globals.activeVehicle.rollRate.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.rollRate.value : NaN }
+                            ]
+                        }
+                        property var pitch: QtObject {
+                            property string name: qsTr("俯仰")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.pitchRate ? globals.activeVehicle.pitchRate.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.pitchRate.value : NaN }
+                            ]
+                        }
+                        property var yaw: QtObject {
+                            property string name: qsTr("偏航")
+                            property var plot: [
+                                { name: "Response", value: globals.activeVehicle && globals.activeVehicle.yawRate ? globals.activeVehicle.yawRate.value : NaN },
+                                { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.yawRate.value : NaN }
+                            ]
+                        }
+                        axis: [roll, pitch, yaw]
+                    }
                 }
 
                 ColumnLayout {
@@ -242,12 +270,6 @@ SetupPage {
                     Layout.fillHeight: true
                     spacing: ScreenTools.defaultFontPixelHeight
 
-                    QGCLabel {
-                        text: qsTr("姿态 PID")
-                        font.bold: true
-                        font.pointSize: ScreenTools.defaultFontPointSize * 1.2
-                    }
-
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: ScreenTools.defaultFontPixelWidth * 4
@@ -350,24 +372,12 @@ SetupPage {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    QGCLabel {
-                        text: qsTr("速度 PID")
-                        font.bold: true
-                        font.pointSize: ScreenTools.defaultFontPointSize * 1.2
-                    }
-
                     Item { Layout.fillHeight: true }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-
-                    QGCLabel {
-                        text: qsTr("位置 PID")
-                        font.bold: true
-                        font.pointSize: ScreenTools.defaultFontPointSize * 1.2
-                    }
 
                     Item { Layout.fillHeight: true }
                 }
