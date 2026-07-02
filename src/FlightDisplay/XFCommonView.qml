@@ -80,7 +80,7 @@ Rectangle {
     ]
 
     //设备配置二级菜单是否展开
-    property bool deviceConfigExpanded: false
+    property bool deviceConfigExpanded: true
 
     //设备配置二级菜单中选中的索引：-1=概况, 0..n=vehicleComponents中第n项, -2=参数
     property int deviceConfigSubIndex: -1
@@ -113,14 +113,21 @@ Rectangle {
     }
 
     // 过滤并排序后的组件列表（排除Safety/FlightBehavior/ESP8266/Camera等，按指定顺序排列）
+    property var _fallbackComponents: [
+        { name: "Airframe", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/AirframeComponent.qml" },
+        { name: "Sensors", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/SensorsComponent.qml" },
+        { name: "Flight Modes", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/FlightModesComponent.qml" },
+        { name: "Power", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/PowerComponent.qml" },
+        { name: "Motors", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/MotorComponent.qml" },
+        { name: "Radio", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/Common/RadioComponent.qml" },
+        { name: "Tuning", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/TuningComponentCopter.qml" }
+    ]
+
     property var _vehicleComponentsList: _fullParameterVehicleAvailable && _activeVehicle ? _activeVehicle.autopilotPlugin.vehicleComponents : []
     property var _filteredComponents: {
-        // 依赖 _filterRefreshCounter 确保在连接状态变化时强制刷新
         var refresh = _filterRefreshCounter
         var all = _vehicleComponentsList
-        // 目标顺序
         var order = ["airframe", "sensors", "flightModes", "power", "motors", "radio", "tuning"]
-        // 需要排除的组件标识
         var exclude = ["safety", "camera", "esp8266", "syslink", "flightBehavior", "follow", "heli", "lights", "subFrame"]
 
         var filtered = []
@@ -132,7 +139,8 @@ Rectangle {
             filtered.push({component: all[i], order: idx >= 0 ? idx : 999})
         }
         filtered.sort(function(a, b) { return a.order - b.order })
-        return filtered.map(function(item) { return item.component })
+        var result = filtered.map(function(item) { return item.component })
+        return result.length > 0 ? result : _fallbackComponents
     }
 
     // 刷新过滤后的组件列表
@@ -167,14 +175,18 @@ Rectangle {
             if (page.componentName === "safety") {
                 if (_activeVehicle && _activeVehicle.apmFirmware) {
                     return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml"
-                } else {
+                } else if (_activeVehicle) {
                     return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFSafetyComponent.qml"
+                } else {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml"
                 }
             } else if (page.componentName === "flyparam") {
                 if (_activeVehicle && _activeVehicle.apmFirmware) {
                     return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml"
-                } else {
+                } else if (_activeVehicle) {
                     return "qrc:/qml/QGroundControl/AutoPilotPlugins/PX4/XFFlyParamComponent.qml"
+                } else {
+                    return "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml"
                 }
             }
         }
@@ -234,13 +246,9 @@ Rectangle {
     function isPageVisible(page) {
         if (page.url && page.url !== "") return true
         if (page.componentName) {
-            if (page.componentName === "safety" || page.componentName === "flyparam") {
-                return _fullParameterVehicleAvailable
-            }
-            var comp = findVehicleComponent(page.componentName)
-            return comp !== null && comp.setupSource.toString() !== ""
+            return true
         }
-        return false
+        return true
     }
 
     //显示设备配置二级菜单的概况页
@@ -254,7 +262,7 @@ Rectangle {
             contentLoader.source = "qrc:/qml/QGroundControl/VehicleSetup/VehicleSummary.qml"
         } else {
             contentLoader.vehicleComponent = null
-            contentLoader.source = ""
+            contentLoader.sourceComponent = disconnectedSummaryComponent
         }
         updateButtonChecked()
     }
@@ -461,7 +469,7 @@ Rectangle {
 
                     Repeater {
                         id: vehicleComponentsRepeater
-                        model: _fullParameterVehicleAvailable ? _filteredComponents : 0
+                        model: _filteredComponents
 
                         ConfigButton {
                             text: modelData.name
@@ -490,7 +498,7 @@ Rectangle {
                         Layout.fillWidth: true
                         font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                         checked: deviceConfigSubIndex === -2
-                        visible: _fullParameterVehicleAvailable
+                        visible: true
                         onClicked: {
                             currentPageIndex = 1;
                             deviceConfigSubIndex = -2;
