@@ -70,6 +70,13 @@ SetupPage {
 
             property Fact boardRot:                         controller.getParameterFact(-1, "AHRS_ORIENTATION")
 
+            property Fact _gps1PosX:                        controller.getParameterFact(-1, "GPS1_POS_X", false)
+            property Fact _gps1PosY:                        controller.getParameterFact(-1, "GPS1_POS_Y", false)
+            property Fact _gps1PosZ:                        controller.getParameterFact(-1, "GPS1_POS_Z", false)
+            property Fact _gps2PosX:                        controller.getParameterFact(-1, "GPS2_POS_X", false)
+            property Fact _gps2PosY:                        controller.getParameterFact(-1, "GPS2_POS_Y", false)
+            property Fact _gps2PosZ:                        controller.getParameterFact(-1, "GPS2_POS_Z", false)
+
             readonly property int _calTypeCompass:  1   ///< Calibrate compass
             readonly property int _calTypeAccel:    2   ///< Calibrate accel
             readonly property int _calTypeSet:      3   ///< Set orientations only
@@ -696,11 +703,43 @@ SetupPage {
                             }
                         }
                     }
+                    TabButton {
+                        contentItem: Row {
+                            spacing: ScreenTools.defaultFontPixelWidth / 2
+                            Rectangle {
+                                width:              ScreenTools.defaultFontPixelHeight * 0.5
+                                height:             width
+                                radius:             width / 2
+                                color:              "gray"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Text {
+                                text:                   qsTr("GPS Location")
+                                font:                   parent.parent.font
+                                color:                  qgcPal.buttonText
+                                horizontalAlignment:    Text.AlignHCenter
+                                verticalAlignment:      Text.AlignVCenter
+                            }
+                        }
+                        background: Rectangle {
+                            color: "transparent"
+                            Rectangle {
+                                anchors.bottom:            parent.bottom
+                                anchors.horizontalCenter:  parent.horizontalCenter
+                                width:                     parent.width * 0.8
+                                height:                    2
+                                color:                     "#154D25"
+                                visible:                   parent.parent.checked
+                            }
+                        }
+                    }
                 }
 
                 StackLayout {
                     width:          parent.width
                     currentIndex:   sensorTabBar.currentIndex
+                    clip:           true
+                    height:         children[currentIndex] ? children[currentIndex].implicitHeight : 0
 
                     // Compass Tab
                     RowLayout {
@@ -828,20 +867,99 @@ SetupPage {
                             }
                         }
                     }
+
+                    // GPS Location Tab
+                    ColumnLayout {
+                        spacing: ScreenTools.defaultFontPixelHeight
+
+                        QGCLabel {
+                            text:           qsTr("Positive values are forward, right, and up. Negative values are backward, left, and down.")
+                            font.pointSize: ScreenTools.smallFontPointSize
+                            color:          qgcPal.text
+                            opacity:        0.5
+                            wrapMode:       Text.WordWrap
+                            Layout.fillWidth: true
+                        }
+
+                        RowLayout {
+                            spacing: ScreenTools.defaultFontPixelWidth * 4
+                            Layout.fillWidth: true
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                QGCLabel {
+                                    text: qsTr("GPS1 Position")
+                                    font.bold: true
+                                    Layout.fillWidth: true
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "X"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps1PosX; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "Y"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps1PosY; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "Z"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps1PosZ; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                QGCLabel {
+                                    text: qsTr("GPS2 Position")
+                                    font.bold: true
+                                    Layout.fillWidth: true
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "X"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps2PosX; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "Y"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps2PosY; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                                RowLayout {
+                                    spacing: ScreenTools.defaultFontPixelWidth
+                                    QGCLabel { text: "Z"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                    FactTextField { fact: _gps2PosZ; unitsLabel: ""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    QGCLabel { text: "m"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 ProgressBar {
                     id:             progressBar
                     anchors.left:   parent.left
                     anchors.right:  parent.right
+                    visible:        sensorTabBar.currentIndex !== 3
                 }
 
-                Item { height: ScreenTools.defaultFontPixelHeight; width: 10 }
+                Item { height: ScreenTools.defaultFontPixelHeight; width: 10; visible: sensorTabBar.currentIndex !== 3 }
 
                 Item {
                     id:     centerPanel
                     width:  parent.width
                     height: parent.height - y
+                    visible: sensorTabBar.currentIndex !== 3
 
                     TextArea {
                         id:             statusTextArea
