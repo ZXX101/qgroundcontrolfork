@@ -22,6 +22,8 @@ import QGroundControl.ScreenTools
 SetupPage {
     id:             powerPage
     pageComponent:  powerPageComponent
+    pageName:       ""
+    pageDescription: ""
 
     FactPanelController {
         id:         controller
@@ -227,7 +229,7 @@ SetupPage {
 
             Column {
                 spacing:    _margins / 2
-                visible:    _escCalibrationAvailable
+                visible:    false // _escCalibrationAvailable
 
                 QGCLabel {
                     text:       qsTr("ESC Calibration")
@@ -406,6 +408,7 @@ SetupPage {
                     Layout.row:     3
                     Layout.column:  0
                     text:           qsTr("Power sensor:")
+                    visible:        false
                 }
 
                 QGCComboBox {
@@ -413,6 +416,7 @@ SetupPage {
                     Layout.minimumWidth:    _fieldWidth
                     model:                  sensorModel
                     textRole:               "text"
+                    visible:                false
 
                     onActivated: (index) => {
                         if (index < sensorModel.count - 1) {
@@ -431,14 +435,14 @@ SetupPage {
                     Layout.row:     4
                     Layout.column:  0
                     text:           qsTr("Current pin:")
-                    visible:        _showAdvanced
+                    visible:        false // _showAdvanced
                 }
 
                 FactComboBox {
                     Layout.minimumWidth:    _fieldWidth
                     fact:                   battCurrPin
                     indexModel:             false
-                    visible:                _showAdvanced
+                    visible:                false // _showAdvanced
                     sizeToContents:         true
                 }
 
@@ -446,14 +450,14 @@ SetupPage {
                     Layout.row:     5
                     Layout.column:  0
                     text:           qsTr("Voltage pin:")
-                    visible:        _showAdvanced
+                    visible:        false // _showAdvanced
                 }
 
                 FactComboBox {
                     Layout.minimumWidth:    _fieldWidth
                     fact:                   battVoltPin
                     indexModel:             false
-                    visible:                _showAdvanced
+                    visible:                false // _showAdvanced
                     sizeToContents:         true
                 }
 
@@ -461,18 +465,18 @@ SetupPage {
                     Layout.row:     6
                     Layout.column:  0
                     text:           qsTr("Voltage multiplier:")
-                    visible:        _showAdvanced
+                    visible:        false // _showAdvanced
                 }
 
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battVoltMult
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                 }
 
                 QGCButton {
                     text:       qsTr("Calculate")
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                     onClicked:  calcVoltageMultiplierDlgComponent.createObject(mainWindow, { vehicleVoltageFact: vehicleVoltage, battVoltMultFact: battVoltMult }).open()
                 }
 
@@ -482,23 +486,23 @@ SetupPage {
                     font.pointSize:     ScreenTools.smallFontPointSize
                     wrapMode:           Text.WordWrap
                     text:               qsTr("If the battery voltage reported by the vehicle is largely different than the voltage read externally using a voltmeter you can adjust the voltage multiplier value to correct this. Click the Calculate button for help with calculating a new value.")
-                    visible:            _showAdvanced
+                    visible:            false // _showAdvanced
                 }
 
                 QGCLabel {
                     text:       qsTr("Amps per volt:")
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                 }
 
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battAmpPerVolt
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                 }
 
                 QGCButton {
                     text:       qsTr("Calculate")
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                     onClicked:  calcAmpsPerVoltDlgComponent.createObject(mainWindow, { vehicleCurrentFact: vehicleCurrent, battAmpPerVoltFact: battAmpPerVolt }).open()
                 }
 
@@ -508,18 +512,18 @@ SetupPage {
                     font.pointSize:     ScreenTools.smallFontPointSize
                     wrapMode:           Text.WordWrap
                     text:               qsTr("If the current draw reported by the vehicle is largely different than the current read externally using a current meter you can adjust the amps per volt value to correct this. Click the Calculate button for help with calculating a new value.")
-                    visible:            _showAdvanced
+                    visible:            false // _showAdvanced
                 }
 
                 QGCLabel {
                     text:       qsTr("Amps Offset:")
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                 }
 
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battAmpOffset
-                    visible:    _showAdvanced
+                    visible:    false // _showAdvanced
                 }
 
                 QGCLabel {
@@ -528,7 +532,7 @@ SetupPage {
                     font.pointSize:     ScreenTools.smallFontPointSize
                     wrapMode:           Text.WordWrap
                     text:               qsTr("If the vehicle reports a high current read when there is little or no current going through it, adjust the Amps Offset. It should be equal to the voltage reported by the sensor when the current is zero.")
-                    visible:            _showAdvanced
+                    visible:            false // _showAdvanced
                 }
 
             } // GridLayout
