@@ -20,28 +20,35 @@ import QGroundControl.ScreenTools
 import QGroundControl.Controllers
 import QGroundControl.Palette
 
+// 遥控器校准页面，用于校准遥控器通道映射和附加设置
 SetupPage {
     id:             radioPage
     pageComponent:  pageComponent
 
+    // 页面主内容组件
     Component {
         id: pageComponent
 
+        // 页面根容器，左右两列布局
         Item {
             width:  availableWidth
             height: Math.max(leftColumn.height, rightColumn.height)
 
+            // 页面加载完成后启动校准控制器并更新通道数
             function setupPageCompleted() {
                 controller.start()
                 updateChannelCount()
             }
 
+            // 更新当前检测到的通道数量（预留，暂无实现）
             function updateChannelCount()
             {
             }
 
+            // 全局调色板
             QGCPalette { id: qgcPal; colorGroupEnabled: radioPage.enabled }
 
+            // 遥控器校准控制器，管理校准流程、通道映射和绑定操作
             RadioComponentController {
                 id:             controller
                 statusText:     statusText
@@ -53,6 +60,7 @@ SetupPage {
                 onThrottleReversedCalFailure:       mainWindow.showMessageDialog(qsTr("Throttle channel reversed"), qsTr("Calibration failed. The throttle channel on your transmitter is reversed. You must correct this on your transmitter in order to complete calibration."))
             }
 
+            // Spektrum接收机绑定对话框，选择绑定模式后让接收机进入配对状态
             Component {
                 id: spektrumBindDialogComponent
 
@@ -67,29 +75,34 @@ SetupPage {
                     ColumnLayout {
                         spacing: ScreenTools.defaultFontPixelHeight / 2
 
-                        QGCLabel {
-                            wrapMode:   Text.WordWrap
-                            text:       qsTr("Click Ok to place your Spektrum receiver in the bind mode.")
-                        }
+                    // 提示用户点击确定以将Spektrum接收机置于绑定模式
+                    QGCLabel {
+                        wrapMode:   Text.WordWrap
+                        text:       qsTr("Click Ok to place your Spektrum receiver in the bind mode.")
+                    }
 
-                        QGCLabel {
+                    // 提示用户选择接收机类型
+                    QGCLabel {
                             wrapMode:   Text.WordWrap
                             text:       qsTr("Select the specific receiver type below:")
                         }
 
-                        QGCRadioButton {
-                            text:               qsTr("DSM2 Mode")
-                            ButtonGroup.group:  radioGroup
-                            property int bindMode: RadioComponentController.DSM2
-                        }
+                    // DSM2绑定模式选项
+                    QGCRadioButton {
+                        text:               qsTr("DSM2 Mode")
+                        ButtonGroup.group:  radioGroup
+                        property int bindMode: RadioComponentController.DSM2
+                    }
 
-                        QGCRadioButton {
-                            text:               qsTr("DSMX (7 channels or less)")
-                            ButtonGroup.group:  radioGroup
-                            property int bindMode: RadioComponentController.DSMX7
-                        }
+                    // DSMX 7通道及以下绑定模式选项
+                    QGCRadioButton {
+                        text:               qsTr("DSMX (7 channels or less)")
+                        ButtonGroup.group:  radioGroup
+                        property int bindMode: RadioComponentController.DSMX7
+                    }
 
-                        QGCRadioButton {
+                    // DSMX 8通道及以上绑定模式选项（默认选中）
+                    QGCRadioButton {
                             checked:            true
                             text:               qsTr("DSMX (8 channels or more)")
                             ButtonGroup.group:  radioGroup
@@ -99,7 +112,7 @@ SetupPage {
                 }
             }
 
-            // Live channel monitor control component
+            // 单通道监听条组件，可视化显示单个RC通道的实时PWM值
             Component {
                 id: channelMonitorDisplayComponent
 
@@ -115,25 +128,25 @@ SetupPage {
                     readonly property int _pwmMax:      2200
                     readonly property int _pwmRange:    _pwmMax - _pwmMin
 
-                    // Bar
-                    Rectangle {
-                        id:                     bar
-                        anchors.verticalCenter: parent.verticalCenter
-                        width:                  parent.width
-                        height:                 parent.height / 2
-                        color:                  __barColor
-                    }
+                // 通道监听条背景，显示通道值的可视范围
+                Rectangle {
+                    id:                     bar
+                    anchors.verticalCenter: parent.verticalCenter
+                    width:                  parent.width
+                    height:                 parent.height / 2
+                    color:                  __barColor
+                }
 
-                    // Center point
-                    Rectangle {
+                // 中心线标记，表示通道中值位置
+                Rectangle {
                         anchors.horizontalCenter:   parent.horizontalCenter
                         width:                      globals.defaultTextWidth / 2
                         height:                     parent.height
                         color:                      qgcPal.window
                     }
 
-                    // Indicator
-                    Rectangle {
+                // 通道值指示圆点，根据RC值在条上滑动显示当前位置
+                Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         width:                  parent.height * 0.75
                         height:                 width
@@ -143,6 +156,7 @@ SetupPage {
                         x:                      (((reversed ? _pwmMax - rcValue : rcValue - _pwmMin) / _pwmRange) * parent.width) - (width / 2)
                     }
 
+                    // 通道未映射时显示"Not Mapped"文字
                     QGCLabel {
                         anchors.fill:           parent
                         horizontalAlignment:    Text.AlignHCenter
@@ -151,6 +165,7 @@ SetupPage {
                         visible:                !mapped
                     }
 
+                    // 通道值变化时的黄色闪烁动画
                     ColorAnimation {
                         id:         barAnimation
                         target:     bar
@@ -162,19 +177,20 @@ SetupPage {
                 }
             } // Component - channelMonitorDisplayComponent
 
-            // Left side column
+            // 左侧列：姿态控制通道监听、校准按钮和附加设置
             Column {
                 id:             leftColumn
                 anchors.left:   parent.left
                 anchors.right:  columnSpacer.left
                 spacing:        10
 
-                // Attitude Controls
+                // 姿态控制通道区域，显示Roll/Pitch/Yaw/Throttle四个通道的实时值
                 Column {
                     width:      parent.width
                     spacing:    5
                     QGCLabel { text: qsTr("Attitude Controls") }
 
+                    // Roll通道监听行，显示副翼通道的实时RC值
                     Item {
                         width:  parent.width
                         height: globals.defaultTextHeight * 2
@@ -184,6 +200,7 @@ SetupPage {
                             text:   qsTr("Roll")
                         }
 
+                        // Roll通道监听条加载器
                         Loader {
                             id:                 rollLoader
                             anchors.left:       rollLabel.right
@@ -196,6 +213,7 @@ SetupPage {
                             property bool reversed:         controller.rollChannelReversed
                         }
 
+                        // 将Roll通道RC值变化实时传递给监听条
                         Connections {
                             target: controller
 
@@ -203,6 +221,7 @@ SetupPage {
                         }
                     }
 
+                    // Pitch通道监听行，显示升降通道的实时RC值
                     Item {
                         width:  parent.width
                         height: globals.defaultTextHeight * 2
@@ -213,6 +232,7 @@ SetupPage {
                             text:   qsTr("Pitch")
                         }
 
+                        // Pitch通道监听条加载器
                         Loader {
                             id:                 pitchLoader
                             anchors.left:       pitchLabel.right
@@ -225,6 +245,7 @@ SetupPage {
                             property bool reversed:         controller.pitchChannelReversed
                         }
 
+                        // 将Pitch通道RC值变化实时传递给监听条
                         Connections {
                             target: controller
 
@@ -232,6 +253,7 @@ SetupPage {
                         }
                     }
 
+                    // Yaw通道监听行，显示偏航通道的实时RC值
                     Item {
                         width:  parent.width
                         height: globals.defaultTextHeight * 2
@@ -242,6 +264,7 @@ SetupPage {
                             text:   qsTr("Yaw")
                         }
 
+                        // Yaw通道监听条加载器
                         Loader {
                             id:                 yawLoader
                             anchors.left:       yawLabel.right
@@ -254,6 +277,7 @@ SetupPage {
                             property bool reversed:         controller.yawChannelReversed
                         }
 
+                        // 将Yaw通道RC值变化实时传递给监听条
                         Connections {
                             target: controller
 
@@ -261,6 +285,7 @@ SetupPage {
                         }
                     }
 
+                    // Throttle通道监听行，显示油门通道的实时RC值
                     Item {
                         width:  parent.width
                         height: globals.defaultTextHeight * 2
@@ -271,6 +296,7 @@ SetupPage {
                             text:   qsTr("Throttle")
                         }
 
+                        // Throttle通道监听条加载器
                         Loader {
                             id:                 throttleLoader
                             anchors.left:       throttleLabel.right
@@ -283,6 +309,7 @@ SetupPage {
                             property bool reversed:         controller.throttleChannelReversed
                         }
 
+                        // 将Throttle通道RC值变化实时传递给监听条
                         Connections {
                             target:                             controller
                             onThrottleChannelRCValueChanged:    (rcValue) => throttleLoader.item.rcValue = rcValue
@@ -290,22 +317,25 @@ SetupPage {
                     }
                 } // Column - Attitude Control labels
 
-                // Command Buttons
+                // 校准操作按钮行：跳过、取消、开始校准
                 Row {
                     spacing: 10
 
+                    // 跳过当前校准步骤
                     QGCButton {
                         id:         skipButton
                         text:       qsTr("Skip")
                         onClicked:  controller.skipButtonClicked()
                     }
 
+                    // 取消正在进行的校准流程
                     QGCButton {
                         id:         cancelButton
                         text:       qsTr("Cancel")
                         onClicked:  controller.cancelButtonClicked()
                     }
 
+                    // 开始或继续校准流程，点击时检查通道数并提示归零微调
                     QGCButton {
                         id:         nextButton
                         primary:    true
@@ -333,13 +363,14 @@ SetupPage {
                     }
                 } // Row - Buttons
 
-                // Status Text
+                // 校准状态提示文字，显示当前校准步骤说明
                 QGCLabel {
                     id:         statusText
                     width:      parent.width
                     wrapMode:   Text.WordWrap
                 }
 
+                // 分隔线
                 Rectangle {
                     width:          parent.width
                     height:         1
@@ -347,13 +378,16 @@ SetupPage {
                     border.width:   1
                 }
 
+                // 附加遥控设置区域标题
                 QGCLabel { text: qsTr("Additional Radio setup:") }
 
+                // 附加通道映射设置列表，显示辅助通道和参数通道的映射下拉框
                 ColumnLayout {
                     id:                 switchSettingsGrid
                     anchors.left:       parent.left
                     anchors.right:      parent.right
 
+                    // 根据固件类型动态生成附加通道映射参数的标签下拉框
                     Repeater {
                         model: QGroundControl.multiVehicleManager.activeVehicle.px4Firmware ?
                                    (QGroundControl.multiVehicleManager.activeVehicle.multiRotor ?
@@ -369,13 +403,16 @@ SetupPage {
                     }
                 }
 
+                // 接收机绑定和微调复制按钮行
                 RowLayout {
+                    // Spektrum接收机绑定按钮，打开绑定模式选择对话框
                     QGCButton {
                         id:         bindButton
                         text:       qsTr("Spektrum Bind")
                         onClicked:  spektrumBindDialogComponent.createObject(mainWindow).open()
                     }
 
+                    // CRSF接收机绑定按钮，确认后让接收机进入配对模式
                     QGCButton {
                         text:       qsTr("CRSF Bind")
                         onClicked:  mainWindow.showMessageDialog(qsTr("CRSF Bind"),
@@ -384,6 +421,7 @@ SetupPage {
                                                                  function() { controller.crsfBindMode() })
                     }
 
+                    // 复制微调值按钮，将遥控器当前微调值同步到飞控
                     QGCButton {
                         text:       qsTr("Copy Trims")
                         onClicked:  mainWindow.showMessageDialog(qsTr("Copy Trims"),
@@ -394,13 +432,14 @@ SetupPage {
                 }
             } // Column - Left Column
 
+            // 左右列之间的间距
             Item {
                 id:             columnSpacer
                 anchors.right:  rightColumn.left
                 width:          20
             }
 
-            // Right side column
+            // 右侧列：遥控器模式选择、校准示意图和全通道监视图
             Column {
                 id:             rightColumn
                 anchors.top:    parent.top
@@ -408,6 +447,7 @@ SetupPage {
                 width:          ScreenTools.defaultFontPixelWidth * 40
                 spacing:        ScreenTools.defaultFontPixelHeight / 2
 
+                // 遥控器模式选择（Mode 1/Mode 2）
                 Row {
                     spacing: ScreenTools.defaultFontPixelWidth
 
@@ -424,6 +464,7 @@ SetupPage {
                     }
                 }
 
+                // 校准步骤示意图，根据当前校准阶段显示对应操作指引
                 Image {
                     width:      parent.width
                     fillMode:   Image.PreserveAspectFit
@@ -431,6 +472,7 @@ SetupPage {
                     source:     controller.imageHelp
                 }
 
+                // 全通道RC监视图，以双列方式显示所有通道的实时值
                 RCChannelMonitor {
                     width:      parent.width
                     twoColumn:  true
