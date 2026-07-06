@@ -48,6 +48,10 @@ SetupPage {
             property Fact _angPitchP: controller.getParameterFact(-1, "ATC_ANG_PIT_P")
             property Fact _angYawP: controller.getParameterFact(-1, "ATC_ANG_YAW_P")
 
+            property Fact _angRollAccel: controller.getParameterFact(-1, "ATC_ACCEL_R_MAX")
+            property Fact _angPitchAccel: controller.getParameterFact(-1, "ATC_ACCEL_P_MAX")
+            property Fact _angYawAccel: controller.getParameterFact(-1, "ATC_ACCEL_Y_MAX")
+
             property Fact _velXYP: controller.getParameterFact(-1, "PSC_VELXY_P")
             property Fact _velXYI: controller.getParameterFact(-1, "PSC_VELXY_I")
             property Fact _velXYD: controller.getParameterFact(-1, "PSC_VELXY_D")
@@ -317,6 +321,12 @@ SetupPage {
                                 QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
                                 FactTextField { fact: _angRollP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
                             }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text:"0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                FactTextField { fact: _angRollAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
                         }
 
                         ColumnLayout {
@@ -335,6 +345,12 @@ SetupPage {
                                 QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
                                 FactTextField { fact: _angPitchP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
                             }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                FactTextField { fact: _angPitchAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
                         }
 
                         ColumnLayout {
@@ -352,6 +368,12 @@ SetupPage {
                                 QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
                                 QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
                                 FactTextField { fact: _angYawP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                FactTextField { fact: _angYawAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
                             }
                         }
                     }
