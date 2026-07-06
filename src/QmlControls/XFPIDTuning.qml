@@ -35,26 +35,49 @@ ColumnLayout {
     property var    _yAxis:             yAxis
     property int    _msecs:             0
     property double _last_t:            0
+    property bool   _hasData:           false
 
-    readonly property int _tickSeparation:      5
-    readonly property int _maxTickSections:     10
+    readonly property int _targetTickCount:  6
+
+    function niceStep(range) {
+        if (!isFinite(range) || range <= 0) return 1
+        var roughStep = range / _targetTickCount
+        var mag = Math.pow(10, Math.floor(Math.log10(roughStep)))
+        var normalized = roughStep / mag
+        var niceNorm
+        if (normalized <= 1) niceNorm = 1
+        else if (normalized <= 2) niceNorm = 2
+        else if (normalized <= 5) niceNorm = 5
+        else niceNorm = 10
+        return niceNorm * mag
+    }
 
     function adjustYAxisMin(yAxis, newValue) {
+        if (!isFinite(newValue)) return
         var newMin = Math.min(yAxis.min, newValue)
-        if (newMin % 5 != 0) {
-            newMin -= 5
-            newMin = Math.floor(newMin / _tickSeparation) * _tickSeparation
-        }
-        yAxis.min = newMin
+        var step = niceStep(yAxis.max - newMin)
+        yAxis.min = Math.floor(newMin / step) * step
     }
 
     function adjustYAxisMax(yAxis, newValue) {
+        if (!isFinite(newValue)) return
         var newMax = Math.max(yAxis.max, newValue)
-        if (newMax % 5 != 0) {
-            newMax += 5
-            newMax = Math.floor(newMax / _tickSeparation) * _tickSeparation
+        var step = niceStep(newMax - yAxis.min)
+        yAxis.max = Math.ceil(newMax / step) * step
+    }
+
+    function recalcYAxisTicks() {
+        var range = _yAxis.max - _yAxis.min
+        if (!isFinite(range)) return
+        if (range <= 0) {
+            _yAxis.min = _yAxis.min - 1
+            _yAxis.max = _yAxis.max + 1
+            range = _yAxis.max - _yAxis.min
         }
-        yAxis.max = newMax
+        var step = niceStep(range)
+        _yAxis.min = Math.floor(_yAxis.min / step) * step
+        _yAxis.max = Math.ceil(_yAxis.max / step) * step
+        _yAxis.tickCount = Math.round((_yAxis.max - _yAxis.min) / step) + 1
     }
 
     function resetGraphs() {
@@ -67,6 +90,7 @@ ColumnLayout {
         _yAxis.max = 0
         _msecs = 0
         _last_t = 0
+        _hasData = false
     }
 
     function axisIndexChanged() {
@@ -112,11 +136,13 @@ ColumnLayout {
         id:                     yAxis
         min:                    0
         max:                    10
+        labelFormat:            "%.0f"
         titleText:              unit
-        tickCount:              Math.min(((max - min) / _tickSeparation), _maxTickSections) + 1
-        labelsFont.pointSize:   ScreenTools.defaultFontPointSize
+        tickCount:              2
+        visible:                _hasData
+        labelsFont.pixelSize:   ScreenTools.defaultFontPixelHeight * 0.8
         labelsFont.family:      ScreenTools.normalFontFamily
-        titleFont.pointSize:    ScreenTools.defaultFontPointSize
+        titleFont.pixelSize:    ScreenTools.defaultFontPixelHeight * 0.8
         titleFont.family:       ScreenTools.normalFontFamily
     }
 
@@ -133,16 +159,17 @@ ColumnLayout {
             _xAxis.max = _msecs / 1000
             _xAxis.min = _msecs / 1000 - chartDisplaySec
 
-            var firstPoint = _msecs == 0
-
             var len = axis[_currentAxis].plot.length
+            var hasValidValue = false
             for (var i = 0; i < len; ++i) {
                 var value = axis[_currentAxis].plot[i].value
-                if (!isNaN(value)) {
+                if (!isNaN(value) && isFinite(value)) {
+                    hasValidValue = true
                     chart.series(i).append(_msecs/1000, value)
-                    if (firstPoint) {
+                    if (!_hasData) {
                         _yAxis.min = value
                         _yAxis.max = value
+                        _hasData = true
                     } else {
                         adjustYAxisMin(_yAxis, value)
                         adjustYAxisMax(_yAxis, value)
@@ -153,6 +180,10 @@ ColumnLayout {
                     }
                 }
             }
+
+            if (!hasValidValue) return
+
+            recalcYAxisTicks()
 
             var t = new Date().getTime()
             if (_last_t > 0)
