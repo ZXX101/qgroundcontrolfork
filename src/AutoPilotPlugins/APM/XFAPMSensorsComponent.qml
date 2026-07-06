@@ -703,7 +703,7 @@ SetupPage {
                     currentIndex:   sensorTabBar.currentIndex
 
                     // Compass Tab
-                    ColumnLayout {
+                    RowLayout {
                         spacing: _margins
 
                         QGCLabel {
@@ -712,12 +712,12 @@ SetupPage {
                             text:               compassHelp
                         }
 
-                        ColumnLayout {
+                        RowLayout {
                             id:             calButtonColumn
-                            Layout.fillWidth: true
                             spacing:        _margins
 
                             QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 text:       qsTr("Start Calibration")
                                 onClicked: {
                                     if (controller.accelSetupNeeded) {
@@ -728,28 +728,26 @@ SetupPage {
                                 }
                             }
 
-                            RowLayout {
-                                spacing: _margins
+                            QGCButton {
+                                id:         nextButton
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Next")
+                                enabled:    false
+                                onClicked:  controller.nextClicked()
+                            }
 
-                                QGCButton {
-                                    id:         nextButton
-                                    text:       qsTr("Next")
-                                    enabled:    false
-                                    onClicked:  controller.nextClicked()
-                                }
-
-                                QGCButton {
-                                    id:         cancelButton
-                                    text:       qsTr("Cancel")
-                                    enabled:    false
-                                    onClicked:  controller.cancelCalibration()
-                                }
+                            QGCButton {
+                                id:         cancelButton
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Cancel")
+                                enabled:    false
+                                onClicked:  controller.cancelCalibration()
                             }
                         }
                     }
 
                     // Accelerometer Tab
-                    ColumnLayout {
+                    RowLayout {
                         spacing: _margins
 
                         QGCLabel {
@@ -758,11 +756,11 @@ SetupPage {
                             text:               accelHelp
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
+                        RowLayout {
                             spacing:        _margins
 
                             QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 text:       qsTr("Start Calibration")
                                 onClicked: {
                                     showOrientationsDialog(_calTypeAccel)
@@ -770,26 +768,24 @@ SetupPage {
                                 }
                             }
 
-                            RowLayout {
-                                spacing: _margins
+                            QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Next")
+                                enabled:    nextButton.enabled
+                                onClicked:  controller.nextClicked()
+                            }
 
-                                QGCButton {
-                                    text:       qsTr("Next")
-                                    enabled:    nextButton.enabled
-                                    onClicked:  controller.nextClicked()
-                                }
-
-                                QGCButton {
-                                    text:       qsTr("Cancel")
-                                    enabled:    cancelButton.enabled
-                                    onClicked:  controller.cancelCalibration()
-                                }
+                            QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Cancel")
+                                enabled:    cancelButton.enabled
+                                onClicked:  controller.cancelCalibration()
                             }
                         }
                     }
 
                     // Level Horizon Tab
-                    ColumnLayout {
+                    RowLayout {
                         spacing: _margins
 
                         QGCLabel {
@@ -798,11 +794,11 @@ SetupPage {
                             text:               levelHelp
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
+                        RowLayout {
                             spacing:        _margins
 
                             QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 readonly property string _levelHorizonText: qsTr("Level Horizon")
                                 text:       qsTr("Start Calibration")
                                 onClicked: {
@@ -817,20 +813,18 @@ SetupPage {
                                 }
                             }
 
-                            RowLayout {
-                                spacing: _margins
+                            QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Next")
+                                enabled:    nextButton.enabled
+                                onClicked:  controller.nextClicked()
+                            }
 
-                                QGCButton {
-                                    text:       qsTr("Next")
-                                    enabled:    nextButton.enabled
-                                    onClicked:  controller.nextClicked()
-                                }
-
-                                QGCButton {
-                                    text:       qsTr("Cancel")
-                                    enabled:    cancelButton.enabled
-                                    onClicked:  controller.cancelCalibration()
-                                }
+                            QGCButton {
+                                Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
+                                text:       qsTr("Cancel")
+                                enabled:    cancelButton.enabled
+                                onClicked:  controller.cancelCalibration()
                             }
                         }
                     }
