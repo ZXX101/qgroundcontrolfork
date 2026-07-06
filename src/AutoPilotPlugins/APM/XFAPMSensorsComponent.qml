@@ -26,6 +26,8 @@ import MAVLink
 SetupPage {
     id:             sensorsPage
     pageComponent:  sensorsPageComponent
+    pageName:       ""
+    pageDescription: ""
 
     Component {
         id:             sensorsPageComponent
