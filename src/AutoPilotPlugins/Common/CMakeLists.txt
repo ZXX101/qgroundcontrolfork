@@ -8,6 +8,8 @@ target_sources(${CMAKE_PROJECT_NAME}
         MotorComponent.h
         RadioComponentController.cc
         RadioComponentController.h
+        XFRadioComponentController.cc
+        XFRadioComponentController.h
         SyslinkComponent.cc
         SyslinkComponent.h
         SyslinkComponentController.cc

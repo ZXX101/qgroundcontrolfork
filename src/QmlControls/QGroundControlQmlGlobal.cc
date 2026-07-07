@@ -41,6 +41,7 @@
 #include "TerrainProfile.h"
 #include "ToolStripAction.h"
 #include "ToolStripActionList.h"
+#include "XFRadioComponentController.h"
 #include "VideoManager.h"
 #include "MultiVehicleManager.h"
 #include "QGCLoggingCategory.h"
@@ -98,6 +99,7 @@ void QGroundControlQmlGlobal::registerQmlTypes()
     qmlRegisterType<QGCPalette>                         ("QGroundControl.Palette",               1, 0, "QGCPalette");
     qmlRegisterType<RCChannelMonitorController>         ("QGroundControl.Controllers",           1, 0, "RCChannelMonitorController");
     qmlRegisterType<RCToParamDialogController>          ("QGroundControl.Controllers",           1, 0, "RCToParamDialogController");
+    qmlRegisterType<XFRadioComponentController>         ("QGroundControl.Controllers",           1, 0, "XFRadioComponentController");
     qmlRegisterType<ScreenToolsController>              ("QGroundControl.Controllers",           1, 0, "ScreenToolsController");
     qmlRegisterType<TerrainProfile>                     ("QGroundControl.Controls",              1, 0, "TerrainProfile");
     qmlRegisterType<ToolStripAction>                    ("QGroundControl.Controls",              1, 0, "ToolStripAction");
