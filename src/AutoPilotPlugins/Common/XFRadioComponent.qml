@@ -24,6 +24,8 @@ import QGroundControl.Palette
 SetupPage {
     id:             radioPage
     pageComponent:  pageComponent
+    pageName:       ""
+    pageDescription: ""
 
     // 页面主内容组件
     Component {
@@ -60,57 +62,6 @@ SetupPage {
                 onThrottleReversedCalFailure:       mainWindow.showMessageDialog(qsTr("Throttle channel reversed"), qsTr("Calibration failed. The throttle channel on your transmitter is reversed. You must correct this on your transmitter in order to complete calibration."))
             }
 
-            // Spektrum接收机绑定对话框，选择绑定模式后让接收机进入配对状态
-            Component {
-                id: spektrumBindDialogComponent
-
-                QGCPopupDialog {
-                    title:      qsTr("Spektrum Bind")
-                    buttons:    Dialog.Ok | Dialog.Cancel
-
-                    onAccepted: { controller.spektrumBindMode(radioGroup.checkedButton.bindMode) }
-
-                    ButtonGroup { id: radioGroup }
-
-                    ColumnLayout {
-                        spacing: ScreenTools.defaultFontPixelHeight / 2
-
-                    // 提示用户点击确定以将Spektrum接收机置于绑定模式
-                    QGCLabel {
-                        wrapMode:   Text.WordWrap
-                        text:       qsTr("Click Ok to place your Spektrum receiver in the bind mode.")
-                    }
-
-                    // 提示用户选择接收机类型
-                    QGCLabel {
-                            wrapMode:   Text.WordWrap
-                            text:       qsTr("Select the specific receiver type below:")
-                        }
-
-                    // DSM2绑定模式选项
-                    QGCRadioButton {
-                        text:               qsTr("DSM2 Mode")
-                        ButtonGroup.group:  radioGroup
-                        property int bindMode: RadioComponentController.DSM2
-                    }
-
-                    // DSMX 7通道及以下绑定模式选项
-                    QGCRadioButton {
-                        text:               qsTr("DSMX (7 channels or less)")
-                        ButtonGroup.group:  radioGroup
-                        property int bindMode: RadioComponentController.DSMX7
-                    }
-
-                    // DSMX 8通道及以上绑定模式选项（默认选中）
-                    QGCRadioButton {
-                            checked:            true
-                            text:               qsTr("DSMX (8 channels or more)")
-                            ButtonGroup.group:  radioGroup
-                            property int bindMode: RadioComponentController.DSMX8
-                        }
-                    }
-                }
-            }
 
             // 单通道监听条组件，可视化显示单个RC通道的实时PWM值
             Component {
@@ -370,17 +321,6 @@ SetupPage {
                     wrapMode:   Text.WordWrap
                 }
 
-                // 分隔线
-                Rectangle {
-                    width:          parent.width
-                    height:         1
-                    border.color:   qgcPal.text
-                    border.width:   1
-                }
-
-                // 附加遥控设置区域标题
-                QGCLabel { text: qsTr("Additional Radio setup:") }
-
                 // 附加通道映射设置列表，显示辅助通道和参数通道的映射下拉框
                 ColumnLayout {
                     id:                 switchSettingsGrid
@@ -400,34 +340,6 @@ SetupPage {
                             fact:                controller.getParameterFact(-1, modelData)
                             indexModel:          false
                         }
-                    }
-                }
-
-                // 接收机绑定和微调复制按钮行
-                RowLayout {
-                    // Spektrum接收机绑定按钮，打开绑定模式选择对话框
-                    QGCButton {
-                        id:         bindButton
-                        text:       qsTr("Spektrum Bind")
-                        onClicked:  spektrumBindDialogComponent.createObject(mainWindow).open()
-                    }
-
-                    // CRSF接收机绑定按钮，确认后让接收机进入配对模式
-                    QGCButton {
-                        text:       qsTr("CRSF Bind")
-                        onClicked:  mainWindow.showMessageDialog(qsTr("CRSF Bind"),
-                                                                 qsTr("Click Ok to place your CRSF receiver in the bind mode."),
-                                                                 Dialog.Ok | Dialog.Cancel,
-                                                                 function() { controller.crsfBindMode() })
-                    }
-
-                    // 复制微调值按钮，将遥控器当前微调值同步到飞控
-                    QGCButton {
-                        text:       qsTr("Copy Trims")
-                        onClicked:  mainWindow.showMessageDialog(qsTr("Copy Trims"),
-                                                                 qsTr("Center your sticks and move throttle all the way down, then press Ok to copy trims. After pressing Ok, reset the trims on your radio back to zero."),
-                                                                 Dialog.Ok | Dialog.Cancel,
-                                                                 function() { controller.copyTrims() })
                     }
                 }
             } // Column - Left Column
