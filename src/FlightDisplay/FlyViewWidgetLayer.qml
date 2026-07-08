@@ -557,6 +557,14 @@ Item {
                 mapControl.animatedMapRecenter(mapControl.center, _activeVehicle.coordinate)
             }
         }
+
+        onCenterOnGCS: {
+            var gcsPos = QGroundControl.qgcPositionManger.gcsPosition
+            if (gcsPos.isValid) {
+                mapControl._disableVehicleTracking = true
+                mapControl.animatedMapRecenter(mapControl.center, gcsPos)
+            }
+        }
     }
 
     //原左侧工具条（已隐藏）
