@@ -121,7 +121,7 @@
         <file alias="gcscontrol_line.svg">resources/gcscontrolIndicator/gcscontrol_line.svg</file>
     </qresource>
     <qresource prefix="/xfres">
-        <file alias="center-on-device">resources/XF/center-on-device.png</file>
+        <file alias="center-on-device.png">resources/XF/center-on-device.png</file>
         <file alias="center-on-remote.png">resources/XF/center-on-remote.png</file>
         <file alias="common.png">resources/XF/common.png</file>
         <file alias="gps.png">resources/XF/gps.png</file>

@@ -546,6 +546,12 @@ Item {
         propagateComposedEvents: true
     }
 
+    //悬浮工具栏，可拖动，展开/收起切换，自动判断延伸方向
+    FlyViewFloatingToolBar {
+        id:                     floatingToolBar
+        visible:                !QGroundControl.videoManager.fullScreen
+    }
+
     //原左侧工具条（已隐藏）
     FlyViewToolStrip {
         id:                     toolStrip
