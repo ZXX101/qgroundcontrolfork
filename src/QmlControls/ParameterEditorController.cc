@@ -244,6 +244,20 @@ void ParameterEditorController::_buildLists(void)
             }
         }
     }
+
+    // Build all parameters list
+    _allParameters.beginReset();
+    _allParameters.clear();
+    for (int i=0; i<_categories.count(); i++) {
+        ParameterEditorCategory* category = _categories.value<ParameterEditorCategory*>(i);
+        for (int j=0; j<category->groups.count(); j++) {
+            ParameterEditorGroup* group = category->groups.value<ParameterEditorGroup*>(j);
+            for (int k=0; k<group->facts.rowCount(); k++) {
+                _allParameters.append(group->facts.factAt(k));
+            }
+        }
+    }
+    _allParameters.endReset();
 }
 
 void ParameterEditorController::_factAdded(int compId, Fact* fact)
@@ -301,10 +315,26 @@ void ParameterEditorController::_factAdded(int compId, Fact* fact)
     for (int i=0; i<facts.rowCount(); i++) {
         if (facts.factAt(i)->name() > fact->name()) {
             facts.insert(i, fact);
+            // Also insert into all parameters list
+            for (int j=0; j<_allParameters.rowCount(); j++) {
+                if (_allParameters.factAt(j)->name() > fact->name()) {
+                    _allParameters.insert(j, fact);
+                    return;
+                }
+            }
+            _allParameters.append(fact);
             return;
         }
     }
     facts.append(fact);
+    // Also append to all parameters list
+    for (int j=0; j<_allParameters.rowCount(); j++) {
+        if (_allParameters.factAt(j)->name() > fact->name()) {
+            _allParameters.insert(j, fact);
+            return;
+        }
+    }
+    _allParameters.append(fact);
 }
 
 void ParameterEditorController::saveToFile(const QString& filename)
@@ -549,7 +579,7 @@ void ParameterEditorController::_currentCategoryChanged(void)
 
 void ParameterEditorController::_currentGroupChanged(void)
 {
-    _parameters = _currentGroup ? &_currentGroup->facts : nullptr;
+    _parameters = _currentGroup ? &_currentGroup->facts : &_allParameters;
     emit parametersChanged();
 }
 

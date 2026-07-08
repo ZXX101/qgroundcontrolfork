@@ -154,6 +154,20 @@ Item {
                 anchors.right:  parent.right
                 spacing:        Math.ceil(ScreenTools.defaultFontPixelHeight * 0.25)
 
+                QGCButton {
+                    Layout.fillWidth:   true
+                    text:               qsTr("ALL")
+                    height:             _rowHeight
+                    checked:            controller.currentGroup === null
+                    autoExclusive:      true
+
+                    onClicked: {
+                        if (!checked) _rowWidth = 10
+                        checked = true
+                        controller.currentGroup = null
+                    }
+                }
+
                 Repeater {
                     model: controller.categories
 

@@ -197,6 +197,7 @@ private:
     QmlObjectListModel          _categories;
     QmlObjectListModel          _diffList;
     ParameterTableModel         _searchParameters;
+    ParameterTableModel         _allParameters;
     QAbstractTableModel*        _parameters             = nullptr;
     QMap<QString, ParameterEditorCategory*> _mapCategoryName2Category;
 };
