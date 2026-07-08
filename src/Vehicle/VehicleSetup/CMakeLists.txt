@@ -37,6 +37,7 @@ qt_add_qml_module(VehicleSetupModule
         SetupParameterEditor.qml
         SetupView.qml
         VehicleSummary.qml
+        XFSetupParameterEditor.qml
         XFVehicleSummary.qml
     NO_PLUGIN
 )

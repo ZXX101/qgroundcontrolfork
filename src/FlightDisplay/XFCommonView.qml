@@ -503,7 +503,7 @@ Rectangle {
                             currentPageIndex = 1;
                             deviceConfigSubIndex = -2;
                             contentLoader.vehicleComponent = null;
-                            contentLoader.source = "qrc:/qml/QGroundControl/VehicleSetup/SetupParameterEditor.qml";
+                            contentLoader.source = "qrc:/qml/QGroundControl/VehicleSetup/XFSetupParameterEditor.qml";
                             updateButtonChecked();
                         }
                     }
