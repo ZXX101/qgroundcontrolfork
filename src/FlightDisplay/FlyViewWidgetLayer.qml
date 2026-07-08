@@ -565,6 +565,10 @@ Item {
                 mapControl.animatedMapRecenter(mapControl.center, gcsPos)
             }
         }
+
+        onMeasureDistance: (active) => {
+            mapControl.measureMode = active
+        }
     }
 
     //原左侧工具条（已隐藏）

@@ -25,6 +25,7 @@ qt_add_qml_module(FlightDisplayModule
         FlyViewInsetViewer.qml
         FlyViewInstrumentPanel.qml
         FlyViewMap.qml
+        FlyViewMeasureTool.qml
         FlyViewMissionCompleteDialog.qml
         FlyViewPreFlightChecklistPopup.qml
         FlyViewToolStrip.qml

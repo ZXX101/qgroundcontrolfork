@@ -54,6 +54,9 @@ FlightMap {
     property bool   _keepVehicleCentered:       pipMode ? true : false
     property bool   _saveZoomLevelSetting:      true
 
+    property bool   measureMode:                false
+    signal measurePointClicked(var coordinate)
+
     //画中画模式缩放调整函数
     function _adjustMapZoomForPipMode() {
         _saveZoomLevelSetting = false
@@ -759,6 +762,12 @@ FlightMap {
     }
 
     onMapClicked: (position) => {
+        if (measureMode) {
+            var clickCoord = _root.toCoordinate(Qt.point(position.x, position.y), false /* clipToViewPort */)
+            measurePointClicked(clickCoord)
+            return
+        }
+
         if (!globals.guidedControllerFlyView.guidedUIVisible && 
             (globals.guidedControllerFlyView.showGotoLocation || globals.guidedControllerFlyView.showOrbit ||
              globals.guidedControllerFlyView.showROI || globals.guidedControllerFlyView.showSetHome ||
@@ -771,6 +780,16 @@ FlightMap {
             var dropPanel = mapClickDropPanelComponent.createObject(mainWindow, { mapClickCoord: clickCoord, clickRect: Qt.rect(position.x, position.y, 0, 0) })
             dropPanel.open()
         }
+    }
+
+    FlyViewMeasureTool {
+        id:                 measureTool
+        mapControl:         _root
+        active:             _root.measureMode
+    }
+
+    onMeasurePointClicked: (coordinate) => {
+        measureTool.addPoint(coordinate)
     }
 
     MapScale {

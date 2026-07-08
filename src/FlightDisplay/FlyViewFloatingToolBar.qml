@@ -27,7 +27,9 @@ Item {
 
     signal centerOnVehicle()
     signal centerOnGCS()
-    signal measureDistance()
+    signal measureDistance(bool active)
+
+    property bool measureMode: false
 
     readonly property real _expandedWidth: _buttonSize + _spacing + _toolCount * _toolBtnSize + (_toolCount - 1) * _spacing + _padding
     readonly property real _extraWidth: _expandedWidth - _buttonSize
@@ -185,7 +187,8 @@ Item {
                     width: root._toolBtnSize
                     height: width
                     radius: width / 2
-                    color: root._hoveredToolIndex === index ? qgcPal.buttonHighlight : "transparent"
+                    color: (index === 2 && root.measureMode) ? qgcPal.buttonHighlight :
+                           (root._hoveredToolIndex === index ? qgcPal.buttonHighlight : "transparent")
 
                     Image {
                         anchors.centerIn: parent
@@ -243,7 +246,8 @@ Item {
                     width: root._toolBtnSize
                     height: width
                     radius: width / 2
-                    color: root._hoveredToolIndex === index ? qgcPal.buttonHighlight : "transparent"
+                    color: (index === 2 && root.measureMode) ? qgcPal.buttonHighlight :
+                           (root._hoveredToolIndex === index ? qgcPal.buttonHighlight : "transparent")
 
                     Image {
                         anchors.centerIn: parent
@@ -297,7 +301,10 @@ Item {
                     if (toolIdx >= 0) {
                         if (toolIdx === 0) centerOnVehicle()
                         else if (toolIdx === 1) centerOnGCS()
-                        else if (toolIdx === 2) measureDistance()
+                        else if (toolIdx === 2) {
+                            measureMode = !measureMode
+                            measureDistance(measureMode)
+                        }
                     }
                 }
             } else {
