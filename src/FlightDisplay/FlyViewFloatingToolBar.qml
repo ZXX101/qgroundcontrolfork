@@ -25,6 +25,10 @@ Item {
     property int _hoveredToolIndex: -1
     property bool _hoveredToggle: false
 
+    signal centerOnVehicle()
+    signal centerOnGCS()
+    signal measureDistance()
+
     readonly property real _expandedWidth: _buttonSize + _spacing + _toolCount * _toolBtnSize + (_toolCount - 1) * _spacing + _padding
     readonly property real _extraWidth: _expandedWidth - _buttonSize
 
@@ -291,7 +295,9 @@ Item {
                 } else {
                     var toolIdx = _hitTestTool(mouse.x, mouse.y)
                     if (toolIdx >= 0) {
-                        console.log("Tool button clicked:", toolIdx)
+                        if (toolIdx === 0) centerOnVehicle()
+                        else if (toolIdx === 1) centerOnGCS()
+                        else if (toolIdx === 2) measureDistance()
                     }
                 }
             } else {

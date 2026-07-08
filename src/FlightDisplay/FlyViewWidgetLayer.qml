@@ -550,6 +550,13 @@ Item {
     FlyViewFloatingToolBar {
         id:                     floatingToolBar
         visible:                !QGroundControl.videoManager.fullScreen
+
+        onCenterOnVehicle: {
+            if (_activeVehicle && _activeVehicle.coordinate.isValid) {
+                mapControl._disableVehicleTracking = false
+                mapControl.animatedMapRecenter(mapControl.center, _activeVehicle.coordinate)
+            }
+        }
     }
 
     //原左侧工具条（已隐藏）
