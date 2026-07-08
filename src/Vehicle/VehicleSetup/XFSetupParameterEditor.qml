@@ -169,23 +169,19 @@ Item {
                 }
 
                 Repeater {
-                    model: controller.categories
+                    model: controller.allGroups
 
-                    Repeater {
-                        model: object.groups
+                    QGCButton {
+                        Layout.fillWidth:   true
+                        text:               object.name
+                        height:             _rowHeight
+                        checked:            object == controller.currentGroup
+                        autoExclusive:      true
 
-                        QGCButton {
-                            Layout.fillWidth:   true
-                            text:               object.name
-                            height:             _rowHeight
-                            checked:            object == controller.currentGroup
-                            autoExclusive:      true
-
-                            onClicked: {
-                                if (!checked) _rowWidth = 10
-                                checked = true
-                                controller.currentGroup = object
-                            }
+                        onClicked: {
+                            if (!checked) _rowWidth = 10
+                            checked = true
+                            controller.currentGroup = object
                         }
                     }
                 }

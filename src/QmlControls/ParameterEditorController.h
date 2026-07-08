@@ -134,6 +134,7 @@ class ParameterEditorController : public FactPanelController
     // QML_ELEMENT
     Q_PROPERTY(QString              searchText              MEMBER _searchText                                          NOTIFY searchTextChanged)
     Q_PROPERTY(QmlObjectListModel*  categories              READ categories                                             CONSTANT)
+    Q_PROPERTY(QmlObjectListModel*  allGroups               READ allGroups                                              CONSTANT)
     Q_PROPERTY(QObject*             currentCategory         READ currentCategory            WRITE setCurrentCategory    NOTIFY currentCategoryChanged)
     Q_PROPERTY(QObject*             currentGroup            READ currentGroup               WRITE setCurrentGroup       NOTIFY currentGroupChanged)
     Q_PROPERTY(QAbstractTableModel* parameters              MEMBER _parameters                                          NOTIFY parametersChanged)
@@ -159,6 +160,7 @@ public:
     QObject*            currentCategory     (void) { return _currentCategory; }
     QObject*            currentGroup        (void) { return _currentGroup; }
     QmlObjectListModel* categories          (void) { return &_categories; }
+    QmlObjectListModel* allGroups           (void) { return &_allGroups; }
     QmlObjectListModel* diffList            (void) { return &_diffList; }
     void                setCurrentCategory  (QObject* currentCategory);
     void                setCurrentGroup     (QObject* currentGroup);
@@ -195,9 +197,11 @@ private:
     bool                        _diffMultipleComponents = false;
 
     QmlObjectListModel          _categories;
+    QmlObjectListModel          _allGroups;
     QmlObjectListModel          _diffList;
     ParameterTableModel         _searchParameters;
     ParameterTableModel         _allParameters;
     QAbstractTableModel*        _parameters             = nullptr;
     QMap<QString, ParameterEditorCategory*> _mapCategoryName2Category;
+    QMap<QString, ParameterEditorGroup*>    _mapGroupName2MergedGroup;
 };

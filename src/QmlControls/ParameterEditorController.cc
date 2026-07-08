@@ -258,6 +258,55 @@ void ParameterEditorController::_buildLists(void)
         }
     }
     _allParameters.endReset();
+
+    // Build merged all groups list (same-name groups across categories merged)
+    _allGroups.clear();
+    _mapGroupName2MergedGroup.clear();
+    for (int i=0; i<_categories.count(); i++) {
+        ParameterEditorCategory* category = _categories.value<ParameterEditorCategory*>(i);
+        for (int j=0; j<category->groups.count(); j++) {
+            ParameterEditorGroup* group = category->groups.value<ParameterEditorGroup*>(j);
+            if (_mapGroupName2MergedGroup.contains(group->name)) {
+                ParameterEditorGroup* mergedGroup = _mapGroupName2MergedGroup[group->name];
+                for (int k=0; k<group->facts.rowCount(); k++) {
+                    mergedGroup->facts.append(group->facts.factAt(k));
+                }
+            } else {
+                ParameterEditorGroup* mergedGroup = new ParameterEditorGroup(this);
+                mergedGroup->componentId  = group->componentId;
+                mergedGroup->name         = group->name;
+                for (int k=0; k<group->facts.rowCount(); k++) {
+                    mergedGroup->facts.append(group->facts.factAt(k));
+                }
+                _mapGroupName2MergedGroup[group->name] = mergedGroup;
+
+                // Insert in sorted order
+                bool inserted = false;
+                for (int m=0; m<_allGroups.count(); m++) {
+                    if (_allGroups.value<ParameterEditorGroup*>(m)->name > mergedGroup->name) {
+                        _allGroups.insert(m, mergedGroup);
+                        inserted = true;
+                        break;
+                    }
+                }
+                if (!inserted) {
+                    _allGroups.append(mergedGroup);
+                }
+            }
+        }
+    }
+
+    // Move default group to last position in allGroups
+    for (int i=0; i<_allGroups.count(); i++) {
+        ParameterEditorGroup* group = _allGroups.value<ParameterEditorGroup*>(i);
+        if (group->name == FactMetaData::kDefaultGroup) {
+            if (i != _allGroups.count() - 1) {
+                _allGroups.removeAt(i);
+                _allGroups.append(group);
+            }
+            break;
+        }
+    }
 }
 
 void ParameterEditorController::_factAdded(int compId, Fact* fact)
@@ -319,11 +368,11 @@ void ParameterEditorController::_factAdded(int compId, Fact* fact)
             for (int j=0; j<_allParameters.rowCount(); j++) {
                 if (_allParameters.factAt(j)->name() > fact->name()) {
                     _allParameters.insert(j, fact);
-                    return;
+                    goto done;
                 }
             }
             _allParameters.append(fact);
-            return;
+            goto done;
         }
     }
     facts.append(fact);
@@ -331,10 +380,42 @@ void ParameterEditorController::_factAdded(int compId, Fact* fact)
     for (int j=0; j<_allParameters.rowCount(); j++) {
         if (_allParameters.factAt(j)->name() > fact->name()) {
             _allParameters.insert(j, fact);
-            return;
+            goto done;
         }
     }
     _allParameters.append(fact);
+
+done:
+    // Also insert into merged allGroups
+    if (_mapGroupName2MergedGroup.contains(group->name)) {
+        ParameterEditorGroup* mergedGroup = _mapGroupName2MergedGroup[group->name];
+        auto& mergedFacts = mergedGroup->facts;
+        for (int i=0; i<mergedFacts.rowCount(); i++) {
+            if (mergedFacts.factAt(i)->name() > fact->name()) {
+                mergedFacts.insert(i, fact);
+                return;
+            }
+        }
+        mergedFacts.append(fact);
+    } else {
+        ParameterEditorGroup* mergedGroup = new ParameterEditorGroup(this);
+        mergedGroup->componentId  = compId;
+        mergedGroup->name         = group->name;
+        mergedGroup->facts.append(fact);
+        _mapGroupName2MergedGroup[group->name] = mergedGroup;
+
+        bool inserted = false;
+        for (int i=0; i<_allGroups.count(); i++) {
+            if (_allGroups.value<ParameterEditorGroup*>(i)->name > mergedGroup->name) {
+                _allGroups.insert(i, mergedGroup);
+                inserted = true;
+                break;
+            }
+        }
+        if (!inserted) {
+            _allGroups.append(mergedGroup);
+        }
+    }
 }
 
 void ParameterEditorController::saveToFile(const QString& filename)
@@ -511,9 +592,13 @@ void ParameterEditorController::_performSearch(void)
     QStringList rgSearchStrings = _searchText.split(' ', Qt::SkipEmptyParts);
 
     if (rgSearchStrings.isEmpty() && !_showModifiedOnly) {
-        ParameterEditorCategory* category = _categories.count() ? _categories.value<ParameterEditorCategory*>(0) : nullptr;
-        setCurrentCategory(category);
         _searchParameters.clear();
+        if (_currentGroup) {
+            _parameters = &_currentGroup->facts;
+        } else {
+            _parameters = &_allParameters;
+        }
+        emit parametersChanged();
     } else {
         QVector<QRegularExpression> regexList;
         regexList.reserve(rgSearchStrings.size());
