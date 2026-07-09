@@ -25,130 +25,125 @@ Item {
 
     property bool listViewLoadCompleted: false
 
-    Item {
-        id:             panel
-        anchors.fill:   parent
+    Rectangle {
+        id:              logwindow
+        anchors.fill:    parent
+        anchors.margins: ScreenTools.defaultFontPixelWidth
+        color:           qgcPal.window
 
-        Rectangle {
-            id:              logwindow
-            anchors.fill:    parent
-            anchors.margins: ScreenTools.defaultFontPixelWidth
-            color:           qgcPal.window
+        Component {
+            id: delegateItem
+            Rectangle {
+                color:  index % 2 == 0 ? qgcPal.window : qgcPal.windowShade
+                height: Math.round(ScreenTools.defaultFontPixelHeight * 0.5 + field.height)
+                width:  listView.width
 
-            Component {
-                id: delegateItem
-                Rectangle {
-                    color:  index % 2 == 0 ? qgcPal.window : qgcPal.windowShade
-                    height: Math.round(ScreenTools.defaultFontPixelHeight * 0.5 + field.height)
-                    width:  listView.width
-
-                    QGCLabel {
-                        id:         field
-                        text:       display
-                        width:      parent.width
-                        wrapMode:   Text.Wrap
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
+                QGCLabel {
+                    id:         field
+                    text:       display ?? ""
+                    width:      parent.width
+                    wrapMode:   Text.Wrap
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
+        }
 
-            QGCListView {
-                id:                     listView
-                anchors.top:            parent.top
-                anchors.left:           parent.left
-                anchors.right:          parent.right
-                anchors.bottom:         followTail.top
-                anchors.bottomMargin:   ScreenTools.defaultFontPixelWidth
-                clip:                   true
-                model:                  debugMessageModel
-                delegate:               delegateItem
- 
-                function scrollToEnd() {
-                    if (listViewLoadCompleted) {
-                        if (followTail.checked) {
-                            listView.positionViewAtEnd();
-                        }
-                    }
-                }
+        QGCListView {
+            id:                     listView
+            anchors.top:            parent.top
+            anchors.left:           parent.left
+            anchors.right:          parent.right
+            anchors.bottom:         followTail.top
+            anchors.bottomMargin:   ScreenTools.defaultFontPixelWidth
+            clip:                   true
+            model:                  debugMessageModel
+            delegate:               delegateItem
 
-                Component.onCompleted: {
-                    listViewLoadCompleted = true
-                    listView.scrollToEnd()
-                }
-
-                Connections {
-                    target:         debugMessageModel
-                    onDataChanged:  listView.scrollToEnd()
-                }
-            }
-
-            QGCFileDialog {
-                id:             writeDialog
-                folder:         QGroundControl.settingsManager.appSettings.logSavePath
-                nameFilters:    [qsTr("Log files (*.txt)"), qsTr("All Files (*)")]
-                title:          qsTr("Select log save file")
-                onAcceptedForSave: (file) => {
-                    debugMessageModel.writeMessages(file);
-                    visible = false;
-                }
-            }
-
-            Connections {
-                target:          debugMessageModel
-                onWriteStarted:  writeButton.enabled = false;
-                onWriteFinished: writeButton.enabled = true;
-            }
-
-            QGCButton {
-                id:              writeButton
-                anchors.bottom:  parent.bottom
-                anchors.left:    parent.left
-                onClicked:       writeDialog.openForSave()
-                text:            qsTr("Save App Log")
-            }
-
-            QGCLabel {
-                id:                     gstLabel
-                anchors.left:           writeButton.right
-                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
-                anchors.verticalCenter: gstCombo.verticalCenter
-                text:                   qsTr("GStreamer Debug Level")
-                visible:                QGroundControl.settingsManager.appSettings.gstDebugLevel.visible
-            }
-
-            FactComboBox {
-                id:                 gstCombo
-                anchors.left:       gstLabel.right
-                anchors.leftMargin: ScreenTools.defaultFontPixelWidth / 2
-                anchors.bottom:     parent.bottom
-                fact:               QGroundControl.settingsManager.appSettings.gstDebugLevel
-                visible:            QGroundControl.settingsManager.appSettings.gstDebugLevel.visible
-                sizeToContents:     true
-            }
-
-            QGCButton {
-                id:                     followTail
-                anchors.right:          filterButton.left
-                anchors.rightMargin:    ScreenTools.defaultFontPixelWidth
-                anchors.bottom:         parent.bottom
-                text:                   qsTr("Show Latest")
-                checkable:              true
-                checked:                true
-
-                onCheckedChanged: {
-                    if (checked && listViewLoadCompleted) {
+            function scrollToEnd() {
+                if (listViewLoadCompleted) {
+                    if (followTail.checked) {
                         listView.positionViewAtEnd();
                     }
                 }
             }
 
-            QGCButton {
-                id:             filterButton
-                anchors.bottom: parent.bottom
-                anchors.right:  parent.right
-                text:           qsTr("Set Logging")
-                onClicked:      filtersDialogComponent.createObject(mainWindow).open()
+            Component.onCompleted: {
+                listViewLoadCompleted = true
+                listView.scrollToEnd()
             }
+
+            Connections {
+                target:         debugMessageModel
+                onDataChanged:  listView.scrollToEnd()
+            }
+        }
+
+        QGCFileDialog {
+            id:             writeDialog
+            folder:         QGroundControl.settingsManager.appSettings.logSavePath
+            nameFilters:    [qsTr("Log files (*.txt)"), qsTr("All Files (*)")]
+            title:          qsTr("Select log save file")
+            onAcceptedForSave: (file) => {
+                debugMessageModel.writeMessages(file);
+                visible = false;
+            }
+        }
+
+        Connections {
+            target:          debugMessageModel
+            onWriteStarted:  writeButton.enabled = false;
+            onWriteFinished: writeButton.enabled = true;
+        }
+
+        QGCButton {
+            id:              writeButton
+            anchors.bottom:  parent.bottom
+            anchors.left:    parent.left
+            onClicked:       writeDialog.openForSave()
+            text:            qsTr("Save App Log")
+        }
+
+        QGCLabel {
+            id:                     gstLabel
+            anchors.left:           writeButton.right
+            anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
+            anchors.verticalCenter: gstCombo.verticalCenter
+            text:                   qsTr("GStreamer Debug Level")
+            visible:                QGroundControl.settingsManager.appSettings.gstDebugLevel.visible
+        }
+
+        FactComboBox {
+            id:                 gstCombo
+            anchors.left:       gstLabel.right
+            anchors.leftMargin: ScreenTools.defaultFontPixelWidth / 2
+            anchors.bottom:     parent.bottom
+            fact:               QGroundControl.settingsManager.appSettings.gstDebugLevel
+            visible:            QGroundControl.settingsManager.appSettings.gstDebugLevel.visible
+            sizeToContents:     true
+        }
+
+        QGCButton {
+            id:                     followTail
+            anchors.right:          filterButton.left
+            anchors.rightMargin:    ScreenTools.defaultFontPixelWidth
+            anchors.bottom:         parent.bottom
+            text:                   qsTr("Show Latest")
+            checkable:              true
+            checked:                true
+
+            onCheckedChanged: {
+                if (checked && listViewLoadCompleted) {
+                    listView.positionViewAtEnd();
+                }
+            }
+        }
+
+        QGCButton {
+            id:             filterButton
+            anchors.bottom: parent.bottom
+            anchors.right:  parent.right
+            text:           qsTr("Set Logging")
+            onClicked:      filtersDialogComponent.createObject(mainWindow).open()
         }
     }
 
@@ -253,4 +248,3 @@ Item {
         }
     }
 }
-

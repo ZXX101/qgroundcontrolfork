@@ -20,7 +20,7 @@ import QGroundControl.ScreenTools
 import QGroundControl.MultiVehicleManager
 import QGroundControl.Palette
 
-QGCFlickable {
+ColumnLayout {
     property var _settingsManager: QGroundControl.settingsManager
     property var _appSettings: _settingsManager.appSettings
     property var _brandImageSettings: _settingsManager.brandImageSettings
@@ -28,53 +28,58 @@ QGCFlickable {
     property Fact _userBrandImageIndoor: _brandImageSettings.userBrandImageIndoor
     property Fact _userBrandImageOutdoor: _brandImageSettings.userBrandImageOutdoor
     property Fact _appSavePath: _appSettings.savePath
-    ColumnLayout {
-        width: parent.width
-        Layout.fillHeight: true
-        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-        TabBar {
-            id: bar
-            Layout.fillWidth: true
+    TabBar {
+        id: bar
+        Layout.fillWidth: true
 
-            TabButton {
-                text: qsTr("General")
-            }
-            TabButton {
-                text: qsTr("Flyview")
-            }
-            TabButton {
-                text: qsTr("SystemConsle")
-            }
-            TabButton {
-                text: qsTr("RTK Settings")
-            }
+        TabButton {
+            text: qsTr("General")
         }
-        StackLayout {
+        TabButton {
+            text: qsTr("Flyview")
+        }
+        TabButton {
+            text: qsTr("SystemConsle")
+        }
+        TabButton {
+            text: qsTr("RTK Settings")
+        }
+    }
+    StackLayout {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        currentIndex: bar.currentIndex
+        Loader {
+            id: generalPageLoader
             Layout.fillWidth: true
             Layout.fillHeight: true
-            currentIndex: bar.currentIndex
-            Loader {
-                id: generalPageLoader
-                sourceComponent: generalPageComp
-            }
-            Loader {
-                id: flyviewLoader
-                sourceComponent: flyviewPageComp
-            }
-            Loader {
-                id: appmessageLoader
-                source: "XFAppMessages.qml"
-            }
-            Loader {
-                id: rtksettingsLoader
-                sourceComponent: rtksettingsComp
-            }
+            sourceComponent: generalPageComp
+        }
+        Loader {
+            id: flyviewLoader
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            sourceComponent: flyviewPageComp
+        }
+        Loader {
+            id: appmessageLoader
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            source: "XFAppMessages.qml"
+        }
+        Loader {
+            id: rtksettingsLoader
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            sourceComponent: rtksettingsComp
         }
     }
     Component {
         id: generalPageComp
         ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             LabelledFactComboBox {
                 label: qsTr("Language")
                 fact: _appSettings.qLocaleLanguage
@@ -122,31 +127,37 @@ QGCFlickable {
                     indexModel: false
                 }
             }
+            Item {
+                Layout.fillHeight: true
+            }
         }
     }
     Component {
         id: flyviewPageComp
-        QGCFlickable {
-
+        ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            contentHeight:flyviewSettings.item ? flyviewSettings.item.implicitHeight : 0
             Loader {
                 id: flyviewSettings
+                Layout.fillWidth: true
                 source: "XFFlyViewSettings.qml"
-                width: parent.width
+            }
+            Item {
+                Layout.fillHeight: true
             }
         }
     }
     Component {
         id: rtksettingsComp
         ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             QGCLabel {
                 text: "RTK settings"
             }
+            Item {
+                Layout.fillHeight: true
+            }
         }
-    }
-    Item {
-        Layout.fillHeight: true
     }
 }
