@@ -121,20 +121,31 @@ Item {
     }
 
     function clear() {
+        var removed = {}
         for (var i = 0; i < _pointData.length; i++) {
             var pd = _pointData[i]
-            _removeMapItemSafe(pd.marker)
-            _removeMapItemSafe(pd.drag)
-            _removeMapItemSafe(pd.prevLine)
-            _removeMapItemSafe(pd.prevLabel)
+            _destroyOnce(pd.drag, removed)
+            _removeMapItemOnce(pd.marker, removed)
+            _removeMapItemOnce(pd.prevLine, removed)
+            _removeMapItemOnce(pd.prevLabel, removed)
+            _removeMapItemOnce(pd.nextLine, removed)
+            _removeMapItemOnce(pd.nextLabel, removed)
         }
         _pointData = []
         _points = []
     }
 
-    function _removeMapItemSafe(item) {
-        if (item) {
+    function _removeMapItemOnce(item, removed) {
+        if (item && !removed[item.toString()]) {
+            removed[item.toString()] = true
             mapControl.removeMapItem(item)
+            item.destroy()
+        }
+    }
+
+    function _destroyOnce(item, removed) {
+        if (item && !removed[item.toString()]) {
+            removed[item.toString()] = true
             item.destroy()
         }
     }
