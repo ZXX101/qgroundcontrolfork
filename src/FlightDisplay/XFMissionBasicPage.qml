@@ -147,34 +147,6 @@ Item {
                 color: qgcPal.windowShade
             }
 
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Total Distance")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
-                }
-                QGCLabel {
-                    text: missionController ? (missionController.missionTotalDistance / 1000).toFixed(2) + " km" : "0 km"
-                    font.bold: true
-                    color: qgcPal.buttonHighlightText
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Waypoints")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
-                }
-                QGCLabel {
-                    text: missionController ? (missionController.visualItems.count - 1).toString() : "0"
-                    font.bold: true
-                    color: qgcPal.buttonHighlightText
-                }
-            }
-
             Item {
                 Layout.fillHeight: true
             }
