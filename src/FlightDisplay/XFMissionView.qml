@@ -36,7 +36,9 @@ Item {
 
     property var _planMasterController: planMasterController
     property var _missionController: _planMasterController ? _planMasterController.missionController : null
+    property var _geoFenceController: _planMasterController ? _planMasterController.geoFenceController : null
     property string missionName: "Mission"
+    property bool _fenceMode: missionInfoPopup.fenceEnabled
 
     PlanMasterController {
         id: planMasterController
@@ -122,11 +124,12 @@ Item {
             if (!mainWindow.allowViewSwitch()) {
                 return;
             }
+            if (_fenceMode) {
+                return;
+            }
             var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false);
             var nextIndex = _missionController.currentPlanViewVIIndex + 1;
 
-            // 第一次点击（只有Mission Settings）：添加Takeoff
-            // 后续点击：添加Waypoint
             if (_missionController.visualItems.count === 1) {
                 _missionController.insertTakeoffItem(coordinate, nextIndex, true);
             } else {
@@ -138,8 +141,8 @@ Item {
             model: _missionController.visualItems
             delegate: MissionItemMapVisual {
                 map: missionMap
-                opacity: 1
-                interactive: true
+                opacity: _fenceMode ? 0.5 : 1
+                interactive: !_fenceMode
                 vehicle: _planMasterController.controllerVehicle
                 onClicked: sequenceNumber => {
                     _missionController.setCurrentPlanViewSeqNum(sequenceNumber, false);
@@ -149,16 +152,26 @@ Item {
 
         MissionLineView {
             model: _missionController.simpleFlightPathSegments
+            opacity: _fenceMode ? 0.5 : 1
         }
 
         MapItemView {
-            model: _missionController.directionArrows
+            model: !_fenceMode ? _missionController.directionArrows : undefined
             delegate: MapLineArrow {
                 fromCoord: object ? object.coordinate1 : undefined
                 toCoord: object ? object.coordinate2 : undefined
                 arrowPosition: 3
                 z: QGroundControl.zOrderWaypointLines + 1
             }
+        }
+
+        GeoFenceMapVisuals {
+            map:                    missionMap
+            myGeoFenceController:   _geoFenceController
+            interactive:            _fenceMode
+            homePosition:           _missionController.plannedHomePosition
+            planView:               true
+            opacity:                _fenceMode ? 1 : 0.5
         }
 
         MapItemView {
@@ -190,6 +203,10 @@ Item {
                 missionMap.center = _activeVehicle.coordinate;
             }
         }
+        onFenceClicked: {
+            missionInfoPopup.fenceEnabled = !missionInfoPopup.fenceEnabled;
+            missionInfoPopup.currentTab = "basic";
+        }
 
         property string _addMode: ""
         property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
@@ -207,6 +224,8 @@ Item {
         missionController: _missionController
         planMasterController: _planMasterController
         missionName: xfMissionView.missionName
+        geoFenceController: _geoFenceController
+        flightMap: missionMap
 
         property bool _planFiles: true
 

@@ -26,8 +26,11 @@ Rectangle {
 
     property var missionController
     property var planMasterController
+    property var geoFenceController
+    property var flightMap
     property bool expanded: true
     property string missionName: "Mission"
+    property bool fenceEnabled: false
 
     property string currentTab: "basic"
     property int editSequenceNumber: -1
@@ -237,6 +240,40 @@ Rectangle {
 
                 onLoaded: {
                     updateMissionItemForce();
+                    if (item) {
+                        item.geoFenceController = popup.geoFenceController;
+                        item.flightMap = popup.flightMap;
+                        item.fenceEnabled = popup.fenceEnabled;
+                    }
+                }
+
+                Connections {
+                    target: contentLoader.item
+                    ignoreUnknownSignals: true
+                    function onFenceEnabledChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("fenceEnabled")) {
+                            popup.fenceEnabled = contentLoader.item.fenceEnabled;
+                        }
+                    }
+                }
+
+                Connections {
+                    target: popup
+                    function onFenceEnabledChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("fenceEnabled") && contentLoader.item.fenceEnabled !== popup.fenceEnabled) {
+                            contentLoader.item.fenceEnabled = popup.fenceEnabled;
+                        }
+                    }
+                    function onGeoFenceControllerChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("geoFenceController")) {
+                            contentLoader.item.geoFenceController = popup.geoFenceController;
+                        }
+                    }
+                    function onFlightMapChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("flightMap")) {
+                            contentLoader.item.flightMap = popup.flightMap;
+                        }
+                    }
                 }
 
                 Rectangle {

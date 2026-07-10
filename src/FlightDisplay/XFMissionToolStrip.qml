@@ -26,6 +26,7 @@ Rectangle {
     signal waypointClicked
     signal roiClicked
     signal vehicleClicked
+    signal fenceClicked
 
     ColumnLayout {
         id:                     column
@@ -156,6 +157,43 @@ Rectangle {
                 id:         vehicleMA
                 fillItem:   parent
                 onClicked:  vehicleClicked()
+            }
+        }
+
+        Rectangle {
+            id:                 fenceButton
+            width:              parent.width
+            height:             width
+            radius:             ScreenTools.defaultFontPixelWidth / 2
+            color:              (fenceMA.pressed || fenceMA.containsMouse) ?
+                                    qgcPal.buttonHighlight : qgcPal.toolbarBackground
+
+            Column {
+                anchors.centerIn:   parent
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.1
+
+                QGCLabel {
+                    text:           qsTr("围栏")
+                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.2
+                    font.bold:      true
+                    color:          (fenceMA.pressed || fenceMA.containsMouse) ?
+                                    qgcPal.buttonHighlightText : qgcPal.buttonText
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    text:                       qsTr("Fence")
+                    font.pointSize:             ScreenTools.smallFontPointSize
+                    color:                      (fenceMA.pressed || fenceMA.containsMouse) ?
+                                                qgcPal.buttonHighlightText : qgcPal.buttonText
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                }
+            }
+
+            QGCMouseArea {
+                id:         fenceMA
+                fillItem:   parent
+                onClicked:  fenceClicked()
             }
         }
     }
