@@ -62,6 +62,8 @@ SetupPage {
             property Fact _posXYP: controller.getParameterFact(-1, "PSC_POSXY_P")
             property Fact _posZP: controller.getParameterFact(-1, "PSC_POSZ_P")
 
+            property Fact _atcInputTC: controller.getParameterFact(-1, "ATC_INPUT_TC")
+
             TabBar {
                 id: tabBar
                 Layout.fillWidth: true
@@ -535,6 +537,12 @@ SetupPage {
                                 QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
                                 QGCLabel { text: "0.1-3.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
                                 FactTextField { fact: _posXYP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                            }
+                            RowLayout {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel { text: "TC"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                QGCLabel { text: "0-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                FactTextField { fact: _atcInputTC; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
                             }
                         }
 
