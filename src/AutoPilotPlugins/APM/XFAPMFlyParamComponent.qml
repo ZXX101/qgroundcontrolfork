@@ -48,9 +48,9 @@ SetupPage {
             property Fact _rtlAltFinal:     controller.getParameterFact(-1, "RTL_ALT_FINAL")
             property Fact _landSpeed:       controller.getParameterFact(-1, "LAND_SPEED")
 
-            property Fact _pilotAccelZ:     controller.getParameterFact(-1, "PILOT_ACCELZ")
+            property Fact _pilotAccelZ:     controller.getParameterFact(-1, "PILOT_ACCEL_Z")
             property Fact _loitAccMax:      controller.getParameterFact(-1, "LOIT_ACC_MAX")
-            property Fact _atcInputTc:      controller.getParameterFact(-1, "ATC_INPUTTC")
+            property Fact _atcInputTc:      controller.getParameterFact(-1, "ATC_INPUT_TC")
             property Fact _atcRatePMax:     controller.getParameterFact(-1, "ATC_RATE_P_MAX")
             property Fact _atcRateRMax:     controller.getParameterFact(-1, "ATC_RATE_R_MAX")
             property Fact _atcRateYMax:     controller.getParameterFact(-1, "ATC_RATE_Y_MAX")
