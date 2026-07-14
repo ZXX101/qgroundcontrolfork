@@ -532,7 +532,10 @@ if(QGC_CUSTOM_BUILD)
     target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CUSTOM_INCLUDE_DIRECTORIES})
 endif()
 
-file(GLOB TS_SOURCES ${CMAKE_SOURCE_DIR}/translations/qgc_*.ts)
+set(TS_SOURCES
+    ${CMAKE_SOURCE_DIR}/translations/qgc_source_zh_CN.ts
+    ${CMAKE_SOURCE_DIR}/translations/qgc_json_zh_CN.ts
+)
 set_source_files_properties(${TS_SOURCES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/i18n")
 qt_add_translations(${CMAKE_PROJECT_NAME}
     # TS_FILE_BASE ${CMAKE_PROJECT_NAME}
