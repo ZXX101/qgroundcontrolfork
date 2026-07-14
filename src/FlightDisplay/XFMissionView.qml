@@ -130,7 +130,10 @@ Item {
             var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false);
             var nextIndex = _missionController.currentPlanViewVIIndex + 1;
 
-            if (_missionController.visualItems.count === 1) {
+            if (toolStrip.currentMode === "roi") {
+                _missionController.insertROIMissionItem(coordinate, nextIndex, true);
+                toolStrip.currentMode = "waypoint";
+            } else if (_missionController.visualItems.count === 1) {
                 _missionController.insertTakeoffItem(coordinate, nextIndex, true);
             } else {
                 _missionController.insertSimpleMissionItem(coordinate, nextIndex, true);
@@ -192,13 +195,21 @@ Item {
         anchors.top: toolbar.bottom
         anchors.margins: ScreenTools.defaultFontPixelWidth
 
+        isROIActive: _missionController ? _missionController.isROIActive : false
+
         onWaypointClicked: {
-            _addMode = _addMode === "waypoint" ? "" : "waypoint";
+            toolStrip.currentMode = "waypoint"
         }
         onRoiClicked: {
-            _addMode = _addMode === "roi" ? "" : "roi";
+            toolStrip.currentMode = "roi"
+        }
+        onRoiCancelClicked: {
+            var nextIndex = _missionController.currentPlanViewVIIndex + 1
+            _missionController.insertCancelROIMissionItem(nextIndex, true)
+            toolStrip.currentMode = "waypoint"
         }
         onVehicleClicked: {
+            var _activeVehicle = QGroundControl.multiVehicleManager.activeVehicle
             if (_activeVehicle) {
                 missionMap.center = _activeVehicle.coordinate;
             }
@@ -207,9 +218,6 @@ Item {
             missionInfoPopup.fenceEnabled = !missionInfoPopup.fenceEnabled;
             missionInfoPopup.currentTab = "basic";
         }
-
-        property string _addMode: ""
-        property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
     }
 
     XFMissionInfoPopup {
