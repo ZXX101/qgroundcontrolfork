@@ -23,7 +23,7 @@ import QGroundControl.FactControls
 Item {
     id:         _root
 
-    property Fact   _editorDialogFact: Fact { }
+    property Fact   _selectedFact:      null
     property int    _rowHeight:         ScreenTools.defaultFontPixelHeight * 2
     property int    _rowWidth:          10
     property bool   _searchFilter:      searchText.text.trim() != "" || controller.showModifiedOnly
@@ -32,6 +32,8 @@ Item {
     property bool   _showRCToParam:     _activeVehicle.px4Firmware
     property var    _appSettings:       QGroundControl.settingsManager.appSettings
     property var    _controller:        controller
+
+    QGCPalette { id: qgcPal; colorGroupEnabled: true }
 
     ParameterEditorController {
         id: controller
@@ -119,19 +121,18 @@ Item {
     }
 
     Component {
-        id: editorDialogComponent
-
-        ParameterEditorDialog {
-            fact:           _editorDialogFact
-            showRCToParam:  _showRCToParam
-        }
-    }
-
-    Component {
         id: parameterDiffDialog
 
         ParameterDiffDialog {
             paramController: _controller
+        }
+    }
+
+    Component {
+        id: rcToParamDialog
+
+        RCToParamDialog {
+            tuningFact: _selectedFact
         }
     }
 
@@ -229,70 +230,321 @@ Item {
                 }
             }
 
-            TableView {
-                id:                 tableView
-                Layout.fillWidth:   true
-                Layout.fillHeight:  true
-                Layout.leftMargin:  ScreenTools.defaultFontPixelWidth
-                columnSpacing:      ScreenTools.defaultFontPixelWidth
-                rowSpacing:         ScreenTools.defaultFontPixelHeight / 4
-                model:              controller.parameters
-                contentWidth:       width
-                clip:               true
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                spacing: ScreenTools.defaultFontPixelWidth
 
-                Timer {
-                    id:             forceLayoutTimer
-                    interval:       500
-                    repeat:         false
-                    onTriggered:    tableView.forceLayout()
-                }
+                TableView {
+                    id:                 tableView
+                    Layout.fillWidth:   true
+                    Layout.fillHeight:  true
+                    Layout.leftMargin:  ScreenTools.defaultFontPixelWidth
+                    columnSpacing:      ScreenTools.defaultFontPixelWidth
+                    rowSpacing:         ScreenTools.defaultFontPixelHeight / 4
+                    model:              controller.parameters
+                    clip:               true
 
-                onTopRowChanged: forceLayoutTimer.start()
-                onModelChanged: {
-                    positionViewAtRow(0, TableView.AlignLeft | TableView.AlignTop)
-                    forceLayoutTimer.start()
-                }
+                    property var _colWidths: [ScreenTools.defaultFontPixelWidth * 14,
+                                              ScreenTools.defaultFontPixelWidth * 10,
+                                              ScreenTools.defaultFontPixelWidth * 18]
+                    contentWidth:       _colWidths[0] + _colWidths[1] + _colWidths[2] + columnSpacing * 2
 
-                delegate: Item {
-                    implicitWidth:  label.contentWidth
-                    implicitHeight: label.contentHeight
-                    clip:           true
+                    Timer {
+                        id:             forceLayoutTimer
+                        interval:       500
+                        repeat:         false
+                        onTriggered:    tableView.forceLayout()
+                    }
 
-                    QGCLabel {
-                        id:                 label
-                        width:              column == 1 ? ScreenTools.defaultFontPixelWidth * 15 : contentWidth
-                        text:               column == 1 ? col1String() : display
-                        color:              column == 1 ? col1Color() : qgcPal.text
-                        maximumLineCount:   1
-                        elide:              column == 1 ? Text.ElideRight : Text.ElideNone
+                    onTopRowChanged: forceLayoutTimer.start()
+                    onModelChanged: {
+                        positionViewAtRow(0, TableView.AlignLeft | TableView.AlignTop)
+                        forceLayoutTimer.start()
+                    }
 
-                        function col1String() {
-                            if (fact.enumStrings.length === 0) {
-                                return fact.valueString + " " + fact.units
+                    delegate: Item {
+                        id: delegateItem
+                        implicitWidth:  tableView._colWidths[column]
+                        implicitHeight: _rowHeight
+                        clip:           true
+
+                        property Fact fact: model.fact
+
+                        Loader {
+                            id: cellLoader
+                            anchors.fill: parent
+                            anchors.margins: ScreenTools.defaultFontPixelHeight / 8
+                            sourceComponent: {
+                                if (column === 0) return nameComponent
+                                if (column === 1) return rangeComponent
+                                return valueComponent
                             }
-                            if (fact.bitmaskStrings.length != 0) {
-                                return fact.selectedBitmaskStrings.join(',')
-                            }
-                            return fact.enumStringValue
+
+                            property Fact delegateFact: delegateItem.fact
+                            property int delegateColumn: column
                         }
+                    }
 
-                        function col1Color() {
-                            if (fact.defaultValueAvailable) {
-                                return fact.valueEqualsDefault ? qgcPal.text : qgcPal.warningText
-                            } else {
-                                return qgcPal.text
+                    Component {
+                        id: nameComponent
+
+                        RowLayout {
+                            spacing: 2
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: delegateFact.name
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Rectangle {
+                                Layout.preferredWidth:  ScreenTools.defaultFontPixelHeight * 0.75
+                                Layout.preferredHeight: width
+                                Layout.alignment:       Qt.AlignVCenter
+                                radius:                 width / 2
+                                color:                  infoMA.containsMouse ? qgcPal.buttonHighlight : qgcPal.button
+                                border.color:           qgcPal.buttonBorder
+                                border.width:           1
+
+                                QGCLabel {
+                                    anchors.centerIn: parent
+                                    text: "!"
+                                    font.bold: true
+                                    font.pointSize: ScreenTools.smallFontPointSize
+                                    color: infoMA.containsMouse ? qgcPal.buttonHighlightText : qgcPal.buttonText
+                                }
+
+                                QGCMouseArea {
+                                    id: infoMA
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: _selectedFact = delegateFact
+                                }
                             }
                         }
                     }
 
-                    QGCMouseArea {
+                    Component {
+                        id: rangeComponent
+
+                        QGCLabel {
+                            text: {
+                                if (delegateFact.bitmaskStrings.length > 0) return qsTr("Bitmask")
+                                if (delegateFact.enumStrings.length > 0) return qsTr("%1 options").arg(delegateFact.enumStrings.length)
+                                if (!delegateFact.minIsDefaultForType || !delegateFact.maxIsDefaultForType)
+                                    return delegateFact.minString + " ~ " + delegateFact.maxString
+                                return "-"
+                            }
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            color: qgcPal.text
+                        }
+                    }
+
+                    Component {
+                        id: valueComponent
+
+                        Loader {
+                            id: valueLoader
+                            property Fact vFact: delegateFact
+                            sourceComponent: {
+                                if (vFact.bitmaskStrings.length > 0) return bitmaskValueComponent
+                                if (vFact.enumStrings.length > 0) return enumValueComponent
+                                return textValueComponent
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: textValueComponent
+
+                        QGCTextField {
+                            id: valueField
+                            text: vFact.valueString
+                            unitsLabel: vFact.units
+                            showUnits: true
+                            showHelp: false
+                            numericValuesOnly: !vFact.typeIsString
+                            verticalAlignment: Text.AlignVCenter
+
+                            onEditingFinished: {
+                                var errorString = vFact.validate(text, false)
+                                if (errorString === "") {
+                                    vFact.value = text
+                                } else {
+                                    text = vFact.valueString
+                                }
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: enumValueComponent
+
+                        QGCComboBox {
+                            model: vFact.enumStrings
+                            sizeToContents: true
+                            property bool _indexModel: vFact ? vFact.enumValues.length === 0 : true
+                            property int _enumIndex: vFact.enumIndex
+                            on_EnumIndexChanged: {
+                                Qt.callLater(function() { currentIndex = _enumIndex })
+                            }
+                            onModelChanged: {
+                                Qt.callLater(function() { currentIndex = vFact.enumIndex })
+                            }
+                            Component.onCompleted: currentIndex = vFact.enumIndex
+                            onActivated: (index) => {
+                                if (_indexModel) {
+                                    vFact.value = index
+                                } else {
+                                    vFact.value = vFact.enumValues[index]
+                                }
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: bitmaskValueComponent
+
+                        QGCBitmaskComboBox {
+                            fact: vFact
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: detailPanel
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 28
+                    Layout.fillHeight: true
+                    color: qgcPal.windowShade
+                    visible: _selectedFact !== null
+                    border.color: qgcPal.windowShadeLight
+                    border.width: 1
+
+                    ColumnLayout {
                         anchors.fill: parent
-                        onClicked: mouse => {
-                            _editorDialogFact = fact
-                            editorDialogComponent.createObject(mainWindow).open()
+                        spacing: 0
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.margins: ScreenTools.defaultFontPixelWidth
+                            spacing: ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: _selectedFact ? _selectedFact.name : ""
+                                font.bold: true
+                                font.pointSize: ScreenTools.mediumFontPointSize
+                            }
+
+                            QGCButton {
+                                Layout.preferredWidth: height
+                                text: "X"
+                                font.bold: true
+                                onClicked: _selectedFact = null
+                            }
                         }
-                    }
-                }
+
+                        QGCFlickable {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            contentWidth: detailContent.width
+                            contentHeight: detailContent.height
+                            flickableDirection: Flickable.VerticalFlick
+
+                            ColumnLayout {
+                                id: detailContent
+                                width: detailPanel.width - ScreenTools.defaultFontPixelWidth * 2
+                                spacing: ScreenTools.defaultFontPixelHeight / 2
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: _selectedFact ? _selectedFact.shortDescription : ""
+                                wrapMode: Text.WordWrap
+                                visible: _selectedFact && _selectedFact.shortDescription !== ""
+                            }
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: _selectedFact ? _selectedFact.longDescription : ""
+                                wrapMode: Text.WordWrap
+                                visible: _selectedFact && _selectedFact.longDescription !== ""
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 1
+                                color: qgcPal.windowShadeLight
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: ScreenTools.defaultFontPixelWidth * 2
+
+                                QGCLabel {
+                                    text: _selectedFact ? qsTr("Min: ") + _selectedFact.minString : ""
+                                    visible: _selectedFact && !_selectedFact.minIsDefaultForType
+                                }
+                                QGCLabel {
+                                    text: _selectedFact ? qsTr("Max: ") + _selectedFact.maxString : ""
+                                    visible: _selectedFact && !_selectedFact.maxIsDefaultForType
+                                }
+                                QGCLabel {
+                                    text: _selectedFact ? qsTr("Default: ") + _selectedFact.defaultValueString : ""
+                                    visible: _selectedFact && _selectedFact.defaultValueAvailable
+                                }
+                            }
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: qsTr("Vehicle reboot required after change")
+                                visible: _selectedFact && _selectedFact.vehicleRebootRequired
+                                color: qgcPal.warningText
+                            }
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: qsTr("Application restart required after change")
+                                visible: _selectedFact && _selectedFact.qgcRebootRequired
+                                color: qgcPal.warningText
+                            }
+
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                text: qsTr("Warning: Modifying values while vehicle is in flight can lead to vehicle instability and possible vehicle loss.")
+                                visible: _selectedFact && _selectedFact.componentId !== -1
+                                color: qgcPal.warningText
+                                font.pointSize: ScreenTools.smallFontPointSize
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 1
+                                color: qgcPal.windowShadeLight
+                            }
+
+                            QGCButton {
+                                text: qsTr("Reset To Default")
+                                visible: _selectedFact && _selectedFact.defaultValueAvailable
+                                onClicked: {
+                                    if (_selectedFact) _selectedFact.value = _selectedFact.defaultValue
+                                }
+                            }
+
+                            QGCButton {
+                                text: qsTr("Set RC to Param")
+                                visible: _selectedFact && _showRCToParam
+                                onClicked: rcToParamDialog.createObject(mainWindow).open()
+                            }
+
+                            Item { Layout.fillHeight: true }
+                            } // detailContent ColumnLayout
+                        } // QGCFlickable
+                    } // ColumnLayout
+                } // detailPanel Rectangle
             }
         }
     }
