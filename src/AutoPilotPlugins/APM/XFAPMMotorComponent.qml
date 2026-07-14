@@ -35,21 +35,21 @@ SetupPage {
 
     function frameClassToGeometryName(frameClassValue) {
         switch (frameClassValue) {
-        case 0:  return "Undefined"
-        case 1:  return "Quadrotor"
-        case 2:  return "Hexarotor"
-        case 3:  return "Octorotor"
-        case 4:  return "Octa-Quad"
-        case 5:  return "Y6"
-        case 6:  return "Helicopter"
-        case 7:  return "Tricopter"
-        case 8:  return "Single Copter"
-        case 9:  return "Coax Copter"
-        case 10: return "Bicopter"
-        case 11: return "Heli Dual"
-        case 12: return "Dodeca Hexa"
-        case 13: return "Heli Quad"
-        default: return "Unknown"
+        case 0:  return qsTr("Undefined")
+        case 1:  return qsTr("Quadrotor")
+        case 2:  return qsTr("Hexarotor")
+        case 3:  return qsTr("Octorotor")
+        case 4:  return qsTr("Octa-Quad")
+        case 5:  return qsTr("Y6")
+        case 6:  return qsTr("Helicopter")
+        case 7:  return qsTr("Tricopter")
+        case 8:  return qsTr("Single Copter")
+        case 9:  return qsTr("Coax Copter")
+        case 10: return qsTr("Bicopter")
+        case 11: return qsTr("Heli Dual")
+        case 12: return qsTr("Dodeca Hexa")
+        case 13: return qsTr("Heli Quad")
+        default: return qsTr("Unknown")
         }
     }
 

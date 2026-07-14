@@ -248,7 +248,7 @@ SetupPage {
             }
 
             QGCLabel {
-                text:       qsTr("辅助输出通道")
+                text:           qsTr("Auxiliary Output Channels")
                 font.bold:  true
             }
 
@@ -282,7 +282,7 @@ SetupPage {
 
                                 QGCLabel {
                                     anchors.baseline:   auxCombo.baseline
-                                    text:               qsTr("辅助%1 (AUX%1)").arg(modelData + 1)
+                                    text:               qsTr("Auxiliary %1 (AUX%1)").arg(modelData + 1)
                                     visible:            parent._auxExists
                                 }
 

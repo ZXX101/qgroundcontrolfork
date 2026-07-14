@@ -220,7 +220,7 @@ ColumnLayout {
             spacing: ScreenTools.defaultFontPixelHeight / 2
             visible: axis.length > 1
 
-            QGCLabel { text: qsTr("选择轴:") }
+            QGCLabel { text: qsTr("Select Axis:") }
 
             Repeater {
                 model: axis
@@ -235,12 +235,12 @@ ColumnLayout {
         Item { Layout.fillWidth: true }
 
         QGCButton {
-            text:       qsTr("清除")
+            text:       qsTr("Clear")
             onClicked:  resetGraphs()
         }
 
         QGCButton {
-            text:       dataTimer.running ? qsTr("停止") : qsTr("开始")
+            text:       dataTimer.running ? qsTr("Stop") : qsTr("Start")
             onClicked: {
                 dataTimer.running = !dataTimer.running
                 _last_t = 0

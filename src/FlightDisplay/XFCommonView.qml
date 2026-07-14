@@ -39,26 +39,26 @@ Rectangle {
     //页面列表数据
     property var pageList: [
         {
-            name: qsTr("连接"),
+            name: qsTr("Connection"),
             url: "qrc:/qml/QGroundControl/AppSettings/XFLinkSettings.qml",
             icon: "qrc:/xfres/link.png"
         },
         {
-            name: qsTr("设备配置"),
+            name: qsTr("Device Config"),
             icon: "qrc:/xfres/deviceConfig.png"
         },
         {
-            name: qsTr("飞行参数"),
+            name: qsTr("Flight Params"),
             componentName: "flyparam",
             icon: "qrc:/xfres/flightParams.png"
         },
         {
-            name: qsTr("安全"),
+            name: qsTr("Safety"),
             componentName: "safety",
             icon: "qrc:/xfres/safety.png"
         },
         {
-            name: qsTr("设备日志"),
+            name: qsTr("Device Log"),
             url: "qrc:/qml/QGroundControl/AnalyzeView/XFLogDownloadPage.qml",
             icon: "qrc:/xfres/deviceLog.png"
         },
@@ -73,7 +73,7 @@ Rectangle {
             icon: "qrc:/xfres/mavlinkInspect.png"
         },
         {
-            name: qsTr("软件设置"),
+            name: qsTr("Software Settings"),
             url: "qrc:/qml/QGroundControl/AppSettings/XFGeneralSettings.qml",
             icon: "qrc:/xfres/softwareSettings.png"
         }
@@ -343,13 +343,13 @@ Rectangle {
             spacing: _defaultTextWidth
 
             QGCLabel {
-                text: qsTr("XF地面站 通用配置")
+                text: qsTr("XF Ground Station - Common Config")
                 font.pointSize: ScreenTools.largeFontPointSize
                 font.family: ScreenTools.tecentFontFamily
             }
             QGCButton {
                 id: buttonBack
-                text: "Back"
+                text: qsTr("Back")
                 iconSource: "qrc:/xfres/back.png"
                 // Layout.fillWidth: true
                 // checked: currentPageIndex === 0
@@ -457,7 +457,7 @@ Rectangle {
 
                     ConfigButton {
                         id: buttonSummary
-                        text: qsTr("概况")
+                        text: qsTr("Summary")
                         Layout.fillWidth: true
                         font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                         checked: deviceConfigSubIndex === -1
@@ -494,7 +494,7 @@ Rectangle {
 
                     ConfigButton {
                         id: buttonParams
-                        text: qsTr("参数")
+                        text: qsTr("Parameters")
                         Layout.fillWidth: true
                         font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                         checked: deviceConfigSubIndex === -2

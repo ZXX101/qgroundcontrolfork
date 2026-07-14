@@ -62,7 +62,7 @@ Rectangle {
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.1
 
                 QGCLabel {
-                    text:           "WP"
+                    text:           qsTr("WP")
                     font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
                     font.bold:      true
                     color:          (waypointMA.pressed || waypointMA.containsMouse) ?
@@ -136,7 +136,7 @@ Rectangle {
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.1
 
                 QGCLabel {
-                    text:           "UAV"
+                    text:           qsTr("UAV")
                     font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
                     font.bold:      true
                     color:          (vehicleMA.pressed || vehicleMA.containsMouse) ?
@@ -173,7 +173,7 @@ Rectangle {
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.1
 
                 QGCLabel {
-                    text:           qsTr("围栏")
+                    text:           qsTr("Fence")
                     font.pointSize: ScreenTools.defaultFontPixelSize * 1.2
                     font.bold:      true
                     color:          (fenceMA.pressed || fenceMA.containsMouse) ?

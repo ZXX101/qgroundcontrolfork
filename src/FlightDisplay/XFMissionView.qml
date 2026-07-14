@@ -68,7 +68,7 @@ Item {
                 font.pointSize: ScreenTools.largeFontPointSize
             }
             QGCButton {
-                text: "Back"
+                text: qsTr("Back")
                 onClicked: {
                     if (mainWindow.allowViewSwitch()) {
                         xfMissionView.visible = false;

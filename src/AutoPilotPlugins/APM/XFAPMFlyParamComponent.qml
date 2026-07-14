@@ -87,7 +87,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("速度")
+                            text:       qsTr("Speed")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -109,7 +109,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("手动控制最大倾角") + " " + rangeString(_angleMax)
+                                    text: qsTr("Max Manual Tilt Angle") + " " + rangeString(_angleMax)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -119,7 +119,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("手动上升最大速度") + " " + rangeString(_pilotSpeedUp)
+                                    text: qsTr("Max Manual Ascend Speed") + " " + rangeString(_pilotSpeedUp)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -129,7 +129,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("手动下降最大速度") + " " + rangeString(_pilotSpeedDn)
+                                    text: qsTr("Max Manual Descend Speed") + " " + rangeString(_pilotSpeedDn)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -139,7 +139,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("自动飞行速度") + " " + rangeString(_wpnavSpeed)
+                                    text: qsTr("Auto Flight Speed") + " " + rangeString(_wpnavSpeed)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -149,7 +149,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("自动上升速度") + " " + rangeString(_wpnavSpeedUp)
+                                    text: qsTr("Auto Ascend Speed") + " " + rangeString(_wpnavSpeedUp)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -159,7 +159,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("自动下降速度") + " " + rangeString(_wpnavSpeedDn)
+                                    text: qsTr("Auto Descend Speed") + " " + rangeString(_wpnavSpeedDn)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -176,7 +176,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("返航参数")
+                            text:       qsTr("Return To Home")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -198,7 +198,7 @@ SetupPage {
                                 RowLayout {
                                     width: parent.width
                                     QGCLabel {
-                                        text: qsTr("返航高度") + " " + rangeString(_rtlAlt)
+                                        text: qsTr("RTL Altitude") + " " + rangeString(_rtlAlt)
                                         Layout.fillWidth: true
                                     }
                                     FactTextField {
@@ -209,7 +209,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text:           qsTr("无人机将上升到设置的安全高度然后返航")
+                                    text:           qsTr("The vehicle will ascend to the set safe altitude then return home")
                                     font.pointSize: ScreenTools.smallFontPointSize
                                     color:          qgcPal.text
                                     opacity:        0.6
@@ -228,7 +228,7 @@ SetupPage {
                                 RowLayout {
                                     width: parent.width
                                     QGCLabel {
-                                        text: qsTr("在Home点上方停留时间") + " " + rangeString(_rtlLoitTime)
+                                        text: qsTr("Loiter Time Above Home") + " " + rangeString(_rtlLoitTime)
                                         Layout.fillWidth: true
                                     }
                                     FactTextField {
@@ -246,7 +246,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("降落")
+                            text:       qsTr("Landing")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -268,7 +268,7 @@ SetupPage {
                                 RowLayout {
                                     width: parent.width
                                     QGCLabel {
-                                        text: qsTr("安全高度") + " " + rangeString(_rtlAltFinal)
+                                        text: qsTr("Safe Altitude") + " " + rangeString(_rtlAltFinal)
                                         Layout.fillWidth: true
                                     }
                                     FactTextField {
@@ -281,7 +281,7 @@ SetupPage {
                                 RowLayout {
                                     width: parent.width
                                     QGCLabel {
-                                        text: qsTr("着陆速度") + " " + rangeString(_landSpeed)
+                                        text: qsTr("Landing Speed") + " " + rangeString(_landSpeed)
                                         Layout.fillWidth: true
                                     }
                                     FactTextField {
@@ -292,7 +292,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text:           qsTr("低于安全高度时生效")
+                                    text:           qsTr("Effective below safe altitude")
                                     font.pointSize: ScreenTools.smallFontPointSize
                                     color:          qgcPal.text
                                     opacity:        0.6
@@ -311,7 +311,7 @@ SetupPage {
 
                             QGCLabel {
                                 id:         advancedTitle
-                                text:       qsTr("高级参数")
+                                text:       qsTr("Advanced Parameters")
                                 font.bold:  true
                                 font.pointSize: ScreenTools.mediumFontPointSize
                             }
@@ -356,7 +356,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("最大飞行角度") }
+                                QGCLabel { text: qsTr("Max Flight Angle") }
                                 QGCLabel {
                                     text:           "ANGLE_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -376,7 +376,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("垂直加速度") }
+                                QGCLabel { text: qsTr("Vertical Acceleration") }
                                 QGCLabel {
                                     text:           "PILOT_ACCELZ"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -396,7 +396,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("最大飞行加速度") }
+                                QGCLabel { text: qsTr("Max Flight Acceleration") }
                                 QGCLabel {
                                     text:           "LOIT_ACC_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -416,7 +416,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("控制器时间常数") }
+                                QGCLabel { text: qsTr("Controller Time Constant") }
                                 QGCLabel {
                                     text:           "ATC_INPUTTC"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -436,7 +436,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角速度最大值P") }
+                                QGCLabel { text: qsTr("Max Angular Rate P") }
                                 QGCLabel {
                                     text:           "ATC_RATE_P_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -456,7 +456,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角速度最大值R") }
+                                QGCLabel { text: qsTr("Max Angular Rate R") }
                                 QGCLabel {
                                     text:           "ATC_RATE_R_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -476,7 +476,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角速度最大值Y") }
+                                QGCLabel { text: qsTr("Max Angular Rate Y") }
                                 QGCLabel {
                                     text:           "ATC_RATE_Y_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -496,7 +496,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角加速度最大值P") }
+                                QGCLabel { text: qsTr("Max Angular Acceleration P") }
                                 QGCLabel {
                                     text:           "ATC_ACCEL_P_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -516,7 +516,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角加速度最大值R") }
+                                QGCLabel { text: qsTr("Max Angular Acceleration R") }
                                 QGCLabel {
                                     text:           "ATC_ACCEL_R_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize
@@ -536,7 +536,7 @@ SetupPage {
 
                             Column {
                                 Layout.fillWidth: true
-                                QGCLabel { text: qsTr("角加速度最大值Y") }
+                                QGCLabel { text: qsTr("Max Angular Acceleration Y") }
                                 QGCLabel {
                                     text:           "ATC_ACCEL_Y_MAX"
                                     font.pointSize: ScreenTools.smallFontPointSize

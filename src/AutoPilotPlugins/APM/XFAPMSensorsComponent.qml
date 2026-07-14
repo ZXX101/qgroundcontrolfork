@@ -485,7 +485,7 @@ SetupPage {
                             }
 
                             QGCCheckBox {
-                                text: "Simple Accelerometer Calibration"
+                                text: qsTr("Simple Accelerometer Calibration")
                                 onClicked: _doSimpleAccelCal = this.checked
                             }
                         }

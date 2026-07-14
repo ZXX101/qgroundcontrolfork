@@ -40,7 +40,7 @@ ColumnLayout {
             text: qsTr("Flyview")
         }
         TabButton {
-            text: qsTr("SystemConsle")
+            text: qsTr("System Console")
         }
         TabButton {
             text: qsTr("RTK Settings")
@@ -153,7 +153,7 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             QGCLabel {
-                text: "RTK settings"
+                text: qsTr("RTK Settings")
             }
             Item {
                 Layout.fillHeight: true

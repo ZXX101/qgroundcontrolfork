@@ -80,7 +80,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("低电量故障保护")
+                            text:       qsTr("Low Battery Failsafe")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -102,7 +102,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("保护触发电压") + " " + rangeString(_battLowVoltage)
+                                    text: qsTr("Failsafe Trigger Voltage") + " " + rangeString(_battLowVoltage)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -112,7 +112,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("保护动作")
+                                    text: qsTr("Failsafe Action")
                                     Layout.fillWidth: true
                                 }
                                 FactComboBox {
@@ -129,7 +129,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("遥控器失控保护")
+                            text:       qsTr("RC Loss Failsafe")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -151,7 +151,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("PWM最低值") + " " + rangeString(_fsThrValue)
+                                    text: qsTr("PWM Minimum") + " " + rangeString(_fsThrValue)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -161,7 +161,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("保护动作")
+                                    text: qsTr("Failsafe Action")
                                     Layout.fillWidth: true
                                 }
                                 FactComboBox {
@@ -178,7 +178,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("软件断联保护")
+                            text:       qsTr("GCS Link Loss Failsafe")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -200,7 +200,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("连接超时") + " " + rangeString(_fsGcsTimeout)
+                                    text: qsTr("Connection Timeout") + " " + rangeString(_fsGcsTimeout)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -210,7 +210,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("保护动作")
+                                    text: qsTr("Failsafe Action")
                                     Layout.fillWidth: true
                                 }
                                 FactComboBox {
@@ -227,7 +227,7 @@ SetupPage {
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("电子围栏")
+                            text:       qsTr("Geofence")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -249,7 +249,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("冲出围栏时动作")
+                                    text: qsTr("Action on Breach")
                                     Layout.fillWidth: true
                                 }
                                 FactComboBox {
@@ -259,7 +259,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("最大高度") + " " + rangeString(_fenceAltMax)
+                                    text: qsTr("Max Altitude") + " " + rangeString(_fenceAltMax)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -269,7 +269,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("最大半径") + " " + rangeString(_fenceRadius)
+                                    text: qsTr("Max Radius") + " " + rangeString(_fenceRadius)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -287,7 +287,7 @@ SetupPage {
                         visible:    _avoidParamsAvailable
 
                         QGCLabel {
-                            text:       qsTr("物体探测")
+                            text:       qsTr("Object Detection")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -309,7 +309,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("避障动作")
+                                    text: qsTr("Avoidance Action")
                                     Layout.fillWidth: true
                                 }
                                 FactComboBox {
@@ -319,7 +319,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("最小距离") + " " + rangeString(_avoidDistMax)
+                                    text: qsTr("Minimum Distance") + " " + rangeString(_avoidDistMax)
                                     Layout.fillWidth: true
                                 }
                                 FactTextField {
@@ -329,7 +329,7 @@ SetupPage {
                                 }
 
                                 QGCLabel {
-                                    text: qsTr("显示障碍物距离叠加层")
+                                    text: qsTr("Show Obstacle Distance Overlay")
                                     Layout.fillWidth: true
                                 }
                                 QGCSwitch {
@@ -350,7 +350,7 @@ SetupPage {
                         visible:    _logParamsAvailable
 
                         QGCLabel {
-                            text:       qsTr("无线数传日志")
+                            text:       qsTr("Telemetry Log")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
@@ -372,7 +372,7 @@ SetupPage {
                                 rowSpacing:     _margins
 
                                 QGCLabel {
-                                    text: qsTr("储存数传日志到飞机里")
+                                    text: qsTr("Save Telemetry Log to Vehicle")
                                     Layout.fillWidth: true
                                 }
                                 QGCSwitch {

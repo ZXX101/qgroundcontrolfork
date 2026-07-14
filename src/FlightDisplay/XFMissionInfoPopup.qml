@@ -90,7 +90,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: "Delete"
+                    text: qsTr("Delete")
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -101,7 +101,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: "Open"
+                    text: qsTr("Open")
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -112,7 +112,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: "Save"
+                    text: qsTr("Save")
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {

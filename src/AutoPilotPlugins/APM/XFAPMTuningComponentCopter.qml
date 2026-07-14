@@ -73,7 +73,7 @@ SetupPage {
                 }
 
                 TabButton {
-                    text: qsTr("速率")
+                    text: qsTr("Rate")
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -94,7 +94,7 @@ SetupPage {
                     }
                 }
                 TabButton {
-                    text: qsTr("姿态")
+                    text: qsTr("Attitude")
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -115,7 +115,7 @@ SetupPage {
                     }
                 }
                 TabButton {
-                    text: qsTr("速度")
+                    text: qsTr("Velocity")
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -136,7 +136,7 @@ SetupPage {
                     }
                 }
                 TabButton {
-                    text: qsTr("位置")
+                    text: qsTr("Position")
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -177,7 +177,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("横滚(Roll)")
+                                text: qsTr("Roll")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -207,7 +207,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("俯仰(Pitch)")
+                                text: qsTr("Pitch")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -237,7 +237,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("偏航(Yaw)")
+                                text: qsTr("Yaw")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -268,27 +268,27 @@ SetupPage {
                         Layout.fillHeight: true
                         availableWidth: width
                         availableHeight: height
-                        title: qsTr("速率")
+                        title: qsTr("Rate")
                         tuningMode: Vehicle.ModeDisabled
                         unit: qsTr("deg/s")
                         chartDisplaySec: 3
 
                         property var roll: QtObject {
-                            property string name: qsTr("横滚")
+                            property string name: qsTr("Roll")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.rollRate ? globals.activeVehicle.rollRate.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.rollRate.value : NaN }
                             ]
                         }
                         property var pitch: QtObject {
-                            property string name: qsTr("俯仰")
+                            property string name: qsTr("Pitch")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.pitchRate ? globals.activeVehicle.pitchRate.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.pitchRate.value : NaN }
                             ]
                         }
                         property var yaw: QtObject {
-                            property string name: qsTr("偏航")
+                            property string name: qsTr("Yaw")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.yawRate ? globals.activeVehicle.yawRate.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.yawRate.value : NaN }
@@ -312,7 +312,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("横滚(Roll)")
+                                text: qsTr("Roll")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -336,7 +336,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("俯仰(Pitch)")
+                                text: qsTr("Pitch")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -360,7 +360,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("偏航(Yaw)")
+                                text: qsTr("Yaw")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -385,27 +385,27 @@ SetupPage {
                         Layout.fillHeight: true
                         availableWidth: width
                         availableHeight: height
-                        title: qsTr("姿态")
+                        title: qsTr("Attitude")
                         tuningMode: Vehicle.ModeDisabled
                         unit: qsTr("deg")
                         chartDisplaySec: 8
 
                         property var roll: QtObject {
-                            property string name: qsTr("横滚")
+                            property string name: qsTr("Roll")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.roll ? globals.activeVehicle.roll.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.roll.value : NaN }
                             ]
                         }
                         property var pitch: QtObject {
-                            property string name: qsTr("俯仰")
+                            property string name: qsTr("Pitch")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.pitch ? globals.activeVehicle.pitch.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.pitch.value : NaN }
                             ]
                         }
                         property var yaw: QtObject {
-                            property string name: qsTr("偏航")
+                            property string name: qsTr("Yaw")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.heading ? globals.activeVehicle.heading.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.setpoint ? globals.activeVehicle.setpoint.yaw.value : NaN }
@@ -429,7 +429,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("水平(Horizontal)")
+                                text: qsTr("Horizontal")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -459,7 +459,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("垂直(Vertical)")
+                                text: qsTr("Vertical")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -490,20 +490,20 @@ SetupPage {
                         Layout.fillHeight: true
                         availableWidth: width
                         availableHeight: height
-                        title: qsTr("速度")
+                        title: qsTr("Velocity")
                         tuningMode: Vehicle.ModeDisabled
                         unit: qsTr("m/s")
                         chartDisplaySec: 8
 
                         property var horizontal: QtObject {
-                            property string name: qsTr("水平")
+                            property string name: qsTr("Horizontal")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.vy.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.vy.value : NaN }
                             ]
                         }
                         property var vertical: QtObject {
-                            property string name: qsTr("垂直")
+                            property string name: qsTr("Vertical")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.vz.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.vz.value : NaN }
@@ -527,7 +527,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("水平(Horizontal)")
+                                text: qsTr("Horizontal")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -551,7 +551,7 @@ SetupPage {
                             spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
                             QGCLabel {
-                                text: qsTr("垂直(Vertical)")
+                                text: qsTr("Vertical")
                                 font.bold: true
                                 Layout.fillWidth: true
                             }
@@ -570,20 +570,20 @@ SetupPage {
                         Layout.fillHeight: true
                         availableWidth: width
                         availableHeight: height
-                        title: qsTr("位置")
+                        title: qsTr("Position")
                         tuningMode: Vehicle.ModeDisabled
                         unit: qsTr("m")
                         chartDisplaySec: 50
 
                         property var horizontal: QtObject {
-                            property string name: qsTr("水平")
+                            property string name: qsTr("Horizontal")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.y.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.y.value : NaN }
                             ]
                         }
                         property var vertical: QtObject {
-                            property string name: qsTr("垂直")
+                            property string name: qsTr("Vertical")
                             property var plot: [
                                 { name: "Response", value: globals.activeVehicle && globals.activeVehicle.localPosition ? globals.activeVehicle.localPosition.z.value : NaN },
                                 { name: "Setpoint", value: globals.activeVehicle && globals.activeVehicle.localPositionSetpoint ? globals.activeVehicle.localPositionSetpoint.z.value : NaN }

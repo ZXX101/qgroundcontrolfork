@@ -52,7 +52,7 @@ QGCFlickable {
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
             QGCLabel {
-                text: _linkManager.linkConfigurations.count === 0 ? "已有协议" : "暂无协议，在右侧表单输入协议进行连接"
+                text: _linkManager.linkConfigurations.count === 0 ? qsTr("Existing Protocols") : qsTr("No protocols yet. Add a protocol on the right form to connect")
                 font.bold: true
                 font.pointSize: ScreenTools.defaultFontPointSize
             }
@@ -78,7 +78,7 @@ QGCFlickable {
 
                         QGCLabel {
                             Layout.fillWidth: false
-                            text: object.linkType === LinkConfiguration.TypeTcp ? "TCP" : object.linkType === LinkConfiguration.TypeUdp ? "UDP" : object.linkType === LinkConfiguration.TypeSerial ? "Serial" : "Unknown"
+                            text: object.linkType === LinkConfiguration.TypeTcp ? qsTr("TCP") : object.linkType === LinkConfiguration.TypeUdp ? qsTr("UDP") : object.linkType === LinkConfiguration.TypeSerial ? qsTr("Serial") : qsTr("Unknown")
                             font.family: ScreenTools.tecentFontFamily
                         }
                         QGCLabel {
@@ -247,7 +247,7 @@ QGCFlickable {
                 ColumnLayout {
                     RowLayout {
                         QGCLabel {
-                            text: "Nothing here"
+                            text: qsTr("Nothing here")
                         }
                     }
                 }
@@ -261,7 +261,7 @@ QGCFlickable {
 
         ColumnLayout {
             QGCLabel {
-                text: "No link selected"
+                text: qsTr("No link selected")
                 font.pointSize: ScreenTools.defaultFontPointSize * 1.1
                 Layout.alignment: Qt.AlignCenter
             }
@@ -331,7 +331,7 @@ QGCFlickable {
                         spacing: ScreenTools.defaultFontPixelHeight
 
                         QGCLabel {
-                            text: originalConfig ? "Edit Link" : "New Link"
+                            text: originalConfig ? qsTr("Edit Link") : qsTr("New Link")
                             font.bold: true
                             font.pointSize: ScreenTools.defaultFontPointSize * 1.2
                         }
@@ -342,9 +342,9 @@ QGCFlickable {
                             Repeater {
                                 id: typeRepeater
                                 model: [
-                                    { type: LinkConfiguration.TypeTcp, name: "TCP" },
-                                    { type: LinkConfiguration.TypeUdp, name: "UDP" },
-                                    { type: LinkConfiguration.TypeSerial, name: "Serial" }
+                                    { type: LinkConfiguration.TypeTcp, name: qsTr("TCP") },
+                                    { type: LinkConfiguration.TypeUdp, name: qsTr("UDP") },
+                                    { type: LinkConfiguration.TypeSerial, name: qsTr("Serial") }
                                 ]
                                 QGCRadioButton {
                                     text: modelData.name
