@@ -453,45 +453,6 @@ QGCFlickable {
                     width: parent.width
                 }
             }
-            RowLayout {
-                Layout.alignment: Qt.AlignBottom
-                Layout.fillWidth: true
-                QGCButton {
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 0
-                    text: qsTr("OK")
-                    onClicked: {
-                        if (linkSettingsLoader.item) {
-                            linkSettingsLoader.item.saveSettings();
-                        }
-                        if (editingConfig) {
-                            editingConfig.name = nameField.text;
-                            if (originalConfig) {
-                                _linkManager.endConfigurationEditing(originalConfig, editingConfig);
-                            } else {
-                                editingConfig.dynamic = false;
-                                _linkManager.endCreateConfiguration(editingConfig);
-                            }
-                        }
-                        dronesPageLoader.sourceComponent = newLinkComponent;
-                    }
-                }
-                QGCButton {
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 0
-                    text: qsTr("Cancel")
-                    onClicked: {
-                        if (editingConfig) {
-                            if (originalConfig) {
-                                _linkManager.cancelConfigurationEditing(editingConfig);
-                            } else {
-                                delete editingConfig;
-                            }
-                        }
-                        dronesPageLoader.sourceComponent = newLinkComponent;
-                    }
-                }
-            }
         }
     }
 }
