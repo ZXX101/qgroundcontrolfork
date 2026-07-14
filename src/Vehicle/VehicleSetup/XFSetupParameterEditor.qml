@@ -245,31 +245,60 @@ Item {
                     model:              controller.parameters
                     clip:               true
 
-                    property var _colWidths: [ScreenTools.defaultFontPixelWidth * 14,
+                    property real _nameColWidth: ScreenTools.defaultFontPixelWidth * 10
+                    property var _colWidths: [_nameColWidth,
                                               ScreenTools.defaultFontPixelWidth * 10,
                                               ScreenTools.defaultFontPixelWidth * 18]
                     contentWidth:       _colWidths[0] + _colWidths[1] + _colWidths[2] + columnSpacing * 2
+
+                    function _updateNameColWidth(newWidth) {
+                        if (newWidth > _nameColWidth) {
+                            _nameColWidth = newWidth
+                        }
+                    }
+
+                    function _resetNameColWidth() {
+                        _nameColWidth = ScreenTools.defaultFontPixelWidth * 10
+                    }
+
+                    onModelChanged: {
+                        _resetNameColWidth()
+                        positionViewAtRow(0, TableView.AlignLeft | TableView.AlignTop)
+                        forceLayoutTimer.start()
+                    }
 
                     Timer {
                         id:             forceLayoutTimer
                         interval:       500
                         repeat:         false
-                        onTriggered:    tableView.forceLayout()
+                        onTriggered:    {
+                            _resetNameColWidth()
+                            tableView.forceLayout()
+                        }
                     }
 
                     onTopRowChanged: forceLayoutTimer.start()
-                    onModelChanged: {
-                        positionViewAtRow(0, TableView.AlignLeft | TableView.AlignTop)
-                        forceLayoutTimer.start()
-                    }
 
                     delegate: Item {
                         id: delegateItem
-                        implicitWidth:  tableView._colWidths[column]
+                        implicitWidth:  column === 0 ? Math.max(nameTextMetrics.width + infoBtnSize + 4, tableView._nameColWidth) :
+                                        tableView._colWidths[column]
                         implicitHeight: _rowHeight
                         clip:           true
 
                         property Fact fact: model.fact
+                        property real infoBtnSize: ScreenTools.defaultFontPixelHeight * 0.75 + 2
+
+                        TextMetrics {
+                            id: nameTextMetrics
+                            text: fact.name
+                            font.pointSize: ScreenTools.defaultFontPointSize
+                            font.family: ScreenTools.normalFontFamily
+                        }
+
+                        onImplicitWidthChanged: {
+                            if (column === 0) tableView._updateNameColWidth(implicitWidth)
+                        }
 
                         Loader {
                             id: cellLoader
@@ -295,7 +324,6 @@ Item {
                             QGCLabel {
                                 Layout.fillWidth: true
                                 text: delegateFact.name
-                                elide: Text.ElideRight
                                 verticalAlignment: Text.AlignVCenter
                             }
 
