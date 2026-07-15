@@ -227,7 +227,7 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(FactValueGrid* factValueG
 
         value = column->value<InstrumentValueData*>(rowIndex++);
         value->setFact(QStringLiteral("Vehicle"), QStringLiteral("ThrottlePct"));
-        value->setText(QStringLiteral("Thr %"));
+        value->setText(value->fact()->shortDescription());
         value->setShowUnits(true);
 
         value = column->value<InstrumentValueData*>(rowIndex++);

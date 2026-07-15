@@ -4325,21 +4325,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <extracomment>.QGC.MetaData.Facts[rpmFirst].shortDesc, .QGC.MetaData.Facts[rpmSecond].shortDesc, .QGC.MetaData.Facts[rpmThird].shortDesc, .QGC.MetaData.Facts[rpmFourth].shortDesc, </extracomment>
+        <extracomment>.QGC.MetaData.Facts[rpm1].shortDesc, .QGC.MetaData.Facts[rpm2].shortDesc, .QGC.MetaData.Facts[rpm3].shortDesc, .QGC.MetaData.Facts[rpm4].shortDesc, .QGC.MetaData.Facts[rpm5].shortDesc, .QGC.MetaData.Facts[rpm6].shortDesc, .QGC.MetaData.Facts[rpm7].shortDesc, .QGC.MetaData.Facts[rpm8].shortDesc, </extracomment>
         <location filename="../src/Vehicle/FactGroups/EscStatusFactGroup.json"/>
         <source>Rotation Per Minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <extracomment>.QGC.MetaData.Facts[currentFirst].shortDesc, .QGC.MetaData.Facts[currentSecond].shortDesc, .QGC.MetaData.Facts[currentThird].shortDesc, .QGC.MetaData.Facts[currentFourth].shortDesc, </extracomment>
+        <extracomment>.QGC.MetaData.Facts[current1].shortDesc, .QGC.MetaData.Facts[current2].shortDesc, .QGC.MetaData.Facts[current3].shortDesc, .QGC.MetaData.Facts[current4].shortDesc, .QGC.MetaData.Facts[current5].shortDesc, .QGC.MetaData.Facts[current6].shortDesc, .QGC.MetaData.Facts[current7].shortDesc, .QGC.MetaData.Facts[current8].shortDesc, </extracomment>
         <location filename="../src/Vehicle/FactGroups/EscStatusFactGroup.json"/>
         <source>Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <extracomment>.QGC.MetaData.Facts[voltageFirst].shortDesc, .QGC.MetaData.Facts[voltageSecond].shortDesc, .QGC.MetaData.Facts[voltageThird].shortDesc, .QGC.MetaData.Facts[voltageFourth].shortDesc, </extracomment>
+        <extracomment>.QGC.MetaData.Facts[voltage1].shortDesc, .QGC.MetaData.Facts[voltage2].shortDesc, .QGC.MetaData.Facts[voltage3].shortDesc, .QGC.MetaData.Facts[voltage4].shortDesc, .QGC.MetaData.Facts[voltage5].shortDesc, .QGC.MetaData.Facts[voltage6].shortDesc, .QGC.MetaData.Facts[voltage7].shortDesc, .QGC.MetaData.Facts[voltage8].shortDesc, </extracomment>
         <location filename="../src/Vehicle/FactGroups/EscStatusFactGroup.json"/>
         <source>Voltage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <extracomment>.QGC.MetaData.Facts[temp1].shortDesc, .QGC.MetaData.Facts[temp2].shortDesc, .QGC.MetaData.Facts[temp3].shortDesc, .QGC.MetaData.Facts[temp4].shortDesc, .QGC.MetaData.Facts[temp5].shortDesc, .QGC.MetaData.Facts[temp6].shortDesc, .QGC.MetaData.Facts[temp7].shortDesc, .QGC.MetaData.Facts[temp8].shortDesc, </extracomment>
+        <location filename="../src/Vehicle/FactGroups/EscStatusFactGroup.json"/>
+        <source>ESC Temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <extracomment>.QGC.MetaData.Facts[escCount].shortDesc, </extracomment>
+        <location filename="../src/Vehicle/FactGroups/EscStatusFactGroup.json"/>
+        <source>Total Number of ESCs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

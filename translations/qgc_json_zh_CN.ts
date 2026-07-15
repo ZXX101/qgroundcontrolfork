@@ -2360,7 +2360,7 @@
       <extracomment>.QGC.MetaData.Facts[groundSpeed].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Ground Speed</source>
-      <translation type="unfinished">Ground Speed</translation>
+      <translation>水平(m/s)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[airSpeed].shortDesc, </extracomment>
@@ -2372,19 +2372,19 @@
       <extracomment>.QGC.MetaData.Facts[climbRate].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Climb Rate</source>
-      <translation type="unfinished">Climb Rate</translation>
+      <translation>垂直(m/s)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[altitudeRelative].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Alt (Rel)</source>
-      <translation type="unfinished">Alt (Rel)</translation>
+      <translation>高度(m)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[altitudeAMSL].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Alt (AMSL)</source>
-      <translation type="unfinished">Alt (AMSL)</translation>
+      <translation>海拔(m)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[altitudeAboveTerr].shortDesc, </extracomment>
@@ -2402,7 +2402,7 @@
       <extracomment>.QGC.MetaData.Facts[distanceToHome].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Distance to Home</source>
-      <translation type="unfinished">Distance to Home</translation>
+      <translation>距离(m)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[timeToHome].shortDesc, </extracomment>
@@ -2456,7 +2456,7 @@
       <extracomment>.QGC.MetaData.Facts[throttlePct].shortDesc, </extracomment>
       <location filename="../src/Vehicle/FactGroups/VehicleFact.json"/>
       <source>Throttle %</source>
-      <translation type="unfinished">Throttle %</translation>
+      <translation>油门(%)</translation>
     </message>
     <message>
       <extracomment>.QGC.MetaData.Facts[imuTemp].shortDesc, </extracomment>
