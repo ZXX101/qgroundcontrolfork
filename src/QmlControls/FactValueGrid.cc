@@ -160,7 +160,7 @@ void FactValueGrid::_loadValueData(QSettings& settings, InstrumentValueData* val
         value->setFact(settings.value(_factGroupNameKey).toString(), factName);
     }
 
-    value->setText      (settings.value(_textKey).toString());
+    value->setText      (value->fact() ? value->fact()->shortDescription() : settings.value(_textKey).toString());
     value->setShowUnits (settings.value(_showUnitsKey, true).toBool());
     value->setIcon      (settings.value(_iconKey).toString());
     value->setRangeType (settings.value(_rangeTypeKey, InstrumentValueData::NoRangeInfo).value<InstrumentValueData::RangeType>());
