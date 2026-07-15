@@ -2,7 +2,7 @@
     "version":  1,
     "fileType": "FactMetaData",
     "QGC.MetaData.Facts":
-[
+    [
 {
     "name":             "index",
     "shortDesc":        "Index Of The First ESC In This Message",
@@ -10,97 +10,258 @@
     "default":          0
 },
 {
-    "name":             "rpmFirst",
+    "name":             "rpm1",
     "shortDesc":        "Rotation Per Minute",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    0,
     "default":          null
 },
 {
-    "name":             "rpmSecond",
+    "name":             "rpm2",
     "shortDesc":        "Rotation Per Minute",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    0,
     "default":          null
 },
 {
-    "name":             "rpmThird",
+    "name":             "rpm3",
     "shortDesc":        "Rotation Per Minute",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    0,
     "default":          null
 },
 {
-    "name":             "rpmFourth",
+    "name":             "rpm4",
     "shortDesc":        "Rotation Per Minute",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    0,
     "default":          null
 },
 {
-    "name":             "currentFirst",
+    "name":             "rpm5",
+    "shortDesc":        "Rotation Per Minute",
+    "type":             "float",
+    "decimalPlaces":    0,
+    "default":          null
+},
+{
+    "name":             "rpm6",
+    "shortDesc":        "Rotation Per Minute",
+    "type":             "float",
+    "decimalPlaces":    0,
+    "default":          null
+},
+{
+    "name":             "rpm7",
+    "shortDesc":        "Rotation Per Minute",
+    "type":             "float",
+    "decimalPlaces":    0,
+    "default":          null
+},
+{
+    "name":             "rpm8",
+    "shortDesc":        "Rotation Per Minute",
+    "type":             "float",
+    "decimalPlaces":    0,
+    "default":          null
+},
+{
+    "name":             "current1",
     "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
     "units":            "A"
-
 },
 {
-    "name":             "currentSecond",
+    "name":             "current2",
     "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
     "units":            "A"
 },
 {
-    "name":             "currentThird",
+    "name":             "current3",
     "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
     "units":            "A"
 },
 {
-    "name":             "currentFourth",
+    "name":             "current4",
     "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
     "units":            "A"
 },
 {
-    "name":             "voltageFirst",
-    "shortDesc":        "Voltage",
+    "name":             "current5",
+    "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
-    "units":            "v"
+    "units":            "A"
 },
 {
-    "name":             "voltageSecond",
-    "shortDesc":        "Voltage",
+    "name":             "current6",
+    "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
-    "units":            "v"
+    "units":            "A"
 },
 {
-    "name":             "voltageThird",
-    "shortDesc":        "Voltage",
+    "name":             "current7",
+    "shortDesc":        "Current",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
-    "units":            "v"
+    "units":            "A"
 },
 {
-    "name":             "voltageFourth",
+    "name":             "current8",
+    "shortDesc":        "Current",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "A"
+},
+{
+    "name":             "voltage1",
     "shortDesc":        "Voltage",
     "type":             "float",
-    "decimalPlaces":    2,
+    "decimalPlaces":    1,
     "default":          null,
-    "units":            "v"
+    "units":            "V"
+},
+{
+    "name":             "voltage2",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage3",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage4",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage5",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage6",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage7",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "voltage8",
+    "shortDesc":        "Voltage",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "V"
+},
+{
+    "name":             "temp1",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp2",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp3",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp4",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp5",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp6",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp7",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "temp8",
+    "shortDesc":        "ESC Temperature",
+    "type":             "float",
+    "decimalPlaces":    1,
+    "default":          null,
+    "units":            "C"
+},
+{
+    "name":             "escCount",
+    "shortDesc":        "Total Number of ESCs",
+    "type":             "uint8",
+    "default":          0
 }
 ]
 }

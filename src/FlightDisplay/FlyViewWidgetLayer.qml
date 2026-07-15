@@ -518,19 +518,32 @@ Item {
         anchors.leftMargin:     ScreenTools.defaultFontPixelWidth * 0.5
         z:                      QGroundControl.zOrderWidgets + 1
         visible:                flightActionButtons._checkPopupVisible
-        color:                  "transparent"  //无底色
-        border.width:           0  //无边框
+        width:                  checkContent.width + ScreenTools.defaultFontPixelWidth * 2
+        height:                 Math.min(_root.height - y, checkContent.height + ScreenTools.defaultFontPixelHeight)
+        color:                  "transparent"
+        border.width:           0
 
-        //点击外部关闭弹窗的遮罩
         MouseArea {
             anchors.fill:       parent
             onPressed: {
-                //点击弹窗内部不关闭
             }
         }
 
-        FlightCheckContent {
-            activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+        QGCFlickable {
+            id:                 checkFlickable
+            anchors.fill:       parent
+            flickableDirection: Flickable.VerticalFlick
+            contentWidth:       checkContent.width
+            contentHeight:      checkContent.height
+
+            WheelHandler {
+                onWheel: (event) => event.accepted = true
+            }
+
+            FlightCheckContent {
+                id:             checkContent
+                activeVehicle:  QGroundControl.multiVehicleManager.activeVehicle
+            }
         }
     }
 

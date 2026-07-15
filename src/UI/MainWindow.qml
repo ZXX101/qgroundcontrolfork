@@ -284,7 +284,7 @@ ApplicationWindow {
         id:                     flyView
         anchors.fill:           parent
         utmspSendActTrigger:    _utmspSendActTrigger
-        visible: false
+        visible: true
     }
 
     //任务规划页面，位于主窗口中央，显示任务编辑界面、地图、航点编辑器
@@ -305,7 +305,7 @@ ApplicationWindow {
     XFMissionView {
         id:             xfMissionView
         anchors.fill:   parent
-        visible:        true
+        visible:        false
     }
 
     //日志回放状态栏，位于主窗口底部，显示日志回放进度

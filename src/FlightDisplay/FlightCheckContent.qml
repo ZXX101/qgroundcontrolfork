@@ -32,6 +32,122 @@ Rectangle {
     property bool _isPX4: activeVehicle ? activeVehicle.px4Firmware : false
     property bool _paramsReady: activeVehicle && activeVehicle.parameterManager ? activeVehicle.parameterManager.parametersReady : false
 
+    //电机数量判断 - 根据FRAME_CLASS参数（APM）或MAV_TYPE（通用）
+    property int _motorCount: _getMotorCount()
+
+    function _getMotorCount() {
+        if (!activeVehicle) return 0
+        if (_isAPM && _paramsReady) {
+            var frameClassParam = activeVehicle.parameterManager.getParameter(-1, "FRAME_CLASS")
+            if (frameClassParam) {
+                var fc = frameClassParam.rawValue
+                if (fc === 1) return 4   // QUAD
+                if (fc === 2) return 6   // HEX
+                if (fc === 3) return 8   // OCTA
+                if (fc === 4) return 8   // OCTAQUAD
+                if (fc === 5) return 6   // Y6
+                if (fc === 6) return 1   // HELI (主旋翼)
+                if (fc === 7) return 3   // TRI
+                if (fc === 8) return 1   // SINGLECOPTER
+                if (fc === 9) return 2   // COAXCOPTER
+                if (fc === 10) return 2  // BICOPTER
+                if (fc === 11) return 2  // HELI_DUAL
+                if (fc === 12) return 12 // DODECAHEXA
+                if (fc === 13) return 4  // HELIQUAD
+            }
+        }
+        if (activeVehicle.multiRotor) {
+            var vtype = activeVehicle.vehicleType
+            if (vtype === 2) return 4   // MAV_TYPE_QUADROTOR
+            if (vtype === 3) return 4   // MAV_TYPE_COAXIAL
+            if (vtype === 4) return 6   // MAV_TYPE_HELICOPTER (approximate)
+            if (vtype === 13) return 6  // MAV_TYPE_HEXAROTOR
+            if (vtype === 14) return 8  // MAV_TYPE_OCTOROTOR
+            if (vtype === 15) return 3  // MAV_TYPE_TRICOPTER
+            return 4
+        }
+        return 0
+    }
+
+    //ESC数据
+    property var _escStatus: activeVehicle ? activeVehicle.escStatus : null
+    property int _escCount: _escStatus && _escStatus.escCount ? _escStatus.escCount.rawValue : 0
+
+    property real _temp1: _escStatus && _escStatus.tempFirst ? _escStatus.tempFirst.rawValue : NaN
+    property real _temp2: _escStatus && _escStatus.tempSecond ? _escStatus.tempSecond.rawValue : NaN
+    property real _temp3: _escStatus && _escStatus.tempThird ? _escStatus.tempThird.rawValue : NaN
+    property real _temp4: _escStatus && _escStatus.tempFourth ? _escStatus.tempFourth.rawValue : NaN
+    property real _temp5: _escStatus && _escStatus.tempFifth ? _escStatus.tempFifth.rawValue : NaN
+    property real _temp6: _escStatus && _escStatus.tempSixth ? _escStatus.tempSixth.rawValue : NaN
+    property real _temp7: _escStatus && _escStatus.tempSeventh ? _escStatus.tempSeventh.rawValue : NaN
+    property real _temp8: _escStatus && _escStatus.tempEighth ? _escStatus.tempEighth.rawValue : NaN
+
+    property real _rpm1: _escStatus && _escStatus.rpmFirst ? _escStatus.rpmFirst.rawValue : NaN
+    property real _rpm2: _escStatus && _escStatus.rpmSecond ? _escStatus.rpmSecond.rawValue : NaN
+    property real _rpm3: _escStatus && _escStatus.rpmThird ? _escStatus.rpmThird.rawValue : NaN
+    property real _rpm4: _escStatus && _escStatus.rpmFourth ? _escStatus.rpmFourth.rawValue : NaN
+    property real _rpm5: _escStatus && _escStatus.rpmFifth ? _escStatus.rpmFifth.rawValue : NaN
+    property real _rpm6: _escStatus && _escStatus.rpmSixth ? _escStatus.rpmSixth.rawValue : NaN
+    property real _rpm7: _escStatus && _escStatus.rpmSeventh ? _escStatus.rpmSeventh.rawValue : NaN
+    property real _rpm8: _escStatus && _escStatus.rpmEighth ? _escStatus.rpmEighth.rawValue : NaN
+
+    property real _volt1: _escStatus && _escStatus.voltageFirst ? _escStatus.voltageFirst.rawValue : NaN
+    property real _volt2: _escStatus && _escStatus.voltageSecond ? _escStatus.voltageSecond.rawValue : NaN
+    property real _volt3: _escStatus && _escStatus.voltageThird ? _escStatus.voltageThird.rawValue : NaN
+    property real _volt4: _escStatus && _escStatus.voltageFourth ? _escStatus.voltageFourth.rawValue : NaN
+    property real _volt5: _escStatus && _escStatus.voltageFifth ? _escStatus.voltageFifth.rawValue : NaN
+    property real _volt6: _escStatus && _escStatus.voltageSixth ? _escStatus.voltageSixth.rawValue : NaN
+    property real _volt7: _escStatus && _escStatus.voltageSeventh ? _escStatus.voltageSeventh.rawValue : NaN
+    property real _volt8: _escStatus && _escStatus.voltageEighth ? _escStatus.voltageEighth.rawValue : NaN
+
+    property real _cur1: _escStatus && _escStatus.currentFirst ? _escStatus.currentFirst.rawValue : NaN
+    property real _cur2: _escStatus && _escStatus.currentSecond ? _escStatus.currentSecond.rawValue : NaN
+    property real _cur3: _escStatus && _escStatus.currentThird ? _escStatus.currentThird.rawValue : NaN
+    property real _cur4: _escStatus && _escStatus.currentFourth ? _escStatus.currentFourth.rawValue : NaN
+    property real _cur5: _escStatus && _escStatus.currentFifth ? _escStatus.currentFifth.rawValue : NaN
+    property real _cur6: _escStatus && _escStatus.currentSixth ? _escStatus.currentSixth.rawValue : NaN
+    property real _cur7: _escStatus && _escStatus.currentSeventh ? _escStatus.currentSeventh.rawValue : NaN
+    property real _cur8: _escStatus && _escStatus.currentEighth ? _escStatus.currentEighth.rawValue : NaN
+
+    property var _tempValues: [_temp1, _temp2, _temp3, _temp4, _temp5, _temp6, _temp7, _temp8]
+    property var _rpmValues: [_rpm1, _rpm2, _rpm3, _rpm4, _rpm5, _rpm6, _rpm7, _rpm8]
+    property var _voltValues: [_volt1, _volt2, _volt3, _volt4, _volt5, _volt6, _volt7, _volt8]
+    property var _curValues: [_cur1, _cur2, _cur3, _cur4, _cur5, _cur6, _cur7, _cur8]
+
+    function _fmtVal(val, decimals) {
+        if (val === undefined || isNaN(val)) return "--"
+        if (decimals === 0) return Math.round(val)
+        return val.toFixed(decimals)
+    }
+
+    function _getEscTempIcon(index) {
+        if (index >= _tempValues.length) return ""
+        var val = _tempValues[index]
+        if (val === undefined || isNaN(val)) return ""
+        if (val > 80) return "/xfres/checkRed.png"
+        if (val > 60) return "/xfres/checkWhite.png"
+        return "/xfres/checkGreen.png"
+    }
+
+    function _buildMotorItems() {
+        var count = _escCount > 0 ? _escCount : _motorCount
+        if (count <= 0) count = 4
+        if (count > 8) count = 8
+        var items = []
+        for (var i = 0; i < count; i++) {
+            var rpm = _fmtVal(_rpmValues[i], 0)
+            var volt = _fmtVal(_voltValues[i], 1)
+            var cur = _fmtVal(_curValues[i], 1)
+            var temp = _fmtVal(_tempValues[i], 0)
+            items.push({
+                name: qsTr("M%1").arg(i + 1),
+                value: rpm + "/" + volt + "V/" + cur + "A/" + temp + "°C",
+                icon: _getEscTempIcon(i)
+            })
+        }
+        return items
+    }
+
     //PX4飞控：直接读取CAL_*参数
     property var _px4Mag0Id:     _paramsReady && _isPX4 ? activeVehicle.parameterManager.getParameter(-1, "CAL_MAG0_ID") : null
     property var _px4Acc0Id:     _paramsReady && _isPX4 ? activeVehicle.parameterManager.getParameter(-1, "CAL_ACC0_ID") : null
@@ -211,8 +327,8 @@ Rectangle {
             spacing: ScreenTools.defaultFontPixelWidth * 2
 
             QGCLabel { text: qsTr("类别"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8 }
-            QGCLabel { text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 25 }
-            QGCLabel { text: qsTr("数据"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8 }
+            QGCLabel { text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12 }
+            QGCLabel { text: qsTr("数据"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 22 }
             QGCLabel { text: qsTr("状态"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8 }
         }
 
@@ -242,15 +358,10 @@ Rectangle {
             ]
         }
 
-        //电机检查（温度暂不可用）
+        //电机检查
         CheckSection {
             sectionTitle:   qsTr("电机")
-            items: [
-                { name: qsTr("M1温度"), value: "--", icon: "" },
-                { name: qsTr("M2温度"), value: "--", icon: "" },
-                { name: qsTr("M3温度"), value: "--", icon: "" },
-                { name: qsTr("M4温度"), value: "--", icon: "" }
-            ]
+            items:          _buildMotorItems()
         }
 
         //安全检查（从参数获取）
@@ -313,13 +424,13 @@ Rectangle {
             //设置项列（第一项）
             QGCLabel {
                 text:                   items.length > 0 ? items[0].name : ""
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 25
+                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 12
             }
 
             //数据列（第一项）
             QGCLabel {
                 text:                   items.length > 0 ? items[0].value : ""
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 22
             }
 
             //状态列（第一项）- 可能是图标或文本
@@ -362,13 +473,13 @@ Rectangle {
                 //设置项列
                 QGCLabel {
                     text:                   modelData.name !== undefined ? modelData.name : ""
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 25
+                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 12
                 }
 
                 //数据列
                 QGCLabel {
                     text:                   modelData.value !== undefined ? modelData.value : ""
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 22
                 }
 
                 //状态列 - 可能是图标或文本
