@@ -33,6 +33,36 @@ SetupPage {
         id: controller
     }
 
+    function servoFunctionToMotorNumber(funcValue) {
+        if (funcValue >= 33 && funcValue <= 40) {
+            return funcValue - 32
+        }
+        if (funcValue >= 82 && funcValue <= 85) {
+            return funcValue - 73
+        }
+        return 0
+    }
+
+    function buildMotorChannelList() {
+        var list = []
+        for (var channel = 1; channel <= 16; channel++) {
+            var paramName = "SERVO" + channel + "_FUNCTION"
+            if (controller.parameterExists(-1, paramName)) {
+                var fact = controller.getParameterFact(-1, paramName)
+                var motorNum = servoFunctionToMotorNumber(fact.rawValue)
+                if (motorNum > 0) {
+                    list.push({
+                        "channel": channel,
+                        "motorNum": motorNum,
+                        "fact": fact
+                    })
+                }
+            }
+        }
+        list.sort(function(a, b) { return a.channel - b.channel })
+        return list
+    }
+
     function frameClassToGeometryName(frameClassValue) {
         switch (frameClassValue) {
         case 0:  return qsTr("Undefined")
@@ -81,6 +111,23 @@ SetupPage {
             spacing:            ScreenTools.defaultFontPixelHeight
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")
+            property var _motorChannelList: buildMotorChannelList()
+
+            function refreshMotorChannelList() {
+                _motorChannelList = buildMotorChannelList()
+            }
+
+            Repeater {
+                model: 16
+                delegate: Item {
+                    property var _fact: controller.parameterExists(-1, "SERVO" + (index + 1) + "_FUNCTION") ?
+                                          controller.getParameterFact(-1, "SERVO" + (index + 1) + "_FUNCTION") : null
+                    Connections {
+                        target: _fact
+                        function onRawValueChanged() { mainLayout.refreshMotorChannelList() }
+                    }
+                }
+            }
 
             QGCLabel {
                 text:           qsTr("Geometry: %1").arg(frameClassToGeometryName(_frameClass.rawValue))
@@ -168,8 +215,8 @@ SetupPage {
                             onClicked:  {
                                 var throttleValue = parseInt(throttleField.text) || 0
                                 var durationValue = parseInt(durationField.text) || 0
-                                for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
-                                    controller.vehicle.motorTest(motorIndex + 1, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                for (var i = 0; i < mainLayout._motorChannelList.length; i++) {
+                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].motorNum, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
@@ -178,8 +225,8 @@ SetupPage {
                             text:       qsTr("Stop All")
                             enabled:    safetySwitch.checked
                             onClicked:  {
-                                for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
-                                    controller.vehicle.motorTest(motorIndex + 1, 0, 0, true)
+                                for (var i = 0; i < mainLayout._motorChannelList.length; i++) {
+                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].motorNum, 0, 0, true)
                                 }
                             }
                         }
@@ -191,15 +238,15 @@ SetupPage {
 
                         Repeater {
                             id:         buttonRepeater
-                            model:      controller.vehicle.motorCount === -1 ? 8 : controller.vehicle.motorCount
+                            model:      mainLayout._motorChannelList
 
                             QGCButton {
-                                text:       qsTr("Motor %1").arg(index + 1)
+                                text:       qsTr("S%1(M%2)").arg(modelData.channel).arg(modelData.motorNum)
                                 enabled:    safetySwitch.checked
                                 onClicked:  {
                                     var throttleValue = parseInt(throttleField.text) || 0
                                     var durationValue = parseInt(durationField.text) || 0
-                                    controller.vehicle.motorTest(index + 1, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                    controller.vehicle.motorTest(modelData.motorNum, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
