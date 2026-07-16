@@ -91,21 +91,20 @@ Item {
             anchors.bottom: parent.bottom
 
             QGCColoredImage {
-                height:                 ScreenTools.defaultFontPixelHeight * 2
+                height:                 ScreenTools.defaultFontPixelHeight * 1.5
                 width:                  height
                 sourceSize.height:      height
                 sourceSize.width:       width
                 source:                 "/xfres/Battery.png"
                 fillMode:               Image.PreserveAspectFit
-                color:                  qgcPal.text
+                color:                  "white"
                 anchors.verticalCenter: parent.verticalCenter
-                opacity:                0.5
             }
 
             QGCLabel {
                 text:                   "--"
                 font.pointSize:         ScreenTools.mediumFontPointSize
-                color:                  qgcPal.text
+                color:                  "white"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -141,7 +140,7 @@ Item {
                                 return qgcPal.colorYellow 
                             }
                         } else {
-                            return qgcPal.text
+                            return "white"
                         }
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_LOW:
                         return qgcPal.colorOrange
@@ -151,7 +150,7 @@ Item {
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_UNHEALTHY:
                         return qgcPal.colorRed
                     default:
-                        return qgcPal.text
+                        return "white"
                 }
             }    
 
@@ -229,7 +228,7 @@ Item {
                 QGCLabel {
                     Layout.alignment:       Qt.AlignHCenter
                     verticalAlignment:      Text.AlignVCenter
-                    color:                  qgcPal.text
+                    color:                  "white"
                     text:                   getBatteryPercentageText()
                     font.pointSize:         _showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize
                     visible:                _showBoth || _showPercentage
@@ -238,7 +237,7 @@ Item {
                 QGCLabel {
                     Layout.alignment:       Qt.AlignHCenter
                     font.pointSize:         _showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize
-                    color:                  qgcPal.text
+                    color:                  "white"
                     text:                   getBatteryVoltageText()
                     visible:                _showBoth || _showVoltage
                 }

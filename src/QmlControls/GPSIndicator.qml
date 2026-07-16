@@ -49,7 +49,7 @@ Item {
                 id:                     gpsLabel
                 rotation:               90
                 text:                   qsTr("RTK")
-                color:                  qgcPal.buttonText
+                color:                  "white"
                 anchors.verticalCenter: parent.verticalCenter
                 visible:                _rtkConnected
             }
@@ -63,8 +63,7 @@ Item {
                 sourceSize.width:   width
                 source:             "/xfres/gps.png"
                 fillMode:           Image.PreserveAspectFit
-                opacity:            (_activeVehicle && _activeVehicle.gps.count.value >= 0) ? 1 : 0.5
-                color:              qgcPal.buttonText
+                color:              "white"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -80,14 +79,14 @@ Item {
             //卫星数标签，显示GPS卫星数量
             QGCLabel {
                 anchors.horizontalCenter:   hdopValue.horizontalCenter
-                color:              qgcPal.buttonText
+                color:              "white"
                 text:               gpsValuesColumn._connected ? _activeVehicle.gps.count.valueString : "--"
             }
 
             //HDOP值标签，显示GPS水平精度因子
             QGCLabel {
                 id:     hdopValue
-                color:  qgcPal.buttonText
+                color:  "white"
                 text:   gpsValuesColumn._connected ? _activeVehicle.gps.hdop.value.toFixed(1) : "--"
             }
         }
