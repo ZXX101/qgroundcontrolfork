@@ -10,6 +10,9 @@
 #include "GPSManager.h"
 #include "GPSRtk.h"
 #include "QGCLoggingCategory.h"
+#include "RTKSettings.h"
+#include "SettingsManager.h"
+#include "Fact.h"
 
 #include <QtCore/qapplicationstatic.h>
 
@@ -21,15 +24,30 @@ GPSManager::GPSManager(QObject *parent)
     : QObject(parent)
     , _gpsRtk(new GPSRtk(this))
 {
-    // qCDebug(GPSManagerLog) << Q_FUNC_INFO << this;
+    RTKSettings* const rtkSettings = SettingsManager::instance()->rtkSettings();
+    if (rtkSettings->ntripEnabled()->rawValue().toBool()) {
+        _gpsRtk->connectNTRIP();
+    }
+
+    (void) connect(rtkSettings->ntripEnabled(), &Fact::rawValueChanged,
+                   this, &GPSManager::_onNTRIPEnabledChanged);
 }
 
 GPSManager::~GPSManager()
 {
-    // qCDebug(GPSManagerLog) << Q_FUNC_INFO << this;
 }
 
 GPSManager *GPSManager::instance()
 {
     return _gpsManager();
+}
+
+void GPSManager::_onNTRIPEnabledChanged()
+{
+    RTKSettings* const rtkSettings = SettingsManager::instance()->rtkSettings();
+    if (rtkSettings->ntripEnabled()->rawValue().toBool()) {
+        _gpsRtk->connectNTRIP();
+    } else {
+        _gpsRtk->disconnectNTRIP();
+    }
 }

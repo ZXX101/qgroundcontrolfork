@@ -10,25 +10,26 @@
 #include "GPSRtk.h"
 #include "GPSProvider.h"
 #include "GPSRTKFactGroup.h"
+#include "NTRIPClient.h"
 #include "QGCLoggingCategory.h"
 #include "RTCMMavlink.h"
 #include "RTKSettings.h"
 #include "SettingsManager.h"
+#include "PositionManager.h"
 
 QGC_LOGGING_CATEGORY(GPSRtkLog, "qgc.gps.gpsrtk")
 
 GPSRtk::GPSRtk(QObject *parent)
     : QObject(parent)
     , _gpsRtkFactGroup(new GPSRTKFactGroup(this))
+    , _rtcmMavlink(new RTCMMavlink(this))
 {
-    // qCDebug(GPSRtkLog) << Q_FUNC_INFO << this;
 }
 
 GPSRtk::~GPSRtk()
 {
     disconnectGPS();
-
-    // qCDebug(GPSRtkLog) << Q_FUNC_INFO << this;
+    disconnectNTRIP();
 }
 
 void GPSRtk::registerQmlTypes()
@@ -98,7 +99,6 @@ void GPSRtk::connectGPS(const QString &device, QStringView gps_type)
     );
     (void) QMetaObject::invokeMethod(_gpsProvider, "start", Qt::AutoConnection);
 
-    _rtcmMavlink = new RTCMMavlink(this);
     (void) connect(_gpsProvider, &GPSProvider::RTCMDataUpdate, _rtcmMavlink, &RTCMMavlink::RTCMDataUpdate);
 
     (void) connect(_gpsProvider, &GPSProvider::satelliteInfoUpdate, this, &GPSRtk::_satelliteInfoUpdate);
@@ -119,11 +119,6 @@ void GPSRtk::disconnectGPS()
 
         _gpsProvider->deleteLater();
         _gpsProvider = nullptr;
-    }
-
-    if (_rtcmMavlink) {
-        _rtcmMavlink->deleteLater();
-        _rtcmMavlink = nullptr;
     }
 }
 
@@ -151,4 +146,77 @@ void GPSRtk::_sensorGnssRelativeUpdate(const sensor_gnss_relative_s &msg)
 void GPSRtk::_sensorGpsUpdate(const sensor_gps_s &msg)
 {
     qCDebug(GPSRtkLog) << Q_FUNC_INFO << QStringLiteral("alt=%1, long=%2, lat=%3").arg(msg.altitude_msl_m).arg(msg.longitude_deg).arg(msg.latitude_deg);
+}
+
+void GPSRtk::connectNTRIP()
+{
+    disconnectNTRIP();
+
+    RTKSettings* const rtkSettings = SettingsManager::instance()->rtkSettings();
+    const QString url = rtkSettings->ntripURL()->rawValue().toString();
+    const bool ntripV1 = rtkSettings->ntripV1()->rawValue().toBool();
+    const bool sendGGA = rtkSettings->ntripSendGGA()->rawValue().toBool();
+
+    if (url.isEmpty()) {
+        qCWarning(GPSRtkLog) << "NTRIP URL is empty";
+        return;
+    }
+
+    _ntripClient = new NTRIPClient(this);
+    _ntripClient->setSendGGA(sendGGA);
+
+    (void) connect(_ntripClient, &NTRIPClient::RTCMDataUpdate,
+                   _rtcmMavlink, &RTCMMavlink::RTCMDataUpdate);
+    (void) connect(_ntripClient, &NTRIPClient::connected,
+                   this, &GPSRtk::_onNTRIPConnected);
+    (void) connect(_ntripClient, &NTRIPClient::disconnected,
+                   this, &GPSRtk::_onNTRIPDisconnected);
+    (void) connect(_ntripClient, &NTRIPClient::errorOccurred,
+                   this, &GPSRtk::_onNTRIPError);
+
+    _ntripClient->connectToCaster(url, ntripV1);
+}
+
+void GPSRtk::disconnectNTRIP()
+{
+    if (_ntripClient) {
+        _ntripClient->disconnectFromCaster();
+        _ntripClient->deleteLater();
+        _ntripClient = nullptr;
+        _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
+    }
+}
+
+bool GPSRtk::ntripConnected() const
+{
+    return _ntripClient ? _ntripClient->isConnected() : false;
+}
+
+void GPSRtk::_onNTRIPConnected()
+{
+    qCDebug(GPSRtkLog) << "NTRIP connected";
+    _gpsRtkFactGroup->ntripConnected()->setRawValue(true);
+
+    if (_ntripClient) {
+        const QGeoCoordinate gcsPos = QGCPositionManager::instance()->gcsPosition();
+        if (gcsPos.isValid()) {
+            _ntripClient->setGCSPosition(
+                gcsPos.latitude(),
+                gcsPos.longitude(),
+                gcsPos.altitude()
+            );
+        }
+    }
+}
+
+void GPSRtk::_onNTRIPDisconnected()
+{
+    qCDebug(GPSRtkLog) << "NTRIP disconnected";
+    _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
+}
+
+void GPSRtk::_onNTRIPError(QString errorString)
+{
+    qCWarning(GPSRtkLog) << "NTRIP error:" << errorString;
+    _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
 }

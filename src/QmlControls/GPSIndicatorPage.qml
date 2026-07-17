@@ -65,7 +65,7 @@ ToolIndicatorPage {
 
             SettingsGroupLayout {
                 heading:    qsTr("RTK GPS Status")
-                visible:    QGroundControl.gpsRtk.connected.value
+                visible:    QGroundControl.gpsRtk.connected.value || QGroundControl.gpsRtk.ntripConnected.value
 
                 QGCLabel {
                     text: (QGroundControl.gpsRtk.active.value) ? qsTr("Survey-in Active") : qsTr("RTK Streaming")
@@ -95,6 +95,65 @@ ToolIndicatorPage {
             heading:        qsTr("RTK GPS Settings")
 
             property real sliderWidth: ScreenTools.defaultFontPixelWidth * 40
+
+            QGCPalette { id: qgcPal }
+
+            SettingsGroupLayout {
+                heading: qsTr("NTRIP Network RTK")
+
+                FactCheckBoxSlider {
+                    Layout.fillWidth:   true
+                    text:               qsTr("Enable NTRIP")
+                    fact:               rtkSettings.ntripEnabled
+                    visible:            fact.visible
+                }
+
+                LabelledFactTextField {
+                    label:              qsTr("Server URL")
+                    fact:               rtkSettings.ntripURL
+                    visible:            rtkSettings.ntripEnabled.rawValue && fact.visible
+                }
+
+                QGCLabel {
+                    text:               qsTr("Format: ntrip://user:pass@host:port/mountpoint")
+                    font.pointSize:     ScreenTools.smallFontPointSize
+                    visible:            rtkSettings.ntripEnabled.rawValue
+                    Layout.fillWidth:   true
+                    wrapMode:           Text.WordWrap
+                }
+
+                FactCheckBoxSlider {
+                    Layout.fillWidth:   true
+                    text:               qsTr("Send GGA Position (VRS)")
+                    fact:               rtkSettings.ntripSendGGA
+                    visible:            rtkSettings.ntripEnabled.rawValue && fact.visible
+                }
+
+                FactCheckBoxSlider {
+                    Layout.fillWidth:   true
+                    text:               qsTr("Use NTRIP v1 Protocol")
+                    fact:               rtkSettings.ntripV1
+                    visible:            rtkSettings.ntripEnabled.rawValue && fact.visible
+                }
+
+                RowLayout {
+                    visible:            rtkSettings.ntripEnabled.rawValue
+                    Layout.fillWidth:   true
+
+                    QGCLabel {
+                        text:           qsTr("Status:")
+                    }
+
+                    QGCLabel {
+                        text:           QGroundControl.gpsRtk.ntripConnected.value
+                                        ? qsTr("● Connected")
+                                        : qsTr("○ Disconnected")
+                        color:          QGroundControl.gpsRtk.ntripConnected.value
+                                        ? qgcPal.colorGreen
+                                        : qgcPal.colorRed
+                    }
+                }
+            }
 
             FactCheckBoxSlider {
                 Layout.fillWidth:   true

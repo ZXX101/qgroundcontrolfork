@@ -23,6 +23,7 @@ class GPSRTKFactGroup;
 class FactGroup;
 class RTCMMavlink;
 class GPSProvider;
+class NTRIPClient;
 
 class GPSRtk : public QObject
 {
@@ -39,6 +40,10 @@ public:
     bool connected() const;
     FactGroup *gpsRtkFactGroup();
 
+    void connectNTRIP();
+    void disconnectNTRIP();
+    bool ntripConnected() const;
+
 private slots:
     void _satelliteInfoUpdate(const satellite_info_s &msg);
     void _sensorGnssRelativeUpdate(const sensor_gnss_relative_s &msg);
@@ -46,11 +51,15 @@ private slots:
     void _onGPSConnect();
     void _onGPSDisconnect();
     void _onGPSSurveyInStatus(float duration, float accuracyMM, double latitude, double longitude, float altitude, bool valid, bool active);
+    void _onNTRIPConnected();
+    void _onNTRIPDisconnected();
+    void _onNTRIPError(QString errorString);
 
 private:
     GPSProvider *_gpsProvider = nullptr;
     RTCMMavlink *_rtcmMavlink = nullptr;
     GPSRTKFactGroup *_gpsRtkFactGroup = nullptr;
+    NTRIPClient *_ntripClient = nullptr;
 
     std::atomic_bool _requestGpsStop = false;
 

@@ -28,6 +28,9 @@ public:
 
     GPSRtk *gpsRtk() { return _gpsRtk; }
 
+private slots:
+    void _onNTRIPEnabledChanged();
+
 private:
     GPSRtk *_gpsRtk = nullptr;
 };

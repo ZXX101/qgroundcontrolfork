@@ -78,6 +78,34 @@
     "units":                "m",
     "decimalPlaces":        2,
     "qgcRebootRequired":    true
+},
+{
+    "name":                 "ntripEnabled",
+    "shortDesc":            "Enable NTRIP",
+    "longDesc":             "Fetch network differential correction data from an NTRIP server and inject it into the flight controller.",
+    "type":                 "bool",
+    "default":              false
+},
+{
+    "name":                 "ntripURL",
+    "shortDesc":            "NTRIP Server URL",
+    "longDesc":             "Full NTRIP server URL. Format: ntrip://username:password@host:port/mountpoint",
+    "type":                 "string",
+    "default":              ""
+},
+{
+    "name":                 "ntripV1",
+    "shortDesc":            "Use NTRIP v1 Protocol",
+    "longDesc":             "Use NTRIP v1 protocol for older servers. Default is NTRIP v2.",
+    "type":                 "bool",
+    "default":              false
+},
+{
+    "name":                 "ntripSendGGA",
+    "shortDesc":            "Send GGA Position",
+    "longDesc":             "Send GGA position reports to the NTRIP server for VRS (Virtual Reference Station) mode.",
+    "type":                 "bool",
+    "default":              true
 }
 ]
 }

@@ -63,6 +63,18 @@
     "shortDesc": "Number of Satellites",
     "type":             "int32",
     "default":          0
+},
+{
+    "name":             "ntripConnected",
+    "shortDesc": "NTRIP Connected",
+    "type":             "bool",
+    "default":          false
+},
+{
+    "name":             "ntripBytesReceived",
+    "shortDesc": "NTRIP Bytes Received",
+    "type":             "uint32",
+    "default":          0
 }
 ]
 }
