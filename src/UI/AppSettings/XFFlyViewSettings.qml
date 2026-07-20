@@ -51,9 +51,8 @@ ColumnLayout {
         return fileModel
     }
 
-    SettingsGroupLayout {
+    ColumnLayout {
         Layout.fillWidth:   true
-        heading:            qsTr("General")
 
         FactCheckBoxSlider {
             id:                 useCheckList

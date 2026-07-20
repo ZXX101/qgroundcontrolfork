@@ -52,19 +52,43 @@ QGCFlickable {
             Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
             QGCLabel {
-                text: _linkManager.linkConfigurations.count === 0 ? qsTr("Existing Protocols") : qsTr("No protocols yet. Add a protocol on the right form to connect")
+                Layout.fillWidth: true
+                Layout.minimumWidth: 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
+                visible: linkConfigurationsRepeater.visibleItemCount === 0
+                text: qsTr("No protocols yet. Add a protocol on the right form to connect")
+                wrapMode: Text.WordWrap
                 font.bold: true
                 font.pointSize: ScreenTools.defaultFontPointSize
             }
 
             Repeater {
+                id: linkConfigurationsRepeater
                 model: _linkManager.linkConfigurations
                 Layout.fillWidth: true
+
+                property int visibleItemCount: 0
+
+                function refreshVisibleItemCount() {
+                    let visibleCount = 0
+                    for (let i = 0; i < count; ++i) {
+                        const delegateItem = itemAt(i)
+                        if (delegateItem && delegateItem.visible) {
+                            ++visibleCount
+                        }
+                    }
+                    visibleItemCount = visibleCount
+                }
+
+                onItemAdded: Qt.callLater(refreshVisibleItemCount)
+                onItemRemoved: Qt.callLater(refreshVisibleItemCount)
+                Component.onCompleted: Qt.callLater(refreshVisibleItemCount)
 
                 Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2
                     visible: !object.dynamic
+                    onVisibleChanged: Qt.callLater(linkConfigurationsRepeater.refreshVisibleItemCount)
                     Rectangle {
                         anchors.fill: parent
                         color: "black"
