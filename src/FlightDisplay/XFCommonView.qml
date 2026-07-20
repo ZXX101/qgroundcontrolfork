@@ -337,10 +337,17 @@ Rectangle {
         color: qgcPal.toolbarBackground
 
         RowLayout {
-            anchors.leftMargin: _defaultTextWidth
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             spacing: _defaultTextWidth
+
+            QGCToolBarButton {
+                z:                      1
+                Layout.preferredHeight: toolbar.height
+                icon.source:            "/xfres/LogoFull.png"
+                logo:                   true
+                onClicked:              mainWindow.showToolSelectDialog()
+            }
 
             QGCLabel {
                 text: qsTr("XF Ground Station - Common Config")
