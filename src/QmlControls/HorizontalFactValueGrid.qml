@@ -26,6 +26,8 @@ T.HorizontalFactValueGrid {
     Layout.preferredHeight: topLayout.height
 
     property bool   settingsUnlocked:       false
+    property bool   showValueUnits:         true
+    property string valueFontFamily:        ScreenTools.normalFontFamily
 
     property real   _margins:               ScreenTools.defaultFontPixelWidth / 2
     property int    _rowMax:                2
@@ -67,6 +69,8 @@ T.HorizontalFactValueGrid {
                                 InstrumentValueValue {
                                     Layout.alignment:       Qt.AlignHCenter
                                     instrumentValueData:    object
+                                    showUnits:               _root.showValueUnits
+                                    valueFontFamily:         _root.valueFontFamily
                                 }
 
                                 InstrumentValueLabel {

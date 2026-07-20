@@ -67,7 +67,7 @@ ColumnLayout {
     QGCLabel {
         Layout.alignment:   Qt.AlignVCenter | Qt.AlignHCenter
         height:             _tightHeight * 0.7  // 标签高度减小
-        font.pointSize:     ScreenTools.smallFontPointSize * 0.8  // 字体减小
+        font.pointSize:     ScreenTools.smallFontPointSize
         text:               instrumentValueData.text
         color:              _color
         opacity:            instrumentValueData.currentOpacity

@@ -20,6 +20,8 @@ ColumnLayout {
     property var    instrumentValueData:            null
     property bool   settingsUnlocked:               false
     property alias  contentWidth:                   label.contentWidth
+    property bool   showUnits:                      true
+    property string valueFontFamily:                ScreenTools.normalFontFamily
 
     property var    _rgFontSizes:                   [ ScreenTools.defaultFontPointSize, ScreenTools.smallFontPointSize, ScreenTools.mediumFontPointSize, ScreenTools.largeFontPointSize ]
     property var    _rgFontSizeRatios:              [ 1, ScreenTools.smallFontPointRatio, ScreenTools.mediumFontPointRatio, ScreenTools.largeFontPointRatio ]
@@ -35,13 +37,14 @@ ColumnLayout {
     QGCLabel {
         id:                 label
         Layout.alignment:   Qt.AlignVCenter | Qt.AlignHCenter
+        font.family:        valueFontFamily
         font.pointSize:     _fontSize * 0.8  // 字体减小
         color:              instrumentValueData.isValidColor(instrumentValueData.currentColor) ? instrumentValueData.currentColor : qgcPal.text
         text:               valueText()
 
         function valueText() {
             if (instrumentValueData.fact) {
-                return instrumentValueData.fact.enumOrValueString + (instrumentValueData.showUnits ? " " + instrumentValueData.fact.units : "")
+                return instrumentValueData.fact.enumOrValueString + (showUnits && instrumentValueData.showUnits ? " " + instrumentValueData.fact.units : "")
             } else {
                 return qsTr("--.--")
             }

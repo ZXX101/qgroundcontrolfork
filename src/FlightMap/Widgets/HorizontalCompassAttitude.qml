@@ -38,7 +38,9 @@ Rectangle {
     property var  _activeVehicle:       globals.activeVehicle
     property real _margin:              ScreenTools.defaultFontPixelWidth / 2
     property real _spacing:             ScreenTools.defaultFontPixelWidth
-    property real _widgetSize:          ScreenTools.defaultFontPixelHeight * 3.25  // 仪表盘直径，约等于数据面板高度
+    property real _widgetSizeScale:     1.7
+    property real _widgetSize:          ScreenTools.defaultFontPixelHeight * 3.25 * _widgetSizeScale
+    property real _dataPanelWidthScale: 0.9
 
     DeadMouseArea { anchors.fill: parent }
 
@@ -60,7 +62,7 @@ Rectangle {
         //数据面板，使用TelemetryValuesBar，位于中间（垂直居中）
         // z 设置为较高值，确保点击事件能传递到数据面板内部
         Item {
-            width:  dataPanel.implicitWidth
+            width:  dataPanel.implicitWidth * control._dataPanelWidthScale
             height: control._widgetSize
             z:      10  // 提高z-order，确保事件优先处理
 
@@ -68,6 +70,8 @@ Rectangle {
                 id:                     dataPanel
                 anchors.centerIn:       parent
                 extraWidth:             0
+                showValueUnits:         false
+                valueFontFamily:        ScreenTools.tecentFontFamily
                 settingsGroup:          factValueGrid.telemetryBarSettingsGroup
                 specificVehicleForCard: null  // 使用活动车辆
             }
