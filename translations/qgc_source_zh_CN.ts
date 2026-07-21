@@ -7152,54 +7152,77 @@ Click Ok to start the auto-tuning process.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="149"/>
-        <source>● Connected</source>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="151"/>
+        <source>● Connected (%1 bytes received)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="150"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="153"/>
+        <source>○ %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="154"/>
         <source>○ Disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="160"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="164"/>
         <source>AutoConnect</source>
         <translation type="unfinished">自动连接</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="169"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="173"/>
         <source>Survey-In</source>
         <translation type="unfinished">Survey-In</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="175"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="179"/>
         <source>Specify position</source>
         <translation type="unfinished">Specify position</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="184"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="188"/>
         <source>Accuracy (u-blox only)</source>
         <translation type="unfinished">Accuracy (u-blox only)</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="193"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="197"/>
         <source>Min Duration</source>
         <translation type="unfinished">Min Duration</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="224"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="228"/>
         <source>Current Base Position</source>
         <translation type="unfinished">Current Base Position</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="225"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="229"/>
         <source>Save</source>
         <translation type="unfinished">Save</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="225"/>
+        <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="229"/>
         <source>Not Yet Valid</source>
         <translation type="unfinished">Not Yet Valid</translation>
+    </message>
+</context>
+<context>
+    <name>GPSRtk</name>
+    <message>
+        <location filename="../src/GPS/GPSRtk.cc" line="162"/>
+        <source>NTRIP URL is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GPS/GPSRtk.cc" line="167"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GPS/GPSRtk.cc" line="219"/>
+        <source>Reconnecting...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10781,42 +10804,52 @@ Do you wish to proceed?</translation>
 <context>
     <name>NTRIPClient</name>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="43"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="50"/>
         <source>Invalid NTRIP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="56"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="63"/>
         <source>No mountpoint specified in NTRIP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="164"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="169"/>
+        <source>Invalid response from NTRIP server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GPS/NTRIPClient.cc" line="189"/>
         <source>Mountpoint not found (SOURCETABLE received)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="174"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="199"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="175"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="200"/>
         <source>NTRIP server error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="217"/>
-        <source>Connection lost, max reconnect attempts reached</source>
+        <location filename="../src/GPS/NTRIPClient.cc" line="232"/>
+        <source>Connection lost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="226"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="247"/>
+        <source>NTRIP server did not respond (timeout)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GPS/NTRIPClient.cc" line="239"/>
         <source>Unknown socket error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GPS/NTRIPClient.cc" line="230"/>
+        <location filename="../src/GPS/NTRIPClient.cc" line="241"/>
         <source>NTRIP connection error: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -19815,57 +19848,62 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="211"/>
-        <source>● Connected</source>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="213"/>
+        <source>● Connected (%1 bytes received)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="212"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="215"/>
+        <source>○ %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="216"/>
         <source>○ Disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="226"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="230"/>
         <source>RTK GPS Base Station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="232"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="236"/>
         <source>AutoConnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="241"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="245"/>
         <source>Survey-In</source>
         <translation type="unfinished">Survey-In</translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="247"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="251"/>
         <source>Specify position</source>
         <translation type="unfinished">Specify position</translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="256"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="260"/>
         <source>Accuracy (u-blox only)</source>
         <translation type="unfinished">Accuracy (u-blox only)</translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="265"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="269"/>
         <source>Min Duration</source>
         <translation type="unfinished">Min Duration</translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="296"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="300"/>
         <source>Current Base Position</source>
         <translation type="unfinished">Current Base Position</translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="297"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="301"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="297"/>
+        <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="301"/>
         <source>Not Yet Valid</source>
         <translation type="unfinished">Not Yet Valid</translation>
     </message>

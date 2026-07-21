@@ -44,15 +44,18 @@ private slots:
     void _onDisconnected();
     void _onSocketError(QAbstractSocket::SocketError error);
     void _onGGATimerTimeout();
+    void _onConnectTimeout();
 
 private:
     void _doConnect();
+    void _handleFailure(const QString &reason);
     void _sendNMEAGGA();
     static QString _generateGGA(double lat, double lng, double alt);
     static quint8 _nmeaChecksum(const QString &sentence);
 
     QTcpSocket *_tcpSocket = nullptr;
     QTimer *_ggaTimer = nullptr;
+    QTimer *_connectTimer = nullptr;
 
     QString _host;
     int _port = 2101;
@@ -62,6 +65,7 @@ private:
     bool _ntripV1 = false;
     bool _sendGGA = true;
     bool _expectingHeader = true;
+    bool _userRequestedDisconnect = false;
     QByteArray _headerBuffer;
 
     double _gcsLat = 0;
@@ -73,4 +77,6 @@ private:
     static constexpr int kDefaultNTRIPPort = 2101;
     static constexpr int kGGAIntervalMs = 30000;
     static constexpr int kReconnectDelayMs = 3000;
+    static constexpr int kConnectTimeoutMs = 10000;
+    static constexpr qsizetype kMaxHeaderSize = 8192;
 };

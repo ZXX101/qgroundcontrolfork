@@ -28,6 +28,7 @@ GPSRTKFactGroup::GPSRTKFactGroup(QObject *parent)
     _addFact(&_numSatellitesFact);
     _addFact(&_ntripConnectedFact);
     _addFact(&_ntripBytesReceivedFact);
+    _addFact(&_ntripStatusFact);
 }
 
 GPSRTKFactGroup::~GPSRTKFactGroup()

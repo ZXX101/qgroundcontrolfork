@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <QtCore/QByteArray>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -54,8 +55,10 @@ private slots:
     void _onNTRIPConnected();
     void _onNTRIPDisconnected();
     void _onNTRIPError(QString errorString);
+    void _onNTRIPData(QByteArray data);
 
 private:
+    void _updateNTRIPGCSPosition();
     GPSProvider *_gpsProvider = nullptr;
     RTCMMavlink *_rtcmMavlink = nullptr;
     GPSRTKFactGroup *_gpsRtkFactGroup = nullptr;

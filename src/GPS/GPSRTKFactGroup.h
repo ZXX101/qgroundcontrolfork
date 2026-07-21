@@ -29,6 +29,7 @@ class GPSRTKFactGroup : public FactGroup
     Q_PROPERTY(Fact *numSatellites      READ numSatellites      CONSTANT)
     Q_PROPERTY(Fact *ntripConnected     READ ntripConnected     CONSTANT)
     Q_PROPERTY(Fact *ntripBytesReceived READ ntripBytesReceived CONSTANT)
+    Q_PROPERTY(Fact *ntripStatus        READ ntripStatus        CONSTANT)
 
 public:
     explicit GPSRTKFactGroup(QObject *parent = nullptr);
@@ -45,6 +46,7 @@ public:
     Fact *numSatellites() { return &_numSatellitesFact; }
     Fact *ntripConnected() { return &_ntripConnectedFact; }
     Fact *ntripBytesReceived() { return &_ntripBytesReceivedFact; }
+    Fact *ntripStatus() { return &_ntripStatusFact; }
 
 private:
     Fact _connectedFact = Fact(0, QStringLiteral("connected"), FactMetaData::valueTypeBool);
@@ -58,4 +60,5 @@ private:
     Fact _numSatellitesFact = Fact(0, QStringLiteral("numSatellites"), FactMetaData::valueTypeInt32);
     Fact _ntripConnectedFact = Fact(0, QStringLiteral("ntripConnected"), FactMetaData::valueTypeBool);
     Fact _ntripBytesReceivedFact = Fact(0, QStringLiteral("ntripBytesReceived"), FactMetaData::valueTypeUint32);
+    Fact _ntripStatusFact = Fact(0, QStringLiteral("ntripStatus"), FactMetaData::valueTypeString);
 };

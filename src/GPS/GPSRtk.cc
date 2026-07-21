@@ -159,20 +159,30 @@ void GPSRtk::connectNTRIP()
 
     if (url.isEmpty()) {
         qCWarning(GPSRtkLog) << "NTRIP URL is empty";
+        _gpsRtkFactGroup->ntripStatus()->setRawValue(tr("NTRIP URL is empty"));
         return;
     }
+
+    _gpsRtkFactGroup->ntripBytesReceived()->setRawValue(0);
+    _gpsRtkFactGroup->ntripStatus()->setRawValue(tr("Connecting..."));
 
     _ntripClient = new NTRIPClient(this);
     _ntripClient->setSendGGA(sendGGA);
 
     (void) connect(_ntripClient, &NTRIPClient::RTCMDataUpdate,
                    _rtcmMavlink, &RTCMMavlink::RTCMDataUpdate);
+    (void) connect(_ntripClient, &NTRIPClient::RTCMDataUpdate,
+                   this, &GPSRtk::_onNTRIPData);
     (void) connect(_ntripClient, &NTRIPClient::connected,
                    this, &GPSRtk::_onNTRIPConnected);
     (void) connect(_ntripClient, &NTRIPClient::disconnected,
                    this, &GPSRtk::_onNTRIPDisconnected);
     (void) connect(_ntripClient, &NTRIPClient::errorOccurred,
                    this, &GPSRtk::_onNTRIPError);
+
+    // Keep the VRS GGA position up to date while the client is alive
+    (void) connect(QGCPositionManager::instance(), &QGCPositionManager::gcsPositionChanged,
+                   _ntripClient, [this]() { _updateNTRIPGCSPosition(); });
 
     _ntripClient->connectToCaster(url, ntripV1);
 }
@@ -184,6 +194,7 @@ void GPSRtk::disconnectNTRIP()
         _ntripClient->deleteLater();
         _ntripClient = nullptr;
         _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
+        _gpsRtkFactGroup->ntripStatus()->setRawValue(QString());
     }
 }
 
@@ -196,27 +207,43 @@ void GPSRtk::_onNTRIPConnected()
 {
     qCDebug(GPSRtkLog) << "NTRIP connected";
     _gpsRtkFactGroup->ntripConnected()->setRawValue(true);
-
-    if (_ntripClient) {
-        const QGeoCoordinate gcsPos = QGCPositionManager::instance()->gcsPosition();
-        if (gcsPos.isValid()) {
-            _ntripClient->setGCSPosition(
-                gcsPos.latitude(),
-                gcsPos.longitude(),
-                gcsPos.altitude()
-            );
-        }
-    }
+    _gpsRtkFactGroup->ntripStatus()->setRawValue(QString());
+    _updateNTRIPGCSPosition();
 }
 
 void GPSRtk::_onNTRIPDisconnected()
 {
     qCDebug(GPSRtkLog) << "NTRIP disconnected";
     _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
+    // NTRIPClient retries automatically; a final failure follows with errorOccurred and overwrites this
+    _gpsRtkFactGroup->ntripStatus()->setRawValue(tr("Reconnecting..."));
 }
 
 void GPSRtk::_onNTRIPError(QString errorString)
 {
     qCWarning(GPSRtkLog) << "NTRIP error:" << errorString;
     _gpsRtkFactGroup->ntripConnected()->setRawValue(false);
+    _gpsRtkFactGroup->ntripStatus()->setRawValue(errorString);
+}
+
+void GPSRtk::_onNTRIPData(QByteArray data)
+{
+    Fact* const fact = _gpsRtkFactGroup->ntripBytesReceived();
+    fact->setRawValue(fact->rawValue().toUInt() + static_cast<quint32>(data.size()));
+}
+
+void GPSRtk::_updateNTRIPGCSPosition()
+{
+    if (!_ntripClient) {
+        return;
+    }
+
+    const QGeoCoordinate gcsPos = QGCPositionManager::instance()->gcsPosition();
+    if (gcsPos.isValid()) {
+        _ntripClient->setGCSPosition(
+            gcsPos.latitude(),
+            gcsPos.longitude(),
+            gcsPos.altitude()
+        );
+    }
 }

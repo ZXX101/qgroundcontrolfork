@@ -207,9 +207,13 @@ ColumnLayout {
                 }
 
                 QGCLabel {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
                     text: QGroundControl.gpsRtk.ntripConnected.value
-                          ? qsTr("● Connected")
-                          : qsTr("○ Disconnected")
+                          ? qsTr("● Connected (%1 bytes received)").arg(QGroundControl.gpsRtk.ntripBytesReceived.value)
+                          : (QGroundControl.gpsRtk.ntripStatus.value !== ""
+                             ? qsTr("○ %1").arg(QGroundControl.gpsRtk.ntripStatus.value)
+                             : qsTr("○ Disconnected"))
                     color: QGroundControl.gpsRtk.ntripConnected.value
                            ? qgcPal.colorGreen
                            : qgcPal.colorRed

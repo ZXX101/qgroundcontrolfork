@@ -75,6 +75,11 @@
     "shortDesc": "NTRIP Bytes Received",
     "type":             "uint32",
     "default":          0
+},
+{
+    "name":             "ntripStatus",
+    "shortDesc": "NTRIP Status",
+    "type":             "string"
 }
 ]
 }

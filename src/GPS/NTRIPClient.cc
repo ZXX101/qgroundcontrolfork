@@ -19,9 +19,15 @@ QGC_LOGGING_CATEGORY(NTRIPClientLog, "qgc.gps.ntripclient")
 NTRIPClient::NTRIPClient(QObject *parent)
     : QObject(parent)
     , _ggaTimer(new QTimer(this))
+    , _connectTimer(new QTimer(this))
 {
     _ggaTimer->setInterval(kGGAIntervalMs);
     (void) connect(_ggaTimer, &QTimer::timeout, this, &NTRIPClient::_onGGATimerTimeout);
+
+    // Covers both the TCP connect and the NTRIP handshake (server accepted TCP but never answers the GET)
+    _connectTimer->setSingleShot(true);
+    _connectTimer->setInterval(kConnectTimeoutMs);
+    (void) connect(_connectTimer, &QTimer::timeout, this, &NTRIPClient::_onConnectTimeout);
 }
 
 NTRIPClient::~NTRIPClient()
@@ -32,6 +38,7 @@ NTRIPClient::~NTRIPClient()
 void NTRIPClient::connectToCaster(const QString &url, bool ntripV1)
 {
     disconnectFromCaster();
+    _userRequestedDisconnect = false;
 
     QString normalizedUrl = url;
     if (normalizedUrl.startsWith(QStringLiteral("ntrip://"), Qt::CaseInsensitive)) {
@@ -62,10 +69,14 @@ void NTRIPClient::connectToCaster(const QString &url, bool ntripV1)
 
 void NTRIPClient::disconnectFromCaster()
 {
+    _userRequestedDisconnect = true;
     _ggaTimer->stop();
+    _connectTimer->stop();
     _reconnectAttempts = kMaxReconnectAttempts;
 
     if (_tcpSocket) {
+        // Ignore further signals from this socket so _handleFailure() is not re-entered
+        (void) _tcpSocket->disconnect(this);
         _tcpSocket->disconnectFromHost();
         if (_tcpSocket->state() != QAbstractSocket::UnconnectedState) {
             (void) _tcpSocket->waitForDisconnected(1000);
@@ -112,6 +123,7 @@ void NTRIPClient::_doConnect()
     (void) connect(_tcpSocket, &QAbstractSocket::errorOccurred, this, &NTRIPClient::_onSocketError);
 
     qCDebug(NTRIPClientLog) << "Connecting to" << _host << "port" << _port;
+    _connectTimer->start();
     _tcpSocket->connectToHost(_host, _port);
 }
 
@@ -152,7 +164,20 @@ void NTRIPClient::_onReadyRead()
     if (_expectingHeader) {
         _headerBuffer.append(data);
 
-        const int headerEnd = _headerBuffer.indexOf("\r\n\r\n");
+        if (_headerBuffer.size() > kMaxHeaderSize) {
+            qCWarning(NTRIPClientLog) << "NTRIP header exceeds maximum size, aborting";
+            emit errorOccurred(tr("Invalid response from NTRIP server"));
+            disconnectFromCaster();
+            return;
+        }
+
+        int headerEnd = _headerBuffer.indexOf("\r\n\r\n");
+        int headerTerminatorLength = 4;
+        if ((headerEnd == -1) && _ntripV1 && _headerBuffer.startsWith("ICY")) {
+            // NTRIP v1 servers may reply with a single "ICY 200 OK\r\n" line without a trailing blank line
+            headerEnd = _headerBuffer.indexOf("\r\n");
+            headerTerminatorLength = 2;
+        }
         if (headerEnd == -1) {
             return;
         }
@@ -179,18 +204,19 @@ void NTRIPClient::_onReadyRead()
 
         _expectingHeader = false;
         _reconnectAttempts = 0;
+        _connectTimer->stop();
 
         qCDebug(NTRIPClientLog) << "NTRIP connection established";
 
-        const QByteArray bodyData = _headerBuffer.mid(headerEnd + 4);
+        const QByteArray bodyData = _headerBuffer.mid(headerEnd + headerTerminatorLength);
         if (!bodyData.isEmpty()) {
             emit RTCMDataUpdate(bodyData);
         }
 
         if (_sendGGA) {
             _sendNMEAGGA();
+            _ggaTimer->start();
         }
-        _ggaTimer->start();
 
         emit connected();
     } else {
@@ -203,20 +229,7 @@ void NTRIPClient::_onReadyRead()
 void NTRIPClient::_onDisconnected()
 {
     qCDebug(NTRIPClientLog) << "Disconnected from NTRIP caster";
-    _ggaTimer->stop();
-
-    if (_reconnectAttempts < kMaxReconnectAttempts) {
-        _reconnectAttempts++;
-        qCDebug(NTRIPClientLog) << "Attempting reconnect" << _reconnectAttempts << "of" << kMaxReconnectAttempts;
-        (void) QTimer::singleShot(kReconnectDelayMs, this, [this]() {
-            if (_reconnectAttempts <= kMaxReconnectAttempts) {
-                _doConnect();
-            }
-        });
-    } else {
-        emit errorOccurred(tr("Connection lost, max reconnect attempts reached"));
-        emit disconnected();
-    }
+    _handleFailure(tr("Connection lost"));
 }
 
 void NTRIPClient::_onSocketError(QAbstractSocket::SocketError error)
@@ -225,9 +238,48 @@ void NTRIPClient::_onSocketError(QAbstractSocket::SocketError error)
 
     const QString errorString = _tcpSocket ? _tcpSocket->errorString() : tr("Unknown socket error");
     qCWarning(NTRIPClientLog) << "Socket error:" << errorString;
+    _handleFailure(tr("NTRIP connection error: %1").arg(errorString));
+}
 
-    if (_reconnectAttempts >= kMaxReconnectAttempts) {
-        emit errorOccurred(tr("NTRIP connection error: %1").arg(errorString));
+void NTRIPClient::_onConnectTimeout()
+{
+    qCWarning(NTRIPClientLog) << "Connection/handshake timed out";
+    _handleFailure(tr("NTRIP server did not respond (timeout)"));
+}
+
+void NTRIPClient::_handleFailure(const QString &reason)
+{
+    // A user-requested disconnect or an already-handled failure must not trigger reconnects or errors
+    if (_userRequestedDisconnect || !_tcpSocket) {
+        return;
+    }
+
+    const bool wasConnected = !_expectingHeader;
+
+    // Detach the socket so any further error/disconnected signals from it are ignored
+    (void) _tcpSocket->disconnect(this);
+    _tcpSocket->deleteLater();
+    _tcpSocket = nullptr;
+
+    _ggaTimer->stop();
+    _connectTimer->stop();
+    _expectingHeader = true;
+    _headerBuffer.clear();
+
+    if (wasConnected) {
+        emit disconnected();
+    }
+
+    if (_reconnectAttempts < kMaxReconnectAttempts) {
+        _reconnectAttempts++;
+        qCDebug(NTRIPClientLog) << "Attempting reconnect" << _reconnectAttempts << "of" << kMaxReconnectAttempts;
+        (void) QTimer::singleShot(kReconnectDelayMs, this, [this]() {
+            if (!_userRequestedDisconnect) {
+                _doConnect();
+            }
+        });
+    } else {
+        emit errorOccurred(reason);
     }
 }
 
