@@ -19496,27 +19496,62 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <translation>软件设置</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFCommonView.qml" line="281"/>
-        <source>Vehicle settings and info will display after connecting your vehicle.</source>
-        <translation type="unfinished">飞机设置和信息将在连接飞机后显示。</translation>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="122"/>
+        <source>Airframe</source>
+        <translation>机架</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFCommonView.qml" line="353"/>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="124"/>
+        <source>Sensors</source>
+        <translation>传感器</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="126"/>
+        <source>Flight Modes</source>
+        <translation>通道设置</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="128"/>
+        <source>Power</source>
+        <translation>电源</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="130"/>
+        <source>Motors</source>
+        <translation>电机</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="132"/>
+        <source>Radio</source>
+        <translation>遥控器</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="134"/>
+        <source>Tuning</source>
+        <translation>调参</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="306"/>
+        <source>Vehicle settings and info will display after connecting your vehicle.</source>
+        <translation>飞机设置和信息将在连接飞机后显示。</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="378"/>
         <source>XF Ground Station - Common Config</source>
         <translation>XF地面站-通用配置</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFCommonView.qml" line="359"/>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="384"/>
         <source>Back</source>
         <translation>返回</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFCommonView.qml" line="467"/>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="492"/>
         <source>Summary</source>
         <translation>概况</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFCommonView.qml" line="504"/>
+        <location filename="../src/FlightDisplay/XFCommonView.qml" line="529"/>
         <source>Parameters</source>
         <translation>参数</translation>
     </message>
@@ -20506,7 +20541,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="71"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返回</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="260"/>
