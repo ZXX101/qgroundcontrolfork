@@ -112,6 +112,31 @@ Rectangle {
         return ""
     }
 
+    function getTranslatedComponentName(component) {
+        if (!component) {
+            return ""
+        }
+
+        switch (getComponentIdFromUrl(component.setupSource)) {
+        case "airframe":
+            return qsTr("Airframe")
+        case "sensors":
+            return qsTr("Sensors")
+        case "flightModes":
+            return qsTr("Flight Modes")
+        case "power":
+            return qsTr("Power")
+        case "motors":
+            return qsTr("Motors")
+        case "radio":
+            return qsTr("Radio")
+        case "tuning":
+            return qsTr("Tuning")
+        default:
+            return component.name || ""
+        }
+    }
+
     // 过滤并排序后的组件列表（排除Safety/FlightBehavior/ESP8266/Camera等，按指定顺序排列）
     property var _fallbackComponents: [
         { name: "Airframe", setupSource: "qrc:/qml/QGroundControl/AutoPilotPlugins/APM/AirframeComponent.qml" },
@@ -479,7 +504,7 @@ Rectangle {
                         model: _filteredComponents
 
                         ConfigButton {
-                            text: modelData.name
+                            text: getTranslatedComponentName(modelData)
                             Layout.fillWidth: true
                             font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
                             checked: deviceConfigSubIndex === index
