@@ -10,12 +10,18 @@
 #include "GPSRtk.h"
 #include "GPSProvider.h"
 #include "GPSRTKFactGroup.h"
+#include "MultiVehicleManager.h"
 #include "NTRIPClient.h"
 #include "QGCLoggingCategory.h"
 #include "RTCMMavlink.h"
 #include "RTKSettings.h"
 #include "SettingsManager.h"
 #include "PositionManager.h"
+#include "Vehicle.h"
+
+#include <QtCore/QUrl>
+
+#include <cmath>
 
 QGC_LOGGING_CATEGORY(GPSRtkLog, "qgc.gps.gpsrtk")
 
@@ -24,6 +30,8 @@ GPSRtk::GPSRtk(QObject *parent)
     , _gpsRtkFactGroup(new GPSRTKFactGroup(this))
     , _rtcmMavlink(new RTCMMavlink(this))
 {
+    (void) connect(MultiVehicleManager::instance(), &MultiVehicleManager::activeVehicleChanged,
+                   this, &GPSRtk::_onActiveVehicleChanged);
 }
 
 GPSRtk::~GPSRtk()
@@ -163,8 +171,16 @@ void GPSRtk::connectNTRIP()
         return;
     }
 
+    _ntripFirstDataLogged = false;
     _gpsRtkFactGroup->ntripBytesReceived()->setRawValue(0);
     _gpsRtkFactGroup->ntripStatus()->setRawValue(tr("Connecting..."));
+
+    QString logSafeUrl = url;
+    const QString password = QUrl(url).password();
+    if (!password.isEmpty()) {
+        (void) logSafeUrl.replace(password, QStringLiteral("***"));
+    }
+    qCInfo(GPSRtkLog) << "Starting NTRIP:" << logSafeUrl << "ntripV1" << ntripV1 << "sendGGA" << sendGGA;
 
     _ntripClient = new NTRIPClient(this);
     _ntripClient->setSendGGA(sendGGA);
@@ -228,8 +244,28 @@ void GPSRtk::_onNTRIPError(QString errorString)
 
 void GPSRtk::_onNTRIPData(QByteArray data)
 {
+    if (!_ntripFirstDataLogged) {
+        _ntripFirstDataLogged = true;
+        qCInfo(GPSRtkLog) << "RTCM data flowing from NTRIP client, first chunk" << data.size() << "bytes";
+    }
+    qCDebug(GPSRtkLog) << "NTRIP RTCM chunk:" << data.size() << "bytes";
+
     Fact* const fact = _gpsRtkFactGroup->ntripBytesReceived();
     fact->setRawValue(fact->rawValue().toUInt() + static_cast<quint32>(data.size()));
+}
+
+void GPSRtk::_onActiveVehicleChanged(Vehicle *vehicle)
+{
+    if (vehicle) {
+        (void) connect(vehicle, &Vehicle::coordinateChanged,
+                       this, &GPSRtk::_onVehicleCoordinateChanged, Qt::UniqueConnection);
+    }
+    _updateNTRIPGCSPosition();
+}
+
+void GPSRtk::_onVehicleCoordinateChanged()
+{
+    _updateNTRIPGCSPosition();
 }
 
 void GPSRtk::_updateNTRIPGCSPosition()
@@ -238,12 +274,38 @@ void GPSRtk::_updateNTRIPGCSPosition()
         return;
     }
 
-    const QGeoCoordinate gcsPos = QGCPositionManager::instance()->gcsPosition();
-    if (gcsPos.isValid()) {
-        _ntripClient->setGCSPosition(
-            gcsPos.latitude(),
-            gcsPos.longitude(),
-            gcsPos.altitude()
-        );
+    // VRS position source: prefer the active vehicle position (the GCS usually has no
+    // position source of its own), fall back to the GCS position
+    QGeoCoordinate pos;
+    QString source;
+    Vehicle* const activeVehicle = MultiVehicleManager::instance()->activeVehicle();
+    if (activeVehicle && activeVehicle->coordinate().isValid()) {
+        pos = activeVehicle->coordinate();
+        source = QStringLiteral("vehicle");
+    } else {
+        const QGeoCoordinate gcsPos = QGCPositionManager::instance()->gcsPosition();
+        if (gcsPos.isValid()) {
+            pos = gcsPos;
+            source = QStringLiteral("gcs");
+        }
     }
+
+    if (!pos.isValid()) {
+        // Without a position no GGA can be sent, and VRS casters will not stream corrections.
+        // Log only once per invalid period, this is called at telemetry rate.
+        if (!_ntripNoPositionWarned) {
+            _ntripNoPositionWarned = true;
+            qCInfo(GPSRtkLog) << "No vehicle or GCS position available, cannot provide VRS position to NTRIP caster";
+        }
+        return;
+    }
+    if (_ntripNoPositionWarned) {
+        _ntripNoPositionWarned = false;
+        qCInfo(GPSRtkLog) << "Position available again, resuming VRS position updates (source:" << source << ")";
+    }
+
+    const double alt = std::isfinite(pos.altitude()) ? pos.altitude() : 0.0;
+    qCDebug(GPSRtkLog) << "Pushing position to NTRIP client (source:" << source << "): lat" << pos.latitude()
+                       << "lng" << pos.longitude() << "alt" << alt;
+    _ntripClient->setGCSPosition(pos.latitude(), pos.longitude(), alt);
 }

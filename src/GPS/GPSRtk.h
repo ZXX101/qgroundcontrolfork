@@ -25,6 +25,7 @@ class FactGroup;
 class RTCMMavlink;
 class GPSProvider;
 class NTRIPClient;
+class Vehicle;
 
 class GPSRtk : public QObject
 {
@@ -56,6 +57,8 @@ private slots:
     void _onNTRIPDisconnected();
     void _onNTRIPError(QString errorString);
     void _onNTRIPData(QByteArray data);
+    void _onActiveVehicleChanged(Vehicle *vehicle);
+    void _onVehicleCoordinateChanged();
 
 private:
     void _updateNTRIPGCSPosition();
@@ -63,6 +66,8 @@ private:
     RTCMMavlink *_rtcmMavlink = nullptr;
     GPSRTKFactGroup *_gpsRtkFactGroup = nullptr;
     NTRIPClient *_ntripClient = nullptr;
+    bool _ntripFirstDataLogged = false;
+    bool _ntripNoPositionWarned = false;
 
     std::atomic_bool _requestGpsStop = false;
 

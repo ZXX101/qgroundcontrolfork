@@ -49,6 +49,7 @@ private slots:
 private:
     void _doConnect();
     void _handleFailure(const QString &reason);
+    void _logRTCMData(qsizetype bytes);
     void _sendNMEAGGA();
     static QString _generateGGA(double lat, double lng, double alt);
     static quint8 _nmeaChecksum(const QString &sentence);
@@ -73,6 +74,8 @@ private:
     double _gcsAlt = 0;
 
     int _reconnectAttempts = 0;
+    quint64 _totalBytesReceived = 0;
+    bool _firstDataLogged = false;
     static constexpr int kMaxReconnectAttempts = 3;
     static constexpr int kDefaultNTRIPPort = 2101;
     static constexpr int kGGAIntervalMs = 30000;

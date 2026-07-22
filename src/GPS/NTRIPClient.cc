@@ -64,6 +64,13 @@ void NTRIPClient::connectToCaster(const QString &url, bool ntripV1)
         return;
     }
 
+    _totalBytesReceived = 0;
+    _firstDataLogged = false;
+
+    qCInfo(NTRIPClientLog) << "Connecting to NTRIP caster:" << _host << "port" << _port
+                           << "mountpoint" << _mountpoint << "user" << _username
+                           << "ntripV1" << _ntripV1 << "sendGGA" << _sendGGA;
+
     _doConnect();
 }
 
@@ -96,9 +103,22 @@ bool NTRIPClient::isConnected() const
 
 void NTRIPClient::setGCSPosition(double lat, double lng, double alt)
 {
+    const bool hadPosition = (_gcsLat != 0) || (_gcsLng != 0);
+
     _gcsLat = lat;
     _gcsLng = lng;
     _gcsAlt = alt;
+
+    qCDebug(NTRIPClientLog) << "GCS position updated: lat" << lat << "lng" << lng << "alt" << alt;
+
+    // The GCS position may arrive long after the NTRIP connection was established (or the
+    // initial GGA may have been skipped for lack of a position). Send a GGA as soon as a
+    // valid position shows up, otherwise VRS casters will not start streaming corrections.
+    const bool hasPosition = (_gcsLat != 0) || (_gcsLng != 0);
+    if (!hadPosition && hasPosition && _sendGGA && isConnected()) {
+        qCInfo(NTRIPClientLog) << "GCS position became available, sending GGA to caster";
+        _sendNMEAGGA();
+    }
 }
 
 void NTRIPClient::setSendGGA(bool send)
@@ -142,13 +162,20 @@ void NTRIPClient::_onConnected()
         request += QStringLiteral("User-Agent: NTRIP QGC/1.0\r\n");
     }
 
+    QByteArray credentials;
     if (!_username.isEmpty()) {
-        const QByteArray credentials = QStringLiteral("%1:%2").arg(_username, _password).toUtf8().toBase64();
+        credentials = QStringLiteral("%1:%2").arg(_username, _password).toUtf8().toBase64();
         request += QStringLiteral("Authorization: Basic %1\r\n").arg(QString::fromUtf8(credentials));
     }
 
     request += QStringLiteral("Connection: close\r\n");
     request += QStringLiteral("\r\n");
+
+    QString logSafeRequest = request;
+    if (!credentials.isEmpty()) {
+        (void) logSafeRequest.replace(QString::fromUtf8(credentials), QStringLiteral("***"));
+    }
+    qCInfo(NTRIPClientLog) << "Sending NTRIP request:" << logSafeRequest;
 
     (void) _tcpSocket->write(request.toUtf8());
 }
@@ -179,13 +206,15 @@ void NTRIPClient::_onReadyRead()
             headerTerminatorLength = 2;
         }
         if (headerEnd == -1) {
+            qCDebug(NTRIPClientLog) << "Waiting for NTRIP response header, buffered" << _headerBuffer.size() << "bytes";
             return;
         }
 
         const QString header = QString::fromUtf8(_headerBuffer.left(headerEnd));
-        qCDebug(NTRIPClientLog) << "Received header:" << header;
+        qCInfo(NTRIPClientLog) << "Received NTRIP response header:" << header;
 
         if (header.contains(QStringLiteral("SOURCETABLE"))) {
+            qCWarning(NTRIPClientLog) << "Mountpoint not found, caster sent SOURCETABLE";
             emit errorOccurred(tr("Mountpoint not found (SOURCETABLE received)"));
             disconnectFromCaster();
             return;
@@ -197,6 +226,7 @@ void NTRIPClient::_onReadyRead()
             QString status = (statusStart > 0 && statusEnd > statusStart)
                 ? header.mid(statusStart + 1, statusEnd - statusStart - 1)
                 : tr("Unknown error");
+            qCWarning(NTRIPClientLog) << "NTRIP server rejected connection:" << status;
             emit errorOccurred(tr("NTRIP server error: %1").arg(status));
             disconnectFromCaster();
             return;
@@ -206,21 +236,26 @@ void NTRIPClient::_onReadyRead()
         _reconnectAttempts = 0;
         _connectTimer->stop();
 
-        qCDebug(NTRIPClientLog) << "NTRIP connection established";
+        qCInfo(NTRIPClientLog) << "NTRIP handshake succeeded, RTCM stream started";
 
         const QByteArray bodyData = _headerBuffer.mid(headerEnd + headerTerminatorLength);
-        if (!bodyData.isEmpty()) {
-            emit RTCMDataUpdate(bodyData);
-        }
+
+        // Emit connected() before sending the initial GGA: GPSRtk pushes the GCS position
+        // into this client from its connected() handler, and the GGA needs that position
+        emit connected();
 
         if (_sendGGA) {
             _sendNMEAGGA();
             _ggaTimer->start();
         }
 
-        emit connected();
+        if (!bodyData.isEmpty()) {
+            _logRTCMData(bodyData.size());
+            emit RTCMDataUpdate(bodyData);
+        }
     } else {
         if (!data.isEmpty()) {
+            _logRTCMData(data.size());
             emit RTCMDataUpdate(data);
         }
     }
@@ -272,15 +307,27 @@ void NTRIPClient::_handleFailure(const QString &reason)
 
     if (_reconnectAttempts < kMaxReconnectAttempts) {
         _reconnectAttempts++;
-        qCDebug(NTRIPClientLog) << "Attempting reconnect" << _reconnectAttempts << "of" << kMaxReconnectAttempts;
+        qCInfo(NTRIPClientLog) << "Attempting reconnect" << _reconnectAttempts << "of" << kMaxReconnectAttempts
+                               << "in" << (kReconnectDelayMs / 1000) << "s";
         (void) QTimer::singleShot(kReconnectDelayMs, this, [this]() {
             if (!_userRequestedDisconnect) {
                 _doConnect();
             }
         });
     } else {
+        qCWarning(NTRIPClientLog) << "NTRIP connection failed:" << reason;
         emit errorOccurred(reason);
     }
+}
+
+void NTRIPClient::_logRTCMData(qsizetype bytes)
+{
+    _totalBytesReceived += static_cast<quint64>(bytes);
+    if (!_firstDataLogged) {
+        _firstDataLogged = true;
+        qCInfo(NTRIPClientLog) << "First RTCM data received from caster:" << bytes << "bytes";
+    }
+    qCDebug(NTRIPClientLog) << "RTCM data received:" << bytes << "bytes, total" << _totalBytesReceived;
 }
 
 void NTRIPClient::_onGGATimerTimeout()
@@ -291,17 +338,29 @@ void NTRIPClient::_onGGATimerTimeout()
 void NTRIPClient::_sendNMEAGGA()
 {
     if (!_tcpSocket || !_tcpSocket->isOpen() || _expectingHeader) {
+        qCDebug(NTRIPClientLog) << "Skipping GGA: socket not ready";
         return;
     }
 
-    if (!_sendGGA || (_gcsLat == 0 && _gcsLng == 0)) {
-        qCDebug(NTRIPClientLog) << "Skipping GGA: invalid position";
+    if (!_sendGGA) {
+        qCDebug(NTRIPClientLog) << "Skipping GGA: disabled by setting";
+        return;
+    }
+
+    if ((_gcsLat == 0) && (_gcsLng == 0)) {
+        // This is the most common reason a VRS caster never sends any RTCM data
+        qCInfo(NTRIPClientLog) << "Not sending GGA: no valid GCS position available yet";
         return;
     }
 
     const QString gga = _generateGGA(_gcsLat, _gcsLng, _gcsAlt);
-    qCDebug(NTRIPClientLog) << "Sending GGA:" << gga;
-    (void) _tcpSocket->write(gga.toUtf8() + "\r\n");
+    const QByteArray ggaData = gga.toUtf8() + "\r\n";
+    const qint64 written = _tcpSocket->write(ggaData);
+    if (written != ggaData.size()) {
+        qCWarning(NTRIPClientLog) << "Failed to write GGA to socket, written" << written << "of" << ggaData.size();
+    } else {
+        qCInfo(NTRIPClientLog) << "Sent GGA to caster:" << gga;
+    }
 }
 
 QString NTRIPClient::_generateGGA(double lat, double lng, double alt)

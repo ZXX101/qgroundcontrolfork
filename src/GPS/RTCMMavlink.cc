@@ -30,10 +30,14 @@ RTCMMavlink::~RTCMMavlink()
 
 void RTCMMavlink::RTCMDataUpdate(QByteArrayView data)
 {
-#ifdef QT_DEBUG
-    _calculateBandwith(data.size());
-#endif
+    static bool firstDataLogged = false;
+    if (!firstDataLogged) {
+        firstDataLogged = true;
+        qCInfo(RTCMMavlinkLog) << "RTCM data forwarding to vehicle(s) started, first chunk" << data.size() << "bytes";
+    }
+    qCDebug(RTCMMavlinkLog) << "RTCMDataUpdate:" << data.size() << "bytes";
 
+    _calculateBandwith(data.size());
     mavlink_gps_rtcm_data_t gpsRtcmData{};
 
     static constexpr qsizetype maxMessageLength = MAVLINK_MSG_GPS_RTCM_DATA_FIELD_DATA_LEN;
@@ -65,6 +69,7 @@ void RTCMMavlink::RTCMDataUpdate(QByteArrayView data)
 
 void RTCMMavlink::_sendMessageToVehicle(const mavlink_gps_rtcm_data_t &data)
 {
+    int sentCount = 0;
     QmlObjectListModel* const vehicles = MultiVehicleManager::instance()->vehicles();
     for (qsizetype i = 0; i < vehicles->count(); i++) {
         Vehicle* const vehicle = qobject_cast<Vehicle*>(vehicles->get(i));
@@ -79,7 +84,21 @@ void RTCMMavlink::_sendMessageToVehicle(const mavlink_gps_rtcm_data_t &data)
                 &data
             );
             (void) vehicle->sendMessageOnLinkThreadSafe(sharedLink.get(), message);
+            ++sentCount;
         }
+    }
+
+    static bool noLinkWarned = false;
+    if (sentCount == 0) {
+        if (!noLinkWarned) {
+            noLinkWarned = true;
+            qCWarning(RTCMMavlinkLog) << "RTCM data received but no vehicle link available, GPS_RTCM_DATA dropped";
+        }
+    } else {
+        if (noLinkWarned) {
+            qCInfo(RTCMMavlinkLog) << "Vehicle link available again, resuming GPS_RTCM_DATA forwarding";
+        }
+        noLinkWarned = false;
     }
 }
 
