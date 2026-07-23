@@ -183,7 +183,9 @@ SetupPage {
                 }
 
                 onSetAllCalButtonsEnabled: {
-                    calButtonColumn.enabled = enabled
+                    compassCalButton.enabled = enabled
+                    accelCalButton.enabled = enabled
+                    levelHorizonCalButton.enabled = enabled
                 }
             }
 
@@ -756,6 +758,7 @@ SetupPage {
                             spacing:        _margins
 
                             QGCButton {
+                                id:         compassCalButton
                                 Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 text:       qsTr("Start Calibration")
                                 onClicked: {
@@ -799,6 +802,7 @@ SetupPage {
                             spacing:        _margins
 
                             QGCButton {
+                                id:         accelCalButton
                                 Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 text:       qsTr("Start Calibration")
                                 onClicked: {
@@ -837,6 +841,7 @@ SetupPage {
                             spacing:        _margins
 
                             QGCButton {
+                                id:         levelHorizonCalButton
                                 Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 18
                                 readonly property string _levelHorizonText: qsTr("Level Horizon")
                                 text:       qsTr("Start Calibration")
