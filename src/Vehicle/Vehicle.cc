@@ -68,6 +68,7 @@
 #endif
 
 #include <QtCore/QDateTime>
+#include <QtCore/QRegularExpression>
 
 QGC_LOGGING_CATEGORY(VehicleLog, "VehicleLog")
 
@@ -4282,6 +4283,17 @@ void Vehicle::_createStatusTextHandler()
 
 void Vehicle::_textMessageReceived(MAV_COMPONENT componentid, MAV_SEVERITY severity, QString text, QString description)
 {
+    // ArduPilot sends its board name and hardware serial as a startup STATUSTEXT.
+    // Keep the complete line, matching MissionPlanner's SerialString behavior.
+    static const QRegularExpression serialStringExpression(QStringLiteral("^(.+?)\\s+[0-9A-Fa-f]+\\s+[0-9A-Fa-f]+\\s+[0-9A-Fa-f]+$"));
+    if (apmFirmware() && !text.contains(QStringLiteral("IOMCU"), Qt::CaseInsensitive)) {
+        const QRegularExpressionMatch match = serialStringExpression.match(text.trimmed());
+        if (match.hasMatch() && _serialString != text.trimmed()) {
+            _serialString = text.trimmed();
+            emit serialStringChanged();
+        }
+    }
+
     // PX4 backwards compatibility: messages sent out ending with a tab are also sent as event
     if (px4Firmware() && text.endsWith('\t')) {
         qCDebug(VehicleLog) << "Dropping message (expected as event):" << text;

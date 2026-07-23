@@ -284,6 +284,7 @@ public:
     Q_PROPERTY(QString  gitHash                     READ gitHash                    NOTIFY gitHashChanged)
     Q_PROPERTY(quint64  vehicleUID                  READ vehicleUID                 NOTIFY vehicleUIDChanged)
     Q_PROPERTY(QString  vehicleUIDStr               READ vehicleUIDStr              NOTIFY vehicleUIDChanged)
+    Q_PROPERTY(QString  serialString                READ serialString               NOTIFY serialStringChanged)
 
     Q_PROPERTY(bool     mavlinkSigning              READ mavlinkSigning             NOTIFY mavlinkSigningChanged)
 
@@ -740,6 +741,7 @@ public:
     QString gitHash() const { return _gitHash; }
     quint64 vehicleUID() const { return _uid; }
     QString vehicleUIDStr();
+    QString serialString() const { return _serialString; }
 
     bool soloFirmware() const { return _soloFirmware; }
     void setSoloFirmware(bool soloFirmware);
@@ -880,6 +882,7 @@ signals:
     void firmwareCustomVersionChanged   ();
     void gitHashChanged                 (QString hash);
     void vehicleUIDChanged              ();
+    void serialStringChanged            ();
     void loadProgressChanged            (float value);
 
     /// New RC channel values coming from RC_CHANNELS message
@@ -1133,6 +1136,7 @@ private:
 
     QString _gitHash;
     quint64 _uid = 0;
+    QString _serialString;
 
     uint64_t    _mavlinkSentCount       = 0;
     uint64_t    _mavlinkReceivedCount   = 0;

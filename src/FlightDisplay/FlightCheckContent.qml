@@ -317,6 +317,17 @@ Rectangle {
         }
     }
 
+    function getVehicleIdentifier() {
+        if (!activeVehicle) return "--"
+        if (activeVehicle.serialString && activeVehicle.serialString.length > 0) {
+            return activeVehicle.serialString
+        }
+        if (activeVehicle.vehicleUID !== 0) {
+            return activeVehicle.vehicleUIDStr
+        }
+        return "--"
+    }
+
     ColumnLayout {
         id:                 contentLayout
         anchors.centerIn:   parent
@@ -343,7 +354,8 @@ Rectangle {
         CheckSection {
             sectionTitle:   qsTr("连接")
             items: [
-                { name: activeVehicle ? activeVehicle.vehicleLinkManager.primaryLinkName : qsTr("Not Connected"), value: "", icon: "" }
+                { name: activeVehicle ? activeVehicle.vehicleLinkManager.primaryLinkName : qsTr("Not Connected"), value: "", icon: "" },
+                { name: qsTr("编码"), value: getVehicleIdentifier(), icon: "" }
             ]
         }
 
