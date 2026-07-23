@@ -27,6 +27,22 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
+    // All sections share one set of widths so the four columns stay aligned.
+    property var _columnWidths: {
+        var widths = [qsTr("类别").length, qsTr("设置项").length, qsTr("数据").length, qsTr("状态").length]
+        for (var i = 0; i < contentLayout.children.length; i++) {
+            var section = contentLayout.children[i]
+            if (!section || !section.columnWidths) continue
+            for (var column = 0; column < 4; column++) {
+                widths[column] = Math.max(widths[column], section.columnWidths[column])
+            }
+        }
+        for (var widthIndex = 0; widthIndex < 4; widthIndex++) {
+            widths[widthIndex] = (widths[widthIndex] + 1) * ScreenTools.defaultFontPixelWidth
+        }
+        return widths
+    }
+
     //飞控类型判断
     property bool _isAPM: activeVehicle ? activeVehicle.apmFirmware : false
     property bool _isPX4: activeVehicle ? activeVehicle.px4Firmware : false
@@ -337,10 +353,10 @@ Rectangle {
         RowLayout {
             spacing: ScreenTools.defaultFontPixelWidth * 2
 
-            QGCLabel { text: qsTr("类别"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8 }
-            QGCLabel { text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12 }
-            QGCLabel { text: qsTr("数据"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 22 }
-            QGCLabel { text: qsTr("状态"); font.bold: true; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8 }
+            QGCLabel { text: qsTr("类别"); font.bold: true; Layout.preferredWidth: root._columnWidths[0] }
+            QGCLabel { text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: root._columnWidths[1] }
+            QGCLabel { text: qsTr("数据"); font.bold: true; Layout.preferredWidth: root._columnWidths[2] }
+            QGCLabel { text: qsTr("状态"); font.bold: true; Layout.preferredWidth: root._columnWidths[3] }
         }
 
         //分隔线
@@ -422,6 +438,21 @@ Rectangle {
 
         property string sectionTitle
         property var items: []
+        property var columnWidths: {
+            var widths = [sectionTitle.length, 0, 0, 0]
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i]
+                widths[1] = Math.max(widths[1], _textLength(item.name))
+                widths[2] = Math.max(widths[2], _textLength(item.value))
+                widths[3] = Math.max(widths[3], _textLength(item.status))
+                if (item.icon !== undefined && item.icon !== "") widths[3] = Math.max(widths[3], 2)
+            }
+            return widths
+        }
+
+        function _textLength(value) {
+            return value === undefined || value === null ? 0 : String(value).length
+        }
 
         RowLayout {
             spacing: ScreenTools.defaultFontPixelWidth * 2
@@ -430,24 +461,24 @@ Rectangle {
             QGCLabel {
                 text:                   sectionTitle
                 font.bold:              true
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                Layout.preferredWidth:  root._columnWidths[0]
             }
 
             //设置项列（第一项）
             QGCLabel {
                 text:                   items.length > 0 ? items[0].name : ""
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 12
+                Layout.preferredWidth:  root._columnWidths[1]
             }
 
             //数据列（第一项）
             QGCLabel {
                 text:                   items.length > 0 ? items[0].value : ""
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 22
+                Layout.preferredWidth:  root._columnWidths[2]
             }
 
             //状态列（第一项）- 可能是图标或文本
             Item {
-                Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                Layout.preferredWidth:  root._columnWidths[3]
                 Layout.preferredHeight: ScreenTools.defaultFontPixelHeight
 
                 //状态图标
@@ -479,24 +510,24 @@ Rectangle {
                 //类别列（空白）
                 QGCLabel {
                     text:                   ""
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                    Layout.preferredWidth:  root._columnWidths[0]
                 }
 
                 //设置项列
                 QGCLabel {
                     text:                   modelData.name !== undefined ? modelData.name : ""
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 12
+                    Layout.preferredWidth:  root._columnWidths[1]
                 }
 
                 //数据列
                 QGCLabel {
                     text:                   modelData.value !== undefined ? modelData.value : ""
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 22
+                    Layout.preferredWidth:  root._columnWidths[2]
                 }
 
                 //状态列 - 可能是图标或文本
                 Item {
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 8
+                    Layout.preferredWidth:  root._columnWidths[3]
                     Layout.preferredHeight: ScreenTools.defaultFontPixelHeight
 
                     //状态图标
