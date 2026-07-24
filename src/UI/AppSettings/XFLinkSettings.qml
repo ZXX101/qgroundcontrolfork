@@ -42,236 +42,263 @@ QGCFlickable {
 
     RowLayout {
         anchors.fill: parent
-        spacing: ScreenTools.defaultDialogControlSpacing * 2
+        spacing: 0
 
         // 左侧：连接列表
-        ColumnLayout {
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 20
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-            QGCLabel {
-                Layout.fillWidth: true
-                Layout.minimumWidth: 0
-                Layout.preferredHeight: visible ? implicitHeight : 0
-                visible: linkConfigurationsRepeater.visibleItemCount === 0
-                text: qsTr("No protocols yet. Add a protocol on the right form to connect")
-                wrapMode: Text.WordWrap
-                font.bold: true
-                font.pointSize: ScreenTools.defaultFontPointSize
+            Rectangle {
+                anchors.fill: parent
+                color: "#101010"
             }
 
-            Repeater {
-                id: linkConfigurationsRepeater
-                model: _linkManager.linkConfigurations
-                Layout.fillWidth: true
+            ColumnLayout {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-                property int visibleItemCount: 0
-
-                function refreshVisibleItemCount() {
-                    let visibleCount = 0
-                    for (let i = 0; i < count; ++i) {
-                        const delegateItem = itemAt(i)
-                        if (delegateItem && delegateItem.visible) {
-                            ++visibleCount
-                        }
-                    }
-                    visibleItemCount = visibleCount
+                QGCLabel {
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: 0
+                    Layout.preferredHeight: visible ? implicitHeight : 0
+                    Layout.alignment: Qt.AlignTop
+                    visible: linkConfigurationsRepeater.visibleItemCount === 0
+                    text: qsTr("No protocols yet. Add a protocol on the right form to connect")
+                    wrapMode: Text.WordWrap
+                    font.bold: true
+                    font.pointSize: ScreenTools.defaultFontPointSize
                 }
 
-                onItemAdded: Qt.callLater(refreshVisibleItemCount)
-                onItemRemoved: Qt.callLater(refreshVisibleItemCount)
-                Component.onCompleted: Qt.callLater(refreshVisibleItemCount)
-
-                Item {
+                Repeater {
+                    id: linkConfigurationsRepeater
+                    model: _linkManager.linkConfigurations
                     Layout.fillWidth: true
-                    Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2
-                    visible: !object.dynamic
-                    onVisibleChanged: Qt.callLater(linkConfigurationsRepeater.refreshVisibleItemCount)
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "black"
-                        radius: ScreenTools.smallFontPixelHeight
+                    Layout.fillHeight: false
+                    Layout.alignment: Qt.AlignTop
+
+                    property int visibleItemCount: 0
+
+                    function refreshVisibleItemCount() {
+                        let visibleCount = 0
+                        for (let i = 0; i < count; ++i) {
+                            const delegateItem = itemAt(i)
+                            if (delegateItem && delegateItem.visible) {
+                                ++visibleCount
+                            }
+                        }
+                        visibleItemCount = visibleCount
                     }
-                    RowLayout {
 
-                        anchors.leftMargin: ScreenTools.defaultFontPixelWidth
-                        anchors.rightMargin: ScreenTools.defaultFontPixelWidth
-                        anchors.fill: parent
+                    onItemAdded: Qt.callLater(refreshVisibleItemCount)
+                    onItemRemoved: Qt.callLater(refreshVisibleItemCount)
+                    Component.onCompleted: Qt.callLater(refreshVisibleItemCount)
 
-                        QGCLabel {
-                            Layout.fillWidth: false
-                            text: object.linkType === LinkConfiguration.TypeTcp ? qsTr("TCP") : object.linkType === LinkConfiguration.TypeUdp ? qsTr("UDP") : object.linkType === LinkConfiguration.TypeSerial ? qsTr("Serial") : qsTr("Unknown")
-                            font.family: ScreenTools.tecentFontFamily
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2
+                        visible: !object.dynamic
+                        onVisibleChanged: Qt.callLater(linkConfigurationsRepeater.refreshVisibleItemCount)
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "black"
+                            radius: ScreenTools.smallFontPixelHeight
                         }
-                        QGCLabel {
-                            Layout.fillWidth: true
-                            text: object.name
+                        RowLayout {
+
+                            anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+                            anchors.rightMargin: ScreenTools.defaultFontPixelWidth
+                            anchors.fill: parent
+
+                            QGCLabel {
+                                Layout.fillWidth: false
+                                text: object.linkType === LinkConfiguration.TypeTcp ? qsTr("TCP") : object.linkType === LinkConfiguration.TypeUdp ? qsTr("UDP") : object.linkType === LinkConfiguration.TypeSerial ? qsTr("Serial") : qsTr("Unknown")
+                                font.family: ScreenTools.tecentFontFamily
+                            }
+                            QGCLabel {
+                                Layout.fillWidth: true
+                                text: object.name
+                            }
+                            QGCColoredImage {
+                                height: ScreenTools.minTouchPixels
+                                width: height
+                                sourceSize.height: height
+                                fillMode: Image.PreserveAspectFit
+                                mipmap: true
+                                smooth: true
+                                color: qgcPalEdit.text
+                                source: "/res/pencil.svg"
+                                enabled: !object.link
+
+                                QGCPalette {
+                                    id: qgcPalEdit
+                                    colorGroupEnabled: parent.enabled
+                                }
+
+                                QGCMouseArea {
+                                    fillItem: parent
+                                    onClicked: {
+                                        bar.currentIndex = 0;
+                                        var editingConfig = _linkManager.startConfigurationEditing(object);
+                                        dronesPageLoader.sourceComponent = editLinkComponent;
+                                        dronesPageLoader.item.init(object, editingConfig);
+                                    }
+                                }
+                            }
+
+                            QGCButton {
+                                text: object.link ? qsTr("Disconnect") : qsTr("Connect")
+                                iconSource: "qrc:/xfres/linkDisconnected.png"
+                                onClicked: {
+                                    if (object.link) {
+                                        object.link.disconnect();
+                                    } else {
+                                        _linkManager.createConnectedLink(object);
+                                    }
+                                }
+                                backgroundColor: "transparent"
+                            }
                         }
-                        QGCColoredImage {
+                        Image {
                             height: ScreenTools.minTouchPixels
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
-                            mipmap: true
-                            smooth: true
-                            color: qgcPalEdit.text
-                            source: "/res/pencil.svg"
-                            enabled: !object.link
+                            source: "/xfres/deleteProtocol.png"
+                            anchors.horizontalCenter: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
 
-                            QGCPalette {
-                                id: qgcPalEdit
-                                colorGroupEnabled: parent.enabled
-                            }
+
 
                             QGCMouseArea {
                                 fillItem: parent
-                                onClicked: {
-                                    bar.currentIndex = 0;
-                                    var editingConfig = _linkManager.startConfigurationEditing(object);
-                                    dronesPageLoader.sourceComponent = editLinkComponent;
-                                    dronesPageLoader.item.init(object, editingConfig);
-                                }
+                                onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
+                                    _linkManager.removeConfiguration(object);
+                                })
                             }
-                        }
-
-                        QGCButton {
-                            text: object.link ? qsTr("Disconnect") : qsTr("Connect")
-                            iconSource: "qrc:/xfres/linkDisconnected.png"
-                            onClicked: {
-                                if (object.link) {
-                                    object.link.disconnect();
-                                } else {
-                                    _linkManager.createConnectedLink(object);
-                                }
-                            }
-                            backgroundColor: "transparent"
-                        }
-                    }
-                    Image {
-                        height: ScreenTools.minTouchPixels
-                        width: height
-                        sourceSize.height: height
-                        fillMode: Image.PreserveAspectFit
-                        source: "/xfres/deleteProtocol.png"
-                        anchors.horizontalCenter: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-
-
-
-                        QGCMouseArea {
-                            fillItem: parent
-                            onClicked: mainWindow.showMessageDialog(qsTr("Delete Link"), qsTr("Are you sure you want to delete '%1'?").arg(object.name), Dialog.Ok | Dialog.Cancel, function () {
-                                _linkManager.removeConfiguration(object);
-                            })
                         }
                     }
                 }
             }
         }
 
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.preferredWidth: 1
+            color: "#242424"
+        }
+
         // 右侧：编辑页面（始终显示）
-        ColumnLayout {
+        Item {
             Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 50
             Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 50
             Layout.fillHeight: true
-            Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-            TabBar {
-                id: bar
-                Layout.fillWidth: true
-                spacing: 0
-                background: Rectangle {
-                    color: "transparent"
-                }
-
-                TabButton {
-                    text: qsTr("Drones")
-                    contentItem: Text {
-                        text: parent.text
-                        font: parent.font
-                        color: qgcPal.buttonText
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        color: "transparent"
-                        Rectangle {
-                            anchors.bottom: parent.bottom
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            width: parent.width * 0.8
-                            height: 2
-                            color: "#154D25"
-                            visible: parent.parent.checked
-                        }
-                    }
-                }
-                TabButton {
-                    text: qsTr("POD")
-                    contentItem: Text {
-                        text: parent.text
-                        font: parent.font
-                        color: qgcPal.buttonText
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        color: "transparent"
-                        Rectangle {
-                            anchors.bottom: parent.bottom
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            width: parent.width * 0.8
-                            height: 2
-                            color: "#154D25"
-                            visible: parent.parent.checked
-                        }
-                    }
-                }
-                TabButton {
-                    text: qsTr("Others")
-                    contentItem: Text {
-                        text: parent.text
-                        font: parent.font
-                        color: qgcPal.buttonText
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        color: "transparent"
-                        Rectangle {
-                            anchors.bottom: parent.bottom
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            width: parent.width * 0.8
-                            height: 2
-                            color: "#154D25"
-                            visible: parent.parent.checked
-                        }
-                    }
-                }
+            Rectangle {
+                anchors.fill: parent
+                color: "#101010"
             }
 
-            StackLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                currentIndex: bar.currentIndex
+            ColumnLayout {
+                anchors.fill: parent
 
-                // 无人机页面
-                Loader {
-                    id: dronesPageLoader
-                    sourceComponent: newLinkComponent
+                TabBar {
+                    id: bar
+                    Layout.fillWidth: true
+                    spacing: 0
+                    background: Rectangle {
+                        color: "#191919"
+                    }
+
+                    TabButton {
+                        text: qsTr("Drones")
+                        contentItem: Text {
+                            text: parent.text
+                            font: parent.font
+                            color: qgcPal.buttonText
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            color: "transparent"
+                            Rectangle {
+                                anchors.bottom: parent.bottom
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: parent.width * 0.8
+                                height: 2
+                                color: "#154D25"
+                                visible: parent.parent.checked
+                            }
+                        }
+                    }
+                    TabButton {
+                        text: qsTr("POD")
+                        contentItem: Text {
+                            text: parent.text
+                            font: parent.font
+                            color: qgcPal.buttonText
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            color: "transparent"
+                            Rectangle {
+                                anchors.bottom: parent.bottom
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: parent.width * 0.8
+                                height: 2
+                                color: "#154D25"
+                                visible: parent.parent.checked
+                            }
+                        }
+                    }
+                    TabButton {
+                        text: qsTr("Others")
+                        contentItem: Text {
+                            text: parent.text
+                            font: parent.font
+                            color: qgcPal.buttonText
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            color: "transparent"
+                            Rectangle {
+                                anchors.bottom: parent.bottom
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: parent.width * 0.8
+                                height: 2
+                                color: "#154D25"
+                                visible: parent.parent.checked
+                            }
+                        }
+                    }
                 }
 
-                // 云台页面
-                Loader {
-                    id: podPageLoader
-                    sourceComponent: podSettingComponent
-                }
-                // 其他页面
-                ColumnLayout {
-                    RowLayout {
-                        QGCLabel {
-                            text: qsTr("Nothing here")
+                StackLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    currentIndex: bar.currentIndex
+
+                    // 无人机页面
+                    Loader {
+                        id: dronesPageLoader
+                        sourceComponent: newLinkComponent
+                    }
+
+                    // 云台页面
+                    Loader {
+                        id: podPageLoader
+                        sourceComponent: podSettingComponent
+                    }
+                    // 其他页面
+                    ColumnLayout {
+                        RowLayout {
+                            QGCLabel {
+                                text: qsTr("Nothing here")
+                            }
                         }
                     }
                 }
