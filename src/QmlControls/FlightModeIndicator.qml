@@ -37,6 +37,7 @@ RowLayout {
 
     RowLayout {
         Layout.fillWidth: true
+        Layout.fillHeight: true
 
         //飞行模式图标（已隐藏）
         QGCColoredImage {
@@ -54,7 +55,9 @@ RowLayout {
         QGCLabel {
             text:               activeVehicle ? activeVehicle.flightMode : qsTr("Not Connected", "No data to display")
             font.pointSize:     fontPointSize
+            Layout.fillHeight:  true
             Layout.alignment:   Qt.AlignCenter
+            verticalAlignment:  Text.AlignVCenter
             font.family:        ScreenTools.tecentFontFamily
             MouseArea {
                 anchors.fill:   parent

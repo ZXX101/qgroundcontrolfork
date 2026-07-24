@@ -24,18 +24,21 @@ import QGroundControl.Palette
 
 Item {
     id:             control
-    width:          gpsIndicatorRow.width
+    width:          implicitWidth
+    implicitWidth:  gpsIndicatorRow.width
     anchors.top:    parent.top
     anchors.bottom: parent.bottom
 
     property var    _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
     property bool   _rtkConnected:  QGroundControl.gpsRtk.connected.value
+    property bool   compactDisplay:  false
 
     //GPS指示器行，包含RTK标签、GPS图标和GPS数值
     Row {
         id:             gpsIndicatorRow
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
+        anchors.right:  parent.right
         spacing:        ScreenTools.defaultFontPixelWidth / 2
 
         //RTK/GPS图标行，包含RTK标签和GPS图标
@@ -68,26 +71,46 @@ Item {
             }
         }
 
-        //GPS数值列，显示卫星数和HDOP值
-        Column {
-            id:                     gpsValuesColumn
+        //GPS数值区域
+        Item {
+            id:                     gpsValuesContainer
             anchors.verticalCenter: parent.verticalCenter
-            spacing:                0
+            width:                  control.compactDisplay ? compactGpsLabel.implicitWidth : gpsValuesColumn.width
+            height:                 control.compactDisplay ? compactGpsLabel.implicitHeight : gpsValuesColumn.height
 
-            property bool _connected: _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
-
-            //卫星数标签，显示GPS卫星数量
+            //紧凑显示：卫星数量,定位类型
             QGCLabel {
-                anchors.horizontalCenter:   hdopValue.horizontalCenter
-                color:              "white"
-                text:               gpsValuesColumn._connected ? _activeVehicle.gps.count.valueString : "--"
+                id:                     compactGpsLabel
+                anchors.verticalCenter: parent.verticalCenter
+                color:                  "white"
+                text:                   gpsValuesColumn._hasData
+                                        ? _activeVehicle.gps.count.valueString + "," + _activeVehicle.gps.lock.enumStringValue
+                                        : "--"
+                visible:                control.compactDisplay
             }
 
-            //HDOP值标签，显示GPS水平精度因子
-            QGCLabel {
-                id:     hdopValue
-                color:  "white"
-                text:   gpsValuesColumn._connected ? _activeVehicle.gps.hdop.value.toFixed(1) : "--"
+            //标准显示：卫星数和HDOP值
+            Column {
+                id:                     gpsValuesColumn
+                anchors.verticalCenter: parent.verticalCenter
+                visible:                !control.compactDisplay
+
+                property bool _connected: _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
+                property bool _hasData:   _connected && (_activeVehicle.gps.count.rawValue > 0 || _activeVehicle.gps.lock.rawValue > 0)
+
+                //卫星数标签，显示GPS卫星数量
+                QGCLabel {
+                    anchors.horizontalCenter:   hdopValue.horizontalCenter
+                    color:                      "white"
+                    text:                       gpsValuesColumn._connected ? _activeVehicle.gps.count.valueString : "--"
+                }
+
+                //HDOP值标签，显示GPS水平精度因子
+                QGCLabel {
+                    id:     hdopValue
+                    color:  "white"
+                    text:   gpsValuesColumn._connected ? _activeVehicle.gps.hdop.value.toFixed(1) : "--"
+                }
             }
         }
     }
@@ -95,6 +118,7 @@ Item {
     //点击区域，点击弹出GPS详情面板
     MouseArea {
         anchors.fill:   parent
+        z:              1
         onClicked:      mainWindow.showIndicatorDrawer(gpsIndicatorPage, control)
     }
 

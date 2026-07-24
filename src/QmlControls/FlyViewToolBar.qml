@@ -136,7 +136,7 @@ Rectangle {
         //飞行模式指示器，带背景色，显示当前飞行模式和状态
         FlightModeIndicator {
             id:                 flightModeIndicator
-            Layout.preferredHeight: viewButtonRow.height
+            Layout.fillHeight:  true
             fontPointSize:      ScreenTools.largeFontPointSize
         }
 
@@ -162,24 +162,30 @@ Rectangle {
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
         anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
+        z:                      1
         spacing:                ScreenTools.defaultFontPixelWidth
 
-        //GPS指示器，显示卫星数和HDOP精度
+        //GPS指示器，显示卫星数量和定位类型
         VehicleGPSIndicator {
+            id:                 vehicleGpsIndicator
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
+            compactDisplay:     true
             showIndicator:      true
         }
 
-        //电池指示器，显示电池电压和剩余电量
+        //电池指示器，显示电池电压
         BatteryIndicator {
+            id:                 batteryIndicator
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
+            compactVoltageDisplay: true
             showIndicator:      true
         }
 
         //计时器指示器，显示飞行计时
         TimerIndicator {
+            id:                 timerIndicator
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
         }

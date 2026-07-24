@@ -21,6 +21,8 @@ Item {
     id:                 control
     width:              messageIcon.width + ScreenTools.defaultFontPixelWidth
 
+    readonly property real _iconSize: ScreenTools.defaultFontPixelHeight * 1.5
+
     property var    _activeVehicle:                 QGroundControl.multiVehicleManager.activeVehicle
     property bool   _connected:                     _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost
     property bool   _armed:                         _activeVehicle ? _activeVehicle.armed : false
@@ -29,15 +31,14 @@ Item {
 
     //获取图标颜色，根据消息类型返回对应颜色
     function getIconColor() {
-        if (!_connected) return qgcPal.text
-        if (_activeVehicle.messageTypeError) return qgcPal.colorRed
-        if (_activeVehicle.messageTypeWarning) return qgcPal.colorOrange
-        return qgcPal.text
+        if (_activeVehicle && _activeVehicle.messageTypeError) return qgcPal.colorRed
+        if (_activeVehicle && _activeVehicle.messageTypeWarning) return qgcPal.colorOrange
+        return "white"
     }
 
     QGCColoredImage {
         id:                 messageIcon
-        height:             ScreenTools.defaultFontPixelHeight * 1.5
+        height:             control._iconSize
         width:              height
 
         sourceSize.height:  height
@@ -46,7 +47,7 @@ Item {
         fillMode:           Image.PreserveAspectFit
         color:              getIconColor()
         anchors.verticalCenter: parent.verticalCenter
-        opacity:            _connected && _activeVehicle.messageCount > 0 ? 1 : 0.5
+        opacity:            1
     }
 
     QGCMouseArea {
