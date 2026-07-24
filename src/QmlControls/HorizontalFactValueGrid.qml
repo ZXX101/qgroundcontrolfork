@@ -28,6 +28,7 @@ T.HorizontalFactValueGrid {
     property bool   settingsUnlocked:       false
     property bool   showValueUnits:         true
     property string valueFontFamily:        ScreenTools.normalFontFamily
+    property real   valueWidth:             0
 
     property real   _margins:               ScreenTools.defaultFontPixelWidth / 2
     property int    _rowMax:                2
@@ -71,6 +72,7 @@ T.HorizontalFactValueGrid {
                                     instrumentValueData:    object
                                     showUnits:               _root.showValueUnits
                                     valueFontFamily:         _root.valueFontFamily
+                                    valueWidth:              _root.valueWidth
                                 }
 
                                 InstrumentValueLabel {

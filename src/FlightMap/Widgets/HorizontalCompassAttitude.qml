@@ -41,6 +41,7 @@ Rectangle {
     property real _widgetSizeScale:     1.7
     property real _widgetSize:          ScreenTools.defaultFontPixelHeight * 3.25 * _widgetSizeScale
     property real _dataPanelWidthScale: 0.9
+    property real _valueWidth:          ScreenTools.defaultFontPixelWidth * 8
 
     DeadMouseArea { anchors.fill: parent }
 
@@ -72,6 +73,7 @@ Rectangle {
                 extraWidth:             0
                 showValueUnits:         false
                 valueFontFamily:        ScreenTools.tecentFontFamily
+                valueWidth:             control._valueWidth
                 settingsGroup:          factValueGrid.telemetryBarSettingsGroup
                 specificVehicleForCard: null  // 使用活动车辆
             }

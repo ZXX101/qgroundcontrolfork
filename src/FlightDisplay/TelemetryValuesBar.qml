@@ -28,6 +28,7 @@ Item {
     property alias specificVehicleForCard:  factValueGrid.specificVehicleForCard
     property alias showValueUnits:           factValueGrid.showValueUnits
     property alias valueFontFamily:          factValueGrid.valueFontFamily
+    property alias valueWidth:               factValueGrid.valueWidth
 
     Rectangle {
         id:         backgroundRect
