@@ -129,7 +129,7 @@ SetupPage {
                             anchors.bottom:     parent.bottom
                             anchors.left:       parent.left
                             anchors.right:      parent.right
-                            color:              airframeCheckBox.checked ? qgcPal.buttonHighlight : qgcPal.windowShade
+                            color:              airframeCheckBox.checked ? qgcPal.buttonHighlight : "black"
                             opacity:            combo.valid ? 1.0 : 0.5
 
                             ColumnLayout {
