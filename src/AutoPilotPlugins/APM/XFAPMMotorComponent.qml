@@ -43,7 +43,15 @@ SetupPage {
         return 0
     }
 
-    function buildMotorChannelList() {
+    function motorTestIndexForServoChannel(channel, motorNum, frameClassValue) {
+        if (Number(frameClassValue) === 2 && channel >= 1 && channel <= 6) {
+            var hexaServoToTestIndex = [2, 5, 6, 3, 1, 4]
+            return hexaServoToTestIndex[channel - 1]
+        }
+        return motorNum
+    }
+
+    function buildMotorChannelList(frameClassValue) {
         var list = []
         for (var channel = 1; channel <= 16; channel++) {
             var paramName = "SERVO" + channel + "_FUNCTION"
@@ -54,6 +62,7 @@ SetupPage {
                     list.push({
                         "channel": channel,
                         "motorNum": motorNum,
+                        "testIndex": motorTestIndexForServoChannel(channel, motorNum, frameClassValue),
                         "fact": fact
                     })
                 }
@@ -111,10 +120,15 @@ SetupPage {
             spacing:            ScreenTools.defaultFontPixelHeight
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")
-            property var _motorChannelList: buildMotorChannelList()
+            property var _motorChannelList: buildMotorChannelList(_frameClass.rawValue)
 
             function refreshMotorChannelList() {
-                _motorChannelList = buildMotorChannelList()
+                _motorChannelList = buildMotorChannelList(_frameClass.rawValue)
+            }
+
+            Connections {
+                target: mainLayout._frameClass
+                function onRawValueChanged() { mainLayout.refreshMotorChannelList() }
             }
 
             Repeater {
@@ -216,7 +230,7 @@ SetupPage {
                                 var throttleValue = parseInt(throttleField.text) || 0
                                 var durationValue = parseInt(durationField.text) || 0
                                 for (var i = 0; i < mainLayout._motorChannelList.length; i++) {
-                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].motorNum, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].testIndex, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
@@ -226,7 +240,7 @@ SetupPage {
                             enabled:    safetySwitch.checked
                             onClicked:  {
                                 for (var i = 0; i < mainLayout._motorChannelList.length; i++) {
-                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].motorNum, 0, 0, true)
+                                    controller.vehicle.motorTest(mainLayout._motorChannelList[i].testIndex, 0, 0, true)
                                 }
                             }
                         }
@@ -246,7 +260,7 @@ SetupPage {
                                 onClicked:  {
                                     var throttleValue = parseInt(throttleField.text) || 0
                                     var durationValue = parseInt(durationField.text) || 0
-                                    controller.vehicle.motorTest(modelData.motorNum, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                    controller.vehicle.motorTest(modelData.testIndex, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }

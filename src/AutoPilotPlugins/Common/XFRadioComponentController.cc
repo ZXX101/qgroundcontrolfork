@@ -108,7 +108,8 @@ void XFRadioComponentController::_rcChannelsChanged(int channelCount, int pwmVal
                     calibrated++;
                 }
             }
-            if (calibrated != channelsCalibrated()) {
+            if (calibrated != _channelsCalibrated) {
+                _channelsCalibrated = calibrated;
                 emit channelsCalibratedChanged(calibrated);
             }
         }
@@ -134,6 +135,7 @@ void XFRadioComponentController::startCalibration()
 
     _calibrating = true;
     _calibrationDone = false;
+    _channelsCalibrated = 0;
     emit calibratingChanged(true);
     emit calibrationDoneChanged(false);
     emit channelMinMaxChanged();
@@ -432,6 +434,58 @@ int XFRadioComponentController::throttleChannelRCValue()
     return 1500;
 }
 
+int XFRadioComponentController::_channelCalibrationMin(rcCalFunctions function) const
+{
+    const int channel = _rgFunctionChannelMapping[function];
+    return channel == _chanMax ? 0 : static_cast<int>(_rcMin[channel]);
+}
+
+int XFRadioComponentController::_channelCalibrationMax(rcCalFunctions function) const
+{
+    const int channel = _rgFunctionChannelMapping[function];
+    return channel == _chanMax ? 0 : static_cast<int>(_rcMax[channel]);
+}
+
+int XFRadioComponentController::rollChannelMin() const
+{
+    return _channelCalibrationMin(rcCalFunctionRoll);
+}
+
+int XFRadioComponentController::rollChannelMax() const
+{
+    return _channelCalibrationMax(rcCalFunctionRoll);
+}
+
+int XFRadioComponentController::pitchChannelMin() const
+{
+    return _channelCalibrationMin(rcCalFunctionPitch);
+}
+
+int XFRadioComponentController::pitchChannelMax() const
+{
+    return _channelCalibrationMax(rcCalFunctionPitch);
+}
+
+int XFRadioComponentController::yawChannelMin() const
+{
+    return _channelCalibrationMin(rcCalFunctionYaw);
+}
+
+int XFRadioComponentController::yawChannelMax() const
+{
+    return _channelCalibrationMax(rcCalFunctionYaw);
+}
+
+int XFRadioComponentController::throttleChannelMin() const
+{
+    return _channelCalibrationMin(rcCalFunctionThrottle);
+}
+
+int XFRadioComponentController::throttleChannelMax() const
+{
+    return _channelCalibrationMax(rcCalFunctionThrottle);
+}
+
 bool XFRadioComponentController::rollChannelMapped()
 {
     return (_rgFunctionChannelMapping[rcCalFunctionRoll] != _chanMax);
@@ -486,25 +540,27 @@ bool XFRadioComponentController::throttleChannelReversed()
 
 int XFRadioComponentController::channelsCalibrated() const
 {
-    int count = 0;
-    for (int i = 0; i < _chanMax; i++) {
-        if (_rcMax[i] - _rcMin[i] > 100) {
-            count++;
-        }
-    }
-    return count;
+    return _channelsCalibrated;
 }
 
 QVariantList XFRadioComponentController::channelMinMax()
 {
     QVariantList list;
     for (int i = 0; i < _chanMax; i++) {
+        const int range = static_cast<int>(_rcMax[i] - _rcMin[i]);
+        const bool hasSample = _rcMin[i] > 800 && _rcMin[i] < 2200 &&
+                               _rcMax[i] > 800 && _rcMax[i] < 2200 &&
+                               _rcMin[i] <= _rcMax[i];
+        const bool rangeValid = hasSample && range > 100;
+
         QVariantMap map;
         map["channel"] = i + 1;
         map["min"] = static_cast<int>(_rcMin[i]);
         map["max"] = static_cast<int>(_rcMax[i]);
-        map["range"] = static_cast<int>(_rcMax[i] - _rcMin[i]);
-        map["hasData"] = (_rcMax[i] - _rcMin[i] > 100);
+        map["range"] = range;
+        map["hasSample"] = hasSample;
+        map["rangeValid"] = rangeValid;
+        map["hasData"] = rangeValid;
         list.append(map);
     }
     return list;

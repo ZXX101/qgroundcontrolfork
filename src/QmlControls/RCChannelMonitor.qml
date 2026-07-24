@@ -25,6 +25,8 @@ Item {
     height: monitorColumn.height
 
     property bool twoColumn: false
+    property bool showCalibrationMinMax: false
+    property var  calibrationMinMax: []
 
     readonly property int _pwmMin:      800
     readonly property int _pwmMax:      2200
@@ -62,6 +64,24 @@ Item {
                 width:                      ScreenTools.defaultFontPixelWidth / 2
                 height:                     parent.height
                 color:                      qgcPal.window
+            }
+
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                width:                  2
+                height:                 parent.height
+                x:                      (((reversed ? _pwmMax - calibrationMin : calibrationMin - _pwmMin) / _pwmRange) * parent.width) - (width / 2)
+                color:                  "red"
+                visible:                showCalibrationMinMax && calibrationMin >= _pwmMin && calibrationMin <= _pwmMax
+            }
+
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                width:                  2
+                height:                 parent.height
+                x:                      (((reversed ? _pwmMax - calibrationMax : calibrationMax - _pwmMin) / _pwmRange) * parent.width) - (width / 2)
+                color:                  "red"
+                visible:                showCalibrationMinMax && calibrationMax >= _pwmMin && calibrationMax <= _pwmMax
             }
 
             // Indicator
@@ -121,6 +141,7 @@ Item {
             RowLayout {
                 // Need this to get to loader from Connections above
                 property Item loader: theLoader
+                property var calibrationData: _root.calibrationMinMax.length > index ? _root.calibrationMinMax[index] : null
 
                 QGCLabel {
                     id:     channelLabel
@@ -133,6 +154,9 @@ Item {
                     //height:                 ScreenTools.defaultFontPixelHeight
                     //width:                  parent.width - anchors.leftMargin - ScreenTools.defaultFontPixelWidth
                     sourceComponent:        channelMonitorDisplayComponent
+                    property bool showCalibrationMinMax: _root.showCalibrationMinMax
+                    property int calibrationMin: parent.calibrationData ? parent.calibrationData.min : 0
+                    property int calibrationMax: parent.calibrationData ? parent.calibrationData.max : 0
 
                     property bool mapped:               true
                     readonly property bool reversed:    false
