@@ -30,7 +30,7 @@ Rectangle {
     id:     _root
     width:  parent.width
     height: ScreenTools.toolbarHeight
-    color:  qgcPal.toolbarBackground
+    color:  "#9905090a"
 
     property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
     property bool   _communicationLost:         _activeVehicle ? _activeVehicle.vehicleLinkManager.communicationLost : false
@@ -112,7 +112,7 @@ Rectangle {
             GradientStop { position: 0;                                                     color: _mainStatusBGColor }
             // GradientStop { position: (currentButton.x + currentButton.width) / width;      color: _mainStatusBGColor }
             GradientStop { position: viewButtonRow.width / width;                          color: _mainStatusBGColor }
-            GradientStop { position: 1;                                                     color: _root.color }
+            GradientStop { position: 1;                                                     color: Qt.rgba(_root.color.r, _root.color.g, _root.color.b, 0) }
         }
     }
 

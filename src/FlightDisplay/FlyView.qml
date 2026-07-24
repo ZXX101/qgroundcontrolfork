@@ -90,16 +90,10 @@ Item {
         bottomEdgeLeftInset:    _pipView.bottomEdgeLeftInset
     }
 
-    //顶部工具栏，位于界面顶部，显示飞行状态、GPS、电池等指示器
-    FlyViewToolBar {
-        id:         toolbar
-        visible:    !QGroundControl.videoManager.fullScreen
-    }
-
-    //地图容器，位于工具栏下方，包含飞行地图、视频控件和画中画视图
+    //地图容器，填满整个区域，工具栏浮在上方实现半透明效果
     Item {
         id:                 mapHolder
-        anchors.top:        toolbar.bottom
+        anchors.top:        parent.top
         anchors.bottom:     parent.bottom
         anchors.left:       parent.left
         anchors.right:      parent.right
@@ -143,6 +137,7 @@ Item {
         FlyViewWidgetLayer {
             id:                     widgetLayer
             anchors.top:            parent.top
+            anchors.topMargin:      toolbar.height
             anchors.bottom:         parent.bottom
             anchors.left:           parent.left
             anchors.right:          guidedValueSlider.visible ? guidedValueSlider.left : parent.right
@@ -169,6 +164,7 @@ Item {
         FlyViewInsetViewer {
             id:                     widgetLayerInsetViewer
             anchors.top:            parent.top
+            anchors.topMargin:      toolbar.height
             anchors.bottom:         parent.bottom
             anchors.left:           parent.left
             anchors.right:          guidedValueSlider.visible ? guidedValueSlider.left : parent.right
@@ -200,5 +196,12 @@ Item {
             id:                     viewer3DWindow
             anchors.fill:           parent
         }
+    }
+
+    //顶部工具栏，浮在地图上方，半透明背景
+    FlyViewToolBar {
+        id:         toolbar
+        visible:    !QGroundControl.videoManager.fullScreen
+        z:          100
     }
 }
