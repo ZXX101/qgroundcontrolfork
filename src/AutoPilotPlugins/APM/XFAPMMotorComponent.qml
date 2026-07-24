@@ -72,6 +72,15 @@ SetupPage {
         }
     }
 
+    function motorTestIndexForPhysicalMotor(physicalMotor, frameClassValue, frameTypeValue) {
+        if (frameClassValue === 2 && frameTypeValue === 1) {
+            // ArduPilot HEXA X motor-test order to physical output order is 5,1,4,6,2,3.
+            return [2, 5, 6, 3, 1, 4][physicalMotor - 1]
+        }
+
+        return physicalMotor
+    }
+
     Component {
         id: pageComponent
 
@@ -81,6 +90,7 @@ SetupPage {
             spacing:            ScreenTools.defaultFontPixelHeight
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")
+            property Fact _frameType:  airframeController.getParameterFact(-1, "FRAME_TYPE", false)
 
             QGCLabel {
                 text:           qsTr("Geometry: %1").arg(frameClassToGeometryName(_frameClass.rawValue))
@@ -169,7 +179,8 @@ SetupPage {
                                 var throttleValue = parseInt(throttleField.text) || 0
                                 var durationValue = parseInt(durationField.text) || 0
                                 for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
-                                    controller.vehicle.motorTest(motorIndex + 1, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                    controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(motorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
+                                                                  throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
@@ -179,7 +190,7 @@ SetupPage {
                             enabled:    safetySwitch.checked
                             onClicked:  {
                                 for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
-                                    controller.vehicle.motorTest(motorIndex + 1, 0, 0, true)
+                                    controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(motorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1), 0, 0, true)
                                 }
                             }
                         }
@@ -199,7 +210,8 @@ SetupPage {
                                 onClicked:  {
                                     var throttleValue = parseInt(throttleField.text) || 0
                                     var durationValue = parseInt(durationField.text) || 0
-                                    controller.vehicle.motorTest(index + 1, throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                    controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(index + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
+                                                                  throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
