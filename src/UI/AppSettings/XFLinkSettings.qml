@@ -362,7 +362,10 @@ QGCFlickable {
 
                         RowLayout {
                             Layout.fillWidth: true
-                            QGCLabel { text: qsTr("Type") }
+                            QGCLabel {
+                                text: qsTr("Type")
+                                Layout.fillWidth: true
+                            }
                             Repeater {
                                 id: typeRepeater
                                 model: [
@@ -383,7 +386,10 @@ QGCFlickable {
                         }
 
                         RowLayout {
-                            QGCLabel { text: qsTr("Name") }
+                            QGCLabel {
+                                text: qsTr("Name")
+                                Layout.fillWidth: true
+                            }
                             QGCTextField {
                                 id: nameField
                                 Layout.fillWidth: true
@@ -410,6 +416,7 @@ QGCFlickable {
 
                         Loader {
                             id: linkSettingsLoader
+                            Layout.fillWidth: true
                             property var subEditConfig: editingConfig
                             property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
                             property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 30

@@ -75,11 +75,12 @@ SetupPage {
             Row {
                 id:         mainRow
                 spacing:    _margins * 2
-                width:      parent.width
+                width:      _advancedExpanded ? parent.width : parent.width / 2
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Column {
                     id:         leftColumn
-                    width:      (parent.width - mainRow.spacing) / 2
+                    width:      _advancedExpanded ? (parent.width - mainRow.spacing) / 2 : parent.width
                     spacing:    _margins * 2
 
                     Column {
@@ -116,6 +117,7 @@ SetupPage {
                                     fact:               _angleMax
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -126,6 +128,7 @@ SetupPage {
                                     fact:               _pilotSpeedUp
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -136,6 +139,7 @@ SetupPage {
                                     fact:               _pilotSpeedDn
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -146,6 +150,7 @@ SetupPage {
                                     fact:               _wpnavSpeed
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -156,6 +161,7 @@ SetupPage {
                                     fact:               _wpnavSpeedUp
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -166,6 +172,7 @@ SetupPage {
                                     fact:               _wpnavSpeedDn
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
                             }
                         }
@@ -205,6 +212,7 @@ SetupPage {
                                         fact:               _rtlAlt
                                         showUnits:          true
                                         Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
                                     }
                                 }
 
@@ -235,6 +243,7 @@ SetupPage {
                                         fact:               _rtlLoitTime
                                         showUnits:          true
                                         Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
                                     }
                                 }
                             }
@@ -275,6 +284,7 @@ SetupPage {
                                         fact:               _rtlAltFinal
                                         showUnits:          true
                                         Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
                                     }
                                 }
 
@@ -288,6 +298,7 @@ SetupPage {
                                         fact:               _landSpeed
                                         showUnits:          true
                                         Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
                                     }
                                 }
 
@@ -372,6 +383,7 @@ SetupPage {
                                 fact:               _angleMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -392,6 +404,7 @@ SetupPage {
                                 fact:               _pilotAccelZ
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -412,6 +425,7 @@ SetupPage {
                                 fact:               _loitAccMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -432,6 +446,7 @@ SetupPage {
                                 fact:               _atcInputTc
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -452,6 +467,7 @@ SetupPage {
                                 fact:               _atcRatePMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -472,6 +488,7 @@ SetupPage {
                                 fact:               _atcRateRMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -492,6 +509,7 @@ SetupPage {
                                 fact:               _atcRateYMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -512,6 +530,7 @@ SetupPage {
                                 fact:               _atcAccelPMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -532,6 +551,7 @@ SetupPage {
                                 fact:               _atcAccelRMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
 
                             Column {
@@ -552,6 +572,7 @@ SetupPage {
                                 fact:               _atcAccelYMax
                                 showUnits:          true
                                 Layout.preferredWidth: _fieldWidth
+                                Layout.alignment:   Qt.AlignRight
                             }
                         }
                     }

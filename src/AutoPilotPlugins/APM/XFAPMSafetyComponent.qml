@@ -68,11 +68,12 @@ SetupPage {
             Row {
                 id:         mainRow
                 spacing:    _margins * 2
-                width:      parent.width
+                width:      parent.width / 2
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Column {
                     id:         leftColumn
-                    width:      (parent.width - mainRow.spacing) / 2
+                    width:      parent.width
                     spacing:    _margins * 2
 
                     Column {
@@ -109,6 +110,7 @@ SetupPage {
                                     fact:               _battLowVoltage
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -118,7 +120,9 @@ SetupPage {
                                 FactComboBox {
                                     fact:               _battFsLowAct
                                     indexModel:         false
-                                    Layout.preferredWidth: _fieldWidth
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
                                 }
                             }
                         }
@@ -158,6 +162,7 @@ SetupPage {
                                     fact:               _fsThrValue
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -167,7 +172,9 @@ SetupPage {
                                 FactComboBox {
                                     fact:               _fsThrEnable
                                     indexModel:         false
-                                    Layout.preferredWidth: _fieldWidth
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
                                 }
                             }
                         }
@@ -207,6 +214,7 @@ SetupPage {
                                     fact:               _fsGcsTimeout
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -216,7 +224,9 @@ SetupPage {
                                 FactComboBox {
                                     fact:               _fsGcsEnable
                                     indexModel:         false
-                                    Layout.preferredWidth: _fieldWidth
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
                                 }
                             }
                         }
@@ -256,6 +266,7 @@ SetupPage {
                                     fact:               _fenceAction
                                     indexModel:         false
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -266,6 +277,7 @@ SetupPage {
                                     fact:               _fenceAltMax
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -276,6 +288,7 @@ SetupPage {
                                     fact:               _fenceRadius
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
                             }
                         }
@@ -316,6 +329,7 @@ SetupPage {
                                     fact:               _avoidEnable
                                     indexModel:         false
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -326,6 +340,7 @@ SetupPage {
                                     fact:               _avoidDistMax
                                     showUnits:          true
                                     Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
                                 QGCLabel {
@@ -333,6 +348,7 @@ SetupPage {
                                     Layout.fillWidth: true
                                 }
                                 QGCSwitch {
+                                    Layout.alignment:   Qt.AlignRight
                                     checked:            _proxType && _proxType.rawValue !== 0
                                     onCheckedChanged: {
                                         if (_proxType) {
@@ -376,6 +392,7 @@ SetupPage {
                                     Layout.fillWidth: true
                                 }
                                 QGCSwitch {
+                                    Layout.alignment:   Qt.AlignRight
                                     checked:            _logBackendType && (_logBackendType.rawValue & 2)
                                     onCheckedChanged: {
                                         if (_logBackendType) {
@@ -394,8 +411,9 @@ SetupPage {
 
                 Column {
                     id:         rightColumn
-                    width:      (parent.width - mainRow.spacing) / 2
+                    width:      0
                     spacing:    _margins * 2
+                    visible:    false
                 }
             }
         }

@@ -38,8 +38,6 @@ Item {
     height: _buttonSize
 
     Component.onCompleted: {
-        x = (parent.width - width) / 2
-        y = _topMargin
         _updateDirection()
     }
 

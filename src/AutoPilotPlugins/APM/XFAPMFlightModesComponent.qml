@@ -30,6 +30,7 @@ SetupPage {
     readonly property var    _pwmStrings:       [ "PWM 0 - 1230", "PWM 1231 - 1360", "PWM 1361 - 1490", "PWM 1491 - 1620", "PWM 1621 - 1749", "PWM 1750 +"]
 
     property real   _margins:                   ScreenTools.defaultFontPixelHeight
+    readonly property real _minimumColumnWidth: ScreenTools.defaultFontPixelWidth * 50
     property Fact   _nullFact: Fact { }
     property bool   _fltmodeChExists:           controller.parameterExists(-1, _modeChannelParam)
     property Fact   _fltmodeCh:                 _fltmodeChExists ? controller.getParameterFact(-1, _modeChannelParam) : _nullFact
@@ -68,21 +69,24 @@ SetupPage {
                     anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
+                    anchors.right:      parent.right
                     spacing:            ScreenTools.defaultFontPixelHeight
 
-                    Row {
+                    RowLayout {
+                        Layout.fillWidth: true
                         spacing:    _margins
                         visible:    _fltmodeChExists
 
                         QGCLabel {
                             id:                 modeChannelLabel
-                            anchors.baseline:   modeChannelCombo.baseline
                             text:               qsTr("Flight mode channel:")
+                            Layout.fillWidth:   true
                         }
 
                         QGCComboBox {
                             id:             modeChannelCombo
-                            width:          ScreenTools.defaultFontPixelWidth * 15
+                            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 15
+                            Layout.alignment: Qt.AlignRight
                             model:          [ qsTr("Not assigned"), qsTr("Channel 1"), qsTr("Channel 2"),
                                 qsTr("Channel 3"),    qsTr("Channel 4"), qsTr("Channel 5"),
                                 qsTr("Channel 6"),    qsTr("Channel 7"), qsTr("Channel 8") ]
@@ -93,7 +97,9 @@ SetupPage {
                     }
 
                     GridLayout {
-                        columns:        2
+                        id:             flightModeGrid
+                        width:          parent.width
+                        columns:        Math.min(2, Math.max(1, Math.floor(width / _minimumColumnWidth)))
                         flow:           GridLayout.LeftToRight
                         rowSpacing:     ScreenTools.defaultFontPixelHeight
                         columnSpacing:  ScreenTools.defaultFontPixelWidth * 4
@@ -101,28 +107,31 @@ SetupPage {
                         Repeater {
                             model: 6
 
-                            Row {
+                            RowLayout {
                                 Layout.fillWidth: true
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    anchors.baseline:   fmCombo.baseline
                                     text:               qsTr("Flight Mode %1 (%2)").arg(modelData + 1).arg(_pwmStrings[modelData])
                                     color:              controller.activeFlightMode == (modelData + 1) ? "yellow" : qgcPal.text
+                                    Layout.fillWidth:   true
                                 }
 
                                 FactComboBox {
                                     id:     fmCombo
-                                    width:  ScreenTools.defaultFontPixelWidth * 15
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 15
+                                    Layout.alignment: Qt.AlignRight
                                     fact:   controller.getParameterFact(-1, _modeParamPrefix + (modelData + 1))
                                     indexModel: false
+                                    sizeToContents: true
                                 }
                             }
                         }
 
                         GridLayout {
                             visible:        _customSimpleMode
-                            Layout.columnSpan: 2
+                            Layout.columnSpan: flightModeGrid.columns
+                            Layout.fillWidth: true
                             columns:        2
                             flow:           GridLayout.LeftToRight
                             rowSpacing:     ScreenTools.defaultFontPixelHeight
@@ -183,13 +192,19 @@ SetupPage {
                     }
 
                     RowLayout {
+                        Layout.fillWidth: true
                         spacing: _margins
                         visible: controller.simpleModesSupported
 
-                        QGCLabel { text: qsTr("Simple Mode") }
+                        QGCLabel {
+                            text: qsTr("Simple Mode")
+                            Layout.fillWidth: true
+                        }
 
                         QGCComboBox {
+                            Layout.alignment: Qt.AlignRight
                             model:          controller.simpleModeNames
+                            sizeToContents: true
                             currentIndex:   controller.simpleMode
                             onActivated: (index) => { controller.simpleMode = index }
                         }
@@ -212,10 +227,13 @@ SetupPage {
                     anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
+                    anchors.right:      parent.right
                     spacing:            ScreenTools.defaultFontPixelHeight
 
                     GridLayout {
-                        columns:        2
+                        id:             channelOptionsGrid
+                        width:          parent.width
+                        columns:        Math.min(2, Math.max(1, Math.floor(width / _minimumColumnWidth)))
                         flow:           GridLayout.LeftToRight
                         rowSpacing:     ScreenTools.defaultFontPixelHeight
                         columnSpacing:  ScreenTools.defaultFontPixelWidth * 4
@@ -223,23 +241,25 @@ SetupPage {
                         Repeater {
                             model: _rcOptionStop - _rcOptionStart + 1
 
-                            Row {
+                            RowLayout {
                                 Layout.fillWidth: true
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 property int index: modelData + _rcOptionStart
 
                                 QGCLabel {
-                                    anchors.baseline:   optCombo.baseline
                                     text:               qsTr("Channel option %1 :").arg(index)
                                     color:              controller.channelOptionEnabled[modelData + (_ch7OptAvailable ? 1 : 0)] ? "yellow" : qgcPal.text
+                                    Layout.fillWidth:   true
                                 }
 
                                 FactComboBox {
                                     id:         optCombo
-                                    width:      ScreenTools.defaultFontPixelWidth * 15
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 15
+                                    Layout.alignment: Qt.AlignRight
                                     fact:       controller.getParameterFact(-1, "r.RC" + index + "_OPTION")
                                     indexModel: false
+                                    sizeToContents: true
                                 }
                             }
                         }
@@ -262,10 +282,13 @@ SetupPage {
                     anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
+                    anchors.right:      parent.right
                     spacing:            ScreenTools.defaultFontPixelHeight
 
                     GridLayout {
-                        columns:        2
+                        id:             auxOutputGrid
+                        width:          parent.width
+                        columns:        Math.min(2, Math.max(1, Math.floor(width / _minimumColumnWidth)))
                         flow:           GridLayout.LeftToRight
                         rowSpacing:     ScreenTools.defaultFontPixelHeight
                         columnSpacing:  ScreenTools.defaultFontPixelWidth * 4
@@ -273,7 +296,7 @@ SetupPage {
                         Repeater {
                             model: 16
 
-                            Row {
+                            RowLayout {
                                 Layout.fillWidth: true
                                 spacing: ScreenTools.defaultFontPixelWidth
 
@@ -281,18 +304,20 @@ SetupPage {
                                 property bool _auxExists: auxController.parameterExists(-1, "SERVO" + (modelData + 1) + "_FUNCTION")
 
                                 QGCLabel {
-                                    anchors.baseline:   auxCombo.baseline
                                     text:               qsTr("Auxiliary %1 (AUX%1)").arg(modelData + 1)
                                     visible:            parent._auxExists
+                                    Layout.fillWidth:   true
                                 }
 
                                 FactComboBox {
                                     id:         auxCombo
-                                    width:      ScreenTools.defaultFontPixelWidth * 20
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 20
+                                    Layout.alignment: Qt.AlignRight
                                     fact:       parent._auxExists
                                                 ? auxController.getParameterFact(-1, "SERVO" + (modelData + 1) + "_FUNCTION")
                                                 : parent._auxNullFact
                                     indexModel: false
+                                    sizeToContents: true
                                     visible:    parent._auxExists
                                 }
                             }

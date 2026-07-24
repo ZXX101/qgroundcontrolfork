@@ -16,9 +16,10 @@ import QGroundControl.Controls
 import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
-GridLayout {
-    columns:        2
-    rowSpacing:     _rowSpacing
+    GridLayout {
+        columns:        2
+        Layout.fillWidth: true
+        rowSpacing:     _rowSpacing
     columnSpacing:  _colSpacing
 
     function saveSettings() {
@@ -26,17 +27,25 @@ GridLayout {
         subEditConfig.port = parseInt(portField.text)
     }
 
-    QGCLabel { text: qsTr("Server Address") }
+    QGCLabel {
+        text: qsTr("Server Address")
+        Layout.fillWidth: true
+    }
     QGCTextField {
         id:                     hostField
         Layout.preferredWidth:  _secondColumnWidth
+        Layout.alignment:       Qt.AlignRight
         text:                   subEditConfig.host
     }
 
-    QGCLabel { text: qsTr("Port") }
+    QGCLabel {
+        text: qsTr("Port")
+        Layout.fillWidth: true
+    }
     QGCTextField {
         id:                     portField
         Layout.preferredWidth:  _secondColumnWidth
+        Layout.alignment:       Qt.AlignRight
         text:                   subEditConfig.port.toString()
         inputMethodHints:       Qt.ImhFormattedNumbersOnly
     }

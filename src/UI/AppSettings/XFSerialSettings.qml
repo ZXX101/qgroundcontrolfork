@@ -17,6 +17,7 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
 ColumnLayout {
+    Layout.fillWidth: true
     spacing: _rowSpacing
 
     function saveSettings() {
@@ -25,13 +26,19 @@ ColumnLayout {
 
     GridLayout {
         columns:        2
+        Layout.fillWidth: true
         rowSpacing:     _rowSpacing
         columnSpacing:  _colSpacing
 
-        QGCLabel { text: qsTr("Serial Port") }
+        QGCLabel {
+            text: qsTr("Serial Port")
+            Layout.fillWidth: true
+        }
         QGCComboBox {
             id:                     commPortCombo
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
+            sizeToContents:         true
             enabled:                QGroundControl.linkManager.serialPorts.length > 0
 
             onActivated: (index) => {
@@ -70,10 +77,15 @@ ColumnLayout {
             }
         }
 
-        QGCLabel { text: qsTr("Baud Rate") }
+        QGCLabel {
+            text: qsTr("Baud Rate")
+            Layout.fillWidth: true
+        }
         QGCComboBox {
             id:                     baudCombo
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
+            sizeToContents:         true
             model:                  QGroundControl.linkManager.serialBaudRates
 
             onActivated: (index) => {
@@ -105,6 +117,7 @@ ColumnLayout {
 
     GridLayout {
         columns:        2
+        Layout.fillWidth: true
         rowSpacing:     _rowSpacing
         columnSpacing:  _colSpacing
         visible:        advancedSettings.checked
@@ -116,9 +129,14 @@ ColumnLayout {
             onCheckedChanged:   subEditConfig.flowControl = checked ? 1 : 0
         }
 
-        QGCLabel { text: qsTr("Parity") }
+        QGCLabel {
+            text: qsTr("Parity")
+            Layout.fillWidth: true
+        }
         QGCComboBox {
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
+            sizeToContents:         true
             model:                  [qsTr("None"), qsTr("Even"), qsTr("Odd")]
 
             onActivated: (index) => {
@@ -154,17 +172,27 @@ ColumnLayout {
             }
         }
 
-        QGCLabel { text: qsTr("Data Bits") }
+        QGCLabel {
+            text: qsTr("Data Bits")
+            Layout.fillWidth: true
+        }
         QGCComboBox {
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
+            sizeToContents:         true
             model:                  [ "5", "6", "7", "8" ]
             currentIndex:           Math.max(Math.min(subEditConfig.dataBits - 5, 3), 0)
             onActivated: (index) => { subEditConfig.dataBits = index + 5 }
         }
 
-        QGCLabel { text: qsTr("Stop Bits") }
+        QGCLabel {
+            text: qsTr("Stop Bits")
+            Layout.fillWidth: true
+        }
         QGCComboBox {
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
+            sizeToContents:         true
             model:                  [ "1", "2" ]
             currentIndex:           Math.max(Math.min(subEditConfig.stopBits - 1, 1), 0)
             onActivated: (index) => { subEditConfig.stopBits = index + 1 }

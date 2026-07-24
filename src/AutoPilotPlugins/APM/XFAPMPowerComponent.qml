@@ -77,14 +77,19 @@ SetupPage {
 
                         RowLayout {
                             id:                 batt1MonitorRow
+                            Layout.fillWidth:   true
                             spacing:            ScreenTools.defaultFontPixelWidth
 
-                            QGCLabel { text: qsTr("Battery1 monitor:") }
+                            QGCLabel {
+                                text:               qsTr("Battery1 monitor:")
+                                Layout.fillWidth:   true
+                            }
                             FactComboBox {
                                 id:         monitor1Combo
                                 fact:       _batt1Monitor
                                 indexModel: false
                                 sizeToContents: true
+                                Layout.alignment: Qt.AlignRight
                             }
                         }
 
@@ -94,6 +99,7 @@ SetupPage {
                         }
 
                         QGCButton {
+                            Layout.alignment: Qt.AlignRight
                             text:       qsTr("Reboot vehicle")
                             visible:    _showBatt1Reboot
                             onClicked:  controller.vehicle.rebootVehicle()
@@ -164,14 +170,19 @@ SetupPage {
 
                         RowLayout {
                             id:                 batt2MonitorRow
+                            Layout.fillWidth:   true
                             spacing:            ScreenTools.defaultFontPixelWidth
 
-                            QGCLabel { text: qsTr("Battery2 monitor:") }
+                            QGCLabel {
+                                text:               qsTr("Battery2 monitor:")
+                                Layout.fillWidth:   true
+                            }
                             FactComboBox {
                                 id:         monitor2Combo
                                 fact:       _batt2Monitor
                                 indexModel: false
                                 sizeToContents: true
+                                Layout.alignment: Qt.AlignRight
                             }
                         }
 
@@ -181,6 +192,7 @@ SetupPage {
                         }
 
                         QGCButton {
+                            Layout.alignment: Qt.AlignRight
                             text:       qsTr("Reboot vehicle")
                             visible:    _showBatt2Reboot
                             onClicked:  controller.vehicle.rebootVehicle()
@@ -378,6 +390,7 @@ SetupPage {
                     fact:       battMonitor
                     indexModel: false
                     sizeToContents: true
+                    Layout.alignment: Qt.AlignRight
                 }
 
                 QGCLabel {
@@ -390,6 +403,7 @@ SetupPage {
                     id:     capacityField
                     width:  _fieldWidth
                     fact:   battCapacity
+                    Layout.alignment: Qt.AlignRight
                 }
 
                 QGCLabel {
@@ -402,6 +416,7 @@ SetupPage {
                     id:     armVoltField
                     width:  _fieldWidth
                     fact:   armVoltMin
+                    Layout.alignment: Qt.AlignRight
                 }
 
                 QGCLabel {
@@ -414,6 +429,7 @@ SetupPage {
                 QGCComboBox {
                     id:                     sensorCombo
                     Layout.minimumWidth:    _fieldWidth
+                    Layout.alignment:       Qt.AlignRight
                     model:                  sensorModel
                     textRole:               "text"
                     visible:                false
@@ -440,6 +456,7 @@ SetupPage {
 
                 FactComboBox {
                     Layout.minimumWidth:    _fieldWidth
+                    Layout.alignment:       Qt.AlignRight
                     fact:                   battCurrPin
                     indexModel:             false
                     visible:                false // _showAdvanced
@@ -455,6 +472,7 @@ SetupPage {
 
                 FactComboBox {
                     Layout.minimumWidth:    _fieldWidth
+                    Layout.alignment:       Qt.AlignRight
                     fact:                   battVoltPin
                     indexModel:             false
                     visible:                false // _showAdvanced
@@ -471,10 +489,12 @@ SetupPage {
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battVoltMult
+                    Layout.alignment: Qt.AlignRight
                     visible:    false // _showAdvanced
                 }
 
                 QGCButton {
+                    Layout.alignment: Qt.AlignRight
                     text:       qsTr("Calculate")
                     visible:    false // _showAdvanced
                     onClicked:  calcVoltageMultiplierDlgComponent.createObject(mainWindow, { vehicleVoltageFact: vehicleVoltage, battVoltMultFact: battVoltMult }).open()
@@ -497,10 +517,12 @@ SetupPage {
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battAmpPerVolt
+                    Layout.alignment: Qt.AlignRight
                     visible:    false // _showAdvanced
                 }
 
                 QGCButton {
+                    Layout.alignment: Qt.AlignRight
                     text:       qsTr("Calculate")
                     visible:    false // _showAdvanced
                     onClicked:  calcAmpsPerVoltDlgComponent.createObject(mainWindow, { vehicleCurrentFact: vehicleCurrent, battAmpPerVoltFact: battAmpPerVolt }).open()
@@ -523,6 +545,7 @@ SetupPage {
                 FactTextField {
                     width:      _fieldWidth
                     fact:       battAmpOffset
+                    Layout.alignment: Qt.AlignRight
                     visible:    false // _showAdvanced
                 }
 

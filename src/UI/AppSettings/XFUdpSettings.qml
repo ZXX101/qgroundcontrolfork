@@ -17,6 +17,7 @@ import QGroundControl.ScreenTools
 import QGroundControl.Palette
 
 ColumnLayout {
+    Layout.fillWidth: true
     spacing: _rowSpacing
 
     function saveSettings() {
@@ -32,33 +33,44 @@ ColumnLayout {
     }
 
     RowLayout {
+        Layout.fillWidth: true
         spacing: _colSpacing
 
-        QGCLabel { text: qsTr("Port") }
+        QGCLabel {
+            text: qsTr("Port")
+            Layout.fillWidth: true
+        }
         QGCTextField {
             id:                     portField
             text:                   subEditConfig.localPort.toString()
             focus:                  true
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.alignment:       Qt.AlignRight
             inputMethodHints:       Qt.ImhFormattedNumbersOnly
             onTextChanged:          subEditConfig.localPort = parseInt(portField.text)
         }
     }
 
-    QGCLabel { text: qsTr("Server Addresses (optional)") }
+    QGCLabel {
+        text: qsTr("Server Addresses (optional)")
+        Layout.fillWidth: true
+    }
 
     Repeater {
         model: subEditConfig.hostList
 
         delegate: RowLayout {
+            Layout.fillWidth: true
             spacing: _colSpacing
 
             QGCLabel {
                 Layout.preferredWidth:  _secondColumnWidth
+                Layout.fillWidth:       true
                 text:                   modelData
             }
 
             QGCButton {
+                Layout.alignment: Qt.AlignRight
                 text:       qsTr("Remove")
                 onClicked:  subEditConfig.removeHost(modelData)
             }
@@ -66,14 +78,17 @@ ColumnLayout {
     }
 
     RowLayout {
+        Layout.fillWidth: true
         spacing: _colSpacing
 
         QGCTextField {
             id:                     hostField
             Layout.preferredWidth:  _secondColumnWidth
+            Layout.fillWidth:       true
             placeholderText:        qsTr("Example: 127.0.0.1:14550")
         }
         QGCButton {
+            Layout.alignment: Qt.AlignRight
             text:       qsTr("Add Server")
             enabled:    hostField.text !== ""
             onClicked: {
