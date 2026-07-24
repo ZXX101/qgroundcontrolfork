@@ -142,7 +142,9 @@ Rectangle {
                         // Summary Qml
                         Rectangle {
                             anchors.top:    titleBar.bottom
+                            anchors.bottom: parent.bottom
                             width:          parent.width
+                            color:          "black"
                             Loader {
                                 anchors.fill:       parent
                                 anchors.margins:    ScreenTools.defaultFontPixelWidth
