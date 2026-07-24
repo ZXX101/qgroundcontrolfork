@@ -23,7 +23,8 @@ import QGroundControl.ScreenTools
 SetupPage {
     id:             airframePage
     pageComponent:  pageComponent
-
+    pageName:       ""
+    pageDescription: ""
     Component {
         id: pageComponent
 
@@ -64,17 +65,30 @@ SetupPage {
 
             APMAirframeComponentController { id: controller; }
 
-            QGCLabel {
-                id:                 helpText
-                Layout.fillWidth:   true
-                text:               (_frameClass.rawValue === 0 ?
-                                         qsTr("Airframe is currently not set.") :
-                                         qsTr("Currently set to frame class '%1'").arg(_frameClass.enumStringValue) +
-                                         (_frameTypeAvailable ?  qsTr(" and frame type '%2'").arg(_frameType.enumStringValue) : "") +
-                                         qsTr(".", "period for end of sentence")) +
-                                    qsTr(" To change this configuration, select the desired frame class below and then reboot the vehicle.")
-                font.bold:          true
-                wrapMode:           Text.WordWrap
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: ScreenTools.defaultFontPixelWidth
+
+                QGCLabel {
+                    id:                 helpText
+                    Layout.fillWidth:   true
+                    text:               (_frameClass.rawValue === 0 ?
+                                             qsTr("Airframe is currently not set.") :
+                                             qsTr("Currently set to frame class '%1'").arg(_frameClass.enumStringValue) +
+                                             (_frameTypeAvailable ?  qsTr(" and frame type '%2'").arg(_frameType.enumStringValue) : "") +
+                                             qsTr(".", "period for end of sentence")) +
+                                        qsTr(" To change this configuration, select the desired frame class below and then reboot the vehicle.")
+                    font.bold:          true
+                    wrapMode:           Text.WordWrap
+                }
+
+                QGCButton {
+                    text:       qsTr("Save&Reset")
+                    onClicked:  mainWindow.showMessageDialog(qsTr("Reboot Vehicle"),
+                                                             qsTr("Select Ok to reboot vehicle."),
+                                                             Dialog.Cancel | Dialog.Ok,
+                                                             function() { globals.activeVehicle.rebootVehicle() })
+                }
             }
 
             Item {
