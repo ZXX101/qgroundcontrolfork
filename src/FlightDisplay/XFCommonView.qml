@@ -359,7 +359,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: ScreenTools.toolbarHeight
-        color: qgcPal.toolbarBackground
+        color: "#101010"
 
         RowLayout {
             anchors.left: parent.left
@@ -485,58 +485,87 @@ Rectangle {
                     visible: deviceConfigExpanded
                     spacing: _defaultTextHeight / 8
                     Layout.fillWidth: true
-                    Layout.leftMargin: _defaultTextWidth
 
-                    ConfigButton {
-                        id: buttonSummary
-                        text: qsTr("Summary")
+                    Rectangle {
                         Layout.fillWidth: true
-                        font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
-                        checked: deviceConfigSubIndex === -1
-                        onClicked: {
-                            currentPageIndex = 1;
-                            _showDeviceConfigSummary();
-                        }
-                    }
+                        Layout.fillHeight: false
+                        height: subMenuColumn.height
+                        color: "#000000"
 
-                    Repeater {
-                        id: vehicleComponentsRepeater
-                        model: _filteredComponents
+                        ColumnLayout {
+                            id: subMenuColumn
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            spacing: _defaultTextHeight / 8
 
-                        ConfigButton {
-                            text: getTranslatedComponentName(modelData)
-                            Layout.fillWidth: true
-                            font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
-                            checked: deviceConfigSubIndex === index
-                            visible: modelData.setupSource.toString() !== ""
-
-                            onClicked: {
-                                currentPageIndex = 1;
-                                deviceConfigSubIndex = index;
-                                var url = getUrlForVehicleComponent(modelData);
-                                if (url !== "") {
-                                    contentLoader.vehicleComponent = modelData;
-                                    contentLoader.source = "";
-                                    contentLoader.source = url;
+                            ConfigButton {
+                                id: buttonSummary
+                                text: qsTr("Summary")
+                                Layout.fillWidth: true
+                                font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
+                                checked: deviceConfigSubIndex === -1
+                                background: Rectangle {
+                                    color:      qgcPal.buttonHighlight
+                                    opacity:    buttonSummary.checked || buttonSummary.pressed ? 1 : buttonSummary.enabled && buttonSummary.hovered ? .5 : 0
+                                    radius:     ScreenTools.defaultFontPixelWidth / 2
                                 }
-                                updateButtonChecked();
+                                onClicked: {
+                                    currentPageIndex = 1;
+                                    _showDeviceConfigSummary();
+                                }
                             }
-                        }
-                    }
 
-                    ConfigButton {
-                        id: buttonParams
-                        text: qsTr("Parameters")
-                        Layout.fillWidth: true
-                        font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
-                        checked: deviceConfigSubIndex === -2
-                        visible: true
-                        onClicked: {
-                            currentPageIndex = 1;
-                            deviceConfigSubIndex = -2;
-                            contentLoader.vehicleComponent = null;
-                            contentLoader.source = "qrc:/qml/QGroundControl/VehicleSetup/XFSetupParameterEditor.qml";
-                            updateButtonChecked();
+                            Repeater {
+                                id: vehicleComponentsRepeater
+                                model: _filteredComponents
+
+                                ConfigButton {
+                                    id: subMenuCompButton
+                                    text: getTranslatedComponentName(modelData)
+                                    Layout.fillWidth: true
+                                    font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
+                                    checked: deviceConfigSubIndex === index
+                                    visible: modelData.setupSource.toString() !== ""
+                                    background: Rectangle {
+                                        color:      qgcPal.buttonHighlight
+                                        opacity:    subMenuCompButton.checked || subMenuCompButton.pressed ? 1 : subMenuCompButton.enabled && subMenuCompButton.hovered ? .5 : 0
+                                        radius:     ScreenTools.defaultFontPixelWidth / 2
+                                    }
+
+                                    onClicked: {
+                                        currentPageIndex = 1;
+                                        deviceConfigSubIndex = index;
+                                        var url = getUrlForVehicleComponent(modelData);
+                                        if (url !== "") {
+                                            contentLoader.vehicleComponent = modelData;
+                                            contentLoader.source = "";
+                                            contentLoader.source = url;
+                                        }
+                                        updateButtonChecked();
+                                    }
+                                }
+                            }
+
+                            ConfigButton {
+                                id: buttonParams
+                                text: qsTr("Parameters")
+                                Layout.fillWidth: true
+                                font.pointSize: ScreenTools.defaultFontPixelSize * 0.9
+                                checked: deviceConfigSubIndex === -2
+                                visible: true
+                                background: Rectangle {
+                                    color:      qgcPal.buttonHighlight
+                                    opacity:    buttonParams.checked || buttonParams.pressed ? 1 : buttonParams.enabled && buttonParams.hovered ? .5 : 0
+                                    radius:     ScreenTools.defaultFontPixelWidth / 2
+                                }
+                                onClicked: {
+                                    currentPageIndex = 1;
+                                    deviceConfigSubIndex = -2;
+                                    contentLoader.vehicleComponent = null;
+                                    contentLoader.source = "qrc:/qml/QGroundControl/VehicleSetup/XFSetupParameterEditor.qml";
+                                    updateButtonChecked();
+                                }
+                            }
                         }
                     }
                 }
@@ -599,9 +628,6 @@ Rectangle {
     //分隔线
     Rectangle {
         id: divider
-        anchors.topMargin: _verticalMargin
-        anchors.bottomMargin: _verticalMargin
-        anchors.leftMargin: _horizontalMargin
         anchors.left: buttonScroll.right
         anchors.top: toolbar.bottom
         anchors.bottom: parent.bottom
@@ -612,10 +638,6 @@ Rectangle {
     //右侧内容区域
     Loader {
         id: contentLoader
-        anchors.topMargin: _verticalMargin
-        anchors.bottomMargin: _verticalMargin
-        anchors.leftMargin: _horizontalMargin
-        anchors.rightMargin: _horizontalMargin
         anchors.left: divider.right
         anchors.right: parent.right
         anchors.top: toolbar.bottom
