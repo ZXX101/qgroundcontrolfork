@@ -29,7 +29,10 @@ Rectangle {
 
     // All sections share one set of widths so the four columns stay aligned.
     property var _columnWidths: {
-        var widths = [qsTr("类别").length, qsTr("设置项").length, qsTr("数据").length, qsTr("状态").length]
+        var widths = [headerCategoryLabel.implicitWidth,
+                      headerItemLabel.implicitWidth,
+                      headerDataLabel.implicitWidth,
+                      headerStatusLabel.implicitWidth]
         for (var i = 0; i < contentLayout.children.length; i++) {
             var section = contentLayout.children[i]
             if (!section || !section.columnWidths) continue
@@ -38,7 +41,7 @@ Rectangle {
             }
         }
         for (var widthIndex = 0; widthIndex < 4; widthIndex++) {
-            widths[widthIndex] = (widths[widthIndex] + 1) * ScreenTools.defaultFontPixelWidth
+            widths[widthIndex] += ScreenTools.defaultFontPixelWidth
         }
         return widths
     }
@@ -353,10 +356,10 @@ Rectangle {
         RowLayout {
             spacing: ScreenTools.defaultFontPixelWidth * 2
 
-            QGCLabel { text: qsTr("类别"); font.bold: true; Layout.preferredWidth: root._columnWidths[0] }
-            QGCLabel { text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: root._columnWidths[1] }
-            QGCLabel { text: qsTr("数据"); font.bold: true; Layout.preferredWidth: root._columnWidths[2] }
-            QGCLabel { text: qsTr("状态"); font.bold: true; Layout.preferredWidth: root._columnWidths[3] }
+            QGCLabel { id: headerCategoryLabel; text: qsTr("类别"); font.bold: true; Layout.preferredWidth: root._columnWidths[0] }
+            QGCLabel { id: headerItemLabel; text: qsTr("设置项"); font.bold: true; Layout.preferredWidth: root._columnWidths[1] }
+            QGCLabel { id: headerDataLabel; text: qsTr("数据"); font.bold: true; Layout.preferredWidth: root._columnWidths[2] }
+            QGCLabel { id: headerStatusLabel; text: qsTr("状态"); font.bold: true; Layout.preferredWidth: root._columnWidths[3] }
         }
 
         //分隔线
@@ -439,26 +442,30 @@ Rectangle {
         property string sectionTitle
         property var items: []
         property var columnWidths: {
-            var widths = [sectionTitle.length, 0, 0, 0]
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i]
-                widths[1] = Math.max(widths[1], _textLength(item.name))
-                widths[2] = Math.max(widths[2], _textLength(item.value))
-                widths[3] = Math.max(widths[3], _textLength(item.status))
-                if (item.icon !== undefined && item.icon !== "") widths[3] = Math.max(widths[3], 2)
+            var widths = [sectionTitleLabel.implicitWidth,
+                          firstItemRow.nameContentWidth,
+                          firstItemRow.valueContentWidth,
+                          firstItemRow.statusContentWidth]
+            for (var i = 0; i < itemRepeater.count; i++) {
+                var row = itemRepeater.itemAt(i)
+                if (!row) continue
+                widths[1] = Math.max(widths[1], row.nameContentWidth)
+                widths[2] = Math.max(widths[2], row.valueContentWidth)
+                widths[3] = Math.max(widths[3], row.statusContentWidth)
             }
             return widths
         }
 
-        function _textLength(value) {
-            return value === undefined || value === null ? 0 : String(value).length
-        }
-
         RowLayout {
+            id: firstItemRow
             spacing: ScreenTools.defaultFontPixelWidth * 2
+            property real nameContentWidth: firstItemNameLabel.implicitWidth
+            property real valueContentWidth: firstItemValueLabel.implicitWidth
+            property real statusContentWidth: firstStatusCell.implicitWidth
 
             //类别列
             QGCLabel {
+                id:                     sectionTitleLabel
                 text:                   sectionTitle
                 font.bold:              true
                 Layout.preferredWidth:  root._columnWidths[0]
@@ -466,23 +473,28 @@ Rectangle {
 
             //设置项列（第一项）
             QGCLabel {
+                id:                     firstItemNameLabel
                 text:                   items.length > 0 ? items[0].name : ""
                 Layout.preferredWidth:  root._columnWidths[1]
             }
 
             //数据列（第一项）
             QGCLabel {
+                id:                     firstItemValueLabel
                 text:                   items.length > 0 ? items[0].value : ""
                 Layout.preferredWidth:  root._columnWidths[2]
             }
 
             //状态列（第一项）- 可能是图标或文本
             Item {
+                id:                     firstStatusCell
+                implicitWidth:          Math.max(firstStatusIcon.width, firstStatusLabel.implicitWidth)
                 Layout.preferredWidth:  root._columnWidths[3]
                 Layout.preferredHeight: ScreenTools.defaultFontPixelHeight
 
                 //状态图标
                 Image {
+                    id:                     firstStatusIcon
                     anchors.centerIn:       parent
                     width:                  ScreenTools.defaultFontPixelHeight * 0.8
                     height:                 width
@@ -493,6 +505,7 @@ Rectangle {
 
                 //状态文本（如果没有图标）
                 QGCLabel {
+                    id:                     firstStatusLabel
                     anchors.centerIn:       parent
                     text:                   (items.length > 0 && items[0].status !== undefined) ? items[0].status : ""
                     visible:                items.length > 0 && items[0].status !== undefined && items[0].status !== "" && !(items[0].icon !== undefined && items[0].icon !== "")
@@ -502,9 +515,13 @@ Rectangle {
 
         //后续项（类别列空白）
         Repeater {
+            id: itemRepeater
             model: items.length > 1 ? items.slice(1) : []
 
             RowLayout {
+                property real nameContentWidth: itemNameLabel.implicitWidth
+                property real valueContentWidth: itemValueLabel.implicitWidth
+                property real statusContentWidth: statusCell.implicitWidth
                 spacing: ScreenTools.defaultFontPixelWidth * 2
 
                 //类别列（空白）
@@ -515,23 +532,28 @@ Rectangle {
 
                 //设置项列
                 QGCLabel {
+                    id:                     itemNameLabel
                     text:                   modelData.name !== undefined ? modelData.name : ""
                     Layout.preferredWidth:  root._columnWidths[1]
                 }
 
                 //数据列
                 QGCLabel {
+                    id:                     itemValueLabel
                     text:                   modelData.value !== undefined ? modelData.value : ""
                     Layout.preferredWidth:  root._columnWidths[2]
                 }
 
                 //状态列 - 可能是图标或文本
                 Item {
+                    id:                     statusCell
+                    implicitWidth:          Math.max(statusIcon.width, statusLabel.implicitWidth)
                     Layout.preferredWidth:  root._columnWidths[3]
                     Layout.preferredHeight: ScreenTools.defaultFontPixelHeight
 
                     //状态图标
                     Image {
+                        id:                     statusIcon
                         anchors.centerIn:       parent
                         width:                  ScreenTools.defaultFontPixelHeight * 0.8
                         height:                 width
@@ -542,6 +564,7 @@ Rectangle {
 
                     //状态文本（如果没有图标）
                     QGCLabel {
+                        id:                     statusLabel
                         anchors.centerIn:       parent
                         text:                   modelData.status !== undefined ? modelData.status : ""
                         visible:                modelData.status !== undefined && modelData.status !== "" && !(modelData.icon !== undefined && modelData.icon !== "")
