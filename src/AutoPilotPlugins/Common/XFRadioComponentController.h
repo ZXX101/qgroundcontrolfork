@@ -38,15 +38,6 @@ class XFRadioComponentController : public FactPanelController
     Q_PROPERTY(int yawChannelRCValue      READ yawChannelRCValue      NOTIFY yawChannelRCValueChanged)
     Q_PROPERTY(int throttleChannelRCValue READ throttleChannelRCValue NOTIFY throttleChannelRCValueChanged)
 
-    Q_PROPERTY(int rollChannelMin       READ rollChannelMin       NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int rollChannelMax       READ rollChannelMax       NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int pitchChannelMin      READ pitchChannelMin      NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int pitchChannelMax      READ pitchChannelMax      NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int yawChannelMin        READ yawChannelMin        NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int yawChannelMax        READ yawChannelMax        NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int throttleChannelMin  READ throttleChannelMin  NOTIFY channelMinMaxChanged)
-    Q_PROPERTY(int throttleChannelMax  READ throttleChannelMax  NOTIFY channelMinMaxChanged)
-
     Q_PROPERTY(bool rollChannelReversed     READ rollChannelReversed     NOTIFY rollChannelReversedChanged)
     Q_PROPERTY(bool pitchChannelReversed    READ pitchChannelReversed    NOTIFY pitchChannelReversedChanged)
     Q_PROPERTY(bool yawChannelReversed      READ yawChannelReversed      NOTIFY yawChannelReversedChanged)
@@ -86,15 +77,6 @@ public:
     int  pitchChannelRCValue();
     int  yawChannelRCValue();
     int  throttleChannelRCValue();
-
-    int  rollChannelMin() const;
-    int  rollChannelMax() const;
-    int  pitchChannelMin() const;
-    int  pitchChannelMax() const;
-    int  yawChannelMin() const;
-    int  yawChannelMax() const;
-    int  throttleChannelMin() const;
-    int  throttleChannelMax() const;
 
     bool rollChannelMapped();
     bool pitchChannelMapped();
@@ -161,8 +143,6 @@ private:
     void _validateCalibration();
     void _writeCalibration();
     void _signalAllAttitudeValueChanges();
-    int  _channelCalibrationMin(rcCalFunctions function) const;
-    int  _channelCalibrationMax(rcCalFunctions function) const;
 
     bool _channelReversedParamValue(int channel);
     void _setChannelReversedParamValue(int channel, bool reversed);
@@ -190,7 +170,6 @@ private:
 
     bool _calibrating = false;
     bool _calibrationDone = false;
-    int _channelsCalibrated = 0;
 
     float _rcMin[_chanMax]{};
     float _rcMax[_chanMax]{};

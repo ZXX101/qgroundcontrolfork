@@ -46,97 +46,6 @@ SetupPage {
             }
 
             Component {
-                id: calibrationResultsDialogComponent
-
-                QGCPopupDialog {
-                    title:      qsTr("Radio Calibration Results")
-                    buttons:    Dialog.Ok
-
-                    ColumnLayout {
-                        id: resultsLayout
-
-                        width:  52 * ScreenTools.defaultFontPixelWidth
-                        spacing: ScreenTools.defaultFontPixelHeight / 2
-
-                        readonly property real valueColumnWidth:  6 * ScreenTools.defaultFontPixelWidth
-                        readonly property real statusColumnWidth: 14 * ScreenTools.defaultFontPixelWidth
-
-                        QGCLabel {
-                            Layout.fillWidth: true
-                            wrapMode:         Text.WordWrap
-                            text:              qsTr("Calibration complete. The following values were detected:")
-                        }
-
-                        ScrollView {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: Math.min((controller.channelCount + 1) * ScreenTools.defaultFontPixelHeight * 1.5,
-                                                             60 * ScreenTools.defaultFontPixelHeight)
-                            clip: true
-
-                            ColumnLayout {
-                                width: parent.width
-
-                                RowLayout {
-                                    Layout.fillWidth: true
-
-                                    QGCLabel { Layout.fillWidth: true; text: qsTr("Channel") }
-                                    QGCLabel {
-                                        Layout.preferredWidth: resultsLayout.valueColumnWidth
-                                        horizontalAlignment:   Text.AlignRight
-                                        text:                  qsTr("Min")
-                                    }
-                                    QGCLabel {
-                                        Layout.preferredWidth: resultsLayout.valueColumnWidth
-                                        horizontalAlignment:   Text.AlignRight
-                                        text:                  qsTr("Max")
-                                    }
-                                    QGCLabel {
-                                        Layout.preferredWidth: resultsLayout.statusColumnWidth
-                                        horizontalAlignment:   Text.AlignHCenter
-                                        text:                  qsTr("Status")
-                                    }
-                                }
-
-                                Repeater {
-                                    model: controller.channelCount
-
-                                    RowLayout {
-                                        Layout.fillWidth: true
-
-                                        property var channelData: controller.channelMinMax[index]
-
-                                        QGCLabel {
-                                            Layout.fillWidth: true
-                                            text: qsTr("Channel %1").arg(index + 1)
-                                        }
-
-                                        QGCLabel {
-                                            Layout.preferredWidth: resultsLayout.valueColumnWidth
-                                            horizontalAlignment:   Text.AlignRight
-                                            text: channelData && channelData.hasSample ? channelData.min : qsTr("--")
-                                        }
-
-                                        QGCLabel {
-                                            Layout.preferredWidth: resultsLayout.valueColumnWidth
-                                            horizontalAlignment:   Text.AlignRight
-                                            text: channelData && channelData.hasSample ? channelData.max : qsTr("--")
-                                        }
-
-                                        QGCLabel {
-                                            Layout.preferredWidth: resultsLayout.statusColumnWidth
-                                            horizontalAlignment:   Text.AlignHCenter
-                                            text: !channelData || !channelData.hasSample ? qsTr("No data") :
-                                                  (channelData.rangeValid ? qsTr("OK") : qsTr("Range too small"))
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            Component {
                 id: channelMonitorDisplayComponent
 
                 Item {
@@ -157,29 +66,11 @@ SetupPage {
                         color:                  __barColor
                     }
 
-                        Rectangle {
+                    Rectangle {
                             anchors.horizontalCenter:   parent.horizontalCenter
                             width:                      globals.defaultTextWidth / 2
                             height:                     parent.height
                             color:                      qgcPal.window
-                        }
-
-                        Rectangle {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width:                  2
-                            height:                 parent.height
-                            x:                      (((reversed ? _pwmMax - calibrationMin : calibrationMin - _pwmMin) / _pwmRange) * parent.width) - (width / 2)
-                            color:                  "red"
-                            visible:                showCalibrationMinMax && calibrationMin >= _pwmMin && calibrationMin <= _pwmMax
-                        }
-
-                        Rectangle {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width:                  2
-                            height:                 parent.height
-                            x:                      (((reversed ? _pwmMax - calibrationMax : calibrationMax - _pwmMin) / _pwmRange) * parent.width) - (width / 2)
-                            color:                  "red"
-                            visible:                showCalibrationMinMax && calibrationMax >= _pwmMin && calibrationMax <= _pwmMax
                         }
 
                     Rectangle {
@@ -241,9 +132,6 @@ SetupPage {
 
                             property bool mapped:           controller.rollChannelMapped
                             property bool reversed:         controller.rollChannelReversed
-                            property bool showCalibrationMinMax: controller.calibrating
-                            property int calibrationMin: controller.rollChannelMin
-                            property int calibrationMax: controller.rollChannelMax
                         }
 
                         Connections {
@@ -272,9 +160,6 @@ SetupPage {
 
                             property bool mapped:           controller.pitchChannelMapped
                             property bool reversed:         controller.pitchChannelReversed
-                            property bool showCalibrationMinMax: controller.calibrating
-                            property int calibrationMin: controller.pitchChannelMin
-                            property int calibrationMax: controller.pitchChannelMax
                         }
 
                         Connections {
@@ -303,9 +188,6 @@ SetupPage {
 
                             property bool mapped:           controller.yawChannelMapped
                             property bool reversed:         controller.yawChannelReversed
-                            property bool showCalibrationMinMax: controller.calibrating
-                            property int calibrationMin: controller.yawChannelMin
-                            property int calibrationMax: controller.yawChannelMax
                         }
 
                         Connections {
@@ -334,9 +216,6 @@ SetupPage {
 
                             property bool mapped:           controller.throttleChannelMapped
                             property bool reversed:         controller.throttleChannelReversed
-                            property bool showCalibrationMinMax: controller.calibrating
-                            property int calibrationMin: controller.throttleChannelMin
-                            property int calibrationMax: controller.throttleChannelMax
                         }
 
                         Connections {
@@ -366,10 +245,7 @@ SetupPage {
                                 mainWindow.showMessageDialog(qsTr("Center Sticks"),
                                                              qsTr("Ensure all sticks are centered and throttle is down, then click OK to finish calibration."),
                                                              Dialog.Ok,
-                                                             function() {
-                                                                 controller.stopCalibration()
-                                                                 calibrationResultsDialogComponent.createObject(mainWindow).open()
-                                                             })
+                                                             function() { controller.stopCalibration() })
                             } else if (controller.calibrationDone) {
                                 controller.confirmCalibration()
                             } else {
@@ -468,8 +344,6 @@ SetupPage {
                 RCChannelMonitor {
                     width:      parent.width
                     twoColumn:  true
-                    showCalibrationMinMax: controller.calibrating
-                    calibrationMinMax:     controller.channelMinMax
                 }
             }
         }
