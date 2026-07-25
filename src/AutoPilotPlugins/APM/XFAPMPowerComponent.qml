@@ -65,32 +65,27 @@ SetupPage {
                 }
 
                 Rectangle {
-                    width:  batt1Column.x + batt1Column.width + _margins
-                    height: batt1Column.y + batt1Column.height + _margins
+                    width:  batt1Content.implicitWidth + _margins * 2
+                    height: batt1Content.implicitHeight + _margins * 2
                     color:  ggcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth * 0.5
 
                     ColumnLayout {
-                        id:                 batt1Column
-                        anchors.margins:    _margins
-                        anchors.top:        parent.top
-                        anchors.left:       parent.left
+                        id:                 batt1Content
+                        anchors.centerIn:   parent
                         spacing:            ScreenTools.defaultFontPixelWidth
 
                         RowLayout {
-                            id:                 batt1MonitorRow
                             Layout.fillWidth:   true
                             spacing:            ScreenTools.defaultFontPixelWidth
 
-                            QGCLabel {
-                                text:               qsTr("Battery1 monitor:")
-                                Layout.fillWidth:   true
-                            }
+                            QGCLabel { text: qsTr("Battery1 monitor:") }
+                            Item { Layout.fillWidth: true }
                             FactComboBox {
                                 id:         monitor1Combo
                                 fact:       _batt1Monitor
                                 indexModel: false
                                 sizeToContents: true
-                                Layout.alignment: Qt.AlignRight
                             }
                         }
 
@@ -115,34 +110,60 @@ SetupPage {
                 spacing:    _margins / 2
                 visible:    _batt1MonitorEnabled && _batt1ParamsAvailable
 
+                property Fact _battMonitor:      controller.getParameterFact(-1, "BATT_MONITOR", false)
+                property Fact _battCapacity:     controller.getParameterFact(-1, "BATT_CAPACITY", false)
+                property Fact _armVoltMin:       controller.getParameterFact(-1, "r.BATT_ARM_VOLT", false)
+
                 QGCLabel {
                     text:       qsTr("Battery 1")
                     font.bold:   true
                 }
 
                 Rectangle {
-                    width:  battery1Loader.x + battery1Loader.width + _margins
-                    height: battery1Loader.y + battery1Loader.height + _margins
+                    width:  battery1Content.implicitWidth + _margins * 2
+                    height: battery1Content.implicitHeight + _margins * 2
                     color:  ggcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth * 0.5
 
-                    Loader {
-                        id:                 battery1Loader
-                        anchors.margins:    _margins
-                        anchors.top:        parent.top
-                        anchors.left:       parent.left
-                        sourceComponent:    _batt1FullSettings.visible ? powerSetupComponent : undefined
+                    ColumnLayout {
+                        id:                 battery1Content
+                        anchors.centerIn:   parent
+                        spacing:            ScreenTools.defaultFontPixelWidth
 
-                        property Fact armVoltMin:       controller.getParameterFact(-1, "r.BATT_ARM_VOLT", false /* reportMissing */)
-                        property Fact battAmpPerVolt:   controller.getParameterFact(-1, "r.BATT_AMP_PERVLT", false /* reportMissing */)
-                        property Fact battAmpOffset:    controller.getParameterFact(-1, "BATT_AMP_OFFSET", false /* reportMissing */)
-                        property Fact battCapacity:     controller.getParameterFact(-1, "BATT_CAPACITY", false /* reportMissing */)
-                        property Fact battCurrPin:      controller.getParameterFact(-1, "BATT_CURR_PIN", false /* reportMissing */)
-                        property Fact battMonitor:      controller.getParameterFact(-1, "BATT_MONITOR", false /* reportMissing */)
-                        property Fact battVoltMult:     controller.getParameterFact(-1, "BATT_VOLT_MULT", false /* reportMissing */)
-                        property Fact battVoltPin:      controller.getParameterFact(-1, "BATT_VOLT_PIN", false /* reportMissing */)
-                        property FactGroup  _batteryFactGroup:  _batt1FullSettings.visible ? controller.vehicle.getFactGroup("battery0") : null
-                        property Fact vehicleVoltage:   _batteryFactGroup ? _batteryFactGroup.voltage : null
-                        property Fact vehicleCurrent:   _batteryFactGroup ? _batteryFactGroup.current : null
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Battery monitor:") }
+                            Item { Layout.fillWidth: true }
+                            FactComboBox {
+                                fact:       _batt1FullSettings._battMonitor
+                                indexModel: false
+                                sizeToContents: true
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Battery capacity:") }
+                            Item { Layout.fillWidth: true }
+                            FactTextField {
+                                fact:   _batt1FullSettings._battCapacity
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Minimum arming voltage:") }
+                            Item { Layout.fillWidth: true }
+                            FactTextField {
+                                fact:   _batt1FullSettings._armVoltMin
+                            }
+                        }
                     }
                 }
             }
@@ -158,32 +179,27 @@ SetupPage {
                 }
 
                 Rectangle {
-                    width:  batt2Column.x + batt2Column.width + _margins
-                    height: batt2Column.y + batt2Column.height + _margins
+                    width:  batt2Content.implicitWidth + _margins * 2
+                    height: batt2Content.implicitHeight + _margins * 2
                     color:  ggcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth * 0.5
 
                     ColumnLayout {
-                        id:                 batt2Column
-                        anchors.margins:    _margins
-                        anchors.top:        parent.top
-                        anchors.left:       parent.left
+                        id:                 batt2Content
+                        anchors.centerIn:   parent
                         spacing:            ScreenTools.defaultFontPixelWidth
 
                         RowLayout {
-                            id:                 batt2MonitorRow
                             Layout.fillWidth:   true
                             spacing:            ScreenTools.defaultFontPixelWidth
 
-                            QGCLabel {
-                                text:               qsTr("Battery2 monitor:")
-                                Layout.fillWidth:   true
-                            }
+                            QGCLabel { text: qsTr("Battery2 monitor:") }
+                            Item { Layout.fillWidth: true }
                             FactComboBox {
                                 id:         monitor2Combo
                                 fact:       _batt2Monitor
                                 indexModel: false
                                 sizeToContents: true
-                                Layout.alignment: Qt.AlignRight
                             }
                         }
 
@@ -208,34 +224,60 @@ SetupPage {
                 spacing:    _margins / 2
                 visible:    _batt2MonitorEnabled && _batt2ParamsAvailable
 
+                property Fact _battMonitor:      controller.getParameterFact(-1, "BATT2_MONITOR", false)
+                property Fact _battCapacity:     controller.getParameterFact(-1, "BATT2_CAPACITY", false)
+                property Fact _armVoltMin:       controller.getParameterFact(-1, "r.BATT2_ARM_VOLT", false)
+
                 QGCLabel {
                     text:       qsTr("Battery 2")
                     font.bold:   true
                 }
 
                 Rectangle {
-                    width:  battery2Loader.x + battery2Loader.width + _margins
-                    height: battery2Loader.y + battery2Loader.height + _margins
+                    width:  battery2Content.implicitWidth + _margins * 2
+                    height: battery2Content.implicitHeight + _margins * 2
                     color:  ggcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth * 0.5
 
-                    Loader {
-                        id:                 battery2Loader
-                        anchors.margins:    _margins
-                        anchors.top:        parent.top
-                        anchors.left:       parent.left
-                        sourceComponent:    batt2FullSettings.visible ? powerSetupComponent : undefined
+                    ColumnLayout {
+                        id:                 battery2Content
+                        anchors.centerIn:   parent
+                        spacing:            ScreenTools.defaultFontPixelWidth
 
-                        property Fact armVoltMin:       controller.getParameterFact(-1, "r.BATT2_ARM_VOLT", false /* reportMissing */)
-                        property Fact battAmpPerVolt:   controller.getParameterFact(-1, "r.BATT2_AMP_PERVLT", false /* reportMissing */)
-                        property Fact battAmpOffset:    controller.getParameterFact(-1, "BATT2_AMP_OFFSET", false /* reportMissing */)
-                        property Fact battCapacity:     controller.getParameterFact(-1, "BATT2_CAPACITY", false /* reportMissing */)
-                        property Fact battCurrPin:      controller.getParameterFact(-1, "BATT2_CURR_PIN", false /* reportMissing */)
-                        property Fact battMonitor:      controller.getParameterFact(-1, "BATT2_MONITOR", false /* reportMissing */)
-                        property Fact battVoltMult:     controller.getParameterFact(-1, "BATT2_VOLT_MULT", false /* reportMissing */)
-                        property Fact battVoltPin:      controller.getParameterFact(-1, "BATT2_VOLT_PIN", false /* reportMissing */)
-                        property FactGroup  _batteryFactGroup:  batt2FullSettings.visible ? controller.vehicle.getFactGroup("battery1") : null
-                        property Fact vehicleVoltage:   _batteryFactGroup ? _batteryFactGroup.voltage : null
-                        property Fact vehicleCurrent:   _batteryFactGroup ? _batteryFactGroup.current : null
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Battery monitor:") }
+                            Item { Layout.fillWidth: true }
+                            FactComboBox {
+                                fact:       batt2FullSettings._battMonitor
+                                indexModel: false
+                                sizeToContents: true
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Battery capacity:") }
+                            Item { Layout.fillWidth: true }
+                            FactTextField {
+                                fact:   batt2FullSettings._battCapacity
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth:   true
+                            spacing:            ScreenTools.defaultFontPixelWidth
+
+                            QGCLabel { text: qsTr("Minimum arming voltage:") }
+                            Item { Layout.fillWidth: true }
+                            FactTextField {
+                                fact:   batt2FullSettings._armVoltMin
+                            }
+                        }
                     }
                 }
             }
@@ -250,14 +292,14 @@ SetupPage {
                 }
 
                 Rectangle {
-                    width:  escCalibrationHolder.x + escCalibrationHolder.width + _margins
-                    height: escCalibrationHolder.y + escCalibrationHolder.height + _margins
+                    width:  escCalibrationHolder.implicitWidth + _margins * 2
+                    height: escCalibrationHolder.implicitHeight + _margins * 2
                     color:  ggcPal.windowShade
+                    radius: ScreenTools.defaultFontPixelWidth * 0.5
 
                     Column {
                         id:         escCalibrationHolder
-                        x:          _margins
-                        y:          _margins
+                        anchors.centerIn: parent
                         spacing:    _margins
 
                         Column {
@@ -296,272 +338,6 @@ SetupPage {
             }
         } // Flow
     } // Component - powerPageComponent
-
-    Component {
-        id: powerSetupComponent
-
-        Column {
-            spacing: _margins
-
-            property real _margins:         ScreenTools.defaultFontPixelHeight / 2
-            property bool _showAdvanced:    sensorCombo.currentIndex === sensorModel.count - 1
-            property real _fieldWidth:      ScreenTools.defaultFontPixelWidth * 25
-
-            Component.onCompleted: calcSensor()
-
-            function calcSensor() {
-                for (var i=0; i<sensorModel.count - 1; i++) {
-                    if (sensorModel.get(i).voltPin === battVoltPin.value &&
-                            sensorModel.get(i).currPin === battCurrPin.value &&
-                            Math.abs(sensorModel.get(i).voltMult - battVoltMult.value) < 0.001 &&
-                            Math.abs(sensorModel.get(i).ampPerVolt - battAmpPerVolt.value) < 0.0001 &&
-                            Math.abs(sensorModel.get(i).ampOffset - battAmpOffset.value) < 0.0001) {
-                        sensorCombo.currentIndex = i
-                        return
-                    }
-                }
-                sensorCombo.currentIndex = sensorModel.count - 1
-            }
-
-            QGCPalette { id: qgcPal; colorGroupEnabled: true }
-
-            ListModel {
-                id: sensorModel
-
-                ListElement {
-                    text:       qsTr("Power Module 90A")
-                    voltPin:    2
-                    currPin:    3
-                    voltMult:   10.1
-                    ampPerVolt: 17.0
-                    ampOffset:  0
-                }
-
-                ListElement {
-                    text:       qsTr("Power Module HV")
-                    voltPin:    2
-                    currPin:    3
-                    voltMult:   12.02
-                    ampPerVolt: 39.877
-                    ampOffset:  0
-                }
-
-                ListElement {
-                    text:       qsTr("3DR Iris")
-                    voltPin:    2
-                    currPin:    3
-                    voltMult:   12.02
-                    ampPerVolt: 17.0
-                    ampOffset:  0
-                }
-
-                ListElement {
-                    text:       qsTr("Blue Robotics Power Sense Module")
-                    voltPin:    2
-                    currPin:    3
-                    voltMult:   11.000
-                    ampPerVolt: 37.8788
-                    ampOffset:  0.330
-                }
-
-                ListElement {
-                    text:       qsTr("Navigator w/ Blue Robotics Power Sense Module")
-                    voltPin:    5
-                    currPin:    4
-                    voltMult:   11.000
-                    ampPerVolt: 37.8788
-                    ampOffset:  0.330
-                }
-
-                ListElement {
-                    text:       qsTr("Other")
-                }
-            }
-
-
-            GridLayout {
-                columns:        3
-                rowSpacing:     _margins
-                columnSpacing:  _margins
-
-                QGCLabel { text: qsTr("Battery monitor:") }
-
-                FactComboBox {
-                    id:         monitorCombo
-                    fact:       battMonitor
-                    indexModel: false
-                    sizeToContents: true
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                QGCLabel {
-                    Layout.row:     1
-                    Layout.column:  0
-                    text:           qsTr("Battery capacity:")
-                }
-
-                FactTextField {
-                    id:     capacityField
-                    width:  _fieldWidth
-                    fact:   battCapacity
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                QGCLabel {
-                    Layout.row:     2
-                    Layout.column:  0
-                    text:           qsTr("Minimum arming voltage:")
-                }
-
-                FactTextField {
-                    id:     armVoltField
-                    width:  _fieldWidth
-                    fact:   armVoltMin
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                QGCLabel {
-                    Layout.row:     3
-                    Layout.column:  0
-                    text:           qsTr("Power sensor:")
-                    visible:        false
-                }
-
-                QGCComboBox {
-                    id:                     sensorCombo
-                    Layout.minimumWidth:    _fieldWidth
-                    Layout.alignment:       Qt.AlignRight
-                    model:                  sensorModel
-                    textRole:               "text"
-                    visible:                false
-
-                    onActivated: (index) => {
-                        if (index < sensorModel.count - 1) {
-                            battVoltPin.value = sensorModel.get(index).voltPin
-                            battCurrPin.value = sensorModel.get(index).currPin
-                            battVoltMult.value = sensorModel.get(index).voltMult
-                            battAmpPerVolt.value = sensorModel.get(index).ampPerVolt
-                            battAmpOffset.value = sensorModel.get(index).ampOffset
-                        } else {
-
-                        }
-                    }
-                }
-
-                QGCLabel {
-                    Layout.row:     4
-                    Layout.column:  0
-                    text:           qsTr("Current pin:")
-                    visible:        false // _showAdvanced
-                }
-
-                FactComboBox {
-                    Layout.minimumWidth:    _fieldWidth
-                    Layout.alignment:       Qt.AlignRight
-                    fact:                   battCurrPin
-                    indexModel:             false
-                    visible:                false // _showAdvanced
-                    sizeToContents:         true
-                }
-
-                QGCLabel {
-                    Layout.row:     5
-                    Layout.column:  0
-                    text:           qsTr("Voltage pin:")
-                    visible:        false // _showAdvanced
-                }
-
-                FactComboBox {
-                    Layout.minimumWidth:    _fieldWidth
-                    Layout.alignment:       Qt.AlignRight
-                    fact:                   battVoltPin
-                    indexModel:             false
-                    visible:                false // _showAdvanced
-                    sizeToContents:         true
-                }
-
-                QGCLabel {
-                    Layout.row:     6
-                    Layout.column:  0
-                    text:           qsTr("Voltage multiplier:")
-                    visible:        false // _showAdvanced
-                }
-
-                FactTextField {
-                    width:      _fieldWidth
-                    fact:       battVoltMult
-                    Layout.alignment: Qt.AlignRight
-                    visible:    false // _showAdvanced
-                }
-
-                QGCButton {
-                    Layout.alignment: Qt.AlignRight
-                    text:       qsTr("Calculate")
-                    visible:    false // _showAdvanced
-                    onClicked:  calcVoltageMultiplierDlgComponent.createObject(mainWindow, { vehicleVoltageFact: vehicleVoltage, battVoltMultFact: battVoltMult }).open()
-                }
-
-                QGCLabel {
-                    Layout.columnSpan:  3
-                    Layout.fillWidth:   true
-                    font.pointSize:     ScreenTools.smallFontPointSize
-                    wrapMode:           Text.WordWrap
-                    text:               qsTr("If the battery voltage reported by the vehicle is largely different than the voltage read externally using a voltmeter you can adjust the voltage multiplier value to correct this. Click the Calculate button for help with calculating a new value.")
-                    visible:            false // _showAdvanced
-                }
-
-                QGCLabel {
-                    text:       qsTr("Amps per volt:")
-                    visible:    false // _showAdvanced
-                }
-
-                FactTextField {
-                    width:      _fieldWidth
-                    fact:       battAmpPerVolt
-                    Layout.alignment: Qt.AlignRight
-                    visible:    false // _showAdvanced
-                }
-
-                QGCButton {
-                    Layout.alignment: Qt.AlignRight
-                    text:       qsTr("Calculate")
-                    visible:    false // _showAdvanced
-                    onClicked:  calcAmpsPerVoltDlgComponent.createObject(mainWindow, { vehicleCurrentFact: vehicleCurrent, battAmpPerVoltFact: battAmpPerVolt }).open()
-                }
-
-                QGCLabel {
-                    Layout.columnSpan:  3
-                    Layout.fillWidth:   true
-                    font.pointSize:     ScreenTools.smallFontPointSize
-                    wrapMode:           Text.WordWrap
-                    text:               qsTr("If the current draw reported by the vehicle is largely different than the current read externally using a current meter you can adjust the amps per volt value to correct this. Click the Calculate button for help with calculating a new value.")
-                    visible:            false // _showAdvanced
-                }
-
-                QGCLabel {
-                    text:       qsTr("Amps Offset:")
-                    visible:    false // _showAdvanced
-                }
-
-                FactTextField {
-                    width:      _fieldWidth
-                    fact:       battAmpOffset
-                    Layout.alignment: Qt.AlignRight
-                    visible:    false // _showAdvanced
-                }
-
-                QGCLabel {
-                    Layout.columnSpan:  3
-                    Layout.fillWidth:   true
-                    font.pointSize:     ScreenTools.smallFontPointSize
-                    wrapMode:           Text.WordWrap
-                    text:               qsTr("If the vehicle reports a high current read when there is little or no current going through it, adjust the Amps Offset. It should be equal to the voltage reported by the sensor when the current is zero.")
-                    visible:            false // _showAdvanced
-                }
-
-            } // GridLayout
-        } // Column
-    } // Component - powerSetupComponent
 
     Component {
         id: calcVoltageMultiplierDlgComponent

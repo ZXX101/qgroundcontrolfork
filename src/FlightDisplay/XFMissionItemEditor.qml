@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 import QtPositioning
 
 import QGroundControl
@@ -32,27 +33,10 @@ Item {
     }
 
     property var missionItem
+    property var flightMap
     property var _camera: missionItem ? missionItem.cameraSection : null
     property var _speed: missionItem ? missionItem.speedSection : null
-
-    property var _commandModel: [
-        {
-            text: qsTr("Waypoint"),
-            value: 16
-        },
-        {
-            text: qsTr("Land"),
-            value: 21
-        },
-        {
-            text: qsTr("Takeoff"),
-            value: 22
-        },
-        {
-            text: qsTr("RTL"),
-            value: 20
-        }
-    ]
+    property var _masterController: missionItem ? missionItem.masterController : null
 
     property var _cameraActionModel: [
         {
@@ -145,24 +129,49 @@ Item {
                     text: qsTr("Command")
                 }
                 Item { Layout.fillWidth: true }
-                QGCComboBox {
-                    id: commandCombo
-                    model: _commandModel
-                    textRole: "text"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
-                    currentIndex: {
-                        if (!missionItem)
-                            return -1;
-                        var cmd = missionItem.command;
-                        for (var i = 0; i < _commandModel.length; i++) {
-                            if (_commandModel[i].value == cmd)
-                                return i;
+
+                Item {
+                    id: commandPicker
+                    Layout.preferredWidth: commandInnerLayout.width
+                    Layout.preferredHeight: ScreenTools.implicitComboBoxHeight
+
+                    RowLayout {
+                        id: commandInnerLayout
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: ScreenTools.comboBoxPadding
+
+                        QGCLabel {
+                            text: missionItem ? missionItem.commandName : ""
                         }
-                        return 0;
+
+                        QGCColoredImage {
+                            height: ScreenTools.defaultFontPixelWidth
+                            width: height
+                            fillMode: Image.PreserveAspectFit
+                            smooth: true
+                            antialiasing: true
+                            color: qgcPal.text
+                            source: "/qmlimages/arrow-down.png"
+                        }
                     }
-                    onActivated: {
-                        if (missionItem && currentIndex >= 0) {
-                            missionItem.command = _commandModel[currentIndex].value;
+
+                    QGCMouseArea {
+                        fillItem: parent
+                        onClicked: {
+                            if (missionItem && missionItem.isSimpleItem) {
+                                commandDialog.createObject(mainWindow).open()
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: commandDialog
+
+                        MissionCommandDialog {
+                            vehicle:                    _masterController ? _masterController.controllerVehicle : null
+                            missionItem:                rootLayout.missionItem
+                            map:                        rootLayout.flightMap
+                            flyThroughCommandsAllowed:  true
                         }
                     }
                 }

@@ -66,12 +66,12 @@ Item {
                 id: waypointCardComponent
                 XFMissionWaypointCard {
                     missionItem:    object
-                    onClicked: (sequenceNumber) => {
+                    onWaypointClicked: (sequenceNumber) => {
                         if (missionController) {
                             missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
                         }
                     }
-                    onRemove: {
+                    onWaypointRemove: {
                         if (missionController) {
                             var actualIndex = -1
                             for (var i = 0; i < missionController.visualItems.count; i++) {

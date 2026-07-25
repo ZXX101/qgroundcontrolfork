@@ -99,17 +99,16 @@ SetupPage {
                 color:          qgcPal.text
             }
 
-            RowLayout {
+            Flow {
                 Layout.fillWidth:   true
                 Layout.fillHeight:  true
                 spacing:            ScreenTools.defaultFontPixelWidth * 4
 
                 Rectangle {
-                    Layout.preferredWidth:  ScreenTools.defaultFontPixelHeight * 12
-                    Layout.fillHeight:      true
-                    Layout.minimumHeight:   ScreenTools.defaultFontPixelHeight * 10
-                    color:                  qgcPal.windowShade
-                    radius:                 ScreenTools.defaultFontPixelWidth * 0.5
+                    width:      ScreenTools.defaultFontPixelHeight * 12
+                    height:     ScreenTools.defaultFontPixelHeight * 10
+                    color:      qgcPal.windowShade
+                    radius:     ScreenTools.defaultFontPixelWidth * 0.5
 
                     Image {
                         anchors.fill:           parent
@@ -126,7 +125,7 @@ SetupPage {
                     Layout.alignment:   Qt.AlignTop
                     spacing:            ScreenTools.defaultFontPixelHeight
 
-                    RowLayout {
+                    Flow {
                         Layout.fillWidth:   true
                         spacing:            ScreenTools.defaultFontPixelWidth * 2
 
@@ -148,7 +147,7 @@ SetupPage {
                             Layout.alignment:   Qt.AlignVCenter
                         }
 
-                        Item { Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                        Item { width: ScreenTools.defaultFontPixelWidth * 2; height: 1 }
 
                         QGCLabel {
                             text:               qsTr("Duration")
@@ -181,7 +180,7 @@ SetupPage {
                                 var durationValue = parseInt(durationField.text) || 0
                                 for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
                                     controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(motorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
-                                                                  throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                                                   throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }
@@ -197,7 +196,7 @@ SetupPage {
                         }
                     }
 
-                    RowLayout {
+                    Flow {
                         Layout.fillWidth:   true
                         spacing:            ScreenTools.defaultFontPixelWidth * 2
 
@@ -212,7 +211,7 @@ SetupPage {
                                     var throttleValue = parseInt(throttleField.text) || 0
                                     var durationValue = parseInt(durationField.text) || 0
                                     controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(index + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
-                                                                  throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                                                                   throttleValue, throttleValue === 0 ? 0 : durationValue, true)
                                 }
                             }
                         }

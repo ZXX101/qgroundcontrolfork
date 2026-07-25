@@ -27,8 +27,8 @@ Rectangle {
     property var        missionItem
     readonly property real deleteButtonWidth: waypointDeleteBtn.implicitWidth
 
-    signal clicked(int sequenceNumber)
-    signal remove(int index)
+    signal waypointClicked(int sequenceNumber)
+    signal waypointRemove(int itemIndex)
 
     RowLayout {
         anchors.fill:       parent
@@ -130,7 +130,7 @@ Rectangle {
         QGCMouseArea {
             fillItem: parent
             onClicked: {
-                remove(index)
+                waypointRemove(index)
             }
         }
     }
@@ -140,7 +140,7 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             if (missionItem) {
-                clicked(missionItem.sequenceNumber)
+                waypointClicked(missionItem.sequenceNumber)
             }
         }
     }

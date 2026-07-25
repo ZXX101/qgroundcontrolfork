@@ -296,7 +296,6 @@ Rectangle {
                     if (item) {
                         if (item.hasOwnProperty("geoFenceController")) item.geoFenceController = popup.geoFenceController;
                         if (item.hasOwnProperty("flightMap")) item.flightMap = popup.flightMap;
-                        if (item.hasOwnProperty("fenceEnabled")) item.fenceEnabled = popup.fenceEnabled;
                     }
                 }
 
@@ -312,11 +311,6 @@ Rectangle {
 
                 Connections {
                     target: popup
-                    function onFenceEnabledChanged() {
-                        if (contentLoader.item && contentLoader.item.hasOwnProperty("fenceEnabled") && contentLoader.item.fenceEnabled !== popup.fenceEnabled) {
-                            contentLoader.item.fenceEnabled = popup.fenceEnabled;
-                        }
-                    }
                     function onGeoFenceControllerChanged() {
                         if (contentLoader.item && contentLoader.item.hasOwnProperty("geoFenceController")) {
                             contentLoader.item.geoFenceController = popup.geoFenceController;

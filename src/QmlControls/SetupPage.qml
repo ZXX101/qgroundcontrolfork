@@ -91,6 +91,7 @@ Item {
 
         Loader {
             id:                 pageLoader
+            width:              availableWidth
             anchors.topMargin:  headingRow.visible ? _margins : 0
             anchors.top:        headingRow.bottom
         }
