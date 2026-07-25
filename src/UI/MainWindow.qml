@@ -694,6 +694,7 @@ ApplicationWindow {
     function showIndicatorDrawer(drawerComponent, indicatorItem) {
         indicatorDrawer.sourceComponent = drawerComponent
         indicatorDrawer.indicatorItem = indicatorItem
+        indicatorDrawer._expanded = true
         indicatorDrawer.open()
     }
 
@@ -732,7 +733,6 @@ ApplicationWindow {
         }
 
         onOpened: {
-            _expanded                               = false;
             indicatorDrawerLoader.sourceComponent   = indicatorDrawer.sourceComponent
         }
         onClosed: {
@@ -748,7 +748,7 @@ ApplicationWindow {
                 anchors.fill:   parent
                 color:          QGroundControl.globalPalette.window
                 radius:         indicatorDrawer._margins
-                opacity:        0.85
+                opacity:        1.0
             }
 
             //展开按钮，位于抽屉右上角，点击展开更多内容

@@ -24,7 +24,7 @@ Rectangle {
     id:             _summaryRoot
     anchors.fill:   parent
     anchors.rightMargin: ScreenTools.defaultFontPixelWidth
-    anchors.leftMargin:  ScreenTools.defaultFontPixelWidth
+    anchors.leftMargin:  ScreenTools.defaultFontPixelWidth * 2
     color:          qgcPal.window
 
     property real _minSummaryW:     ScreenTools.isTinyScreen ? ScreenTools.defaultFontPixelWidth * 28 : ScreenTools.defaultFontPixelWidth * 36

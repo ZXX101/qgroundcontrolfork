@@ -29,7 +29,8 @@ SetupPage {
         id: tuningPageComponent
 
         ColumnLayout {
-            width: availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             spacing: ScreenTools.defaultFontPixelHeight
 
             FactPanelController { id: controller }

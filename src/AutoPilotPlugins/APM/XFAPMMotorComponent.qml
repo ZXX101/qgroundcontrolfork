@@ -86,7 +86,8 @@ SetupPage {
 
         ColumnLayout {
             id:                 mainLayout
-            width:              availableWidth
+            x:                  ScreenTools.defaultFontPixelWidth * 2
+            width:              availableWidth - ScreenTools.defaultFontPixelWidth * 2
             spacing:            ScreenTools.defaultFontPixelHeight
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")

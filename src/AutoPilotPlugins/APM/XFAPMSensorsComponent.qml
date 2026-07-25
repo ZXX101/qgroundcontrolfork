@@ -25,15 +25,33 @@ import MAVLink
 
 SetupPage {
     id:             sensorsPage
-    pageComponent:  sensorsPageComponent
+    pageComponent:  globals.activeVehicle ? sensorsPageComponent : noVehiclePageComponent
     pageName:       ""
     pageDescription: ""
+
+    Component {
+        id: noVehiclePageComponent
+
+        Item {
+            width:  availableWidth
+            height: availableHeight
+
+            QGCLabel {
+                anchors.centerIn: parent
+                text:       qsTr("No vehicle connected")
+                font.pointSize: ScreenTools.largeFontPointSize
+                color:      qgcPal.text
+                opacity:    0.5
+            }
+        }
+    }
 
     Component {
         id:             sensorsPageComponent
 
         Item {
-            width:  availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             height: availableHeight
 
             // Help text which is shown both in the status text area prior to pressing a cal button and in the
@@ -500,7 +518,7 @@ SetupPage {
                         QGCLabel {
                             id:         magneticDeclinationLabel
                             width:      parent.width
-                            visible:    globals.activeVehicle.sub && _orientationsDialogShowCompass
+                            visible:    globals.activeVehicle && globals.activeVehicle.sub && _orientationsDialogShowCompass
                             text:       qsTr("Magnetic Declination")
                         }
 
@@ -558,7 +576,7 @@ SetupPage {
                             QGCLabel {
                                 id:         northCalibrationManualPosition
                                 width:      parent.width
-                                visible:    northCalibrationCheckBox.checked && !globals.activeVehicle.coordinate.isValid
+                                visible:    northCalibrationCheckBox.checked && globals.activeVehicle && !globals.activeVehicle.coordinate.isValid
                                 wrapMode:   Text.WordWrap
                                 text:       qsTr("Vehicle has no Valid positon, please provide it")
                             }

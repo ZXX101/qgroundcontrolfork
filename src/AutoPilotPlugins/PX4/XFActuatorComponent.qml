@@ -24,6 +24,8 @@ SetupPage {
         id: pageComponent
 
         Row {
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             spacing:                        ScreenTools.defaultFontPixelWidth * 4
             property var _leftColumnWidth:  Math.max(actuatorTesting.implicitWidth, mixerUi.implicitWidth) + (_margins * 2)
 

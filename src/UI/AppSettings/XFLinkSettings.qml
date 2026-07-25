@@ -42,6 +42,7 @@ QGCFlickable {
 
     RowLayout {
         anchors.fill: parent
+        anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
         spacing: 0
 
         // 左侧：连接列表
@@ -405,8 +406,28 @@ QGCFlickable {
                                     { type: LinkConfiguration.TypeSerial, name: qsTr("Serial") }
                                 ]
                                 QGCRadioButton {
+                                    id: control
                                     text: modelData.name
                                     enabled: originalConfig == null
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelHeight
+                                    indicator: Rectangle {
+                                        implicitWidth:  control._indicatorSize
+                                        implicitHeight: control._indicatorSize
+                                        radius:         height / 2
+                                        color:          "transparent"
+                                        border.color:   "#1484FC"
+                                        border.width:   1
+                                        x:              control.leftPadding
+                                        y:              parent.height / 2 - height / 2
+                                        Rectangle {
+                                            anchors.centerIn: parent
+                                            width:  parent.width * 0.6
+                                            height: width
+                                            radius: height / 2
+                                            color:   "#1484FC"
+                                            visible: control.checked
+                                        }
+                                    }
                                     onCheckedChanged: if (checked && originalConfig == null) {
                                         var newConfig = _linkManager.createConfiguration(modelData.type, nameField.text);
                                         editingConfig = newConfig;

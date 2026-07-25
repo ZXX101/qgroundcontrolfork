@@ -189,44 +189,15 @@ Item {
 
             RowLayout {
                 Layout.fillWidth: true
-                spacing: ScreenTools.defaultFontPixelWidth
 
                 QGCLabel {
                     text: qsTr("Insert Fence")
                     font.bold: true
                 }
-
-                Rectangle {
-                    id: fenceSwitch
-                    width: ScreenTools.defaultFontPixelWidth * 4
-                    height: ScreenTools.defaultFontPixelHeight * 0.6
-                    radius: height / 2
-                    color: fenceEnabled ? qgcPal.colorGreen : qgcPal.colorGrey
-                    border.width: 1
-                    border.color: qgcPal.windowShade
-
-                    property bool _fenceOn: fenceEnabled
-
-                    Rectangle {
-                        id: fenceSwitchKnob
-                        width: fenceSwitch.height - 4
-                        height: width
-                        radius: width / 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        x: fenceSwitch._fenceOn ? parent.width - width - 2 : 2
-                        color: qgcPal.buttonText
-
-                        Behavior on x {
-                            NumberAnimation { duration: 150 }
-                        }
-                    }
-
-                    QGCMouseArea {
-                        fillItem: parent
-                        onClicked: {
-                            fenceEnabled = !fenceEnabled
-                        }
-                    }
+                Item { Layout.fillWidth: true }
+                QGCCheckBoxSlider {
+                    checked: fenceEnabled
+                    onClicked: fenceEnabled = !fenceEnabled
                 }
 
                 QGCButton {

@@ -30,7 +30,8 @@ SetupPage {
         id:             sensorsPageComponent
 
         Item {
-            width:  availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             height: availableHeight
 
             readonly property string compassHelp:   qsTr("For Compass calibration you will need to rotate your vehicle through a number of positions.")

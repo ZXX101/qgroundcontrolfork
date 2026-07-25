@@ -30,7 +30,8 @@ SetupPage {
 
         ColumnLayout {
             id:     mainColumn
-            width:  availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
 
             property real _minW:                ScreenTools.defaultFontPixelWidth * 20
             property real _boxWidth:            _minW

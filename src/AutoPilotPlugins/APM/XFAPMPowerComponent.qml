@@ -34,7 +34,8 @@ SetupPage {
 
         Flow {
             id:         flowLayout
-            width:      availableWidth
+            x:          ScreenTools.defaultFontPixelWidth * 2
+            width:      availableWidth - ScreenTools.defaultFontPixelWidth * 2
             spacing:    _margins
 
             property Fact _batt1Monitor:            controller.getParameterFact(-1, "BATT_MONITOR")

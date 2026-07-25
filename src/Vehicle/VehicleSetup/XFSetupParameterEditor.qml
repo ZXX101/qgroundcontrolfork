@@ -138,6 +138,7 @@ Item {
 
     RowLayout {
         anchors.fill: parent
+        anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
         spacing: ScreenTools.defaultFontPixelWidth
 
         QGCFlickable {

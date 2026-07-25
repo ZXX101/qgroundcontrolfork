@@ -563,9 +563,9 @@ Item {
     FlyViewFloatingToolBar {
         id:                     floatingToolBar
         visible:                !QGroundControl.videoManager.fullScreen
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top:              parent.top
-        anchors.topMargin:        _topMargin
+        anchors.left:            flightActionButtons.left
+        anchors.top:             flightActionButtons.bottom
+        anchors.topMargin:       _toolsMargin
 
         onCenterOnVehicle: {
             if (_activeVehicle && _activeVehicle.coordinate.isValid) {

@@ -49,7 +49,8 @@ SetupPage {
         id: flightModePageComponent
 
         ColumnLayout {
-            width:      availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             spacing:    _margins
 
             FactPanelController { id: auxController }

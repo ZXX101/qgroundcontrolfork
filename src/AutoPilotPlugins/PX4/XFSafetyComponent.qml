@@ -26,7 +26,8 @@ SetupPage {
         id: safetyPageComponent
 
         Item {
-            width:  availableWidth
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             height: leftColumn.height
 
             FactPanelController { id: controller }

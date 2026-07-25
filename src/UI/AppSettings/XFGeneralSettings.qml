@@ -91,7 +91,9 @@ ColumnLayout {
                 spacing: ScreenTools.defaultFontPixelWidth * 2
                 visible: _appSavePath.visible && !ScreenTools.isMobile
 
-                ColumnLayout {
+ColumnLayout {
+    x:      ScreenTools.defaultFontPixelWidth * 2
+    width:  parent.width - ScreenTools.defaultFontPixelWidth * 2
                     Layout.fillWidth: true
                     spacing: 0
 
