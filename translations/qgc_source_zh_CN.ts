@@ -20619,77 +20619,77 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="282"/>
         <source>Cancel ROI</source>
-        <translation type="unfinished"></translation>
+        <translation>取消兴趣点</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="282"/>
         <source>ROI</source>
-        <translation type="unfinished"></translation>
+        <translation>兴趣点</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="375"/>
         <source>Send To Vehicle</source>
-        <translation type="unfinished">发送到飞机</translation>
+        <translation>发送到飞机</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="375"/>
         <source>Current mission must be paused prior to uploading a new Plan</source>
-        <translation type="unfinished">上传任务前需暂停当前任务</translation>
+        <translation>上传任务前需暂停当前任务</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="378"/>
         <source>Plan Upload</source>
-        <translation type="unfinished">上传任务</translation>
+        <translation>上传任务</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="378"/>
         <source>This Plan was created for a different firmware or vehicle type.</source>
-        <translation type="unfinished">创建任务的固件或飞机类型与当前不一致</translation>
+        <translation>创建任务的固件或飞机类型与当前不一致</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="387"/>
         <source>Save</source>
-        <translation type="unfinished">保持</translation>
+        <translation>保持</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="387"/>
         <source>Upload</source>
-        <translation type="unfinished">上传</translation>
+        <translation>上传</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="388"/>
         <source>Unable to %1</source>
-        <translation type="unfinished">无法 %1</translation>
+        <translation>无法 %1</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="388"/>
         <source>Plan has incomplete items.</source>
-        <translation type="unfinished">任务中保护未完成项</translation>
+        <translation>任务中保护未完成项</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="395"/>
         <source>Select Plan File</source>
-        <translation type="unfinished">选择任务计划文件</translation>
+        <translation>选择任务计划文件</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="404"/>
         <source>You have unsaved/unsent changes. Loading from the Vehicle will lose these changes. Are you sure you want to load from the Vehicle?</source>
-        <translation type="unfinished">您有未保存/未发送的更改。从飞机进行加载操作将会失去这些变更。确定要从飞机上加载吗？</translation>
+        <translation>您有未保存/未发送的更改。从飞机进行加载操作将会失去这些变更。确定要从飞机上加载吗？</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="413"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="414"/>
         <source>Are you sure you want to remove all mission items and clear the mission from the vehicle?</source>
-        <translation type="unfinished">是否确认要删除所有任务项目并清除该飞机上的任务？</translation>
+        <translation>是否确认要删除所有任务项目并清除该飞机上的任务？</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="426"/>
         <source>Save Plan</source>
-        <translation type="unfinished">保存计划</translation>
+        <translation>保存计划</translation>
     </message>
 </context>
 <context>

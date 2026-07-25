@@ -65,7 +65,7 @@ Rectangle {
 
         Rectangle {
             id: titleBar
-            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+            Layout.preferredHeight: ScreenTools.toolbarHeight
             Layout.fillWidth: true
             color: "#2A2A2A"
             radius: 0
@@ -77,7 +77,7 @@ Rectangle {
                 spacing: ScreenTools.defaultFontPixelWidth / 2
 
                 QGCButton {
-                    text: expanded ? "◀" : "▶"
+                    iconSource: expanded ? "/xfres/collapseMission.png" : "/xfres/expandMission.png"
                     onClicked: expanded = !expanded
                 }
 
@@ -91,7 +91,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: qsTr("Delete")
+                    iconSource: "/xfres/clearMission.png"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -102,7 +102,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: qsTr("Open")
+                    iconSource: "/xfres/openMission.png"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -113,7 +113,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text: qsTr("Save")
+                    iconSource: "/xfres/saveMission.png"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -146,6 +146,7 @@ Rectangle {
                 ColumnLayout {
                     id: tabColumn
                     anchors.fill: parent
+                    spacing: 0
 
                     QGCButton {
                         text: qsTr("Basic")
@@ -155,6 +156,15 @@ Rectangle {
                             editSequenceNumber = -1;
                         }
                         Layout.fillWidth: true
+                        background: Rectangle {
+                            color: parent.checked ? qgcPal.buttonHighlight : qgcPal.button
+                            radius: 0
+                        }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 1
+                        color: "#303030"
                     }
                     QGCButton {
                         text: qsTr("List")
@@ -164,12 +174,16 @@ Rectangle {
                             editSequenceNumber = -1;
                         }
                         Layout.fillWidth: true
+                        background: Rectangle {
+                            color: parent.checked ? qgcPal.buttonHighlight : qgcPal.button
+                            radius: 0
+                        }
                     }
 
                     Rectangle {
                         Layout.fillWidth: true
-                        height: 1
-                        color: qgcPal.windowShade
+                        Layout.preferredHeight: 1
+                        color: "#303030"
                     }
 
                     Item {
@@ -185,7 +199,7 @@ Rectangle {
                             ColumnLayout {
                                 id: waypointColumn
                                 width: parent.width
-                                spacing: ScreenTools.defaultFontPixelWidth / 2
+                                spacing: 0
 
                                 Repeater {
                                     model: missionController ? missionController.visualItems : null
@@ -197,6 +211,17 @@ Rectangle {
                                         visible: object.sequenceNumber !== 0
                                         checked: currentSequenceNumber === object.sequenceNumber
                                         Layout.fillWidth: true
+                                        background: Rectangle {
+                                            color: parent.checked ? qgcPal.buttonHighlight : qgcPal.button
+                                            radius: 0
+                                            Rectangle {
+                                                anchors.bottom: parent.bottom
+                                                anchors.left: parent.left
+                                                anchors.right: parent.right
+                                                height: 1
+                                                color: "#303030"
+                                            }
+                                        }
                                         onClicked: {
                                             editSequenceNumber = object.sequenceNumber;
                                             currentTab = "editor";
@@ -216,12 +241,14 @@ Rectangle {
                 Layout.preferredWidth: 1
                 Layout.fillHeight: true
                 color: "#303030"
+                visible: popup.expanded
             }
 
             Loader {
                 id: contentLoader
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.preferredWidth: popup.expanded ? -1 : 0
                 visible: popup.expanded
                 source: {
                     if (currentTab === "basic") return "XFMissionBasicPage.qml";
@@ -267,9 +294,9 @@ Rectangle {
                 onLoaded: {
                     updateMissionItemForce();
                     if (item) {
-                        item.geoFenceController = popup.geoFenceController;
-                        item.flightMap = popup.flightMap;
-                        item.fenceEnabled = popup.fenceEnabled;
+                        if (item.hasOwnProperty("geoFenceController")) item.geoFenceController = popup.geoFenceController;
+                        if (item.hasOwnProperty("flightMap")) item.flightMap = popup.flightMap;
+                        if (item.hasOwnProperty("fenceEnabled")) item.fenceEnabled = popup.fenceEnabled;
                     }
                 }
 
@@ -313,7 +340,7 @@ Rectangle {
 
         Rectangle {
             id: bottomBar
-            Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
+            Layout.preferredHeight: ScreenTools.toolbarHeight * 0.8
             Layout.fillWidth: true
             color: "#2A2A2A"
             radius: 0
@@ -321,34 +348,77 @@ Rectangle {
             visible: popup.expanded
 
             RowLayout {
-                anchors.centerIn: parent
-                spacing: ScreenTools.defaultFontPixelWidth
+                anchors.fill: parent
+                anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 3
+                anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 3
+                anchors.topMargin: ScreenTools.defaultFontPixelHeight * 0.75
+                anchors.bottomMargin: ScreenTools.defaultFontPixelHeight * 0.75
+                spacing: ScreenTools.defaultFontPixelWidth * 3
 
-                QGCButton {
-                    text: qsTr("Upload")
-                    onClicked: {
-                        if (typeof upload === "function") {
-                            upload();
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: parent.height * 1.4
+                    color: "#109B38"
+                    radius: ScreenTools.defaultFontPixelHeight / 4
+
+                    QGCLabel {
+                        anchors.centerIn: parent
+                        text: qsTr("Upload")
+                        color: "white"
+                    }
+
+                    QGCMouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (typeof upload === "function") {
+                                upload();
+                            }
                         }
                     }
                 }
-                QGCButton {
-                    text: qsTr("Download")
-                    onClicked: {
-                        if (planMasterController && typeof downloadClicked === "function") {
-                            downloadClicked(qsTr("Plan overwrite"));
-                        } else if (planMasterController) {
-                            planMasterController.loadFromVehicle();
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: parent.height * 1.4
+                    color: "#1969B3"
+                    radius: ScreenTools.defaultFontPixelHeight / 4
+
+                    QGCLabel {
+                        anchors.centerIn: parent
+                        text: qsTr("Download")
+                        color: "white"
+                    }
+
+                    QGCMouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (planMasterController && typeof downloadClicked === "function") {
+                                downloadClicked(qsTr("Plan overwrite"));
+                            } else if (planMasterController) {
+                                planMasterController.loadFromVehicle();
+                            }
                         }
                     }
                 }
-                QGCButton {
-                    text: qsTr("Clear")
-                    onClicked: {
-                        if (typeof clearButtonClicked === "function") {
-                            clearButtonClicked();
-                        } else if (planMasterController) {
-                            planMasterController.removeAllFromVehicle();
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: parent.height * 1.4
+                    color: qgcPal.button
+                    radius: ScreenTools.defaultFontPixelHeight / 4
+
+                    QGCLabel {
+                        anchors.centerIn: parent
+                        text: qsTr("Clear")
+                        color: qgcPal.buttonText
+                    }
+
+                    QGCMouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (typeof clearButtonClicked === "function") {
+                                clearButtonClicked();
+                            } else if (planMasterController) {
+                                planMasterController.removeAllFromVehicle();
+                            }
                         }
                     }
                 }

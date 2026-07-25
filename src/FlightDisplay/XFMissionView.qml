@@ -215,33 +215,27 @@ Item {
             width: ScreenTools.defaultFontPixelWidth * 6
             height: width
             radius: ScreenTools.defaultFontPixelWidth / 2
-            color: xfMissionView._currentMode === "waypoint" ?
-                       qgcPal.buttonHighlight :
-                       (waypointMA.pressed || waypointMA.containsMouse ?
-                           qgcPal.buttonHighlight : qgcPal.toolbarBackground)
+            color: qgcPal.toolbarBackground
 
             Column {
                 anchors.centerIn: parent
                 spacing: ScreenTools.defaultFontPixelHeight * 0.1
 
-                QGCLabel {
-                    text: qsTr("WP")
-                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
-                    font.bold: true
-                    color: xfMissionView._currentMode === "waypoint" ?
-                               qgcPal.buttonHighlightText :
-                               (waypointMA.pressed || waypointMA.containsMouse ?
-                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                Image {
+                    width: ScreenTools.defaultFontPixelWidth * 3.5
+                    height: width
+                    source: xfMissionView._currentMode === "waypoint" ?
+                                "qrc:/xfres/waypointSelected.png" :
+                                "qrc:/xfres/waypoint.png"
+                    fillMode: Image.PreserveAspectFit
+                    mipmap: true
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 QGCLabel {
                     text: qsTr("Waypoint")
                     font.pointSize: ScreenTools.smallFontPointSize
-                    color: xfMissionView._currentMode === "waypoint" ?
-                               qgcPal.buttonHighlightText :
-                               (waypointMA.pressed || waypointMA.containsMouse ?
-                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    color: qgcPal.buttonText
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -258,33 +252,29 @@ Item {
             width: ScreenTools.defaultFontPixelWidth * 6
             height: width
             radius: ScreenTools.defaultFontPixelWidth / 2
-            color: xfMissionView._currentMode === "roi" ?
-                       qgcPal.buttonHighlight :
-                       (roiMA.pressed || roiMA.containsMouse ?
-                           qgcPal.buttonHighlight : qgcPal.toolbarBackground)
+            color: qgcPal.toolbarBackground
 
             Column {
                 anchors.centerIn: parent
                 spacing: ScreenTools.defaultFontPixelHeight * 0.1
 
-                QGCLabel {
-                    text: _missionController && _missionController.isROIActive ? qsTr("X") : "ROI"
-                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
-                    font.bold: true
-                    color: xfMissionView._currentMode === "roi" ?
-                               qgcPal.buttonHighlightText :
-                               (roiMA.pressed || roiMA.containsMouse ?
-                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                Image {
+                    width: ScreenTools.defaultFontPixelWidth * 3.5
+                    height: width
+                    source: (_missionController && _missionController.isROIActive) ?
+                                "qrc:/xfres/roiSelected.png" :
+                                (xfMissionView._currentMode === "roi" ?
+                                     "qrc:/xfres/roiSelected.png" :
+                                     "qrc:/xfres/roi.png")
+                    fillMode: Image.PreserveAspectFit
+                    mipmap: true
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 QGCLabel {
-                    text: _missionController && _missionController.isROIActive ? qsTr("Cancel ROI") : qsTr("ROI")
+                    text: (_missionController && _missionController.isROIActive) ? qsTr("Cancel ROI") : qsTr("ROI")
                     font.pointSize: ScreenTools.smallFontPointSize
-                    color: xfMissionView._currentMode === "roi" ?
-                               qgcPal.buttonHighlightText :
-                               (roiMA.pressed || roiMA.containsMouse ?
-                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    color: qgcPal.buttonText
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -341,7 +331,7 @@ Item {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: missionInfoPopup.expanded ? ScreenTools.defaultFontPixelWidth * 40 : ScreenTools.defaultFontPixelWidth * 10
+        width: missionInfoPopup.expanded ? ScreenTools.defaultFontPixelWidth * 48 : ScreenTools.defaultFontPixelWidth * 8
         visible: true
 
         missionController: _missionController

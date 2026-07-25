@@ -128,6 +128,7 @@ Item {
 
     QGCFlickable {
         anchors.fill: parent
+        anchors.margins: ScreenTools.defaultFontPixelWidth
         clip: true
         flickableDirection: Flickable.VerticalFlick
         contentHeight: contentColumn.height
@@ -142,13 +143,13 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Command")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
+                Item { Layout.fillWidth: true }
                 QGCComboBox {
                     id: commandCombo
                     model: _commandModel
                     textRole: "text"
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
                     currentIndex: {
                         if (!missionItem)
                             return -1;
@@ -172,11 +173,15 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Longitude")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+                }
+                Item { Layout.fillWidth: true }
+                QGCLabel {
+                    text: "°"
                 }
                 QGCTextField {
                     id: lonField
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
+                    horizontalAlignment: Text.AlignRight
                     text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude) ? missionItem.coordinate.longitude.toFixed(7) : "0"
                     onEditingFinished: {
                         var val = parseFloat(text);
@@ -189,10 +194,6 @@ Item {
                         }
                     }
                 }
-                QGCLabel {
-                    text: "°"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2
-                }
             }
 
             RowLayout {
@@ -200,11 +201,15 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Latitude")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
+                }
+                Item { Layout.fillWidth: true }
+                QGCLabel {
+                    text: "°"
                 }
                 QGCTextField {
                     id: latField
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
+                    horizontalAlignment: Text.AlignRight
                     text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude) ? missionItem.coordinate.latitude.toFixed(7) : "0"
                     onEditingFinished: {
                         var val = parseFloat(text);
@@ -217,10 +222,6 @@ Item {
                         }
                     }
                 }
-                QGCLabel {
-                    text: "°"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2
-                }
             }
 
             RowLayout {
@@ -228,13 +229,8 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Altitude")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                FactTextField {
-                    id: altField
-                    fact: missionItem ? missionItem.altitude : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
+                Item { Layout.fillWidth: true }
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
@@ -253,6 +249,11 @@ Item {
                         setCoord(NaN, NaN, c.altitude + 10);
                     }
                 }
+                FactTextField {
+                    id: altField
+                    fact: missionItem ? missionItem.altitude : null
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                }
             }
 
             RowLayout {
@@ -270,14 +271,8 @@ Item {
                 }
                 QGCLabel {
                     text: qsTr("Speed")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                 }
-                FactTextField {
-                    id: speedField
-                    fact: _speed ? _speed.flightSpeed : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    enabled: speedCheckBox.checked
-                }
+                Item { Layout.fillWidth: true }
                 QGCButton {
                     text: "-1"
                     _horizontalPadding: 0
@@ -306,6 +301,12 @@ Item {
                         }
                     }
                 }
+                FactTextField {
+                    id: speedField
+                    fact: _speed ? _speed.flightSpeed : null
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    enabled: speedCheckBox.checked
+                }
             }
 
             RowLayout {
@@ -313,13 +314,13 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Camera Action")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
+                Item { Layout.fillWidth: true }
                 QGCComboBox {
                     id: cameraActionCombo
                     model: _cameraActionModel
                     textRole: "text"
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
                     currentIndex: {
                         if (!_camera)
                             return 0;
@@ -343,8 +344,8 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Gimbal")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
+                Item { Layout.fillWidth: true }
                 QGCCheckBoxSlider {
                     id: gimbalCheckBox
                     checked: _camera ? _camera.specifyGimbal : false
@@ -362,16 +363,10 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Pitch")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                FactTextField {
-                    id: gimbalPitchField
-                    fact: _camera ? _camera.gimbalPitch : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
+                Item { Layout.fillWidth: true }
                 QGCLabel {
                     text: "°"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2
                 }
                 QGCButton {
                     text: "-10"
@@ -397,6 +392,11 @@ Item {
                         }
                     }
                 }
+                FactTextField {
+                    id: gimbalPitchField
+                    fact: _camera ? _camera.gimbalPitch : null
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                }
             }
 
             RowLayout {
@@ -405,16 +405,10 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Yaw")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                FactTextField {
-                    id: gimbalYawField
-                    fact: _camera ? _camera.gimbalYaw : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
+                Item { Layout.fillWidth: true }
                 QGCLabel {
                     text: "°"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2
                 }
                 QGCButton {
                     text: "-10"
@@ -437,6 +431,11 @@ Item {
                             _camera.gimbalYaw.rawValue = Math.min(180, _camera.gimbalYaw.rawValue + 10);
                         }
                     }
+                }
+                FactTextField {
+                    id: gimbalYawField
+                    fact: _camera ? _camera.gimbalYaw : null
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                 }
             }
 

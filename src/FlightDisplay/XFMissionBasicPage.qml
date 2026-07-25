@@ -68,6 +68,7 @@ Item {
 
     QGCFlickable {
         anchors.fill: parent
+        anchors.margins: ScreenTools.defaultFontPixelWidth
         clip: true
         flickableDirection: Flickable.VerticalFlick
         contentHeight: contentColumn.height
@@ -83,8 +84,9 @@ Item {
                 QGCLabel {
                     text: qsTr("Mission Name")
                 }
+                Item { Layout.fillWidth: true }
                 QGCTextField {
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 16
                     text: missionName
                     onTextChanged: {
                         missionName = text
@@ -97,20 +99,10 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Flight Altitude")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: _defaultAltitude ? _defaultAltitude.rawValue : "50"
-                    onEditingFinished: {
-                        if (_defaultAltitude) {
-                            _defaultAltitude.rawValue = parseFloat(text)
-                        }
-                    }
-                }
+                Item { Layout.fillWidth: true }
                 QGCLabel {
                     text: "m"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
                 }
                 QGCButton {
                     text: "-10"
@@ -132,6 +124,16 @@ Item {
                         }
                     }
                 }
+                QGCTextField {
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    text: _defaultAltitude ? _defaultAltitude.rawValue : "50"
+                    horizontalAlignment: Text.AlignRight
+                    onEditingFinished: {
+                        if (_defaultAltitude) {
+                            _defaultAltitude.rawValue = parseFloat(text)
+                        }
+                    }
+                }
             }
 
             RowLayout {
@@ -139,15 +141,10 @@ Item {
 
                 QGCLabel {
                     text: qsTr("Flight Speed")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
-                QGCTextField {
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: "10"
-                }
+                Item { Layout.fillWidth: true }
                 QGCLabel {
                     text: "m/s"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
                 }
                 QGCButton {
                     text: "-1"
@@ -163,6 +160,11 @@ Item {
                     onClicked: {
                     }
                 }
+                QGCTextField {
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    text: "10"
+                    horizontalAlignment: Text.AlignRight
+                }
             }
 
             RowLayout {
@@ -170,12 +172,12 @@ Item {
 
                 QGCLabel {
                     text: qsTr("End Action")
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10
                 }
+                Item { Layout.fillWidth: true }
                 QGCComboBox {
                     model: [qsTr("RTL"), qsTr("Land"), qsTr("Hover")]
                     currentIndex: 0
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
                 }
             }
 

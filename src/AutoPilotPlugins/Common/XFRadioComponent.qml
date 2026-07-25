@@ -103,10 +103,11 @@ SetupPage {
             }
 
             Column {
-                id:             leftColumn
-                anchors.left:   parent.left
-                anchors.right:  columnSpacer.left
-                spacing:        10
+                id:                 leftColumn
+                anchors.left:       parent.left
+                anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
+                anchors.right:      columnSpacer.left
+                spacing:            10
 
                 Column {
                     width:      parent.width

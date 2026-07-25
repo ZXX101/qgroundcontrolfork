@@ -23,16 +23,19 @@ import QGroundControl.Vehicle
 SetupPage {
     id: tuningPage
     pageComponent: tuningPageComponent
-
+    pageName:       ""
+    pageDescription: ""
     Component {
         id: tuningPageComponent
-
 
         ColumnLayout {
             width: availableWidth
             spacing: ScreenTools.defaultFontPixelHeight
 
             FactPanelController { id: controller }
+            QGCPalette { id: qgcPal; colorGroupEnabled: true }
+
+            property real _margins: ScreenTools.defaultFontPixelHeight / 2
 
             property Fact _rateRollP: controller.getParameterFact(-1, "ATC_RAT_RLL_P")
             property Fact _rateRollI: controller.getParameterFact(-1, "ATC_RAT_RLL_I")
@@ -67,6 +70,8 @@ SetupPage {
             TabBar {
                 id: tabBar
                 Layout.fillWidth: true
+                Layout.leftMargin: _margins
+                Layout.rightMargin: _margins
                 spacing: 0
                 background: Rectangle {
                     color: "transparent"
@@ -74,6 +79,10 @@ SetupPage {
 
                 TabButton {
                     text: qsTr("Rate")
+                    leftPadding: _margins * 2
+                    rightPadding: _margins * 2
+                    topPadding: _margins
+                    bottomPadding: _margins
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -95,6 +104,10 @@ SetupPage {
                 }
                 TabButton {
                     text: qsTr("Attitude")
+                    leftPadding: _margins * 2
+                    rightPadding: _margins * 2
+                    topPadding: _margins
+                    bottomPadding: _margins
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -116,6 +129,10 @@ SetupPage {
                 }
                 TabButton {
                     text: qsTr("Velocity")
+                    leftPadding: _margins * 2
+                    rightPadding: _margins * 2
+                    topPadding: _margins
+                    bottomPadding: _margins
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -137,6 +154,10 @@ SetupPage {
                 }
                 TabButton {
                     text: qsTr("Position")
+                    leftPadding: _margins * 2
+                    rightPadding: _margins * 2
+                    topPadding: _margins
+                    bottomPadding: _margins
                     contentItem: Text {
                         text: parent.text
                         font: parent.font
@@ -161,104 +182,128 @@ SetupPage {
             StackLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.leftMargin: _margins
+                Layout.rightMargin: _margins
                 currentIndex: tabBar.currentIndex
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    spacing: ScreenTools.defaultFontPixelHeight
+                    spacing: _margins * 2
 
-                    RowLayout {
+                    Column {
                         Layout.fillWidth: true
-                        spacing: ScreenTools.defaultFontPixelWidth * 4
+                        spacing: _margins
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Roll")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
-
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.001-0.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateRollP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-2"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateRollI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateRollD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
+                        QGCLabel {
+                            text: qsTr("Rate Controller")
+                            font.bold: true
+                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Pitch")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                        Rectangle {
+                            width: parent.width
+                            height: rateParamsGrid.height + _margins * 2
+                            color: qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
 
                             RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.001-0.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _ratePitchP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-2"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _ratePitchI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _ratePitchD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                        }
+                                id: rateParamsGrid
+                                anchors.margins: _margins
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                width: parent.width - _margins * 2
+                                spacing: ScreenTools.defaultFontPixelWidth * 4
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
-                            QGCLabel {
-                                text: qsTr("Yaw")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                                    QGCLabel {
+                                        text: qsTr("Roll")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
 
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.1-2.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateYawP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateYawI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _rateYawD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.001-0.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateRollP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-2"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateRollI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateRollD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Pitch")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.001-0.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _ratePitchP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-2"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _ratePitchI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _ratePitchD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Yaw")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.1-2.5"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateYawP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateYawI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.0-0.05"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _rateYawD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
                             }
                         }
                     }
@@ -301,81 +346,103 @@ SetupPage {
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    spacing: ScreenTools.defaultFontPixelHeight
+                    spacing: _margins * 2
 
-                    RowLayout {
+                    Column {
                         Layout.fillWidth: true
-                        spacing: ScreenTools.defaultFontPixelWidth * 4
+                        spacing: _margins
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Roll")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
-
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angRollP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text:"0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angRollAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
+                        QGCLabel {
+                            text: qsTr("Attitude Controller")
+                            font.bold: true
+                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Pitch")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                        Rectangle {
+                            width: parent.width
+                            height: attitudeParamsGrid.height + _margins * 2
+                            color: qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
 
                             RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angPitchP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angPitchAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                        }
+                                id: attitudeParamsGrid
+                                anchors.margins: _margins
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                width: parent.width - _margins * 2
+                                spacing: ScreenTools.defaultFontPixelWidth * 4
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
 
-                            QGCLabel {
-                                text: qsTr("Yaw")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                                    QGCLabel {
+                                        text: qsTr("Roll")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
 
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angYawP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _angYawAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angRollP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text:"0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angRollAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Pitch")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angPitchP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angPitchAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Yaw")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "3-12"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angYawP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "A"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _angYawAccel;unitsLabel:""; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
                             }
                         }
                     }
@@ -418,69 +485,91 @@ SetupPage {
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    spacing: ScreenTools.defaultFontPixelHeight
+                    spacing: _margins * 2
 
-                    RowLayout {
+                    Column {
                         Layout.fillWidth: true
-                        spacing: ScreenTools.defaultFontPixelWidth * 4
+                        spacing: _margins
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Horizontal")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
-
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.1-6.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velXYP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-1.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velXYI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.001-0.1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velXYD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
+                        QGCLabel {
+                            text: qsTr("Velocity Controller")
+                            font.bold: true
+                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Vertical")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                        Rectangle {
+                            width: parent.width
+                            height: velocityParamsGrid.height + _margins * 2
+                            color: qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
 
                             RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.1-6.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velZP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.01-1.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velZI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.001-0.1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _velZD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                id: velocityParamsGrid
+                                anchors.margins: _margins
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                width: parent.width - _margins * 2
+                                spacing: ScreenTools.defaultFontPixelWidth * 4
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Horizontal")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.1-6.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velXYP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-1.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velXYI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.001-0.1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velXYD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Vertical")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.1-6.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velZP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "I"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.01-1.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velZI; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "D"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.001-0.1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _velZD; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
                             }
                         }
                     }
@@ -516,51 +605,73 @@ SetupPage {
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    spacing: ScreenTools.defaultFontPixelHeight
+                    spacing: _margins * 2
 
-                    RowLayout {
+                    Column {
                         Layout.fillWidth: true
-                        spacing: ScreenTools.defaultFontPixelWidth * 4
+                        spacing: _margins
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Horizontal")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
-
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.1-3.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _posXYP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "TC"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _atcInputTC; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
-                            }
+                        QGCLabel {
+                            text: qsTr("Position Controller")
+                            font.bold: true
+                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: ScreenTools.defaultFontPixelHeight * 0.5
-
-                            QGCLabel {
-                                text: qsTr("Vertical")
-                                font.bold: true
-                                Layout.fillWidth: true
-                            }
+                        Rectangle {
+                            width: parent.width
+                            height: positionParamsGrid.height + _margins * 2
+                            color: qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
 
                             RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
-                                QGCLabel { text: "0.1-3.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
-                                FactTextField { fact: _posZP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                id: positionParamsGrid
+                                anchors.margins: _margins
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                width: parent.width - _margins * 2
+                                spacing: ScreenTools.defaultFontPixelWidth * 4
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Horizontal")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.1-3.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _posXYP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "TC"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0-1"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _atcInputTC; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                                    QGCLabel {
+                                        text: qsTr("Vertical")
+                                        font.bold: true
+                                        Layout.fillWidth: true
+                                    }
+
+                                    RowLayout {
+                                        spacing: ScreenTools.defaultFontPixelWidth
+                                        QGCLabel { text: "P"; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 2 }
+                                        QGCLabel { text: "0.1-3.0"; color: qgcPal.text; opacity: 0.5; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 7 }
+                                        FactTextField { fact: _posZP; Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 10 }
+                                    }
+                                }
                             }
                         }
                     }

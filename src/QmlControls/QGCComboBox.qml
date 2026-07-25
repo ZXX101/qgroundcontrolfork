@@ -94,7 +94,7 @@ T.ComboBox {
         }
 
         background: Rectangle {
-            color:                  control.currentIndex === index ? qgcPal.buttonHighlight : qgcPal.button
+            color:                  control.currentIndex === index ? qgcPal.buttonHighlight : "black"
         }
 
         highlighted:                control.highlightedIndex === index
@@ -121,7 +121,7 @@ T.ComboBox {
     }
 
     background: Rectangle {
-        color:          qgcPal.button
+        color:          "black"
         border.color:   qgcPal.buttonBorder
         border.width:   _showBorder ? 1 : 0
         radius:         ScreenTools.buttonBorderRadius
@@ -154,7 +154,7 @@ T.ComboBox {
         }
 
         background: Rectangle {
-            color: qgcPal.window
+            color: "black"
         }
     }
 }

@@ -16,19 +16,22 @@ import QGroundControl.Controls
 import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
-ColumnLayout {
+Item {
     Rectangle {
         anchors.fill: parent
         color: "#101010"
-        z: -1
     }
 
     QGCPalette { id: qgcPal }
 
-    QGCListView {
-        id:                 missionListView
-        Layout.fillWidth:   true
-        Layout.fillHeight:  true
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: ScreenTools.defaultFontPixelWidth
+
+        QGCListView {
+            id:                 missionListView
+            Layout.fillWidth:   true
+            Layout.fillHeight:  true
         spacing:            ScreenTools.defaultFontPixelHeight / 4
         orientation:        ListView.Vertical
         model:              missionController ? missionController.visualItems : null
@@ -72,6 +75,7 @@ ColumnLayout {
                     }
                 }
             }
+        }
         }
     }
 }

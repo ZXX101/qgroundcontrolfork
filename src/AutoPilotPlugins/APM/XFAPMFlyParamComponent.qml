@@ -26,7 +26,7 @@ SetupPage {
 
         Item {
             width:  availableWidth
-            height: Math.max(leftColumn.height, _advancedExpanded ? rightColumn.height : 0)
+            height: availableHeight
 
             FactPanelController { id: controller }
 
@@ -58,8 +58,6 @@ SetupPage {
             property Fact _atcAccelRMax:    controller.getParameterFact(-1, "ATC_ACCEL_R_MAX")
             property Fact _atcAccelYMax:    controller.getParameterFact(-1, "ATC_ACCEL_Y_MAX")
 
-            property bool _advancedExpanded: false
-
             function rangeString(fact) {
                 if (fact.minIsDefaultForType && fact.maxIsDefaultForType) {
                     return ""
@@ -75,43 +73,301 @@ SetupPage {
             Row {
                 id:         mainRow
                 spacing:    _margins * 2
-                width:      _advancedExpanded ? parent.width : parent.width / 2
-                anchors.horizontalCenter: parent.horizontalCenter
+                width:      parent.width
+                height:     parent.height
 
-                Column {
-                    id:         leftColumn
-                    width:      _advancedExpanded ? (parent.width - mainRow.spacing) / 2 : parent.width
-                    spacing:    _margins * 2
+                QGCFlickable {
+                    id:             leftFlickable
+                    width:          (parent.width - mainRow.spacing) / 2
+                    height:         parent.height
+                    clip:           true
+                    contentWidth:   leftColumn.width
+                    contentHeight:  leftColumn.height
 
                     Column {
-                        width:      parent.width
+                        id:         leftColumn
+                        width:      leftFlickable.width
+                        spacing:    _margins * 2
+
+                        Column {
+                            width:      parent.width
+                            spacing:    _margins
+
+                            QGCLabel {
+                                text:       qsTr("Speed")
+                                font.bold:  true
+                                font.pointSize: ScreenTools.mediumFontPointSize
+                            }
+
+                            Rectangle {
+                                width:  parent.width
+                                height: speedGrid.height + _margins * 2
+                                color:  qgcPal.windowShade
+                                radius: ScreenTools.buttonBorderRadius
+
+                                GridLayout {
+                                    id:             speedGrid
+                                    anchors.margins: _margins
+                                    anchors.left:   parent.left
+                                    anchors.top:    parent.top
+                                    width:          parent.width - _margins * 2
+                                    columns:        2
+                                    columnSpacing:  _margins
+                                    rowSpacing:     _margins
+
+                                    QGCLabel {
+                                        text: qsTr("Max Manual Tilt Angle") + " " + rangeString(_angleMax)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _angleMax
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+
+                                    QGCLabel {
+                                        text: qsTr("Max Manual Ascend Speed") + " " + rangeString(_pilotSpeedUp)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _pilotSpeedUp
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+
+                                    QGCLabel {
+                                        text: qsTr("Max Manual Descend Speed") + " " + rangeString(_pilotSpeedDn)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _pilotSpeedDn
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+
+                                    QGCLabel {
+                                        text: qsTr("Auto Flight Speed") + " " + rangeString(_wpnavSpeed)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _wpnavSpeed
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+
+                                    QGCLabel {
+                                        text: qsTr("Auto Ascend Speed") + " " + rangeString(_wpnavSpeedUp)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _wpnavSpeedUp
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+
+                                    QGCLabel {
+                                        text: qsTr("Auto Descend Speed") + " " + rangeString(_wpnavSpeedDn)
+                                        Layout.fillWidth: true
+                                    }
+                                    FactTextField {
+                                        fact:               _wpnavSpeedDn
+                                        showUnits:          true
+                                        Layout.preferredWidth: _fieldWidth
+                                        Layout.alignment:   Qt.AlignRight
+                                    }
+                                }
+                            }
+                        }
+
+                        Column {
+                            width:      parent.width
+                            spacing:    _margins
+
+                            QGCLabel {
+                                text:       qsTr("Return To Home")
+                                font.bold:  true
+                                font.pointSize: ScreenTools.mediumFontPointSize
+                            }
+
+                            Rectangle {
+                                width:  parent.width
+                                height: rtlContent.height + _margins * 2
+                                color:  qgcPal.windowShade
+                                radius: ScreenTools.buttonBorderRadius
+
+                                Column {
+                                    id:                 rtlContent
+                                    anchors.margins:    _margins
+                                    anchors.left:       parent.left
+                                    anchors.top:        parent.top
+                                    width:              parent.width - _margins * 2
+                                    spacing:            _margins
+
+                                    RowLayout {
+                                        width: parent.width
+                                        QGCLabel {
+                                            text: qsTr("RTL Altitude") + " " + rangeString(_rtlAlt)
+                                            Layout.fillWidth: true
+                                        }
+                                        FactTextField {
+                                            fact:               _rtlAlt
+                                            showUnits:          true
+                                            Layout.preferredWidth: _fieldWidth
+                                            Layout.alignment:   Qt.AlignRight
+                                        }
+                                    }
+
+                                    QGCLabel {
+                                        text:           qsTr("The vehicle will ascend to the set safe altitude then return home")
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.6
+                                    }
+
+                                    QGCColoredImage {
+                                        width:              parent.width
+                                        height:             ScreenTools.defaultFontPixelWidth * 12
+                                        color:              qgcPal.text
+                                        sourceSize.width:   width
+                                        mipmap:             true
+                                        fillMode:           Image.PreserveAspectFit
+                                        source:             "/qmlimages/ReturnToHomeAltitude.svg"
+                                    }
+
+                                    RowLayout {
+                                        width: parent.width
+                                        QGCLabel {
+                                            text: qsTr("Loiter Time Above Home") + " " + rangeString(_rtlLoitTime)
+                                            Layout.fillWidth: true
+                                        }
+                                        FactTextField {
+                                            fact:               _rtlLoitTime
+                                            showUnits:          true
+                                            Layout.preferredWidth: _fieldWidth
+                                            Layout.alignment:   Qt.AlignRight
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        Column {
+                            width:      parent.width
+                            spacing:    _margins
+
+                            QGCLabel {
+                                text:       qsTr("Landing")
+                                font.bold:  true
+                                font.pointSize: ScreenTools.mediumFontPointSize
+                            }
+
+                            Rectangle {
+                                width:  parent.width
+                                height: landContent.height + _margins * 2
+                                color:  qgcPal.windowShade
+                                radius: ScreenTools.buttonBorderRadius
+
+                                Column {
+                                    id:                 landContent
+                                    anchors.margins:    _margins
+                                    anchors.left:       parent.left
+                                    anchors.top:        parent.top
+                                    width:              parent.width - _margins * 2
+                                    spacing:            _margins
+
+                                    RowLayout {
+                                        width: parent.width
+                                        QGCLabel {
+                                            text: qsTr("Safe Altitude") + " " + rangeString(_rtlAltFinal)
+                                            Layout.fillWidth: true
+                                        }
+                                        FactTextField {
+                                            fact:               _rtlAltFinal
+                                            showUnits:          true
+                                            Layout.preferredWidth: _fieldWidth
+                                            Layout.alignment:   Qt.AlignRight
+                                        }
+                                    }
+
+                                    RowLayout {
+                                        width: parent.width
+                                        QGCLabel {
+                                            text: qsTr("Landing Speed") + " " + rangeString(_landSpeed)
+                                            Layout.fillWidth: true
+                                        }
+                                        FactTextField {
+                                            fact:               _landSpeed
+                                            showUnits:          true
+                                            Layout.preferredWidth: _fieldWidth
+                                            Layout.alignment:   Qt.AlignRight
+                                        }
+                                    }
+
+                                    QGCLabel {
+                                        text:           qsTr("Effective below safe altitude")
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.6
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                QGCFlickable {
+                    id:             rightFlickable
+                    width:          (parent.width - mainRow.spacing) / 2
+                    height:         parent.height
+                    clip:           true
+                    contentWidth:   rightColumn.width
+                    contentHeight:  rightColumn.height
+
+                    Column {
+                        id:         rightColumn
+                        width:      rightFlickable.width
                         spacing:    _margins
 
                         QGCLabel {
-                            text:       qsTr("Speed")
+                            text:       qsTr("Advanced Parameters")
                             font.bold:  true
                             font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
                             width:  parent.width
-                            height: speedGrid.height + _margins * 2
+                            height: advancedGrid.height + _margins * 2
                             color:  qgcPal.windowShade
                             radius: ScreenTools.buttonBorderRadius
 
                             GridLayout {
-                                id:             speedGrid
+                                id:             advancedGrid
                                 anchors.margins: _margins
                                 anchors.left:   parent.left
                                 anchors.top:    parent.top
                                 width:          parent.width - _margins * 2
-                                columns:        2
+                                columns:        3
                                 columnSpacing:  _margins
                                 rowSpacing:     _margins
 
-                                QGCLabel {
-                                    text: qsTr("Max Manual Tilt Angle") + " " + rangeString(_angleMax)
+                                Column {
                                     Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Flight Angle") }
+                                    QGCLabel {
+                                        text:           "ANGLE_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
+                                }
+                                QGCLabel {
+                                    text: rangeString(_angleMax)
+                                    verticalAlignment: Text.AlignVCenter
                                 }
                                 FactTextField {
                                     fact:               _angleMax
@@ -120,459 +376,194 @@ SetupPage {
                                     Layout.alignment:   Qt.AlignRight
                                 }
 
-                                QGCLabel {
-                                    text: qsTr("Max Manual Ascend Speed") + " " + rangeString(_pilotSpeedUp)
+                                Column {
                                     Layout.fillWidth: true
-                                }
-                                FactTextField {
-                                    fact:               _pilotSpeedUp
-                                    showUnits:          true
-                                    Layout.preferredWidth: _fieldWidth
-                                    Layout.alignment:   Qt.AlignRight
-                                }
-
-                                QGCLabel {
-                                    text: qsTr("Max Manual Descend Speed") + " " + rangeString(_pilotSpeedDn)
-                                    Layout.fillWidth: true
-                                }
-                                FactTextField {
-                                    fact:               _pilotSpeedDn
-                                    showUnits:          true
-                                    Layout.preferredWidth: _fieldWidth
-                                    Layout.alignment:   Qt.AlignRight
-                                }
-
-                                QGCLabel {
-                                    text: qsTr("Auto Flight Speed") + " " + rangeString(_wpnavSpeed)
-                                    Layout.fillWidth: true
-                                }
-                                FactTextField {
-                                    fact:               _wpnavSpeed
-                                    showUnits:          true
-                                    Layout.preferredWidth: _fieldWidth
-                                    Layout.alignment:   Qt.AlignRight
-                                }
-
-                                QGCLabel {
-                                    text: qsTr("Auto Ascend Speed") + " " + rangeString(_wpnavSpeedUp)
-                                    Layout.fillWidth: true
-                                }
-                                FactTextField {
-                                    fact:               _wpnavSpeedUp
-                                    showUnits:          true
-                                    Layout.preferredWidth: _fieldWidth
-                                    Layout.alignment:   Qt.AlignRight
-                                }
-
-                                QGCLabel {
-                                    text: qsTr("Auto Descend Speed") + " " + rangeString(_wpnavSpeedDn)
-                                    Layout.fillWidth: true
-                                }
-                                FactTextField {
-                                    fact:               _wpnavSpeedDn
-                                    showUnits:          true
-                                    Layout.preferredWidth: _fieldWidth
-                                    Layout.alignment:   Qt.AlignRight
-                                }
-                            }
-                        }
-                    }
-
-                    Column {
-                        width:      parent.width
-                        spacing:    _margins
-
-                        QGCLabel {
-                            text:       qsTr("Return To Home")
-                            font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
-                        }
-
-                        Rectangle {
-                            width:  parent.width
-                            height: rtlContent.height + _margins * 2
-                            color:  qgcPal.windowShade
-                            radius: ScreenTools.buttonBorderRadius
-
-                            Column {
-                                id:                 rtlContent
-                                anchors.margins:    _margins
-                                anchors.left:       parent.left
-                                anchors.top:        parent.top
-                                width:              parent.width - _margins * 2
-                                spacing:            _margins
-
-                                RowLayout {
-                                    width: parent.width
+                                    QGCLabel { text: qsTr("Vertical Acceleration") }
                                     QGCLabel {
-                                        text: qsTr("RTL Altitude") + " " + rangeString(_rtlAlt)
-                                        Layout.fillWidth: true
-                                    }
-                                    FactTextField {
-                                        fact:               _rtlAlt
-                                        showUnits:          true
-                                        Layout.preferredWidth: _fieldWidth
-                                        Layout.alignment:   Qt.AlignRight
+                                        text:           "PILOT_ACCELZ"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
                                     }
                                 }
-
                                 QGCLabel {
-                                    text:           qsTr("The vehicle will ascend to the set safe altitude then return home")
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.6
+                                    text: rangeString(_pilotAccelZ)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _pilotAccelZ
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
 
-                                QGCColoredImage {
-                                    width:              parent.width
-                                    height:             ScreenTools.defaultFontPixelWidth * 12
-                                    color:              qgcPal.text
-                                    sourceSize.width:   width
-                                    mipmap:             true
-                                    fillMode:           Image.PreserveAspectFit
-                                    source:             "/qmlimages/ReturnToHomeAltitude.svg"
-                                }
-
-                                RowLayout {
-                                    width: parent.width
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Flight Acceleration") }
                                     QGCLabel {
-                                        text: qsTr("Loiter Time Above Home") + " " + rangeString(_rtlLoitTime)
-                                        Layout.fillWidth: true
-                                    }
-                                    FactTextField {
-                                        fact:               _rtlLoitTime
-                                        showUnits:          true
-                                        Layout.preferredWidth: _fieldWidth
-                                        Layout.alignment:   Qt.AlignRight
+                                        text:           "LOIT_ACC_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
                                     }
                                 }
-                            }
-                        }
-                    }
+                                QGCLabel {
+                                    text: rangeString(_loitAccMax)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _loitAccMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                    Column {
-                        width:      parent.width
-                        spacing:    _margins
-
-                        QGCLabel {
-                            text:       qsTr("Landing")
-                            font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
-                        }
-
-                        Rectangle {
-                            width:  parent.width
-                            height: landContent.height + _margins * 2
-                            color:  qgcPal.windowShade
-                            radius: ScreenTools.buttonBorderRadius
-
-                            Column {
-                                id:                 landContent
-                                anchors.margins:    _margins
-                                anchors.left:       parent.left
-                                anchors.top:        parent.top
-                                width:              parent.width - _margins * 2
-                                spacing:            _margins
-
-                                RowLayout {
-                                    width: parent.width
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Controller Time Constant") }
                                     QGCLabel {
-                                        text: qsTr("Safe Altitude") + " " + rangeString(_rtlAltFinal)
-                                        Layout.fillWidth: true
-                                    }
-                                    FactTextField {
-                                        fact:               _rtlAltFinal
-                                        showUnits:          true
-                                        Layout.preferredWidth: _fieldWidth
-                                        Layout.alignment:   Qt.AlignRight
+                                        text:           "ATC_INPUTTC"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
                                     }
                                 }
+                                QGCLabel {
+                                    text: rangeString(_atcInputTc)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _atcInputTc
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                                RowLayout {
-                                    width: parent.width
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Rate P") }
                                     QGCLabel {
-                                        text: qsTr("Landing Speed") + " " + rangeString(_landSpeed)
-                                        Layout.fillWidth: true
-                                    }
-                                    FactTextField {
-                                        fact:               _landSpeed
-                                        showUnits:          true
-                                        Layout.preferredWidth: _fieldWidth
-                                        Layout.alignment:   Qt.AlignRight
+                                        text:           "ATC_RATE_P_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
                                     }
                                 }
-
                                 QGCLabel {
-                                    text:           qsTr("Effective below safe altitude")
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.6
+                                    text: rangeString(_atcRatePMax)
+                                    verticalAlignment: Text.AlignVCenter
                                 }
-                            }
-                        }
-                    }
+                                FactTextField {
+                                    fact:               _atcRatePMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                    Item {
-                        width:  parent.width
-                        height: advancedLabelRow.height
-
-                        Row {
-                            id:         advancedLabelRow
-                            spacing:    _margins / 2
-
-                            QGCLabel {
-                                id:         advancedTitle
-                                text:       qsTr("Advanced Parameters")
-                                font.bold:  true
-                                font.pointSize: ScreenTools.mediumFontPointSize
-                            }
-
-                            QGCLabel {
-                                text:       _advancedExpanded ? "▲" : "▼"
-                                font.bold:  true
-                                font.pointSize: ScreenTools.mediumFontPointSize
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        MouseArea {
-                            anchors.fill:   parent
-                            cursorShape:    Qt.PointingHandCursor
-                            onClicked:      _advancedExpanded = !_advancedExpanded
-                        }
-                    }
-                }
-
-                Column {
-                    id:         rightColumn
-                    width:      (parent.width - mainRow.spacing) / 2
-                    spacing:    _margins
-                    visible:    _advancedExpanded
-
-                    Rectangle {
-                        width:  parent.width
-                        height: advancedGrid.height + _margins * 2
-                        color:  qgcPal.windowShade
-                        radius: ScreenTools.buttonBorderRadius
-
-                        GridLayout {
-                            id:             advancedGrid
-                            anchors.margins: _margins
-                            anchors.left:   parent.left
-                            anchors.top:    parent.top
-                            width:          parent.width - _margins * 2
-                            columns:        3
-                            columnSpacing:  _margins
-                            rowSpacing:     _margins
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Flight Angle") }
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Rate R") }
+                                    QGCLabel {
+                                        text:           "ATC_RATE_R_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
+                                }
                                 QGCLabel {
-                                    text:           "ANGLE_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                    text: rangeString(_atcRateRMax)
+                                    verticalAlignment: Text.AlignVCenter
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_angleMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _angleMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
+                                FactTextField {
+                                    fact:               _atcRateRMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Vertical Acceleration") }
-                                QGCLabel {
-                                    text:           "PILOT_ACCELZ"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Rate Y") }
+                                    QGCLabel {
+                                        text:           "ATC_RATE_Y_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_pilotAccelZ)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _pilotAccelZ
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
+                                QGCLabel {
+                                    text: rangeString(_atcRateYMax)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _atcRateYMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Flight Acceleration") }
-                                QGCLabel {
-                                    text:           "LOIT_ACC_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Acceleration P") }
+                                    QGCLabel {
+                                        text:           "ATC_ACCEL_P_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_loitAccMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _loitAccMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
+                                QGCLabel {
+                                    text: rangeString(_atcAccelPMax)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _atcAccelPMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Controller Time Constant") }
-                                QGCLabel {
-                                    text:           "ATC_INPUTTC"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Acceleration R") }
+                                    QGCLabel {
+                                        text:           "ATC_ACCEL_R_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcInputTc)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcInputTc
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
+                                QGCLabel {
+                                    text: rangeString(_atcAccelRMax)
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                FactTextField {
+                                    fact:               _atcAccelRMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
 
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Rate P") }
-                                QGCLabel {
-                                    text:           "ATC_RATE_P_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                Column {
+                                    Layout.fillWidth: true
+                                    QGCLabel { text: qsTr("Max Angular Acceleration Y") }
+                                    QGCLabel {
+                                        text:           "ATC_ACCEL_Y_MAX"
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcRatePMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcRatePMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Rate R") }
                                 QGCLabel {
-                                    text:           "ATC_RATE_R_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                    text: rangeString(_atcAccelYMax)
+                                    verticalAlignment: Text.AlignVCenter
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcRateRMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcRateRMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Rate Y") }
-                                QGCLabel {
-                                    text:           "ATC_RATE_Y_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
+                                FactTextField {
+                                    fact:               _atcAccelYMax
+                                    showUnits:          true
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
                                 }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcRateYMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcRateYMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Acceleration P") }
-                                QGCLabel {
-                                    text:           "ATC_ACCEL_P_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
-                                }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcAccelPMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcAccelPMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Acceleration R") }
-                                QGCLabel {
-                                    text:           "ATC_ACCEL_R_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
-                                }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcAccelRMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcAccelRMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
-                            }
-
-                            Column {
-                                Layout.fillWidth: true
-                                QGCLabel { text: qsTr("Max Angular Acceleration Y") }
-                                QGCLabel {
-                                    text:           "ATC_ACCEL_Y_MAX"
-                                    font.pointSize: ScreenTools.smallFontPointSize
-                                    color:          qgcPal.text
-                                    opacity:        0.5
-                                }
-                            }
-                            QGCLabel {
-                                text: rangeString(_atcAccelYMax)
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                            FactTextField {
-                                fact:               _atcAccelYMax
-                                showUnits:          true
-                                Layout.preferredWidth: _fieldWidth
-                                Layout.alignment:   Qt.AlignRight
                             }
                         }
                     }
