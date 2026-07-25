@@ -107,7 +107,7 @@ Item {
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_defaultAltitude) {
                             _defaultAltitude.rawValue = Math.max(0, _defaultAltitude.rawValue - 10)
@@ -117,7 +117,7 @@ Item {
                 QGCButton {
                     text: "+10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_defaultAltitude) {
                             _defaultAltitude.rawValue = _defaultAltitude.rawValue + 10
@@ -149,14 +149,14 @@ Item {
                 QGCButton {
                     text: "-1"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                     }
                 }
                 QGCButton {
                     text: "+1"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                     }
                 }
@@ -198,8 +198,8 @@ Item {
 
                 Rectangle {
                     id: fenceSwitch
-                    width: ScreenTools.defaultFontPixelWidth * 8
-                    height: ScreenTools.defaultFontPixelHeight * 1.6
+                    width: ScreenTools.defaultFontPixelWidth * 4
+                    height: ScreenTools.defaultFontPixelHeight * 0.6
                     radius: height / 2
                     color: fenceEnabled ? qgcPal.colorGreen : qgcPal.colorGrey
                     border.width: 1
@@ -233,7 +233,7 @@ Item {
                     text: "+"
                     visible: fenceEnabled
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: addFenceMenu.popup()
                 }
 

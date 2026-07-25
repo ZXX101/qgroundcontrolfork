@@ -175,9 +175,6 @@ Item {
                     text: qsTr("Longitude")
                 }
                 Item { Layout.fillWidth: true }
-                QGCLabel {
-                    text: "°"
-                }
                 QGCTextField {
                     id: lonField
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
@@ -194,6 +191,7 @@ Item {
                         }
                     }
                 }
+
             }
 
             RowLayout {
@@ -203,9 +201,7 @@ Item {
                     text: qsTr("Latitude")
                 }
                 Item { Layout.fillWidth: true }
-                QGCLabel {
-                    text: "°"
-                }
+
                 QGCTextField {
                     id: latField
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
@@ -222,6 +218,7 @@ Item {
                         }
                     }
                 }
+
             }
 
             RowLayout {
@@ -234,7 +231,7 @@ Item {
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         var c = getCoord();
                         setCoord(NaN, NaN, c.altitude - 10);
@@ -243,7 +240,7 @@ Item {
                 QGCButton {
                     text: "+10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         var c = getCoord();
                         setCoord(NaN, NaN, c.altitude + 10);
@@ -276,7 +273,7 @@ Item {
                 QGCButton {
                     text: "-1"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     enabled: speedCheckBox.checked
                     onClicked: {
                         if (_speed && _speed.flightSpeed) {
@@ -290,7 +287,7 @@ Item {
                 QGCButton {
                     text: "+1"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     enabled: speedCheckBox.checked
                     onClicked: {
                         if (_speed && _speed.flightSpeed) {
@@ -365,13 +362,10 @@ Item {
                     text: qsTr("Pitch")
                 }
                 Item { Layout.fillWidth: true }
-                QGCLabel {
-                    text: "°"
-                }
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_camera && _camera.gimbalPitch) {
                             var v = _camera.gimbalPitch.rawValue;
@@ -383,7 +377,7 @@ Item {
                 QGCButton {
                     text: "+10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_camera && _camera.gimbalPitch) {
                             var v = _camera.gimbalPitch.rawValue;
@@ -407,13 +401,10 @@ Item {
                     text: qsTr("Yaw")
                 }
                 Item { Layout.fillWidth: true }
-                QGCLabel {
-                    text: "°"
-                }
                 QGCButton {
                     text: "-10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_camera && _camera.gimbalYaw) {
                             var v = _camera.gimbalYaw.rawValue;
@@ -425,7 +416,7 @@ Item {
                 QGCButton {
                     text: "+10"
                     _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 3
+                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_camera && _camera.gimbalYaw) {
                             _camera.gimbalYaw.rawValue = Math.min(180, _camera.gimbalYaw.rawValue + 10);
