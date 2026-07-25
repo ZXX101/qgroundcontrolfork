@@ -40,9 +40,21 @@ Item {
         currentIndex:       missionController ? missionController.currentPlanViewSeqNum : -1
         highlightMoveDuration: 250
 
+        onCurrentIndexChanged: {
+            if (currentIndex >= 0 && missionController) {
+                positionViewAtIndex(currentIndex, ListView.Center)
+            }
+        }
+
+        Component.onCompleted: {
+            if (currentIndex >= 0) {
+                positionViewAtIndex(currentIndex, ListView.Center)
+            }
+        }
+
         delegate: Loader {
             sourceComponent: object.sequenceNumber === 0 ? nullComponent : waypointCardComponent
-            width: missionListView.width - (ScreenTools.defaultFontPixelWidth)
+            width: missionListView.width - ScreenTools.minTouchPixels / 2
             asynchronous: false
 
             Component {

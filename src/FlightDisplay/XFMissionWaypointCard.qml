@@ -18,7 +18,7 @@ import QGroundControl.ScreenTools
 
 Rectangle {
     id:                 card
-    height:             ScreenTools.defaultFontPixelHeight * 6
+    height:             ScreenTools.defaultFontPixelHeight * 7
     color:              missionItem && missionItem.isCurrentItem ? qgcPal.missionItemEditor : qgcPal.windowShade
     radius:             ScreenTools.defaultFontPixelWidth / 4
     border.width:       1
@@ -53,54 +53,62 @@ Rectangle {
         GridLayout {
             Layout.fillWidth: true
             columns: 2
-            rowSpacing: ScreenTools.defaultFontPixelHeight / 4
-            columnSpacing: ScreenTools.defaultFontPixelWidth
+            rowSpacing: ScreenTools.defaultFontPixelHeight / 2
+            columnSpacing: ScreenTools.defaultFontPixelWidth * 2
 
-            Column {
+            ColumnLayout {
+                Layout.fillWidth: true
+
                 QGCLabel {
                     text:       qsTr("Altitude")
-                    font.pointSize: ScreenTools.smallFontPointSize
+                    font.pointSize: ScreenTools.defaultFontPointSize
                     color:      qgcPal.text
                 }
                 QGCLabel {
                     text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.altitude)) ? missionItem.coordinate.altitude.toFixed(1) + " m" : "-- m"
-                    font.bold:  true
+                    font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }
 
-            Column {
+            ColumnLayout {
+                Layout.fillWidth: true
+
                 QGCLabel {
                     text:       qsTr("Speed")
-                    font.pointSize: ScreenTools.smallFontPointSize
+                    font.pointSize: ScreenTools.defaultFontPointSize
                     color:      qgcPal.text
                 }
                 QGCLabel {
                     text:       (missionItem && !isNaN(missionItem.speed)) ? missionItem.speed.toFixed(1) + " m/s" : "-- m/s"
-                    font.bold:  true
+                    font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }
 
-            Column {
+            ColumnLayout {
+                Layout.fillWidth: true
+
                 QGCLabel {
                     text:       qsTr("Longitude")
-                    font.pointSize: ScreenTools.smallFontPointSize
+                    font.pointSize: ScreenTools.defaultFontPointSize
                     color:      qgcPal.text
                 }
                 QGCLabel {
                     text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude)) ? missionItem.coordinate.longitude.toFixed(6) : "--"
-                    font.bold:  true
+                    font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }
 
-            Column {
+            ColumnLayout {
+                Layout.fillWidth: true
+
                 QGCLabel {
                     text:       qsTr("Latitude")
-                    font.pointSize: ScreenTools.smallFontPointSize
+                    font.pointSize: ScreenTools.defaultFontPointSize
                     color:      qgcPal.text
                 }
                 QGCLabel {
                     text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude)) ? missionItem.coordinate.latitude.toFixed(6) : "--"
-                    font.bold:  true
+                    font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }
         }
