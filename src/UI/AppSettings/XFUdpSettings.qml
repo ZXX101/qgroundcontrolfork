@@ -18,14 +18,13 @@ import QGroundControl.Palette
 
 ColumnLayout {
     Layout.fillWidth: true
+    Layout.margins: ScreenTools.defaultFontPixelHeight / 2
     spacing: _rowSpacing
 
     function saveSettings() {
-        // No need
     }
 
     QGCLabel {
-        Layout.preferredWidth: _secondColumnWidth
         Layout.fillWidth:       true
         font.pointSize:         ScreenTools.smallFontPointSize
         wrapMode:               Text.WordWrap
@@ -38,14 +37,12 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Port")
-            Layout.fillWidth: true
         }
         QGCTextField {
             id:                     portField
             text:                   subEditConfig.localPort.toString()
             focus:                  true
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             inputMethodHints:       Qt.ImhFormattedNumbersOnly
             onTextChanged:          subEditConfig.localPort = parseInt(portField.text)
         }
@@ -64,13 +61,11 @@ ColumnLayout {
             spacing: _colSpacing
 
             QGCLabel {
-                Layout.preferredWidth:  _secondColumnWidth
                 Layout.fillWidth:       true
                 text:                   modelData
             }
 
             QGCButton {
-                Layout.alignment: Qt.AlignRight
                 text:       qsTr("Remove")
                 onClicked:  subEditConfig.removeHost(modelData)
             }
@@ -83,12 +78,10 @@ ColumnLayout {
 
         QGCTextField {
             id:                     hostField
-            Layout.preferredWidth:  _secondColumnWidth
             Layout.fillWidth:       true
             placeholderText:        qsTr("Example: 127.0.0.1:14550")
         }
         QGCButton {
-            Layout.alignment: Qt.AlignRight
             text:       qsTr("Add Server")
             enabled:    hostField.text !== ""
             onClicked: {

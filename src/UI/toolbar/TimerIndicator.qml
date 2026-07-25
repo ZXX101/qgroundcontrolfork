@@ -43,7 +43,7 @@ Item {
 
         Image {
             id:                 timerIcon
-            height:             ScreenTools.defaultFontPixelHeight * 1.5
+            height:             ScreenTools.defaultFontPixelHeight * 1.2
             width:              height
             sourceSize.height:  height
             sourceSize.width:   width

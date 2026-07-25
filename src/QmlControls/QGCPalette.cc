@@ -48,7 +48,7 @@ void QGCPalette::_buildMap()
 {
     //                                      Light                 Dark
     //                                      Disabled   Enabled    Disabled   Enabled
-    DECLARE_QGC_COLOR(window,               "#ffffff", "#ffffff", "#222222", "#222222")
+    DECLARE_QGC_COLOR(window,               "#ffffff", "#ffffff", "#191919", "#191919")
     DECLARE_QGC_COLOR(windowShadeLight,     "#909090", "#828282", "#707070", "#626262")
     DECLARE_QGC_COLOR(windowShade,          "#d9d9d9", "#d9d9d9", "#333333", "#333333")
     DECLARE_QGC_COLOR(windowShadeDark,      "#bdbdbd", "#bdbdbd", "#282828", "#282828")

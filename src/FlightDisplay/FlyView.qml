@@ -127,7 +127,7 @@ Item {
             item2:                  QGroundControl.videoManager.hasVideo ? videoControl : null
             show:                   QGroundControl.videoManager.hasVideo && !QGroundControl.videoManager.fullScreen &&
                                         (videoControl.pipState.state === videoControl.pipState.pipState || mapControl.pipState.state === mapControl.pipState.pipState)
-            z:                      QGroundControl.zOrderWidgets
+            z:                      _fullItemZorder
 
             property real leftEdgeBottomInset: visible ? width + anchors.margins : 0
             property real bottomEdgeLeftInset: visible ? height + anchors.margins : 0

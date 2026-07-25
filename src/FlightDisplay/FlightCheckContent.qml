@@ -19,7 +19,7 @@ Rectangle {
     id:                 root
     width:              contentLayout.width + ScreenTools.defaultFontPixelWidth * 2
     height:             contentLayout.height + ScreenTools.defaultFontPixelHeight
-    color:              Qt.rgba(0, 0, 0, 0.7)  //半透明深色背景
+    color:              "#000000"
     radius:             ScreenTools.defaultFontPixelWidth / 2
     border.width:       0  //无边框
 

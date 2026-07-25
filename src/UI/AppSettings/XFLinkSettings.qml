@@ -59,6 +59,8 @@ QGCFlickable {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
+                anchors.leftMargin: ScreenTools.minTouchPixels / 2
+                anchors.rightMargin: ScreenTools.minTouchPixels
 
                 QGCLabel {
                     Layout.fillWidth: true
@@ -192,9 +194,9 @@ QGCFlickable {
 
         // 右侧：编辑页面（始终显示）
         Item {
-            Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 50
-            Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 50
             Layout.fillHeight: true
+            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 40
+            Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 40
 
             Rectangle {
                 anchors.fill: parent
@@ -280,6 +282,9 @@ QGCFlickable {
                 StackLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    Layout.leftMargin: ScreenTools.defaultFontPixelWidth
+                    Layout.rightMargin: ScreenTools.defaultFontPixelWidth
+                    Layout.bottomMargin: ScreenTools.defaultFontPixelHeight
                     currentIndex: bar.currentIndex
 
                     // 无人机页面
@@ -335,7 +340,8 @@ QGCFlickable {
         id: editLinkComponent
 
         Item {
-            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             property var originalConfig: null
             property var editingConfig: null
@@ -372,13 +378,11 @@ QGCFlickable {
                 QGCFlickable {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    contentWidth: mainLayout.width
                     contentHeight: mainLayout.height
 
                     ColumnLayout {
                         id: mainLayout
-                        x: Math.max(0, parent.width / 2 - width / 2)
-                        width: Math.max(implicitWidth, ScreenTools.defaultFontPixelWidth * 50)
+                        width: parent.width
                         spacing: ScreenTools.defaultFontPixelHeight
 
                         QGCLabel {
@@ -446,7 +450,7 @@ QGCFlickable {
                             Layout.fillWidth: true
                             property var subEditConfig: editingConfig
                             property int _firstColumnWidth: ScreenTools.defaultFontPixelWidth * 12
-                            property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 30
+                            property int _secondColumnWidth: ScreenTools.defaultFontPixelWidth * 20
                             property int _rowSpacing: ScreenTools.defaultFontPixelHeight / 2
                             property int _colSpacing: ScreenTools.defaultFontPixelWidth / 2
                         }

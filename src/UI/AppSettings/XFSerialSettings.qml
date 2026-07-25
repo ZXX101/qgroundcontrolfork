@@ -18,10 +18,10 @@ import QGroundControl.Palette
 
 ColumnLayout {
     Layout.fillWidth: true
+    Layout.margins: ScreenTools.defaultFontPixelHeight / 2
     spacing: _rowSpacing
 
     function saveSettings() {
-        // No Need
     }
 
     GridLayout {
@@ -32,19 +32,16 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Serial Port")
-            Layout.fillWidth: true
         }
         QGCComboBox {
             id:                     commPortCombo
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             sizeToContents:         true
             enabled:                QGroundControl.linkManager.serialPorts.length > 0
 
             onActivated: (index) => {
                 if (index != -1) {
                     if (index >= QGroundControl.linkManager.serialPortStrings.length) {
-                        // This item was adding at the end, must use added text as name
                         subEditConfig.portName = commPortCombo.textAt(index)
                     } else {
                         subEditConfig.portName = QGroundControl.linkManager.serialPorts[index]
@@ -56,7 +53,7 @@ ColumnLayout {
                 var index = -1
                 var serialPorts = [ ]
                 if (QGroundControl.linkManager.serialPortStrings.length !== 0) {
-                    for (var i=0; i<QGroundControl.linkManager.serialPortStrings.length; i++) {
+                    for (var i=0; i < QGroundControl.linkManager.serialPortStrings.length; i++) {
                         serialPorts.push(QGroundControl.linkManager.serialPortStrings[i])
                     }
                     if (subEditConfig.portDisplayName === "" && QGroundControl.linkManager.serialPorts.length > 0) {
@@ -79,12 +76,10 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Baud Rate")
-            Layout.fillWidth: true
         }
         QGCComboBox {
             id:                     baudCombo
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             sizeToContents:         true
             model:                  QGroundControl.linkManager.serialBaudRates
 
@@ -131,16 +126,13 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Parity")
-            Layout.fillWidth: true
         }
         QGCComboBox {
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             sizeToContents:         true
             model:                  [qsTr("None"), qsTr("Even"), qsTr("Odd")]
 
             onActivated: (index) => {
-                // Hard coded values from qserialport.h
                 switch (index) {
                 case 0:
                     subEditConfig.parity = 0
@@ -174,11 +166,9 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Data Bits")
-            Layout.fillWidth: true
         }
         QGCComboBox {
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             sizeToContents:         true
             model:                  [ "5", "6", "7", "8" ]
             currentIndex:           Math.max(Math.min(subEditConfig.dataBits - 5, 3), 0)
@@ -187,11 +177,9 @@ ColumnLayout {
 
         QGCLabel {
             text: qsTr("Stop Bits")
-            Layout.fillWidth: true
         }
         QGCComboBox {
-            Layout.preferredWidth:  _secondColumnWidth
-            Layout.alignment:       Qt.AlignRight
+            Layout.fillWidth:       true
             sizeToContents:         true
             model:                  [ "1", "2" ]
             currentIndex:           Math.max(Math.min(subEditConfig.stopBits - 1, 1), 0)

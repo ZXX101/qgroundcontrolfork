@@ -19,6 +19,8 @@ import QGroundControl.Controls
 import QGroundControl.ScreenTools
 
 ColumnLayout {
+    Layout.fillWidth: true
+    Layout.margins: ScreenTools.defaultFontPixelHeight / 2
     property var    _settingsManager:            QGroundControl.settingsManager
     property var    _videoManager:              QGroundControl.videoManager
     property var    _videoSettings:             _settingsManager.videoSettings
@@ -44,12 +46,12 @@ ColumnLayout {
 
         QGCLabel {
             text:               qsTr("RTSP URL")
+            Layout.fillWidth:   true
         }
 
         FactTextField {
             id:                 rtspUrlField
             Layout.fillWidth:   true
-            Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 40
             fact:               _videoSettings.rtspUrl
         }
     }

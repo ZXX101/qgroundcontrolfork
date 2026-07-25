@@ -11,10 +11,10 @@ Item {
 
     property bool _expanded: false
     property bool _onRightHalf: false
-    property real _buttonSize: ScreenTools.defaultFontPixelWidth * 5.5
-    property real _iconScale: 0.45
-    property real _spacing: ScreenTools.defaultFontPixelWidth * 0.4
-    property real _padding: ScreenTools.defaultFontPixelWidth * 0.3
+    property real _buttonSize: ScreenTools.defaultFontPixelWidth * 7
+    property real _iconScale: 0.5
+    property real _spacing: ScreenTools.defaultFontPixelWidth * 1.2
+    property real _padding: ScreenTools.defaultFontPixelWidth * 1
     property real _topMargin: ScreenTools.defaultFontPixelHeight * 2
     property real _toolBtnSize: _buttonSize - _padding * 2
     property int _toolCount: 3
@@ -154,7 +154,7 @@ Item {
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
             anchors.left: parent.left
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
 
             Image {
                 anchors.centerIn: parent
@@ -212,7 +212,7 @@ Item {
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
             anchors.right: parent.right
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
 
             Image {
                 anchors.centerIn: parent

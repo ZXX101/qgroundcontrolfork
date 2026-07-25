@@ -21,7 +21,7 @@ Item {
     id:                 control
     width:              messageIcon.width + ScreenTools.defaultFontPixelWidth
 
-    readonly property real _iconSize: ScreenTools.defaultFontPixelHeight * 1.5
+    readonly property real _iconSize: ScreenTools.defaultFontPixelHeight * 1.2
 
     property var    _activeVehicle:                 QGroundControl.multiVehicleManager.activeVehicle
     property bool   _connected:                     _activeVehicle && !_activeVehicle.vehicleLinkManager.communicationLost

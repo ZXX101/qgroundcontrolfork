@@ -19,7 +19,8 @@ import QGroundControl.Palette
     GridLayout {
         columns:        2
         Layout.fillWidth: true
-        rowSpacing:     _rowSpacing
+        Layout.margins: ScreenTools.defaultFontPixelHeight / 2
+    rowSpacing:     _rowSpacing
     columnSpacing:  _colSpacing
 
     function saveSettings() {
@@ -29,23 +30,19 @@ import QGroundControl.Palette
 
     QGCLabel {
         text: qsTr("Server Address")
-        Layout.fillWidth: true
     }
     QGCTextField {
         id:                     hostField
-        Layout.preferredWidth:  _secondColumnWidth
-        Layout.alignment:       Qt.AlignRight
+        Layout.fillWidth:       true
         text:                   subEditConfig.host
     }
 
     QGCLabel {
         text: qsTr("Port")
-        Layout.fillWidth: true
     }
     QGCTextField {
         id:                     portField
-        Layout.preferredWidth:  _secondColumnWidth
-        Layout.alignment:       Qt.AlignRight
+        Layout.fillWidth:       true
         text:                   subEditConfig.port.toString()
         inputMethodHints:       Qt.ImhFormattedNumbersOnly
     }

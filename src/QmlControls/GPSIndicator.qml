@@ -60,7 +60,7 @@ Item {
             //GPS图标，显示GPS信号图标
             QGCColoredImage {
                 id:                 gpsIcon
-                height:             ScreenTools.defaultFontPixelHeight * 1.5
+                height:             ScreenTools.defaultFontPixelHeight * 1.2
                 width:              height
                 sourceSize.height:  height
                 sourceSize.width:   width
