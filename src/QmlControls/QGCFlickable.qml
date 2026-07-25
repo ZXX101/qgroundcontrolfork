@@ -9,14 +9,7 @@ Flickable {
     id:                     root
     boundsBehavior:         Flickable.StopAtBounds
     clip:                   true
-    maximumFlickVelocity:   (ScreenTools.realPixelDensity * 25.4) * 8   // About two inches per second
+    maximumFlickVelocity:   (ScreenTools.realPixelDensity * 25.4) * 8
 
     property color indicatorColor: qgcPal.text
-
-    Component.onCompleted: {
-        var indicatorComponent = Qt.createComponent("QGCFlickableScrollIndicator.qml")
-        indicatorComponent.createObject(root, { orientation: QGCFlickableScrollIndicator.Horizontal })
-        indicatorComponent = Qt.createComponent("QGCFlickableScrollIndicator.qml")
-        indicatorComponent.createObject(root, { orientation: QGCFlickableScrollIndicator.Vertical })
-    }
 }

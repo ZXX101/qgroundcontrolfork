@@ -373,7 +373,6 @@ Rectangle {
         CheckSection {
             sectionTitle:   qsTr("连接")
             items: [
-                { name: activeVehicle ? activeVehicle.vehicleLinkManager.primaryLinkName : qsTr("Not Connected"), value: "", icon: "" },
                 { name: qsTr("编码"), value: getVehicleIdentifier(), icon: "" }
             ]
         }

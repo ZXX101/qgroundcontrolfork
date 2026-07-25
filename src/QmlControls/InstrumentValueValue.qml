@@ -45,7 +45,7 @@ ColumnLayout {
         Layout.preferredWidth: valueWidth > 0 ? valueWidth : -1
         Layout.maximumWidth: valueWidth > 0 ? valueWidth : -1
         font.family:        valueFontFamily
-        font.pointSize:     _fontSize * 0.8  // 字体减小
+        font.pointSize:     _fontSize * 0.6
         horizontalAlignment: Text.AlignHCenter
         color:              instrumentValueData.isValidColor(instrumentValueData.currentColor) ? instrumentValueData.currentColor : qgcPal.text
         text:               valueText()

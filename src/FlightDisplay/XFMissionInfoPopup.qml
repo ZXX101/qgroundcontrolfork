@@ -19,10 +19,10 @@ import QGroundControl.ScreenTools
 
 Rectangle {
     id: popup
-    color: qgcPal.window
-    radius: ScreenTools.defaultFontPixelWidth / 2
-    border.width: 1
-    border.color: qgcPal.windowShade
+    color: "#2A2A2A"
+    radius: 0
+    border.width: 0
+    border.color: "transparent"
 
     property var missionController
     property var planMasterController
@@ -61,13 +61,14 @@ Rectangle {
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
         Rectangle {
             id: titleBar
             Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
             Layout.fillWidth: true
-            color: qgcPal.toolbarBackground
-            radius: popup.radius
+            color: "#2A2A2A"
+            radius: 0
             clip: true
 
             RowLayout {
@@ -124,72 +125,84 @@ Rectangle {
             }
         }
 
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: "#303030"
+        }
+
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 0
 
-            ColumnLayout {
-                id: tabColumn
+            Rectangle {
                 Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                 Layout.minimumWidth: ScreenTools.defaultFontPixelWidth * 8
                 Layout.maximumWidth: ScreenTools.defaultFontPixelWidth * 8
                 Layout.fillHeight: true
+                color: "#191919"
 
-                QGCButton {
-                    text: qsTr("Basic")
-                    checked: currentTab === "basic"
-                    onClicked: {
-                        currentTab = "basic";
-                        editSequenceNumber = -1;
+                ColumnLayout {
+                    id: tabColumn
+                    anchors.fill: parent
+
+                    QGCButton {
+                        text: qsTr("Basic")
+                        checked: currentTab === "basic"
+                        onClicked: {
+                            currentTab = "basic";
+                            editSequenceNumber = -1;
+                        }
+                        Layout.fillWidth: true
                     }
-                    Layout.fillWidth: true
-                }
-                QGCButton {
-                    text: qsTr("List")
-                    checked: currentTab === "list"
-                    onClicked: {
-                        currentTab = "list";
-                        editSequenceNumber = -1;
+                    QGCButton {
+                        text: qsTr("List")
+                        checked: currentTab === "list"
+                        onClicked: {
+                            currentTab = "list";
+                            editSequenceNumber = -1;
+                        }
+                        Layout.fillWidth: true
                     }
-                    Layout.fillWidth: true
-                }
 
-                Rectangle {
-                    Layout.fillWidth: true
-                    height: 1
-                    color: qgcPal.windowShade
-                }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 1
+                        color: qgcPal.windowShade
+                    }
 
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
 
-                    QGCFlickable {
-                        anchors.fill: parent
-                        clip: true
-                        flickableDirection: Flickable.VerticalFlick
-                        contentHeight: waypointColumn.height
+                        QGCFlickable {
+                            anchors.fill: parent
+                            clip: true
+                            flickableDirection: Flickable.VerticalFlick
+                            contentHeight: waypointColumn.height
 
-                        ColumnLayout {
-                            id: waypointColumn
-                            width: parent.width
-                            spacing: ScreenTools.defaultFontPixelWidth / 2
+                            ColumnLayout {
+                                id: waypointColumn
+                                width: parent.width
+                                spacing: ScreenTools.defaultFontPixelWidth / 2
 
-                            Repeater {
-                                model: missionController ? missionController.visualItems : null
+                                Repeater {
+                                    model: missionController ? missionController.visualItems : null
 
-                                QGCButton {
-                                    required property int index
-                                    required property var object
-                                    text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
-                                    visible: object.sequenceNumber !== 0
-                                    checked: currentSequenceNumber === object.sequenceNumber
-                                    Layout.fillWidth: true
-                                    onClicked: {
-                                        editSequenceNumber = object.sequenceNumber;
-                                        currentTab = "editor";
-                                        if (missionController) {
-                                            missionController.setCurrentPlanViewSeqNum(object.sequenceNumber, false);
+                                    QGCButton {
+                                        required property int index
+                                        required property var object
+                                        text: object.sequenceNumber === 0 ? "" : "#" + object.sequenceNumber
+                                        visible: object.sequenceNumber !== 0
+                                        checked: currentSequenceNumber === object.sequenceNumber
+                                        Layout.fillWidth: true
+                                        onClicked: {
+                                            editSequenceNumber = object.sequenceNumber;
+                                            currentTab = "editor";
+                                            if (missionController) {
+                                                missionController.setCurrentPlanViewSeqNum(object.sequenceNumber, false);
+                                            }
                                         }
                                     }
                                 }
@@ -197,6 +210,12 @@ Rectangle {
                         }
                     }
                 }
+            }
+
+            Rectangle {
+                Layout.preferredWidth: 1
+                Layout.fillHeight: true
+                color: "#303030"
             }
 
             Loader {
@@ -209,6 +228,13 @@ Rectangle {
                     if (currentTab === "list") return "XFMissionListPage.qml";
                     if (currentTab === "editor") return "XFMissionItemEditor.qml";
                     return "";
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#101010"
+                    radius: 0
+                    z: -1
                 }
 
                 property var missionController: popup.missionController
@@ -275,21 +301,22 @@ Rectangle {
                         }
                     }
                 }
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: qgcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth / 4
-                }
             }
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: "#303030"
+            visible: popup.expanded
         }
 
         Rectangle {
             id: bottomBar
             Layout.preferredHeight: ScreenTools.defaultFontPixelHeight * 2.5
             Layout.fillWidth: true
-            color: qgcPal.toolbarBackground
-            radius: popup.radius
+            color: "#2A2A2A"
+            radius: 0
             clip: true
             visible: popup.expanded
 

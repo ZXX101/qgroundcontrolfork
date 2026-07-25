@@ -12,7 +12,7 @@ Item {
     property bool _expanded: false
     property bool _onRightHalf: false
     property real _buttonSize: ScreenTools.defaultFontPixelWidth * 7
-    property real _iconScale: 0.5
+    property real _iconScale: 0.4
     property real _spacing: ScreenTools.defaultFontPixelWidth * 1.2
     property real _padding: ScreenTools.defaultFontPixelWidth * 1
     property real _topMargin: ScreenTools.defaultFontPixelHeight * 2
@@ -138,7 +138,7 @@ Item {
         radius: height / 2
         color: qgcPal.toolbarBackground
         opacity: 0.85
-        border.width: 1
+        border.width: 0
         border.color: qgcPal.buttonBorder
     }
 
@@ -153,7 +153,7 @@ Item {
             height: root._buttonSize
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
-            anchors.left: parent.left
+            x: root._expanded ? 0 : (parent.width - width) / 2
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
@@ -167,8 +167,7 @@ Item {
 
         Row {
             id: _toolRowLeft
-            anchors.left: _toggleBtnLeft.right
-            anchors.leftMargin: root._spacing
+            x: _toggleBtnLeft.x + _toggleBtnLeft.width + root._spacing
             anchors.verticalCenter: parent.verticalCenter
             spacing: root._spacing
             visible: root._expanded
@@ -190,7 +189,8 @@ Item {
 
                     Image {
                         anchors.centerIn: parent
-                        width: parent.width * 0.7
+                        anchors.margins: parent.width * 0.15
+                        width: parent.width * 0.6
                         height: width
                         source: modelData
                         fillMode: Image.PreserveAspectFit
@@ -211,7 +211,7 @@ Item {
             height: root._buttonSize
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
-            anchors.right: parent.right
+            x: root._expanded ? parent.width - width : (parent.width - width) / 2
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
@@ -226,8 +226,7 @@ Item {
 
         Row {
             id: _toolRowRight
-            anchors.right: _toggleBtnRight.left
-            anchors.rightMargin: root._spacing
+            x: _toggleBtnRight.x - root._spacing - width
             anchors.verticalCenter: parent.verticalCenter
             spacing: root._spacing
             visible: root._expanded
@@ -249,7 +248,8 @@ Item {
 
                     Image {
                         anchors.centerIn: parent
-                        width: parent.width * 0.7
+                        anchors.margins: parent.width * 0.15
+                        width: parent.width * 0.6
                         height: width
                         source: modelData
                         fillMode: Image.PreserveAspectFit

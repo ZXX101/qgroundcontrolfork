@@ -21,6 +21,11 @@ import QGroundControl.ScreenTools
 Item {
     id: rootLayout
 
+    Rectangle {
+        anchors.fill: parent
+        color: "#101010"
+    }
+
     QGCPalette { id: qgcPal }
 
     property var _appSettings: QGroundControl.settingsManager.appSettings

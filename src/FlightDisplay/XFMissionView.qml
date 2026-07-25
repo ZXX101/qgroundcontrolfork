@@ -128,11 +128,17 @@ Item {
                 return;
             }
             var coordinate = missionMap.toCoordinate(Qt.point(mouse.x, mouse.y), false);
+
+            if (xfMissionView._currentMode === "measure") {
+                measureTool.addPoint(coordinate);
+                return;
+            }
+
             var nextIndex = _missionController.currentPlanViewVIIndex + 1;
 
-            if (toolStrip.currentMode === "roi") {
+            if (xfMissionView._currentMode === "roi") {
                 _missionController.insertROIMissionItem(coordinate, nextIndex, true);
-                toolStrip.currentMode = "waypoint";
+                xfMissionView._currentMode = "waypoint";
             } else if (_missionController.visualItems.count === 1) {
                 _missionController.insertTakeoffItem(coordinate, nextIndex, true);
             } else {
@@ -187,46 +193,155 @@ Item {
                 z: QGroundControl.zOrderMapItems - 1
             }
         }
+
+        FlyViewMeasureTool {
+            id:                 measureTool
+            mapControl:         missionMap
+            active:             xfMissionView._currentMode === "measure"
+        }
     }
 
-    XFMissionToolStrip {
-        id: toolStrip
+    property string _currentMode: "waypoint"
+
+    Column {
+        id: missionButtons
         anchors.left: parent.left
         anchors.top: toolbar.bottom
         anchors.margins: ScreenTools.defaultFontPixelWidth
+        spacing: ScreenTools.defaultFontPixelWidth / 2
 
-        isROIActive: _missionController ? _missionController.isROIActive : false
+        Rectangle {
+            id: waypointButton
+            width: ScreenTools.defaultFontPixelWidth * 6
+            height: width
+            radius: ScreenTools.defaultFontPixelWidth / 2
+            color: xfMissionView._currentMode === "waypoint" ?
+                       qgcPal.buttonHighlight :
+                       (waypointMA.pressed || waypointMA.containsMouse ?
+                           qgcPal.buttonHighlight : qgcPal.toolbarBackground)
 
-        onWaypointClicked: {
-            toolStrip.currentMode = "waypoint"
-        }
-        onRoiClicked: {
-            toolStrip.currentMode = "roi"
-        }
-        onRoiCancelClicked: {
-            var nextIndex = _missionController.currentPlanViewVIIndex + 1
-            _missionController.insertCancelROIMissionItem(nextIndex, true)
-            toolStrip.currentMode = "waypoint"
-        }
-        onVehicleClicked: {
-            var _activeVehicle = QGroundControl.multiVehicleManager.activeVehicle
-            if (_activeVehicle) {
-                missionMap.center = _activeVehicle.coordinate;
+            Column {
+                anchors.centerIn: parent
+                spacing: ScreenTools.defaultFontPixelHeight * 0.1
+
+                QGCLabel {
+                    text: qsTr("WP")
+                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
+                    font.bold: true
+                    color: xfMissionView._currentMode === "waypoint" ?
+                               qgcPal.buttonHighlightText :
+                               (waypointMA.pressed || waypointMA.containsMouse ?
+                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    text: qsTr("Waypoint")
+                    font.pointSize: ScreenTools.smallFontPointSize
+                    color: xfMissionView._currentMode === "waypoint" ?
+                               qgcPal.buttonHighlightText :
+                               (waypointMA.pressed || waypointMA.containsMouse ?
+                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            QGCMouseArea {
+                id: waypointMA
+                fillItem: parent
+                onClicked: xfMissionView._currentMode = "waypoint"
             }
         }
-        onFenceClicked: {
-            missionInfoPopup.fenceEnabled = !missionInfoPopup.fenceEnabled;
-            missionInfoPopup.currentTab = "basic";
+
+        Rectangle {
+            id: roiButton
+            width: ScreenTools.defaultFontPixelWidth * 6
+            height: width
+            radius: ScreenTools.defaultFontPixelWidth / 2
+            color: xfMissionView._currentMode === "roi" ?
+                       qgcPal.buttonHighlight :
+                       (roiMA.pressed || roiMA.containsMouse ?
+                           qgcPal.buttonHighlight : qgcPal.toolbarBackground)
+
+            Column {
+                anchors.centerIn: parent
+                spacing: ScreenTools.defaultFontPixelHeight * 0.1
+
+                QGCLabel {
+                    text: _missionController && _missionController.isROIActive ? qsTr("X") : "ROI"
+                    font.pointSize: ScreenTools.defaultFontPixelSize * 1.5
+                    font.bold: true
+                    color: xfMissionView._currentMode === "roi" ?
+                               qgcPal.buttonHighlightText :
+                               (roiMA.pressed || roiMA.containsMouse ?
+                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    text: _missionController && _missionController.isROIActive ? qsTr("Cancel ROI") : qsTr("ROI")
+                    font.pointSize: ScreenTools.smallFontPointSize
+                    color: xfMissionView._currentMode === "roi" ?
+                               qgcPal.buttonHighlightText :
+                               (roiMA.pressed || roiMA.containsMouse ?
+                                   qgcPal.buttonHighlightText : qgcPal.buttonText)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            QGCMouseArea {
+                id: roiMA
+                fillItem: parent
+                onClicked: {
+                    if (_missionController && _missionController.isROIActive) {
+                        var nextIndex = _missionController.currentPlanViewVIIndex + 1
+                        _missionController.insertCancelROIMissionItem(nextIndex, true)
+                        xfMissionView._currentMode = "waypoint"
+                    } else {
+                        xfMissionView._currentMode = "roi"
+                    }
+                }
+            }
+        }
+    }
+
+    FlyViewFloatingToolBar {
+        id:                     floatingToolBar
+        visible:                true
+        anchors.left:             parent.left
+        anchors.leftMargin:       ScreenTools.defaultFontPixelWidth
+        anchors.top:              missionButtons.bottom
+        anchors.topMargin:        ScreenTools.defaultFontPixelWidth / 2
+
+        onCenterOnVehicle: {
+            var activeVehicle = QGroundControl.multiVehicleManager.activeVehicle
+            if (activeVehicle && activeVehicle.coordinate.isValid) {
+                missionMap.center = activeVehicle.coordinate
+            }
+        }
+
+        onCenterOnGCS: {
+            var gcsPos = QGroundControl.qgcPositionManger.gcsPosition
+            if (gcsPos.isValid) {
+                missionMap.center = gcsPos
+            }
+        }
+
+        onMeasureDistance: (active) => {
+            if (active) {
+                xfMissionView._currentMode = "measure"
+            } else {
+                xfMissionView._currentMode = "waypoint"
+            }
         }
     }
 
     XFMissionInfoPopup {
         id: missionInfoPopup
         anchors.right: parent.right
-        anchors.top: toolbar.bottom
-        anchors.margins: ScreenTools.defaultFontPixelWidth
-        width: missionInfoPopup.expanded ? ScreenTools.defaultFontPixelWidth * 40 : ScreenTools.defaultFontPixelWidth * 10
+        anchors.top: parent.top
         anchors.bottom: parent.bottom
+        width: missionInfoPopup.expanded ? ScreenTools.defaultFontPixelWidth * 40 : ScreenTools.defaultFontPixelWidth * 10
         visible: true
 
         missionController: _missionController

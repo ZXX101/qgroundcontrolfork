@@ -516,7 +516,7 @@ Item {
         anchors.left:           flightActionButtons.right
         anchors.top:            flightActionButtons.top
         anchors.leftMargin:     ScreenTools.defaultFontPixelWidth * 0.5
-        z:                      QGroundControl.zOrderWidgets + 1
+        z:                      QGroundControl.zOrderTopMost
         visible:                flightActionButtons._checkPopupVisible
         width:                  checkContent.width + ScreenTools.defaultFontPixelWidth * 2
         height:                 Math.min(_root.height - y, checkContent.height + ScreenTools.defaultFontPixelHeight)
