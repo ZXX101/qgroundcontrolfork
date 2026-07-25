@@ -31,6 +31,8 @@ Rectangle {
     property bool expanded: true
     property string missionName: "Mission"
     property bool fenceEnabled: false
+    property int editingFenceIndex: -1
+    property int editingFenceType: -1
 
     property string currentTab: "basic"
     property int editSequenceNumber: -1
@@ -296,6 +298,8 @@ Rectangle {
                     if (item) {
                         if (item.hasOwnProperty("geoFenceController")) item.geoFenceController = popup.geoFenceController;
                         if (item.hasOwnProperty("flightMap")) item.flightMap = popup.flightMap;
+                        if (item.hasOwnProperty("editingFenceIndex")) item.editingFenceIndex = popup.editingFenceIndex;
+                        if (item.hasOwnProperty("editingFenceType")) item.editingFenceType = popup.editingFenceType;
                     }
                 }
 
@@ -305,6 +309,16 @@ Rectangle {
                     function onFenceEnabledChanged() {
                         if (contentLoader.item && contentLoader.item.hasOwnProperty("fenceEnabled")) {
                             popup.fenceEnabled = contentLoader.item.fenceEnabled;
+                        }
+                    }
+                    function onEditingFenceIndexChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("editingFenceIndex") && contentLoader.item.editingFenceIndex !== popup.editingFenceIndex) {
+                            popup.editingFenceIndex = contentLoader.item.editingFenceIndex;
+                        }
+                    }
+                    function onEditingFenceTypeChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("editingFenceType") && contentLoader.item.editingFenceType !== popup.editingFenceType) {
+                            popup.editingFenceType = contentLoader.item.editingFenceType;
                         }
                     }
                 }
@@ -319,6 +333,16 @@ Rectangle {
                     function onFlightMapChanged() {
                         if (contentLoader.item && contentLoader.item.hasOwnProperty("flightMap")) {
                             contentLoader.item.flightMap = popup.flightMap;
+                        }
+                    }
+                    function onEditingFenceIndexChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("editingFenceIndex") && contentLoader.item.editingFenceIndex !== popup.editingFenceIndex) {
+                            contentLoader.item.editingFenceIndex = popup.editingFenceIndex;
+                        }
+                    }
+                    function onEditingFenceTypeChanged() {
+                        if (contentLoader.item && contentLoader.item.hasOwnProperty("editingFenceType") && contentLoader.item.editingFenceType !== popup.editingFenceType) {
+                            contentLoader.item.editingFenceType = popup.editingFenceType;
                         }
                     }
                 }

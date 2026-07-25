@@ -28,6 +28,7 @@ Item {
     property var    mapControl                                  ///< Map control to place item in
     property var    mapPolygon                                  ///< QGCMapPolygon object
     property bool   interactive:        mapPolygon.interactive
+    property bool   showToolbar:        true
     property color  interiorColor:      "transparent"
     property color  altColor:           "transparent"
     property real   interiorOpacity:    1
@@ -156,7 +157,7 @@ Item {
     function _handleInteractiveChanged() {
         if (interactive) {
             addEditingVisuals()
-            addToolbarVisuals()
+            if (showToolbar) addToolbarVisuals()
         } else {
             mapPolygon.traceMode = false
             removeEditingVisuals()
@@ -584,9 +585,9 @@ Item {
 
         PlanEditToolbar {
             anchors.horizontalCenter:       mapControl.left
-            anchors.horizontalCenterOffset: mapControl.centerViewport.left + (mapControl.centerViewport.width / 2)
-            y:                              mapControl.centerViewport.top
-            availableWidth:                 mapControl.centerViewport.width
+            anchors.horizontalCenterOffset: mapControl.centerViewport ? mapControl.centerViewport.left + (mapControl.centerViewport.width / 2) : mapControl.width / 2
+            y:                              mapControl.centerViewport ? mapControl.centerViewport.top : 0
+            availableWidth:                 mapControl.centerViewport ? mapControl.centerViewport.width : mapControl.width
 
             QGCButton {
                 _horizontalPadding: 0

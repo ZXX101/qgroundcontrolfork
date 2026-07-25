@@ -34,7 +34,35 @@ Item {
     property string missionName: "Mission"
     property var geoFenceController: null
     property var flightMap: null
-    property bool fenceEnabled: false
+    property int editingFenceIndex: -1
+    property int editingFenceType: -1
+    property bool fenceEnabled: _hasFences && editingFenceIndex >= 0
+
+    property bool _hasFences: geoFenceController && (geoFenceController.polygons.count > 0 || geoFenceController.circles.count > 0)
+
+    function _selectFenceForEdit(index, type) {
+        if (editingFenceIndex === index && editingFenceType === type) {
+            editingFenceIndex = -1
+            editingFenceType = -1
+            if (geoFenceController) geoFenceController.clearAllInteractive()
+        } else {
+            editingFenceIndex = index
+            editingFenceType = type
+            if (geoFenceController) geoFenceController.clearAllInteractive()
+            if (type === 0 && geoFenceController && index < geoFenceController.polygons.count) {
+                geoFenceController.polygons.get(index).interactive = true
+            } else if (type === 1 && geoFenceController && index < geoFenceController.circles.count) {
+                geoFenceController.circles.get(index).interactive = true
+            }
+        }
+    }
+
+    on_HasFencesChanged: {
+        if (!_hasFences) {
+            editingFenceIndex = -1
+            editingFenceType = -1
+        }
+    }
 
     function _addFencePolygon() {
         if (!geoFenceController || !flightMap) return
@@ -49,6 +77,7 @@ Item {
             bottomRightCoord = center.atDistanceAndAzimuth(1500, 135)
         }
         geoFenceController.addInclusionPolygon(topLeftCoord, bottomRightCoord)
+        _selectFenceForEdit(geoFenceController.polygons.count - 1, 0)
     }
 
     function _addFenceCircle() {
@@ -64,6 +93,7 @@ Item {
             bottomRightCoord = center.atDistanceAndAzimuth(750, 135)
         }
         geoFenceController.addInclusionCircle(topLeftCoord, bottomRightCoord)
+        _selectFenceForEdit(geoFenceController.circles.count - 1, 1)
     }
 
     QGCFlickable {
@@ -75,7 +105,7 @@ Item {
 
         ColumnLayout {
             id: contentColumn
-            width: parent.width
+            width: parent.width - ScreenTools.minTouchPixels / 2
             spacing: ScreenTools.defaultFontPixelHeight / 2
 
             RowLayout {
@@ -195,14 +225,9 @@ Item {
                     font.bold: true
                 }
                 Item { Layout.fillWidth: true }
-                QGCCheckBoxSlider {
-                    checked: fenceEnabled
-                    onClicked: fenceEnabled = !fenceEnabled
-                }
 
                 QGCButton {
                     text: "+"
-                    visible: fenceEnabled
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: addFenceMenu.popup()
@@ -220,36 +245,43 @@ Item {
                         onTriggered: _addFenceCircle()
                     }
                 }
-
-                Item { Layout.fillWidth: true }
             }
 
             ColumnLayout {
                 Layout.fillWidth: true
-                visible: fenceEnabled && geoFenceController
+                visible: _hasFences
                 spacing: ScreenTools.defaultFontPixelHeight / 4
 
                 Repeater {
                     model: geoFenceController ? geoFenceController.polygons : null
 
-                    Rectangle {
+                    Item {
                         Layout.fillWidth: true
-                        height: fenceCardColumn.height + ScreenTools.defaultFontPixelHeight
-                        color: qgcPal.missionItemEditor
-                        radius: ScreenTools.defaultFontPixelWidth / 4
-                        border.width: 1
-                        border.color: qgcPal.windowShade
+                        Layout.preferredHeight: fenceCardBg.height
 
                         property var fenceObject: object
-                        property bool isPolygon: true
                         property int fenceIndex: index
+                        property int fenceType: 0
+                        property bool isEditing: editingFenceIndex === index && editingFenceType === 0
+
+                        Rectangle {
+                            id: fenceCardBg
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: fenceCardColumn.height + ScreenTools.defaultFontPixelHeight
+                            color: "black"
+                            radius: ScreenTools.defaultFontPixelWidth / 4
+                            border.width: 1
+                            border.color: qgcPal.windowShade
+                        }
 
                         ColumnLayout {
                             id: fenceCardColumn
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.margins: ScreenTools.defaultFontPixelWidth / 2
+                            anchors.rightMargin: ScreenTools.minTouchPixels / 2
+                            anchors.verticalCenter: fenceCardBg.verticalCenter
+                            anchors.leftMargin: ScreenTools.defaultFontPixelWidth / 2
                             spacing: ScreenTools.defaultFontPixelHeight / 4
 
                             RowLayout {
@@ -257,26 +289,10 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Type:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                                }
-                                QGCRadioButton {
-                                    text: qsTr("Polygon")
-                                    checked: true
-                                    enabled: false
-                                }
-                                QGCRadioButton {
-                                    text: qsTr("Circle")
-                                    checked: false
-                                    enabled: false
                                 }
                                 Item { Layout.fillWidth: true }
-                                QGCButton {
-                                    text: qsTr("Del")
-                                    _horizontalPadding: 0
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 4
-                                    onClicked: {
-                                        if (geoFenceController) geoFenceController.deletePolygon(fenceIndex)
-                                    }
+                                QGCLabel {
+                                    text: qsTr("Polygon")
                                 }
                             }
 
@@ -285,8 +301,8 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Nature:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                                 }
+                                Item { Layout.fillWidth: true }
                                 QGCRadioButton {
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
@@ -304,19 +320,34 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Vertices:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                                 }
+                                Item { Layout.fillWidth: true }
                                 QGCLabel {
                                     text: fenceObject.count
                                 }
-                                Item { Layout.fillWidth: true }
-                                QGCRadioButton {
+                                QGCCheckBox {
                                     text: qsTr("Edit")
-                                    checked: fenceObject.interactive
-                                    onClicked: {
-                                        if (geoFenceController) geoFenceController.clearAllInteractive()
-                                        fenceObject.interactive = checked
-                                    }
+                                    checked: isEditing
+                                    onClicked: _selectFenceForEdit(fenceIndex, fenceType)
+                                }
+                            }
+                        }
+
+                        Image {
+                            z: 1
+                            height: ScreenTools.minTouchPixels
+                            width: height
+                            sourceSize.height: height
+                            fillMode: Image.PreserveAspectFit
+                            source: "/xfres/deleteProtocol.png"
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: fenceCardBg.right
+                            anchors.leftMargin: -width / 2
+
+                            QGCMouseArea {
+                                fillItem: parent
+                                onClicked: {
+                                    if (geoFenceController) geoFenceController.deletePolygon(fenceIndex)
                                 }
                             }
                         }
@@ -326,23 +357,33 @@ Item {
                 Repeater {
                     model: geoFenceController ? geoFenceController.circles : null
 
-                    Rectangle {
+                    Item {
                         Layout.fillWidth: true
-                        height: fenceCircleCardColumn.height + ScreenTools.defaultFontPixelHeight
-                        color: qgcPal.missionItemEditor
-                        radius: ScreenTools.defaultFontPixelWidth / 4
-                        border.width: 1
-                        border.color: qgcPal.windowShade
+                        Layout.preferredHeight: fenceCircleCardBg.height
 
                         property var fenceObject: object
                         property int fenceIndex: index
+                        property int fenceType: 1
+                        property bool isEditing: editingFenceIndex === index && editingFenceType === 1
+
+                        Rectangle {
+                            id: fenceCircleCardBg
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: fenceCircleCardColumn.height + ScreenTools.defaultFontPixelHeight
+                            color: "black"
+                            radius: ScreenTools.defaultFontPixelWidth / 4
+                            border.width: 1
+                            border.color: qgcPal.windowShade
+                        }
 
                         ColumnLayout {
                             id: fenceCircleCardColumn
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.margins: ScreenTools.defaultFontPixelWidth / 2
+                            anchors.rightMargin: ScreenTools.minTouchPixels / 2
+                            anchors.verticalCenter: fenceCircleCardBg.verticalCenter
+                            anchors.leftMargin: ScreenTools.defaultFontPixelWidth / 2
                             spacing: ScreenTools.defaultFontPixelHeight / 4
 
                             RowLayout {
@@ -350,26 +391,10 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Type:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                                }
-                                QGCRadioButton {
-                                    text: qsTr("Polygon")
-                                    checked: false
-                                    enabled: false
-                                }
-                                QGCRadioButton {
-                                    text: qsTr("Circle")
-                                    checked: true
-                                    enabled: false
                                 }
                                 Item { Layout.fillWidth: true }
-                                QGCButton {
-                                    text: qsTr("Del")
-                                    _horizontalPadding: 0
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 4
-                                    onClicked: {
-                                        if (geoFenceController) geoFenceController.deleteCircle(fenceIndex)
-                                    }
+                                QGCLabel {
+                                    text: qsTr("Circle")
                                 }
                             }
 
@@ -378,8 +403,8 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Nature:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                                 }
+                                Item { Layout.fillWidth: true }
                                 QGCRadioButton {
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
@@ -397,31 +422,47 @@ Item {
 
                                 QGCLabel {
                                     text: qsTr("Radius:")
-                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                                 }
+                                Item { Layout.fillWidth: true }
                                 FactTextField {
                                     fact: fenceObject.radius
-                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                                 }
-                                QGCRadioButton {
+                                QGCCheckBox {
                                     text: qsTr("Edit")
-                                    checked: fenceObject.interactive
-                                    onClicked: {
-                                        if (geoFenceController) geoFenceController.clearAllInteractive()
-                                        fenceObject.interactive = checked
-                                    }
+                                    checked: isEditing
+                                    onClicked: _selectFenceForEdit(fenceIndex, fenceType)
+                                }
+                            }
+                        }
+
+                        Image {
+                            z: 1
+                            height: ScreenTools.minTouchPixels
+                            width: height
+                            sourceSize.height: height
+                            fillMode: Image.PreserveAspectFit
+                            source: "/xfres/deleteProtocol.png"
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: fenceCircleCardBg.right
+                            anchors.leftMargin: -width / 2
+
+                            QGCMouseArea {
+                                fillItem: parent
+                                onClicked: {
+                                    if (geoFenceController) geoFenceController.deleteCircle(fenceIndex)
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                QGCLabel {
-                    visible: geoFenceController && geoFenceController.polygons.count === 0 && geoFenceController.circles.count === 0
-                    text: qsTr("No fences. Click + to add.")
-                    font.pointSize: ScreenTools.smallFontPointSize
-                    color: qgcPal.text
-                }
+            QGCLabel {
+                visible: !_hasFences
+                text: qsTr("No fences. Click + to add.")
+                font.pointSize: ScreenTools.smallFontPointSize
+                color: qgcPal.text
             }
 
             Item {

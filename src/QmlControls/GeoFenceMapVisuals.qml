@@ -105,6 +105,7 @@ Item {
             interiorColor:      object.inclusion ? _interiorColorInclusion : _interiorColorExclusion
             interiorOpacity:    object.inclusion ? _interiorOpacityInclusion : _interiorOpacityExclusion
             interactive:        _root.interactive && mapPolygon && mapPolygon.interactive
+            showToolbar:        false
         }
     }
 
