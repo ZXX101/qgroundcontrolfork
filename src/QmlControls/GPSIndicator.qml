@@ -64,7 +64,7 @@ Item {
                 width:              height
                 sourceSize.height:  height
                 sourceSize.width:   width
-                source:             "/xfres/gps.png"
+                source:             "/xfressvg/gps.svg"
                 fillMode:           Image.PreserveAspectFit
                 color:              "white"
                 anchors.verticalCenter: parent.verticalCenter

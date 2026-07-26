@@ -43,7 +43,7 @@ Item {
 
         sourceSize.height:  height
         sourceSize.width:   width
-        source:             "/xfres/message.png"
+        source:             "/xfressvg/message.svg"
         fillMode:           Image.PreserveAspectFit
         color:              getIconColor()
         anchors.verticalCenter: parent.verticalCenter

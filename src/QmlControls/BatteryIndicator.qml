@@ -98,7 +98,7 @@ Item {
                 width:                  height
                 sourceSize.height:      height
                 sourceSize.width:       width
-                source:                 "/xfres/Battery.png"
+                source:                 "/xfressvg/Battery.svg"
                 fillMode:               Image.PreserveAspectFit
                 color:                  "white"
                 anchors.verticalCenter: parent.verticalCenter
@@ -162,23 +162,23 @@ Item {
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_OK:
                         if (!isNaN(battery.percentRemaining.rawValue)) {
                             if (battery.percentRemaining.rawValue > threshold1) {
-                                return "/xfres/BatteryGreen.png"
+                                return "/xfressvg/BatteryGreen.svg"
                             } else if (battery.percentRemaining.rawValue > threshold2) {
-                                return "/xfres/BatteryYellowGreen.png"
+                                return "/xfressvg/BatteryYellowGreen.svg"
                             } else {
-                                return "/xfres/BatteryYellow.png"
+                                return "/xfressvg/BatteryYellow.svg"
                             } 
                         }
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_LOW:
-                        return "/xfres/BatteryOrange.png" // Low with orange svg
+                        return "/xfressvg/BatteryOrange.svg" // Low with orange svg
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_CRITICAL:
-                        return "/xfres/BatteryCritical.png" // Critical with red svg
+                        return "/xfressvg/BatteryCritical.svg" // Critical with red svg
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_EMERGENCY:
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_FAILED:
                     case MAVLink.MAV_BATTERY_CHARGE_STATE_UNHEALTHY:
-                        return "/xfres/BatteryEMERGENCY.png" // Exclamation mark
+                        return "/xfressvg/BatteryEMERGENCY.svg" // Exclamation mark
                     default:
-                        return "/xfres/Battery.png" // Fallback if percentage is unavailable
+                        return "/xfressvg/Battery.svg" // Fallback if percentage is unavailable
                 }
             }
 

@@ -79,7 +79,7 @@ Rectangle {
                 spacing: ScreenTools.defaultFontPixelWidth / 2
 
                 QGCButton {
-                    iconSource: expanded ? "/xfres/collapseMission.png" : "/xfres/expandMission.png"
+                    iconSource: expanded ? "/xfressvg/collapseMission.svg" : "/xfressvg/expandMission.svg"
                     onClicked: expanded = !expanded
                 }
 
@@ -93,7 +93,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    iconSource: "/xfres/clearMission.png"
+                    iconSource: "/xfressvg/clearMission.svg"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -104,7 +104,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    iconSource: "/xfres/openMission.png"
+                    iconSource: "/xfressvg/openMission.svg"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
@@ -115,7 +115,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    iconSource: "/xfres/saveMission.png"
+                    iconSource: "/xfressvg/saveMission.svg"
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {

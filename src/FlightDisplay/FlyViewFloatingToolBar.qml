@@ -160,7 +160,7 @@ Item {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfres/tools-expand.png"
+                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfressvg/tools-expand.svg"
                 fillMode: Image.PreserveAspectFit
             }
         }
@@ -175,9 +175,9 @@ Item {
 
             Repeater {
                 model: [
-                    "/xfres/center-on-device.png",
-                    "/xfres/center-on-remote.png",
-                    "/xfres/rangefinder.png"
+                    "/xfressvg/center-on-device.svg",
+                    "/xfressvg/center-on-remote.svg",
+                    "/xfressvg/rangefinder.svg"
                 ]
 
                 Rectangle {
@@ -218,7 +218,7 @@ Item {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfres/tools-expand.png"
+                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfressvg/tools-expand.svg"
                 fillMode: Image.PreserveAspectFit
                 mirror: true
             }
@@ -234,9 +234,9 @@ Item {
 
             Repeater {
                 model: [
-                    "/xfres/center-on-device.png",
-                    "/xfres/center-on-remote.png",
-                    "/xfres/rangefinder.png"
+                    "/xfressvg/center-on-device.svg",
+                    "/xfressvg/center-on-remote.svg",
+                    "/xfressvg/rangefinder.svg"
                 ]
 
                 Rectangle {

@@ -41,41 +41,41 @@ Rectangle {
         {
             name: qsTr("Connection"),
             url: "qrc:/qml/QGroundControl/AppSettings/XFLinkSettings.qml",
-            icon: "qrc:/xfres/link.png"
+            icon: "qrc:/xfressvg/link.svg"
         },
         {
             name: qsTr("Device Config"),
-            icon: "qrc:/xfres/deviceConfig.png"
+            icon: "qrc:/xfressvg/deviceConfig.svg"
         },
         {
             name: qsTr("Flight Params"),
             componentName: "flyparam",
-            icon: "qrc:/xfres/flightParams.png"
+            icon: "qrc:/xfressvg/flightParams.svg"
         },
         {
             name: qsTr("Safety"),
             componentName: "safety",
-            icon: "qrc:/xfres/safety.png"
+            icon: "qrc:/xfressvg/safety.svg"
         },
         {
             name: qsTr("Device Log"),
             url: "qrc:/qml/QGroundControl/AnalyzeView/XFLogDownloadPage.qml",
-            icon: "qrc:/xfres/deviceLog.png"
+            icon: "qrc:/xfressvg/deviceLog.svg"
         },
         {
             name: qsTr("Mavlink Console"),
             url: "qrc:/qml/QGroundControl/AnalyzeView/XFMAVLinkConsolePage.qml",
-            icon: "qrc:/xfres/mavlink.png"
+            icon: "qrc:/xfressvg/mavlink.svg"
         },
         {
             name: qsTr("Mavlink Analyze"),
             url: "qrc:/qml/QGroundControl/AnalyzeView/XFMAVLinkInspectorPage.qml",
-            icon: "qrc:/xfres/mavlinkInspect.png"
+            icon: "qrc:/xfressvg/mavlinkInspect.svg"
         },
         {
             name: qsTr("Software Settings"),
             url: "qrc:/qml/QGroundControl/AppSettings/XFGeneralSettings.qml",
-            icon: "qrc:/xfres/softwareSettings.png"
+            icon: "qrc:/xfressvg/softwareSettings.svg"
         }
     ]
 
@@ -382,7 +382,7 @@ Rectangle {
             QGCButton {
                 id: buttonBack
                 text: qsTr("Back")
-                iconSource: "qrc:/xfres/back.png"
+                iconSource: "qrc:/xfressvg/back.svg"
                 // Layout.fillWidth: true
                 // checked: currentPageIndex === 0
                 // 后期要改颜色就该qgcPal里面的值

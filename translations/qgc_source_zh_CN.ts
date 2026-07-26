@@ -1712,7 +1712,7 @@
     <message>
         <location filename="../src/AutoPilotPlugins/APM/APMRemoteSupportComponent.qml" line="54"/>
         <source>Connect</source>
-        <translation type="unfinished">Connect</translation>
+        <translation type="unfinished">连接</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/APMRemoteSupportComponent.qml" line="63"/>
@@ -3314,7 +3314,7 @@ Click Ok to start calibration.</source>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/APMSubFrameComponent.qml" line="218"/>
         <source>Yes, Load default parameter set for %1</source>
-        <translation type="unfinished">Yes, Load default parameter set for %1</translation>
+        <translation type="unfinished">是的，加载 %1 的默认参数组</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/APMSubFrameComponent.qml" line="231"/>
@@ -4166,72 +4166,72 @@ Please place your vehicle in water, click the button, and wait. Note that the th
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="31"/>
         <source>Autotune: In progress</source>
-        <translation type="unfinished">Autotune: In progress</translation>
+        <translation type="unfinished">自动调参：运行中</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="85"/>
         <source>Autotune: initializing</source>
-        <translation type="unfinished">Autotune: initializing</translation>
+        <translation type="unfinished">自动调参：正在初始化</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="88"/>
         <source>Autotune: roll</source>
-        <translation type="unfinished">Autotune: roll</translation>
+        <translation type="unfinished">自动调参：横滚</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="91"/>
         <source>Autotune: pitch</source>
-        <translation type="unfinished">Autotune: pitch</translation>
+        <translation type="unfinished">自动调参：俯仰</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="94"/>
         <source>Autotune: yaw</source>
-        <translation type="unfinished">Autotune: yaw</translation>
+        <translation type="unfinished">自动调参：偏航</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="97"/>
         <source>Wait for disarm</source>
-        <translation type="unfinished">Wait for disarm</translation>
+        <translation type="unfinished">等待上锁</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="100"/>
         <source>Land and disarm the vehicle in order to apply the parameters.</source>
-        <translation type="unfinished">Land and disarm the vehicle in order to apply the parameters.</translation>
+        <translation type="unfinished">先降落飞行器并执行上锁操作，设置的参数才能生效。</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="105"/>
         <source>Autotune: in progress</source>
-        <translation type="unfinished">Autotune: in progress</translation>
+        <translation type="unfinished">自动调参：运行中</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="112"/>
         <source>Autotune: Success</source>
-        <translation type="unfinished">Autotune: Success</translation>
+        <translation type="unfinished">自动调参：成功</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="114"/>
         <source>Autotune successful.</source>
-        <translation type="unfinished">Autotune successful.</translation>
+        <translation type="unfinished">自动调参成功。</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="117"/>
         <source>Autotune: Unknown error</source>
-        <translation type="unfinished">Autotune: Unknown error</translation>
+        <translation type="unfinished">自动调参：未知错误</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="129"/>
         <source>Autotune: Failed</source>
-        <translation type="unfinished">Autotune: Failed</translation>
+        <translation type="unfinished">自动调参：失败</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.cpp" line="139"/>
         <source>Autotune: Ack error %1</source>
-        <translation type="unfinished">Autotune: Ack error %1</translation>
+        <translation type="unfinished">自动调参：应答错误 %1</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/Autotune.h" line="56"/>
         <source>Autotune: Not performed</source>
-        <translation type="unfinished">Autotune: Not performed</translation>
+        <translation type="unfinished">自动调参：未执行</translation>
     </message>
 </context>
 <context>
@@ -4891,152 +4891,152 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="37"/>
         <source>Qt Platform:</source>
-        <translation type="unfinished">Qt Platform:</translation>
+        <translation type="unfinished">Qt 平台</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="47"/>
         <source>Font Point Size 10</source>
-        <translation type="unfinished">Font Point Size 10</translation>
+        <translation type="unfinished">字体磅值 10</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="53"/>
         <source>Default font width:</source>
-        <translation type="unfinished">Default font width:</translation>
+        <translation type="unfinished">默认字体宽度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="63"/>
         <source>Font Point Size 10.5</source>
-        <translation type="unfinished">Font Point Size 10.5</translation>
+        <translation type="unfinished">字体磅值 10.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="69"/>
         <source>Default font height:</source>
-        <translation type="unfinished">Default font height:</translation>
+        <translation type="unfinished">默认字体高度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="79"/>
         <source>Font Point Size 11</source>
-        <translation type="unfinished">Font Point Size 11</translation>
+        <translation type="unfinished">字体磅值 11</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="85"/>
         <source>Default font pixel size:</source>
-        <translation type="unfinished">Default font pixel size:</translation>
+        <translation type="unfinished">默认字体像素尺寸</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="95"/>
         <source>Font Point Size 11.5</source>
-        <translation type="unfinished">Font Point Size 11.5</translation>
+        <translation type="unfinished">字体磅值 11.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="101"/>
         <source>Default font point size:</source>
-        <translation type="unfinished">Default font point size:</translation>
+        <translation type="unfinished">默认字体磅值</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="111"/>
         <source>Font Point Size 12</source>
-        <translation type="unfinished">Font Point Size 12</translation>
+        <translation type="unfinished">字体磅值 12</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="117"/>
         <source>QML Screen Desktop:</source>
-        <translation type="unfinished">QML Screen Desktop:</translation>
+        <translation type="unfinished">QML 桌面屏幕：</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="127"/>
         <source>Font Point Size 12.5</source>
-        <translation type="unfinished">Font Point Size 12.5</translation>
+        <translation type="unfinished">字体磅值 12.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="133"/>
         <source>QML Screen Size:</source>
-        <translation type="unfinished">QML Screen Size:</translation>
+        <translation type="unfinished">QML 屏幕尺寸</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="143"/>
         <source>Font Point Size 13</source>
-        <translation type="unfinished">Font Point Size 13</translation>
+        <translation type="unfinished">字体磅值 13</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="149"/>
         <source>QML Pixel Density:</source>
-        <translation type="unfinished">QML Pixel Density:</translation>
+        <translation type="unfinished">QML 像素密度：</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="159"/>
         <source>Font Point Size 13.5</source>
-        <translation type="unfinished">Font Point Size 13.5</translation>
+        <translation type="unfinished">字体磅值 13.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="165"/>
         <source>QML Pixel Ratio:</source>
-        <translation type="unfinished">QML Pixel Ratio:</translation>
+        <translation type="unfinished">QML 像素比率：</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="175"/>
         <source>Font Point Size 14</source>
-        <translation type="unfinished">Font Point Size 14</translation>
+        <translation type="unfinished">字体磅值 14</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="181"/>
         <source>Default Point:</source>
-        <translation type="unfinished">Default Point:</translation>
+        <translation type="unfinished">默认点位</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="191"/>
         <source>Font Point Size 14.5</source>
-        <translation type="unfinished">Font Point Size 14.5</translation>
+        <translation type="unfinished">字体磅值 14.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="197"/>
         <source>Computed Font Height:</source>
-        <translation type="unfinished">Computed Font Height:</translation>
+        <translation type="unfinished">计算字体高度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="207"/>
         <source>Font Point Size 15</source>
-        <translation type="unfinished">Font Point Size 15</translation>
+        <translation type="unfinished">字体磅值 15</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="213"/>
         <source>Computed Screen Height:</source>
-        <translation type="unfinished">Computed Screen Height:</translation>
+        <translation type="unfinished">计算屏幕高度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="223"/>
         <source>Font Point Size 15.5</source>
-        <translation type="unfinished">Font Point Size 15.5</translation>
+        <translation type="unfinished">字体磅值 15.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="229"/>
         <source>Computed Screen Width:</source>
-        <translation type="unfinished">Computed Screen Width:</translation>
+        <translation type="unfinished">计算屏幕宽度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="239"/>
         <source>Font Point Size 16</source>
-        <translation type="unfinished">Font Point Size 16</translation>
+        <translation type="unfinished">字体磅值 16</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="245"/>
         <source>Desktop Available Width:</source>
-        <translation type="unfinished">Desktop Available Width:</translation>
+        <translation type="unfinished">桌面可用宽度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="255"/>
         <source>Font Point Size 16.5</source>
-        <translation type="unfinished">Font Point Size 16.5</translation>
+        <translation type="unfinished">字体磅值 16.5</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="261"/>
         <source>Desktop Available Height:</source>
-        <translation type="unfinished">Desktop Available Height:</translation>
+        <translation type="unfinished">桌面可用高度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/DebugWindow.qml" line="271"/>
         <source>Font Point Size 17</source>
-        <translation type="unfinished">Font Point Size 17</translation>
+        <translation type="unfinished">字体磅值 17</translation>
     </message>
 </context>
 <context>
@@ -5871,7 +5871,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/Vehicle/VehicleSetup/FirmwareUpgrade.qml" line="49"/>
         <source>If upgrade failed, make sure to connect </source>
-        <translation type="unfinished">If upgrade failed, make sure to connect </translation>
+        <translation type="unfinished">若升级失败，请确保连接成功</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/FirmwareUpgrade.qml" line="49"/>
@@ -5896,7 +5896,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/Vehicle/VehicleSetup/FirmwareUpgrade.qml" line="51"/>
         <source> disconnected </source>
-        <translation type="unfinished"> disconnected </translation>
+        <translation type="unfinished">断开</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/FirmwareUpgrade.qml" line="51"/>
@@ -6401,12 +6401,12 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/FlightModeIndicator.qml" line="185"/>
         <source>Some Modes Hidden</source>
-        <translation type="unfinished">Some Modes Hidden</translation>
+        <translation type="unfinished">部分模式已隐藏</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlightModeIndicator.qml" line="221"/>
         <source>Edit Displayed Flight Modes</source>
-        <translation type="unfinished">Edit Displayed Flight Modes</translation>
+        <translation type="unfinished">编辑显示的飞行模式</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlightModeIndicator.qml" line="231"/>
@@ -6416,7 +6416,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/FlightModeIndicator.qml" line="232"/>
         <source>Configure</source>
-        <translation type="unfinished">Configure</translation>
+        <translation type="unfinished">配置</translation>
     </message>
 </context>
 <context>
@@ -6798,17 +6798,17 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/FlyViewToolBar.qml" line="152"/>
         <source>Disconnect</source>
-        <translation type="unfinished">Disconnect</translation>
+        <translation type="unfinished">断开</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlyViewToolBar.qml" line="308"/>
         <source>Downloading</source>
-        <translation type="unfinished">Downloading</translation>
+        <translation type="unfinished">下载中</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlyViewToolBar.qml" line="317"/>
         <source>Click anywhere to hide</source>
-        <translation type="unfinished">Click anywhere to hide</translation>
+        <translation type="unfinished">点击任意位置隐藏面板</translation>
     </message>
 </context>
 <context>
@@ -7099,7 +7099,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="80"/>
         <source>Duration</source>
-        <translation type="unfinished">Duration</translation>
+        <translation type="unfinished">时长</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="85"/>
@@ -7189,7 +7189,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="197"/>
         <source>Min Duration</source>
-        <translation type="unfinished">Min Duration</translation>
+        <translation type="unfinished">最小时长</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/GPSIndicatorPage.qml" line="228"/>
@@ -7292,7 +7292,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/UI/AppSettings/GeneralSettings.qml" line="143"/>
         <source>&lt;default location&gt;</source>
-        <translation type="unfinished">&lt;default location&gt;</translation>
+        <translation type="unfinished">&lt;默认位置&gt;</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/GeneralSettings.qml" line="180"/>
@@ -7908,7 +7908,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="40"/>
         <source>Force Arm</source>
-        <translation type="unfinished">Force Arm</translation>
+        <translation type="unfinished">强制解锁</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="45"/>
@@ -7968,7 +7968,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="70"/>
         <source>WARNING: This will force arming of the vehicle bypassing any safety checks.</source>
-        <translation type="unfinished">WARNING: This will force arming of the vehicle bypassing any safety checks.</translation>
+        <translation type="unfinished">警告：此操作将强制飞行器上锁，绕过所有安全检测。</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="71"/>
@@ -9760,7 +9760,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/MainStatusIndicator.qml" line="177"/>
         <source>Force Arm</source>
-        <translation type="unfinished">Force Arm</translation>
+        <translation type="unfinished">强制解锁</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/MainStatusIndicator.qml" line="177"/>
@@ -10635,7 +10635,7 @@ Do you wish to proceed?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/MotorComponent.qml" line="63"/>
         <source>Throttle</source>
-        <translation type="unfinished">Throttle</translation>
+        <translation type="unfinished">油门</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/MotorComponent.qml" line="68"/>
@@ -11687,7 +11687,7 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponent.cc" line="28"/>
         <source>Tuning Setup is used to tune the flight controllers.</source>
-        <translation type="unfinished">Tuning Setup is used to tune the flight controllers.</translation>
+        <translation type="unfinished">调参设置功能，用于调试飞行控制器。</translation>
     </message>
 </context>
 <context>
@@ -11695,22 +11695,22 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAll.qml" line="22"/>
         <source>Rate Controller</source>
-        <translation type="unfinished">Rate Controller</translation>
+        <translation type="unfinished">角速度控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAll.qml" line="26"/>
         <source>Attitude Controller</source>
-        <translation type="unfinished">Attitude Controller</translation>
+        <translation type="unfinished">姿态控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAll.qml" line="30"/>
         <source>Velocity Controller</source>
-        <translation type="unfinished">Velocity Controller</translation>
+        <translation type="unfinished">速度控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAll.qml" line="34"/>
         <source>Position Controller</source>
-        <translation type="unfinished">Position Controller</translation>
+        <translation type="unfinished">位置控制器</translation>
     </message>
 </context>
 <context>
@@ -11718,43 +11718,43 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="31"/>
         <source>Roll</source>
-        <translation type="unfinished">Roll</translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="38"/>
         <source>Proportional Gain (MC_ROLL_P)</source>
-        <translation type="unfinished">Proportional Gain (MC_ROLL_P)</translation>
+        <translation type="unfinished">比例增益(MC_ROLL_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="39"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="56"/>
         <source>Increase for more responsiveness, reduce if the attitude overshoots.</source>
-        <translation type="unfinished">Increase for more responsiveness, reduce if the attitude overshoots.</translation>
+        <translation type="unfinished">增大数值可提升响应速度；若姿态出现超调，请减小该参数。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="48"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="55"/>
         <source>Proportional Gain (MC_PITCH_P)</source>
-        <translation type="unfinished">Proportional Gain (MC_PITCH_P)</translation>
+        <translation type="unfinished">比例增益(MC_PITCH_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="65"/>
         <source>Yaw</source>
-        <translation type="unfinished">Yaw</translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="72"/>
         <source>Proportional Gain (MC_YAW_P)</source>
-        <translation type="unfinished">Proportional Gain (MC_YAW_P)</translation>
+        <translation type="unfinished">比例增益(MC_YAW_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterAttitude.qml" line="73"/>
         <source>Increase for more responsiveness, reduce if the attitude overshoots (there is only a setpoint when yaw is fixed, i.e. when centering the stick).</source>
-        <translation type="unfinished">Increase for more responsiveness, reduce if the attitude overshoots (there is only a setpoint when yaw is fixed, i.e. when centering the stick).</translation>
+        <translation type="unfinished">增大数值可提升响应速度；若姿态出现超调，请减小该参数。仅在偏航锁定（摇杆回中）时存在目标设定值。</translation>
     </message>
 </context>
 <context>
@@ -11811,45 +11811,45 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="63"/>
         <source>Rate</source>
-        <translation type="unfinished">Rate</translation>
+        <translation type="unfinished">角速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="65"/>
         <source>deg/s</source>
-        <translation type="unfinished">deg/s</translation>
+        <translation type="unfinished">°/s</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="72"/>
         <source>Roll</source>
-        <translation type="unfinished">Roll</translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="79"/>
         <source>Overall Multiplier (MC_ROLLRATE_K)</source>
-        <translation type="unfinished">Overall Multiplier (MC_ROLLRATE_K)</translation>
+        <translation type="unfinished">总增益系数(MC_ROLLRATE_K)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="80"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="113"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="146"/>
         <source>Multiplier for P, I and D gains: increase for more responsiveness, reduce if the rates overshoot (and increasing D does not help).</source>
-        <translation type="unfinished">Multiplier for P, I and D gains: increase for more responsiveness, reduce if the rates overshoot (and increasing D does not help).</translation>
+        <translation type="unfinished">P、I、D 增益总倍率：增大数值可提升响应速度；若角速度出现超调（且增大微分增益无效），请减小该参数。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="87"/>
         <source>Differential Gain (MC_ROLLRATE_D)</source>
-        <translation type="unfinished">Differential Gain (MC_ROLLRATE_D)</translation>
+        <translation type="unfinished">微分增益 (MC_ROLLRATE_D)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="88"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="121"/>
         <source>Damping: increase to reduce overshoots and oscillations, but not higher than really needed.</source>
-        <translation type="unfinished">Damping: increase to reduce overshoots and oscillations, but not higher than really needed.</translation>
+        <translation type="unfinished">阻尼：增大数值可抑制超调与振荡，请勿过度调高。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="95"/>
         <source>Integral Gain (MC_ROLLRATE_I)</source>
-        <translation type="unfinished">Integral Gain (MC_ROLLRATE_I)</translation>
+        <translation type="unfinished">积分增益 (MC_ROLLRATE_I)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="96"/>
@@ -11861,37 +11861,37 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="105"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="112"/>
         <source>Overall Multiplier (MC_PITCHRATE_K)</source>
-        <translation type="unfinished">Overall Multiplier (MC_PITCHRATE_K)</translation>
+        <translation type="unfinished">总增益系数(MC_PITCHRATE_K)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="120"/>
         <source>Differential Gain (MC_PITCHRATE_D)</source>
-        <translation type="unfinished">Differential Gain (MC_PITCHRATE_D)</translation>
+        <translation type="unfinished">微分增益 (MC_PITCHRATE_D)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="128"/>
         <source>Integral Gain (MC_PITCHRATE_I)</source>
-        <translation type="unfinished">Integral Gain (MC_PITCHRATE_I)</translation>
+        <translation type="unfinished">积分增益 (MC_PITCHRATE_I)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="138"/>
         <source>Yaw</source>
-        <translation type="unfinished">Yaw</translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="145"/>
         <source>Overall Multiplier (MC_YAWRATE_K)</source>
-        <translation type="unfinished">Overall Multiplier (MC_YAWRATE_K)</translation>
+        <translation type="unfinished">总增益系数(MC_YAWRATE_K)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentCopterRate.qml" line="153"/>
         <source>Integral Gain (MC_YAWRATE_I)</source>
-        <translation type="unfinished">Integral Gain (MC_YAWRATE_I)</translation>
+        <translation type="unfinished">积分增益 (MC_YAWRATE_I)</translation>
     </message>
 </context>
 <context>
@@ -11975,7 +11975,7 @@ Is this really what you want?</translation>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAll.qml" line="22"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAll.qml" line="26"/>
         <source>Rate Controller</source>
-        <translation type="unfinished">Rate Controller</translation>
+        <translation type="unfinished">角速度控制器</translation>
     </message>
 </context>
 <context>
@@ -11983,7 +11983,7 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAttitude.qml" line="31"/>
         <source>Roll</source>
-        <translation type="unfinished">Roll</translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAttitude.qml" line="38"/>
@@ -11998,7 +11998,7 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAttitude.qml" line="48"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneAttitude.qml" line="55"/>
@@ -12016,33 +12016,33 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="31"/>
         <source>Roll</source>
-        <translation type="unfinished">Roll</translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="38"/>
         <source>Porportional gain (FW_RR_P)</source>
-        <translation type="unfinished">Porportional gain (FW_RR_P)</translation>
+        <translation type="unfinished">比例增益 (FW_RR_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="39"/>
         <source>Porportional gain.</source>
-        <translation type="unfinished">Porportional gain.</translation>
+        <translation type="unfinished">比例增益</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="46"/>
         <source>Differential Gain (FW_RR_D)</source>
-        <translation type="unfinished">Differential Gain (FW_RR_D)</translation>
+        <translation type="unfinished">微分增益 (FW_RR_D)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="47"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="88"/>
         <source>Damping: increase to reduce overshoots and oscillations, but not higher than really needed.</source>
-        <translation type="unfinished">Damping: increase to reduce overshoots and oscillations, but not higher than really needed.</translation>
+        <translation type="unfinished">阻尼：增大数值可抑制超调与振荡，但无需过度调高。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="54"/>
         <source>Integral Gain (FW_RR_I)</source>
-        <translation type="unfinished">Integral Gain (FW_RR_I)</translation>
+        <translation type="unfinished">积分增益 (FW_RR_I)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="55"/>
@@ -12055,70 +12055,70 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="62"/>
         <source>Feedforward Gain (FW_RR_FF)</source>
-        <translation type="unfinished">Feedforward Gain (FW_RR_FF)</translation>
+        <translation type="unfinished">前馈增益 (FW_RR_FF)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="63"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="104"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="145"/>
         <source>Feedforward gused to compensate for aerodynamic damping.</source>
-        <translation type="unfinished">Feedforward gused to compensate for aerodynamic damping.</translation>
+        <translation type="unfinished">前馈参数，用以补偿气动阻尼效应。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="72"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="79"/>
         <source>Porportional Gain (FW_PR_P)</source>
-        <translation type="unfinished">Porportional Gain (FW_PR_P)</translation>
+        <translation type="unfinished">比例增益 (FW_PR_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="80"/>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="121"/>
         <source>Porportional Gain.</source>
-        <translation type="unfinished">Porportional Gain.</translation>
+        <translation type="unfinished">比例增益</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="87"/>
         <source>Differential Gain (FW_PR_D)</source>
-        <translation type="unfinished">Differential Gain (FW_PR_D)</translation>
+        <translation type="unfinished">微分增益 (FW_PR_D)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="95"/>
         <source>Integral Gain (FW_PR_I)</source>
-        <translation type="unfinished">Integral Gain (FW_PR_I)</translation>
+        <translation type="unfinished">积分增益 (FW_PR_I)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="103"/>
         <source>Feedforward Gain (FW_PR_FF)</source>
-        <translation type="unfinished">Feedforward Gain (FW_PR_FF)</translation>
+        <translation type="unfinished">前馈增益 (FW_PR_FF)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="113"/>
         <source>Yaw</source>
-        <translation type="unfinished">Yaw</translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="120"/>
         <source>Porportional Gain (FW_YR_P)</source>
-        <translation type="unfinished">Porportional Gain (FW_YR_P)</translation>
+        <translation type="unfinished">比例增益 (FW_YR_P)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="128"/>
         <source>Integral Gain (FW_YR_D)</source>
-        <translation type="unfinished">Integral Gain (FW_YR_D)</translation>
+        <translation type="unfinished">积分增益 (FW_YR_D)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="136"/>
         <source>Integral Gain (FW_YR_I)</source>
-        <translation type="unfinished">Integral Gain (FW_YR_I)</translation>
+        <translation type="unfinished">积分增益 (FW_YR_I)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="144"/>
         <source>Feedforward Gain (FW_YR_FF)</source>
-        <translation type="unfinished">Feedforward Gain (FW_YR_FF)</translation>
+        <translation type="unfinished">前馈增益 (FW_YR_FF)</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneRate.qml" line="152"/>
@@ -14567,12 +14567,12 @@ sudo apt-get 移除调制解调器管理器</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="81"/>
         <source>Click Ok to place your Spektrum receiver in the bind mode.</source>
-        <translation type="unfinished">Click Ok to place your Spektrum receiver in the bind mode.</translation>
+        <translation type="unfinished">点击确定，将 Spektrum 接收机进入绑定模式。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="87"/>
         <source>Select the specific receiver type below:</source>
-        <translation type="unfinished">Select the specific receiver type below:</translation>
+        <translation type="unfinished">请在下方选择对应的接收机类型：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="417"/>
@@ -14583,7 +14583,7 @@ sudo apt-get 移除调制解调器管理器</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="419"/>
         <source>Click Ok to place your CRSF receiver in the bind mode.</source>
-        <translation type="unfinished">Click Ok to place your CRSF receiver in the bind mode.</translation>
+        <translation type="unfinished">点击确定，使 CRSF 接收机进入对频模式。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="428"/>
@@ -14652,7 +14652,7 @@ sudo apt-get 移除调制解调器管理器</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="264"/>
         <source>Yaw</source>
-        <translation>水平</translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="296"/>
@@ -14678,17 +14678,17 @@ sudo apt-get 移除调制解调器管理器</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="347"/>
         <source>Radio Not Ready</source>
-        <translation type="unfinished">Radio Not Ready</translation>
+        <translation type="unfinished">遥控器未就绪</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="351"/>
         <source>Ready to calibrate.</source>
-        <translation type="unfinished">Ready to calibrate.</translation>
+        <translation type="unfinished">准备就绪，可以开始校准。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="353"/>
         <source>Zero Trims</source>
-        <translation type="unfinished">Zero Trims</translation>
+        <translation type="unfinished">零偏置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/RadioComponent.qml" line="382"/>
@@ -17791,7 +17791,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/toolbar/VehicleMessagesIndicator.qml" line="80"/>
         <source>Force Arm</source>
-        <translation type="unfinished">Force Arm</translation>
+        <translation type="unfinished">强制解锁</translation>
     </message>
     <message>
         <location filename="../src/UI/toolbar/VehicleMessagesIndicator.qml" line="80"/>
@@ -18155,12 +18155,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMAirframeComponent.qml" line="80"/>
         <source> To change this configuration, select the desired frame class below and then reboot the vehicle.</source>
-        <translation type="unfinished"> To change this configuration, select the desired frame class below and then reboot the vehicle.</translation>
+        <translation type="unfinished">如需更改该配置，请在下方选择所需机架类型，随后重启飞行器。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMAirframeComponent.qml" line="86"/>
         <source>Save&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存并重启</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMAirframeComponent.qml" line="87"/>
@@ -18248,12 +18248,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml" line="115"/>
         <source>Flight Mode %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">飞行模式 %1（%2）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml" line="141"/>
         <source>Simple</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">简易</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml" line="156"/>
@@ -18286,12 +18286,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml" line="271"/>
         <source>Auxiliary Output Channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">辅助输出通道</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlightModesComponent.qml" line="307"/>
         <source>Auxiliary %1 (AUX%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">辅助通道 %1（AUX%1）</translation>
     </message>
 </context>
 <context>
@@ -18299,57 +18299,57 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="97"/>
         <source>Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="119"/>
         <source>Max Manual Tilt Angle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大手动倾斜角度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="130"/>
         <source>Max Manual Ascend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大手动上升速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="141"/>
         <source>Max Manual Descend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大手动下降速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="152"/>
         <source>Auto Flight Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动飞行速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="163"/>
         <source>Auto Ascend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动上升速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="174"/>
         <source>Auto Descend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动下降速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="192"/>
         <source>Return To Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="214"/>
         <source>RTL Altitude</source>
-        <translation type="unfinished">RTL Altitude</translation>
+        <translation type="unfinished">返航高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="226"/>
         <source>The vehicle will ascend to the set safe altitude then return home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">飞行器将上升至设定安全高度后返航。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="245"/>
         <source>Loiter Time Above Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">起飞点上空悬停时长</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="264"/>
@@ -18359,72 +18359,72 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="286"/>
         <source>Safe Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安全高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="300"/>
         <source>Landing Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">降落速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="312"/>
         <source>Effective below safe altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">低于安全高度生效</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="337"/>
         <source>Advanced Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">高级参数</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="360"/>
         <source>Max Flight Angle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大飞行倾角</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="381"/>
         <source>Vertical Acceleration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">垂向加速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="402"/>
         <source>Max Flight Acceleration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大飞行加速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="423"/>
         <source>Controller Time Constant</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">控制器时间常数</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="444"/>
         <source>Max Angular Rate P</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（俯仰）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="465"/>
         <source>Max Angular Rate R</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（横滚）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="486"/>
         <source>Max Angular Rate Y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（偏航）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="507"/>
         <source>Max Angular Acceleration P</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（俯仰）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="528"/>
         <source>Max Angular Acceleration R</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（横滚）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMFlyParamComponent.qml" line="549"/>
         <source>Max Angular Acceleration Y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（偏航）</translation>
     </message>
 </context>
 <context>
@@ -18432,7 +18432,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="38"/>
         <source>Undefined</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未定义</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="39"/>
@@ -18452,7 +18452,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="42"/>
         <source>Octa-Quad</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">共轴八旋翼</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="43"/>
@@ -18462,57 +18462,57 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="44"/>
         <source>Helicopter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">直升机</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="45"/>
         <source>Tricopter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">三旋翼</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="46"/>
         <source>Single Copter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">单旋翼</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="47"/>
         <source>Coax Copter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">共轴旋翼机型</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="48"/>
         <source>Bicopter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">双旋翼</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="49"/>
         <source>Heli Dual</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">双桨直升机</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="50"/>
         <source>Dodeca Hexa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">共轴十二旋翼</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="51"/>
         <source>Heli Quad</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">四桨直升机</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="52"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未知</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="96"/>
         <source>Geometry: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">构型：%1</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="133"/>
         <source>Throttle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">油门</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="146"/>
@@ -18522,7 +18522,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="153"/>
         <source>Duration</source>
-        <translation type="unfinished">Duration</translation>
+        <translation type="unfinished">时长</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="166"/>
@@ -18532,27 +18532,27 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="176"/>
         <source>Start All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全部开始</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="189"/>
         <source>Stop All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全部暂停</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="208"/>
         <source>Motor %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电机 %1</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="236"/>
         <source>Careful: Motors are enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">注意：电机已启动</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMMotorComponent.qml" line="237"/>
         <source>Propellers are removed - Enable slider and motors</source>
-        <translation type="unfinished">Propellers are removed - Enable slider and motors</translation>
+        <translation type="unfinished">螺旋桨已拆除 — 启用滑动条与电机</translation>
     </message>
 </context>
 <context>
@@ -18673,17 +18673,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="358"/>
         <source>Blue Robotics Power Sense Module</source>
-        <translation type="unfinished">Blue Robotics Power Sense Module</translation>
+        <translation type="unfinished">Blue Robotics 功率检测模块</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="367"/>
         <source>Navigator w/ Blue Robotics Power Sense Module</source>
-        <translation type="unfinished">Navigator w/ Blue Robotics Power Sense Module</translation>
+        <translation type="unfinished">Navigator 搭配 Blue Robotics 功率检测模块</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="376"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">其他</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="386"/>
@@ -18810,14 +18810,14 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="106"/>
         <source>Failsafe Trigger Voltage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">失控保护触发电压</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="117"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="169"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="221"/>
         <source>Failsafe Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">失控保护动作</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="136"/>
@@ -18827,37 +18827,37 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="158"/>
         <source>PWM Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">PWM 最小值</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="188"/>
         <source>GCS Link Loss Failsafe</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">地面站链路丢失保护</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="210"/>
         <source>Connection Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">连接超时</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="240"/>
         <source>Geofence</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">地理围栏</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="262"/>
         <source>Action on Breach</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">越界触发动作</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="273"/>
         <source>Max Altitude</source>
-        <translation type="unfinished">Max Altitude</translation>
+        <translation type="unfinished">最大高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="284"/>
         <source>Max Radius</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大半径</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="303"/>
@@ -18867,27 +18867,27 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="325"/>
         <source>Avoidance Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">避障动作</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="336"/>
         <source>Minimum Distance</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最小距离</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="347"/>
         <source>Show Obstacle Distance Overlay</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示障碍物距离叠加图层</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="369"/>
         <source>Telemetry Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">遥测日志</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSafetyComponent.qml" line="391"/>
         <source>Save Telemetry Log to Vehicle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将遥测日志保存至机载设备</translation>
     </message>
 </context>
 <context>
@@ -18910,12 +18910,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="46"/>
         <source>For Compass calibration you will need to rotate your vehicle through a number of positions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">进行罗盘校准，需将载具转动至多个姿态。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="47"/>
         <source>For Accelerometer calibration you will need to place your vehicle on all six sides on a perfectly level surface and hold it still in each orientation for a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">执行加速度计校准，需将载具以六个方位放置在完全水平的平面上，每个姿态保持静止数秒。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="48"/>
@@ -18925,7 +18925,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="50"/>
         <source>Start the calibration by clicking the Start Calibration button.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">点击【开始校准】按钮启动校准流程</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="58"/>
@@ -19081,72 +19081,72 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="486"/>
         <source>Simple accelerometer calibration is less precise but allows calibrating without rotating the vehicle. Check this if you have a large/heavy vehicle.</source>
-        <translation type="unfinished">Simple accelerometer calibration is less precise but allows calibrating without rotating the vehicle. Check this if you have a large/heavy vehicle.</translation>
+        <translation type="unfinished">简易加速度计校准精度较低，但无需转动载具即可完成校准。若使用大型 / 重型载具，请勾选此项。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="490"/>
         <source>Simple Accelerometer Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">简易加速度计校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="504"/>
         <source>Magnetic Declination</source>
-        <translation type="unfinished">Magnetic Declination</translation>
+        <translation type="unfinished">磁偏角</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="516"/>
         <source>Manual Magnetic Declination</source>
-        <translation type="unfinished">Manual Magnetic Declination</translation>
+        <translation type="unfinished">手动磁偏角</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="538"/>
         <source>Fast compass calibration given vehicle position and yaw. This </source>
-        <translation type="unfinished">Fast compass calibration given vehicle position and yaw. This </translation>
+        <translation type="unfinished">基于载具位置与航向实现快速罗盘校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="539"/>
         <source>results in zero diagonal and off-diagonal elements, so is only </source>
-        <translation type="unfinished">results in zero diagonal and off-diagonal elements, so is only </translation>
+        <translation type="unfinished">会使对角元与非对角元均置零，因此仅适用于……</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="540"/>
         <source>suitable for vehicles where the field is close to spherical. It is </source>
-        <translation type="unfinished">suitable for vehicles where the field is close to spherical. It is </translation>
+        <translation type="unfinished">适用于磁场近似球形分布的载具</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="541"/>
         <source>useful for large vehicles where moving the vehicle to calibrate it </source>
-        <translation type="unfinished">useful for large vehicles where moving the vehicle to calibrate it </translation>
+        <translation type="unfinished">适用于大型载具，无需移动载具即可完成校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="542"/>
         <source>is difficult. Point the vehicle North before using it.</source>
-        <translation type="unfinished">is difficult. Point the vehicle North before using it.</translation>
+        <translation type="unfinished">操作难度较高，使用前请将载具朝向正北。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="555"/>
         <source>Fast Calibration</source>
-        <translation type="unfinished">Fast Calibration</translation>
+        <translation type="unfinished">快速校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="563"/>
         <source>Vehicle has no Valid positon, please provide it</source>
-        <translation type="unfinished">Vehicle has no Valid positon, please provide it</translation>
+        <translation type="unfinished">飞行器无有效位置信息，请手动提供位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="569"/>
         <source>Use GCS position instead</source>
-        <translation type="unfinished">Use GCS position instead</translation>
+        <translation type="unfinished">改用地面站位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="575"/>
         <source>Use current map position instead</source>
-        <translation type="unfinished">Use current map position instead</translation>
+        <translation type="unfinished">改用当前地图坐标</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="582"/>
         <source>Lat: </source>
-        <translation type="unfinished">Lat: </translation>
+        <translation type="unfinished">纬度：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="629"/>
@@ -19156,7 +19156,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="659"/>
         <source>Accelerometer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">加速度计</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="689"/>
@@ -19167,14 +19167,14 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="719"/>
         <source>GPS Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPS 位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="763"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="807"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="847"/>
         <source>Start Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">开始校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="766"/>
@@ -19208,17 +19208,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="881"/>
         <source>Positive values are forward, right, and up. Negative values are backward, left, and down.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正值代表向前、向右、向上；负值代表向后、向左、向下。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="898"/>
         <source>GPS1 Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPS1 位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="927"/>
         <source>GPS2 Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPS2 位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMSensorsComponent.qml" line="1011"/>
@@ -19247,30 +19247,30 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="81"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="316"/>
         <source>Rate</source>
-        <translation type="unfinished">Rate</translation>
+        <translation type="unfinished">角速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="106"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="455"/>
         <source>Attitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">姿态</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="131"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="582"/>
         <source>Velocity</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">速率 / 速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="156"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="684"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="199"/>
         <source>Rate Controller</source>
-        <translation type="unfinished">Rate Controller</translation>
+        <translation type="unfinished">角速度控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="223"/>
@@ -19278,7 +19278,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="380"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="461"/>
         <source>Roll</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="253"/>
@@ -19286,7 +19286,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="404"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="468"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="283"/>
@@ -19294,27 +19294,27 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="428"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="475"/>
         <source>Yaw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="318"/>
         <source>deg/s</source>
-        <translation type="unfinished">deg/s</translation>
+        <translation type="unfinished">°/s</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="356"/>
         <source>Attitude Controller</source>
-        <translation type="unfinished">Attitude Controller</translation>
+        <translation type="unfinished">姿态控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="457"/>
         <source>deg</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">°</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="495"/>
         <source>Velocity Controller</source>
-        <translation type="unfinished">Velocity Controller</translation>
+        <translation type="unfinished">速度控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="519"/>
@@ -19322,7 +19322,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="639"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="690"/>
         <source>Horizontal</source>
-        <translation type="unfinished">Horizontal</translation>
+        <translation type="unfinished">水平</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="549"/>
@@ -19330,7 +19330,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="663"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="697"/>
         <source>Vertical</source>
-        <translation type="unfinished">Vertical</translation>
+        <translation type="unfinished">垂直 / 垂向</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="584"/>
@@ -19340,7 +19340,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="615"/>
         <source>Position Controller</source>
-        <translation type="unfinished">Position Controller</translation>
+        <translation type="unfinished">位置控制器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMTuningComponentCopter.qml" line="686"/>
@@ -19363,12 +19363,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="194"/>
         <source>Configure some outputs in order to test them.</source>
-        <translation type="unfinished">Configure some outputs in order to test them.</translation>
+        <translation type="unfinished">配置相关输出通道以进行测试。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="231"/>
         <source>Careful: Actuator sliders are enabled</source>
-        <translation type="unfinished">Careful: Actuator sliders are enabled</translation>
+        <translation type="unfinished">警告：执行器滑块已启用</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="231"/>
@@ -19388,17 +19388,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="360"/>
         <source>Identify &amp; Assign Motors</source>
-        <translation type="unfinished">Identify &amp; Assign Motors</translation>
+        <translation type="unfinished">识别并分配电机</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="375"/>
         <source>Motor Order Identification and Assignment</source>
-        <translation type="unfinished">Motor Order Identification and Assignment</translation>
+        <translation type="unfinished">电机编号识别与分配</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="389"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">错误</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="394"/>
@@ -19408,7 +19408,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFActuatorComponent.qml" line="401"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">中止</translation>
     </message>
 </context>
 <context>
@@ -19434,7 +19434,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFAirframeComponent.qml" line="49"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFAirframeComponent.qml" line="109"/>
@@ -19460,7 +19460,9 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFAirframeComponent.qml" line="121"/>
         <source>Clicking &apos;Apply&apos; will save the changes you have made to your airframe configuration.&lt;br&gt;&lt;br&gt;                                                                        All vehicle parameters other than Radio Calibration will be reset.&lt;br&gt;&lt;br&gt;                                                                        Your vehicle will also be restarted in order to complete the process.</source>
-        <translation type="unfinished">Clicking &apos;Apply&apos; will save the changes you have made to your airframe configuration.&lt;br&gt;&lt;br&gt;                                                                        All vehicle parameters other than Radio Calibration will be reset.&lt;br&gt;&lt;br&gt;                                                                        Your vehicle will also be restarted in order to complete the process.</translation>
+        <translation type="unfinished">点击【应用】将保存您对机身配置所做的修改。
+除遥控器校准参数外，其余所有载具参数均会被重置。
+载具同时将重启以完成该流程。</translation>
     </message>
 </context>
 <context>
@@ -19473,7 +19475,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="84"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">所有文件 (*)</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="85"/>
@@ -19488,7 +19490,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="111"/>
         <source>GStreamer Debug Level</source>
-        <translation type="unfinished">GStreamer Debug Level</translation>
+        <translation type="unfinished">GStreamer 调试等级</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="130"/>
@@ -19503,7 +19505,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="154"/>
         <source>Logging categories</source>
-        <translation type="unfinished">Logging categories</translation>
+        <translation type="unfinished">日志分类</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFAppMessages.qml" line="192"/>
@@ -19629,142 +19631,142 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="113"/>
         <source>Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="135"/>
         <source>Max Manual Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">手动最大速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="145"/>
         <source>Max Manual Ascend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">手动最大上升速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="155"/>
         <source>Max Manual Descend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">手动最大下降速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="165"/>
         <source>Auto Flight Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自主飞行速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="175"/>
         <source>Auto Ascend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动上升速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="185"/>
         <source>Auto Descend Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动下降速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="202"/>
         <source>Return To Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="224"/>
         <source>RTL Altitude</source>
-        <translation type="unfinished">RTL Altitude</translation>
+        <translation type="unfinished">返航高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="235"/>
         <source>The vehicle will ascend to the set safe altitude then return home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">载具将上升至设定安全高度，随后返航。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="254"/>
         <source>Loiter Time Above Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">起飞点上空悬停时长</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="272"/>
         <source>Landing</source>
-        <translation type="unfinished">降落中</translation>
+        <translation type="unfinished">着陆</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="294"/>
         <source>Safe Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安全高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="307"/>
         <source>Landing Speed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">着陆速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="318"/>
         <source>Effective below safe altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">低于安全高度时生效</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="337"/>
         <source>Advanced Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">高级参数</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="382"/>
         <source>Max Flight Angle (Air)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">空中最大飞行倾角</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="402"/>
         <source>Max Flight Angle (Land)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">着陆最大飞行倾角</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="422"/>
         <source>Vertical Accel Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">垂直向上加速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="442"/>
         <source>Vertical Accel Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">垂直向下加速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="462"/>
         <source>Max Flight Acceleration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大飞行加速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="482"/>
         <source>Position Control Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">位置控制模式</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="502"/>
         <source>Max Angular Rate P</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（俯仰）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="522"/>
         <source>Max Angular Rate R</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（横滚）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="542"/>
         <source>Max Angular Rate Y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角速度（偏航）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="562"/>
         <source>Max Angular Accel P</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（俯仰）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="582"/>
         <source>Max Angular Accel R</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（横滚）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFFlyParamComponent.qml" line="602"/>
         <source>Max Angular Accel Y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大角加速度（偏航）</translation>
     </message>
 </context>
 <context>
@@ -19772,7 +19774,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFFlyViewSettings.qml" line="50"/>
         <source>&lt;None&gt;</source>
-        <translation type="unfinished">&lt;None&gt;</translation>
+        <translation type="unfinished">&lt;无&gt;</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFFlyViewSettings.qml" line="60"/>
@@ -19792,7 +19794,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFFlyViewSettings.qml" line="82"/>
         <source>Maximum Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大飞行高度</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFFlyViewSettings.qml" line="89"/>
@@ -19805,22 +19807,22 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="37"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通用</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="40"/>
         <source>Flyview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">飞行视图</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="43"/>
         <source>System Console</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统控制台</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="46"/>
         <source>RTK Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RTK 设置</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="84"/>
@@ -19835,7 +19837,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="104"/>
         <source>&lt;default location&gt;</source>
-        <translation type="unfinished">&lt;default location&gt;</translation>
+        <translation type="unfinished">&lt;默认位置&gt;</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="110"/>
@@ -19850,12 +19852,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="162"/>
         <source>NTRIP Network RTK</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络 RTK（NTRIP）</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="168"/>
         <source>Enable NTRIP</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启用NTRIP</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="174"/>
@@ -19865,27 +19867,27 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="180"/>
         <source>Format: ntrip://user:pass@host:port/mountpoint</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">格式：ntrip:// 账号：密码 @服务器地址：端口 / 挂载点</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="189"/>
         <source>Send GGA Position (VRS)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">发送 GGA 定位报文（VRS）</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="196"/>
         <source>Use NTRIP v1 Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用 NTRIP v1 协议</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="206"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">状态：</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="213"/>
         <source>● Connected (%1 bytes received)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">●已连接（接收数据量 %1）</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="215"/>
@@ -19895,52 +19897,52 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="216"/>
         <source>○ Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">○未连接</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="230"/>
         <source>RTK GPS Base Station</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RTK GPS 基准站</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="236"/>
         <source>AutoConnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动连接</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="245"/>
         <source>Survey-In</source>
-        <translation type="unfinished">Survey-In</translation>
+        <translation type="unfinished">基站自主采集求解位置</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="251"/>
         <source>Specify position</source>
-        <translation type="unfinished">Specify position</translation>
+        <translation type="unfinished">指定坐标</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="260"/>
         <source>Accuracy (u-blox only)</source>
-        <translation type="unfinished">Accuracy (u-blox only)</translation>
+        <translation type="unfinished">精度（仅 u‑blox）</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="269"/>
         <source>Min Duration</source>
-        <translation type="unfinished">Min Duration</translation>
+        <translation type="unfinished">最小时长</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="300"/>
         <source>Current Base Position</source>
-        <translation type="unfinished">Current Base Position</translation>
+        <translation type="unfinished">当前基准站位置</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="301"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFGeneralSettings.qml" line="301"/>
         <source>Not Yet Valid</source>
-        <translation type="unfinished">Not Yet Valid</translation>
+        <translation type="unfinished">暂未有效</translation>
     </message>
 </context>
 <context>
@@ -19948,7 +19950,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="71"/>
         <source>No protocols yet. Add a protocol on the right form to connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">暂无协议。请在右侧表单添加协议以建立连接。</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="119"/>
@@ -19971,17 +19973,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="119"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未知</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="154"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">断开</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="154"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">连接</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="179"/>
@@ -19996,7 +19998,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="218"/>
         <source>Drones</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无人机</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="239"/>
@@ -20006,17 +20008,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="260"/>
         <source>Others</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">其他</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="305"/>
         <source>Nothing here</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">暂无内容</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="320"/>
         <source>No link selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未选择链接</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="328"/>
@@ -20031,17 +20033,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="389"/>
         <source>New Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">新建链接</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="397"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">类型</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="421"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">名称</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="428"/>
@@ -20061,7 +20063,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="465"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确定</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFLinkSettings.qml" line="483"/>
@@ -20099,7 +20101,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="99"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">状态</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="117"/>
@@ -20119,17 +20121,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="132"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下载</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="144"/>
         <source>Log Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">日志下载</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="144"/>
         <source>You must select at least one log file to download.</source>
-        <translation type="unfinished">You must select at least one log file to download.</translation>
+        <translation type="unfinished">请至少选择一个日志文件进行下载。</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFLogDownloadPage.qml" line="153"/>
@@ -20200,7 +20202,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="190"/>
         <source>Actual Rate:</source>
-        <translation type="unfinished">Actual Rate:</translation>
+        <translation type="unfinished">实际速率：</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="191"/>
@@ -20210,17 +20212,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="193"/>
         <source>Set Rate:</source>
-        <translation type="unfinished">Set Rate:</translation>
+        <translation type="unfinished">设置更新频率：</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="199"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">禁用</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="200"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="201"/>
@@ -20290,17 +20292,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="244"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">名称</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="247"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数值 </translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="250"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">类型</translation>
     </message>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="253"/>
@@ -20310,8 +20312,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AnalyzeView/XFMAVLinkInspectorPage.qml" line="256"/>
         <source>Plot 2</source>
-        <translation type="unfinished">绘制2
-</translation>
+        <translation type="unfinished">绘制2</translation>
     </message>
 </context>
 <context>
@@ -20406,7 +20407,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="324"/>
         <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="417"/>
         <source>Exclusion</source>
-        <translation>排除</translation>
+        <translation type="unfinished">排斥</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="334"/>
@@ -20649,7 +20650,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="387"/>
         <source>Save</source>
-        <translation>保持</translation>
+        <translation type="unfinished">保持</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="387"/>
@@ -20725,7 +20726,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="63"/>
         <source>Throttle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">油门</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="68"/>
@@ -20735,7 +20736,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="76"/>
         <source>Make sure you remove all props.</source>
-        <translation type="unfinished">Make sure you remove all props.</translation>
+        <translation type="unfinished">请确认拆除所有螺旋桨。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="100"/>
@@ -20745,17 +20746,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="110"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">停止</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="134"/>
         <source>Careful : Motors are enabled</source>
-        <translation type="unfinished">Careful : Motors are enabled</translation>
+        <translation type="unfinished">注意：电机已启动</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFMotorComponent.qml" line="134"/>
         <source>Propellers are removed - Enable slider and motors</source>
-        <translation type="unfinished">Propellers are removed - Enable slider and motors</translation>
+        <translation type="unfinished">螺旋桨已拆除 — 启用滑块与电机</translation>
     </message>
 </context>
 <context>
@@ -20763,12 +20764,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/QmlControls/XFPIDTuning.qml" line="127"/>
         <source>sec</source>
-        <translation type="unfinished">sec</translation>
+        <translation type="unfinished">秒</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/XFPIDTuning.qml" line="223"/>
         <source>Select Axis:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择轴：</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/XFPIDTuning.qml" line="238"/>
@@ -20778,12 +20779,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/QmlControls/XFPIDTuning.qml" line="243"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">停止</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/XFPIDTuning.qml" line="243"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启动</translation>
     </message>
 </context>
 <context>
@@ -20791,32 +20792,32 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Arm Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">解锁开关 </translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Gear Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">起落架开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Kill Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">紧急断电开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Loiter Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">悬停开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Offboard Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">外部控制开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="35"/>
         <source>Return Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返航开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="53"/>
@@ -20831,7 +20832,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="102"/>
         <source>Flight Mode %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">飞行模式 %1（%2）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="119"/>
@@ -20841,22 +20842,22 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="173"/>
         <source>Actuator Output Functions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">执行器输出功能</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="208"/>
         <source>Main %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主通道 %1</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="237"/>
         <source>Aux %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">辅助通道 %1</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="263"/>
         <source>Transition Switch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">切换开关</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4FlightModes.qml" line="267"/>
@@ -20870,35 +20871,35 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="72"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="289"/>
         <source>Rate</source>
-        <translation type="unfinished">Rate</translation>
+        <translation type="unfinished">角速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="93"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="388"/>
         <source>Attitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">姿态</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="114"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="507"/>
         <source>Velocity</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">速率 / 速度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="135"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="595"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="174"/>
         <source>Airmode (disable during tuning)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">空中模式（调试阶段请关闭）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="186"/>
         <source>Thrust curve</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">推力曲线</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="204"/>
@@ -20906,7 +20907,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="333"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="394"/>
         <source>Roll</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="234"/>
@@ -20914,7 +20915,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="351"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="401"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="264"/>
@@ -20922,23 +20923,23 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="369"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="408"/>
         <source>Yaw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="291"/>
         <source>deg/s</source>
-        <translation type="unfinished">deg/s</translation>
+        <translation type="unfinished">°/s</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="390"/>
         <source>deg</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">°</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="429"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="541"/>
         <source>Position control mode (set to &apos;simple&apos; during tuning):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">位置控制模式（调试阶段建议设置为「简易模式」）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="446"/>
@@ -20946,7 +20947,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="558"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="601"/>
         <source>Horizontal</source>
-        <translation type="unfinished">Horizontal</translation>
+        <translation type="unfinished">水平</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="476"/>
@@ -20954,7 +20955,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="576"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="608"/>
         <source>Vertical</source>
-        <translation type="unfinished">Vertical</translation>
+        <translation type="unfinished">垂直 / 垂向</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPX4TuningComponent.qml" line="509"/>
@@ -21107,7 +21108,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="99"/>
         <source>Battery1 source:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1号电池源：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="113"/>
@@ -21124,7 +21125,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="173"/>
         <source>Battery2 source:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2号电池源：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="246"/>
@@ -21134,7 +21135,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="411"/>
         <source>Battery source:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池源：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="420"/>
@@ -21144,12 +21145,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="442"/>
         <source>Battery Max: %1 V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池最大电压：%1 V</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="458"/>
         <source>Battery Min: %1 V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池最低电压：%1 V</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="494"/>
@@ -21164,7 +21165,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="546"/>
         <source>Batteries show less voltage at high throttle. Enter the difference in Volts between idle throttle and full throttle, divided by the number of battery cells. Leave at the default if unsure.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池在大油门工况下电压会降低。请输入怠速油门与满油门之间的电压差值，再除以电池电芯数量。如不确定，保持默认值即可。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFPowerComponent.qml" line="551"/>
@@ -21283,7 +21284,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="90"/>
         <source>Not Mapped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未分配 / 未映射</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="114"/>
@@ -21293,22 +21294,22 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="122"/>
         <source>Roll</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">横滚</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="150"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">俯仰</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="178"/>
         <source>Yaw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="206"/>
         <source>Throttle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">油门</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="232"/>
@@ -21318,13 +21319,13 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="239"/>
         <source>Click when Done</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">完成后点击此处</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="240"/>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="270"/>
         <source>Confirm &amp; Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确认并保存</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="240"/>
@@ -21334,17 +21335,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="245"/>
         <source>Center Sticks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">摇杆回中</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="246"/>
         <source>Ensure all sticks are centered and throttle is down, then click OK to finish calibration.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确保所有摇杆回中、油门处于最低位，然后点击确定完成校准。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="253"/>
         <source>Radio Not Ready</source>
-        <translation type="unfinished">Radio Not Ready</translation>
+        <translation type="unfinished">遥控器未就绪</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="254"/>
@@ -21359,12 +21360,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="257"/>
         <source>Ready to calibrate.</source>
-        <translation type="unfinished">Ready to calibrate.</translation>
+        <translation type="unfinished">准备就绪，可以开始校准。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="259"/>
         <source>Calibrate Radio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">遥控校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="260"/>
@@ -21372,22 +21373,24 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
 Ensure all motor power is disconnected AND all props are removed!
 
 Click OK and then move all RC sticks and switches to their extreme positions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请确认遥控器已开机、接收机已上电。
+务必断开所有电机电源，并拆除全部螺旋桨！
+点击确定后，将所有遥控摇杆与开关拨动至极限位置。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="280"/>
         <source>Move all RC sticks and switches to their extreme positions. Channels detected: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将所有遥控摇杆与开关拨动至极限位置。已检测通道：%1</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="282"/>
         <source>Calibration complete. Review the min/max values above and click &apos;Confirm &amp; Save&apos; to write parameters to the board.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">校准完成。请核对上方最小、最大值，点击「确认并保存」将参数写入飞控主板。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="283"/>
         <source>Click Calibrate to start radio calibration. Move all sticks and switches to their extremes in one step.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">点击【校准】启动遥控校准，请一次性将所有摇杆、开关拨至极限位置。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/Common/XFRadioComponent.qml" line="325"/>
@@ -21411,13 +21414,13 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="339"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="355"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">禁用</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="339"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="355"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启用</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="84"/>
@@ -21429,22 +21432,22 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="172"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="221"/>
         <source>Failsafe Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">失控保护动作</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="116"/>
         <source>Battery Warn Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池告警电压</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="125"/>
         <source>Battery Failsafe Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池失控保护阈值</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="134"/>
         <source>Battery Emergency Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池紧急保护阈值</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="150"/>
@@ -21464,62 +21467,62 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="231"/>
         <source>Data Link Loss Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数传链路丢失超时时间</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="248"/>
         <source>Geofence</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">地理围栏</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="270"/>
         <source>Action on Breach</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">越界处置动作</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="280"/>
         <source>Max Altitude</source>
-        <translation type="unfinished">Max Altitude</translation>
+        <translation type="unfinished">最大高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="290"/>
         <source>Max Radius</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大半径</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="335"/>
         <source>Collision Prevention</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">碰撞防护</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="351"/>
         <source>Obstacle Avoidance</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">障碍物避障 / 避障功能</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="367"/>
         <source>Minimum Distance</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最小安全距离</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="396"/>
         <source>Show Obstacle Distance Overlay</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示障碍物距离叠加图层</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="411"/>
         <source>Return To Launch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="433"/>
         <source>Climb to Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">爬升至指定高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="443"/>
         <source>Return Then:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返航后续动作：</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="450"/>
@@ -21549,7 +21552,7 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="506"/>
         <source>Land Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自动降落模式</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="528"/>
@@ -21559,22 +21562,22 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="561"/>
         <source>Telemetry Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">遥测日志</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="583"/>
         <source>Save Telemetry Log to Vehicle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将遥测日志保存至机载设备</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="604"/>
         <source>HITL Simulation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">硬件在环仿真</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="626"/>
         <source>HITL Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已启用硬件在环仿真</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="541"/>
@@ -21587,22 +21590,22 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="36"/>
         <source>For Compass calibration you will need to rotate your vehicle through a number of positions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">进行罗盘校准，需要将飞行器转动至多个姿态。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="37"/>
         <source>For Accelerometer calibration you will need to place your vehicle on all six sides on a perfectly level surface and hold it still in each orientation for a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">加速度计校准：需将飞行器六个面依次放置在平整水平台面上，每种姿态保持静置数秒。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="38"/>
         <source>To level the horizon you need to place the vehicle in its level flight position and leave still.</source>
-        <translation type="unfinished">To level the horizon you need to place the vehicle in its level flight position and leave still.</translation>
+        <translation type="unfinished">校准水平姿态时，请将飞行器摆放至水平飞行姿态，保持静置不动。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="40"/>
         <source>Start the calibration by clicking the Start Calibration button.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">点击【开始校准】按钮启动校准流程。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="82"/>
@@ -21654,22 +21657,22 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="192"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="247"/>
         <source>Autopilot Orientation</source>
-        <translation type="unfinished">Autopilot Orientation</translation>
+        <translation type="unfinished">飞控安装朝向</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="201"/>
         <source>ROTATION_NONE indicates component points in direction of flight.</source>
-        <translation type="unfinished">ROTATION_NONE indicates component points in direction of flight.</translation>
+        <translation type="unfinished">ROTATION_NONE 代表设备朝向与飞行方向一致。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="207"/>
         <source>Click Ok to start calibration.</source>
-        <translation type="unfinished">Click Ok to start calibration.</translation>
+        <translation type="unfinished">点击【确定】开始校准。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="228"/>
         <source>Reboot the vehicle prior to flight.</source>
-        <translation type="unfinished">Reboot the vehicle prior to flight.</translation>
+        <translation type="unfinished">飞行前请重启飞行器。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="233"/>
@@ -21681,14 +21684,13 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
         <source>Adjust orientations as needed.
 
 ROTATION_NONE indicates component points in direction of flight.</source>
-        <translation type="unfinished">Adjust orientations as needed.
-
-ROTATION_NONE indicates component points in direction of flight.</translation>
+        <translation type="unfinished">按需调整安装朝向。
+ROTATION_NONE 表示设备朝向与飞行方向（机头）一致。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="266"/>
         <source>Compass %1 Orientation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">罗盘 %1 安装朝向</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="302"/>
@@ -21698,19 +21700,19 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="332"/>
         <source>Accelerometer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">加速度计</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="392"/>
         <source>GPS Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPS 位置</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="436"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="477"/>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="506"/>
         <source>Start Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">开始校准</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="443"/>
@@ -21722,7 +21724,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="451"/>
         <source>Orientations</source>
-        <translation type="unfinished">Orientations</translation>
+        <translation type="unfinished">安装朝向 / 姿态方向</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="455"/>
@@ -21732,12 +21734,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="525"/>
         <source>Positive values are forward, right, and down. Negative values are backward, left, and up.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正值代表向前、向右、向下；负值代表向后、向左、向上。</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="538"/>
         <source>GPS Antenna Position (EKF2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPS 天线安装位置（EKF2）</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="621"/>
@@ -21762,7 +21764,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSensorsComponent.qml" line="673"/>
         <source>Factory reset</source>
-        <translation type="unfinished">Factory reset</translation>
+        <translation type="unfinished">出厂重置</translation>
     </message>
 </context>
 <context>
@@ -21770,17 +21772,17 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="34"/>
         <source>Serial Port</source>
-        <translation type="unfinished">Serial Port</translation>
+        <translation type="unfinished">串口</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="69"/>
         <source>None Available</source>
-        <translation type="unfinished">None Available</translation>
+        <translation type="unfinished">无可用选项</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="78"/>
         <source>Baud Rate</source>
-        <translation type="unfinished">Baud Rate</translation>
+        <translation type="unfinished">波特率</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="99"/>
@@ -21790,7 +21792,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="109"/>
         <source>Advanced Settings</source>
-        <translation type="unfinished">Advanced Settings</translation>
+        <translation type="unfinished">高级设置</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="122"/>
@@ -21800,7 +21802,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="128"/>
         <source>Parity</source>
-        <translation type="unfinished">Parity</translation>
+        <translation type="unfinished">校验位</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="133"/>
@@ -21820,12 +21822,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="168"/>
         <source>Data Bits</source>
-        <translation type="unfinished">Data Bits</translation>
+        <translation type="unfinished">数据位</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/XFSerialSettings.qml" line="179"/>
         <source>Stop Bits</source>
-        <translation type="unfinished">Stop Bits</translation>
+        <translation type="unfinished">停止位</translation>
     </message>
 </context>
 <context>
@@ -21851,9 +21853,8 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <source>Select Reset to reset all parameters to their defaults.
 
 Note that this will also completely reset everything, including UAVCAN nodes, all vehicle settings, setup and calibrations.</source>
-        <translation type="unfinished">Select Reset to reset all parameters to their defaults.
-
-Note that this will also completely reset everything, including UAVCAN nodes, all vehicle settings, setup and calibrations.</translation>
+        <translation type="unfinished">选择【重置】将所有参数恢复为默认值。
+注意：此操作会清空全部配置，包括 UAVCAN 节点、飞行器各项设置、配置信息与校准数据。</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="67"/>
@@ -21868,12 +21869,12 @@ Note that this will also completely reset everything, including UAVCAN nodes, al
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="76"/>
         <source>Load from file for review...</source>
-        <translation type="unfinished">Load from file for review...</translation>
+        <translation type="unfinished">从文件载入以供查看……</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="78"/>
         <source>Load Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">加载参数</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="83"/>
@@ -21909,17 +21910,17 @@ Note that this will also completely reset everything, including UAVCAN nodes, al
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="108"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">所有文件 (*)</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="160"/>
         <source>ALL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全部</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="205"/>
         <source>Search</source>
-        <translation type="unfinished">Search</translation>
+        <translation type="unfinished">搜索</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="210"/>
@@ -21939,12 +21940,12 @@ Note that this will also completely reset everything, including UAVCAN nodes, al
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="362"/>
         <source>Bitmask</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">位掩码</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="363"/>
         <source>%1 options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 个选项</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="515"/>
@@ -21964,22 +21965,22 @@ Note that this will also completely reset everything, including UAVCAN nodes, al
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="530"/>
         <source>Vehicle reboot required after change</source>
-        <translation type="unfinished">Vehicle reboot required after change</translation>
+        <translation type="unfinished">参数修改后需重启飞行器</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="537"/>
         <source>Application restart required after change</source>
-        <translation type="unfinished">Application restart required after change</translation>
+        <translation type="unfinished">修改后需重启应用程序</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="545"/>
         <source>Warning: Modifying values while vehicle is in flight can lead to vehicle instability and possible vehicle loss.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">警告：飞行器飞行途中修改参数可能引发姿态失稳，甚至导致飞行器失联。</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="558"/>
         <source>Reset To Default</source>
-        <translation type="unfinished">Reset To Default</translation>
+        <translation type="unfinished">恢复默认值</translation>
     </message>
     <message>
         <location filename="../src/Vehicle/VehicleSetup/XFSetupParameterEditor.qml" line="566"/>
@@ -22066,7 +22067,7 @@ Note that this will also completely reset everything, including UAVCAN nodes, al
     <message>
         <location filename="../src/UI/AppSettings/XFVideoSettings.qml" line="68"/>
         <source>Video Decode Priority</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">视频解码优先级</translation>
     </message>
 </context>
 </TS>

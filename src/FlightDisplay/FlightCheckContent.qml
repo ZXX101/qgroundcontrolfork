@@ -143,9 +143,9 @@ Rectangle {
         if (index >= _tempValues.length) return ""
         var val = _tempValues[index]
         if (val === undefined || isNaN(val)) return ""
-        if (val > 80) return "/xfres/checkRed.png"
-        if (val > 60) return "/xfres/checkWhite.png"
-        return "/xfres/checkGreen.png"
+        if (val > 80) return "/xfressvg/checkRed.svg"
+        if (val > 60) return "/xfressvg/checkWhite.svg"
+        return "/xfressvg/checkGreen.svg"
     }
 
     function _buildMotorItems() {
@@ -259,67 +259,67 @@ Rectangle {
 
     //获取传感器状态图标
     function getCompassIcon() {
-        if (!_paramsReady) return "/xfres/checkWhite.png"
+        if (!_paramsReady) return "/xfressvg/checkWhite.svg"
 
         if (_isAPM) {
             // APM: 检查三个罗盘是否有已校准的
             if (checkApmCompassCalibrated(_apmCompass0Id, _apmCompass0OfsX, _apmCompass0OfsY, _apmCompass0OfsZ) ||
                 checkApmCompassCalibrated(_apmCompass1Id, _apmCompass1OfsX, _apmCompass1OfsY, _apmCompass1OfsZ) ||
                 checkApmCompassCalibrated(_apmCompass2Id, _apmCompass2OfsX, _apmCompass2OfsY, _apmCompass2OfsZ)) {
-                return "/xfres/checkGreen.png"
+                return "/xfressvg/checkGreen.svg"
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         } else if (_isPX4) {
             // PX4: 检查CAL_MAG0_ID
             if (_px4Mag0Id && _px4Mag0Id.rawValue !== 0) {
-                return "/xfres/checkGreen.png"
+                return "/xfressvg/checkGreen.svg"
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         }
-        return "/xfres/checkWhite.png"
+        return "/xfressvg/checkWhite.svg"
     }
 
     function getAccelIcon() {
-        if (!_paramsReady) return "/xfres/checkWhite.png"
+        if (!_paramsReady) return "/xfressvg/checkWhite.svg"
 
         if (_isAPM) {
             // APM: 检查INS_ACCOFFS_X/Y/Z是否不全为0（参考accelSetupNeeded逻辑）
             // 如果全为0，表示需要校准
             if (_apmAccOffsX && _apmAccOffsY && _apmAccOffsZ) {
                 if (_apmAccOffsX.rawValue !== 0 || _apmAccOffsY.rawValue !== 0 || _apmAccOffsZ.rawValue !== 0) {
-                    return "/xfres/checkGreen.png"
+                    return "/xfressvg/checkGreen.svg"
                 }
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         } else if (_isPX4) {
             // PX4: 检查CAL_ACC0_ID
             if (_px4Acc0Id && _px4Acc0Id.rawValue !== 0) {
-                return "/xfres/checkGreen.png"
+                return "/xfressvg/checkGreen.svg"
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         }
-        return "/xfres/checkWhite.png"
+        return "/xfressvg/checkWhite.svg"
     }
 
     function getGyroIcon() {
-        if (!_paramsReady) return "/xfres/checkWhite.png"
+        if (!_paramsReady) return "/xfressvg/checkWhite.svg"
 
         if (_isAPM) {
             // APM: 陀螺仪校准与加速度计相关，使用加速度计状态
             if (_apmAccOffsX && _apmAccOffsY && _apmAccOffsZ) {
                 if (_apmAccOffsX.rawValue !== 0 || _apmAccOffsY.rawValue !== 0 || _apmAccOffsZ.rawValue !== 0) {
-                    return "/xfres/checkGreen.png"
+                    return "/xfressvg/checkGreen.svg"
                 }
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         } else if (_isPX4) {
             // PX4: 检查CAL_GYRO0_ID
             if (_px4Gyro0Id && _px4Gyro0Id.rawValue !== 0) {
-                return "/xfres/checkGreen.png"
+                return "/xfressvg/checkGreen.svg"
             }
-            return "/xfres/checkRed.png"
+            return "/xfressvg/checkRed.svg"
         }
-        return "/xfres/checkWhite.png"
+        return "/xfressvg/checkWhite.svg"
     }
 
     //高度转换（APM的RTL_ALT是厘米，PX4的RTL_RETURN_ALT是米）
@@ -384,7 +384,7 @@ Rectangle {
                 { name: qsTr("罗盘"), value: "", icon: getCompassIcon() },
                 { name: qsTr("加速度计"), value: "", icon: getAccelIcon() },
                 { name: qsTr("陀螺仪"), value: "", icon: getGyroIcon() },
-                { name: qsTr("EKF"), value: "", icon: "/xfres/checkGreen.png" }
+                { name: qsTr("EKF"), value: "", icon: "/xfressvg/checkGreen.svg" }
             ]
         }
 

@@ -121,7 +121,7 @@ Rectangle {
         width: height
         sourceSize.height: height
         fillMode: Image.PreserveAspectFit
-        source: "/xfres/deleteProtocol.png"
+        source: "/xfressvg/deleteProtocol.svg"
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.right
         anchors.leftMargin: -width / 2

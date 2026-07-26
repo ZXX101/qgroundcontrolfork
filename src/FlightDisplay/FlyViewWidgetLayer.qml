@@ -122,7 +122,7 @@ Item {
                 Image {
                     width:                  topRightButtons._buttonWidth * topRightButtons._imageScale
                     height:                 width
-                    source:                 "/xfres/mission.png"
+                    source:                 "/xfressvg/mission.svg"
                     fillMode:               Image.PreserveAspectFit
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -164,7 +164,7 @@ Item {
                 Image {
                     width:                  topRightButtons._buttonWidth * topRightButtons._imageScale
                     height:                 width
-                    source:                 "/xfres/common.png"
+                    source:                 "/xfressvg/common.svg"
                     fillMode:               Image.PreserveAspectFit
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -346,10 +346,10 @@ Item {
 
             //状态图标路径，根据颜色名称返回对应的check图标
             property string _statusIcon: {
-                if (_statusColorName === "red") return "/xfres/checkRed.png"
-                if (_statusColorName === "yellow") return "/xfres/checkOrange.png"
-                if (_statusColorName === "green") return "/xfres/checkGreen.png"
-                return "/xfres/checkWhite.png"
+                if (_statusColorName === "red") return "/xfressvg/checkRed.svg"
+                if (_statusColorName === "yellow") return "/xfressvg/checkOrange.svg"
+                if (_statusColorName === "green") return "/xfressvg/checkGreen.svg"
+                return "/xfressvg/checkWhite.svg"
             }
 
             visible:            true
@@ -428,7 +428,7 @@ Item {
                 Image {
                     width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
                     height:                 width
-                    source:                 takeoffLandButton._showTakeoff ? "/xfres/takeoff-enabled.png" : "/xfres/land.png"
+                    source:                 takeoffLandButton._showTakeoff ? "/xfressvg/takeoff-enabled.svg" : "/xfressvg/land.svg"
                     fillMode:               Image.PreserveAspectFit
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -481,7 +481,7 @@ Item {
                 Image {
                     width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
                     height:                 width
-                    source:                 rtlButton._showRTL ? "/xfres/rtl-flying.png" : "/xfres/rtl-not-flying.png"
+                    source:                 rtlButton._showRTL ? "/xfressvg/rtl-flying.svg" : "/xfres/rtl-not-flying.png"
                     fillMode:               Image.PreserveAspectFit
                     anchors.horizontalCenter: parent.horizontalCenter
                 }

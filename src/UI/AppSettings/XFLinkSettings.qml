@@ -153,7 +153,7 @@ QGCFlickable {
 
                             QGCButton {
                                 text: object.link ? qsTr("Disconnect") : qsTr("Connect")
-                                iconSource: "qrc:/xfres/linkDisconnected.png"
+                                iconSource: "qrc:/xfressvg/linkDisconnected.svg"
                                 onClicked: {
                                     if (object.link) {
                                         object.link.disconnect();
@@ -169,7 +169,7 @@ QGCFlickable {
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
-                            source: "/xfres/deleteProtocol.png"
+                            source: "/xfressvg/deleteProtocol.svg"
                             anchors.horizontalCenter: parent.right
                             anchors.verticalCenter: parent.verticalCenter
 
@@ -409,7 +409,7 @@ QGCFlickable {
                                     id: control
                                     text: modelData.name
                                     enabled: originalConfig == null
-                                    property real _indicatorSize: ScreenTools.defaultFontPixelHeight
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelWidth*2
                                     indicator: Rectangle {
                                         implicitWidth:  control._indicatorSize
                                         implicitHeight: control._indicatorSize
@@ -421,7 +421,7 @@ QGCFlickable {
                                         y:              parent.height / 2 - height / 2
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width:  parent.width * 0.6
+                                            width:  parent.width * 0.5
                                             height: width
                                             radius: height / 2
                                             color:   "#1484FC"

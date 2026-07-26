@@ -225,8 +225,8 @@ Item {
                     width: ScreenTools.defaultFontPixelWidth * 3.5
                     height: width
                     source: xfMissionView._currentMode === "waypoint" ?
-                                "qrc:/xfres/waypointSelected.png" :
-                                "qrc:/xfres/waypoint.png"
+                                "qrc:/xfressvg/waypointSelected.svg" :
+                                "qrc:/xfressvg/waypoint.svg"
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -262,10 +262,10 @@ Item {
                     width: ScreenTools.defaultFontPixelWidth * 3.5
                     height: width
                     source: (_missionController && _missionController.isROIActive) ?
-                                "qrc:/xfres/roiSelected.png" :
+                                "qrc:/xfressvg/roiSelected.svg" :
                                 (xfMissionView._currentMode === "roi" ?
-                                     "qrc:/xfres/roiSelected.png" :
-                                     "qrc:/xfres/roi.png")
+                                     "qrc:/xfressvg/roiSelected.svg" :
+                                     "qrc:/xfressvg/roi.svg")
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                     anchors.horizontalCenter: parent.horizontalCenter

@@ -116,68 +116,104 @@ SetupPage {
                                     columnSpacing:  _margins
                                     rowSpacing:     _margins
 
-                                    QGCLabel {
-                                        text: qsTr("Max Manual Tilt Angle") + " " + rangeString(_angleMax)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Max Manual Tilt Angle") }
+                                        QGCLabel {
+                                            text:           rangeString(_angleMax)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _angleMax
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
 
-                                    QGCLabel {
-                                        text: qsTr("Max Manual Ascend Speed") + " " + rangeString(_pilotSpeedUp)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Max Manual Ascend Speed") }
+                                        QGCLabel {
+                                            text:           rangeString(_pilotSpeedUp)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _pilotSpeedUp
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
 
-                                    QGCLabel {
-                                        text: qsTr("Max Manual Descend Speed") + " " + rangeString(_pilotSpeedDn)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Max Manual Descend Speed") }
+                                        QGCLabel {
+                                            text:           rangeString(_pilotSpeedDn)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _pilotSpeedDn
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
 
-                                    QGCLabel {
-                                        text: qsTr("Auto Flight Speed") + " " + rangeString(_wpnavSpeed)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Auto Flight Speed") }
+                                        QGCLabel {
+                                            text:           rangeString(_wpnavSpeed)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _wpnavSpeed
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
 
-                                    QGCLabel {
-                                        text: qsTr("Auto Ascend Speed") + " " + rangeString(_wpnavSpeedUp)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Auto Ascend Speed") }
+                                        QGCLabel {
+                                            text:           rangeString(_wpnavSpeedUp)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _wpnavSpeedUp
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
 
-                                    QGCLabel {
-                                        text: qsTr("Auto Descend Speed") + " " + rangeString(_wpnavSpeedDn)
+                                    Column {
                                         Layout.fillWidth: true
+                                        QGCLabel { text: qsTr("Auto Descend Speed") }
+                                        QGCLabel {
+                                            text:           rangeString(_wpnavSpeedDn)
+                                            font.pointSize: ScreenTools.smallFontPointSize
+                                            color:          qgcPal.text
+                                            opacity:        0.5
+                                        }
                                     }
                                     FactTextField {
                                         fact:               _wpnavSpeedDn
-                                        showUnits:          true
+
                                         Layout.preferredWidth: _fieldWidth
                                         Layout.alignment:   Qt.AlignRight
                                     }
@@ -211,13 +247,19 @@ SetupPage {
 
                                     RowLayout {
                                         width: parent.width
-                                        QGCLabel {
-                                            text: qsTr("RTL Altitude") + " " + rangeString(_rtlAlt)
+                                        Column {
                                             Layout.fillWidth: true
+                                            QGCLabel { text: qsTr("RTL Altitude") }
+                                            QGCLabel {
+                                                text:           rangeString(_rtlAlt)
+                                                font.pointSize: ScreenTools.smallFontPointSize
+                                                color:          qgcPal.text
+                                                opacity:        0.5
+                                            }
                                         }
                                         FactTextField {
                                             fact:               _rtlAlt
-                                            showUnits:          true
+        
                                             Layout.preferredWidth: _fieldWidth
                                             Layout.alignment:   Qt.AlignRight
                                         }
@@ -242,13 +284,19 @@ SetupPage {
 
                                     RowLayout {
                                         width: parent.width
-                                        QGCLabel {
-                                            text: qsTr("Loiter Time Above Home") + " " + rangeString(_rtlLoitTime)
+                                        Column {
                                             Layout.fillWidth: true
+                                            QGCLabel { text: qsTr("Loiter Time Above Home") }
+                                            QGCLabel {
+                                                text:           rangeString(_rtlLoitTime)
+                                                font.pointSize: ScreenTools.smallFontPointSize
+                                                color:          qgcPal.text
+                                                opacity:        0.5
+                                            }
                                         }
                                         FactTextField {
                                             fact:               _rtlLoitTime
-                                            showUnits:          true
+        
                                             Layout.preferredWidth: _fieldWidth
                                             Layout.alignment:   Qt.AlignRight
                                         }
@@ -283,13 +331,19 @@ SetupPage {
 
                                     RowLayout {
                                         width: parent.width
-                                        QGCLabel {
-                                            text: qsTr("Safe Altitude") + " " + rangeString(_rtlAltFinal)
+                                        Column {
                                             Layout.fillWidth: true
+                                            QGCLabel { text: qsTr("Safe Altitude") }
+                                            QGCLabel {
+                                                text:           rangeString(_rtlAltFinal)
+                                                font.pointSize: ScreenTools.smallFontPointSize
+                                                color:          qgcPal.text
+                                                opacity:        0.5
+                                            }
                                         }
                                         FactTextField {
                                             fact:               _rtlAltFinal
-                                            showUnits:          true
+        
                                             Layout.preferredWidth: _fieldWidth
                                             Layout.alignment:   Qt.AlignRight
                                         }
@@ -297,13 +351,19 @@ SetupPage {
 
                                     RowLayout {
                                         width: parent.width
-                                        QGCLabel {
-                                            text: qsTr("Landing Speed") + " " + rangeString(_landSpeed)
+                                        Column {
                                             Layout.fillWidth: true
+                                            QGCLabel { text: qsTr("Landing Speed") }
+                                            QGCLabel {
+                                                text:           rangeString(_landSpeed)
+                                                font.pointSize: ScreenTools.smallFontPointSize
+                                                color:          qgcPal.text
+                                                opacity:        0.5
+                                            }
                                         }
                                         FactTextField {
                                             fact:               _landSpeed
-                                            showUnits:          true
+        
                                             Layout.preferredWidth: _fieldWidth
                                             Layout.alignment:   Qt.AlignRight
                                         }
@@ -352,7 +412,7 @@ SetupPage {
                                 anchors.left:   parent.left
                                 anchors.top:    parent.top
                                 width:          parent.width - _margins * 2
-                                columns:        3
+                                columns:        2
                                 columnSpacing:  _margins
                                 rowSpacing:     _margins
 
@@ -365,16 +425,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_angleMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_angleMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _angleMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -386,16 +449,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_pilotAccelZ)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_pilotAccelZ)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _pilotAccelZ
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -407,16 +473,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_loitAccMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_loitAccMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _loitAccMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -428,16 +497,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcInputTc)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcInputTc)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcInputTc
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -449,16 +521,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcRatePMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcRatePMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcRatePMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -470,16 +545,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcRateRMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcRateRMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcRateRMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -491,16 +569,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcRateYMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcRateYMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcRateYMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -512,16 +593,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcAccelPMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcAccelPMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcAccelPMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -533,16 +617,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcAccelRMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcAccelRMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcAccelRMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
 
                                 Column {
@@ -554,16 +641,19 @@ SetupPage {
                                         color:          qgcPal.text
                                         opacity:        0.5
                                     }
-                                }
-                                QGCLabel {
-                                    text: rangeString(_atcAccelYMax)
-                                    verticalAlignment: Text.AlignVCenter
+                                    QGCLabel {
+                                        text:           rangeString(_atcAccelYMax)
+                                        font.pointSize: ScreenTools.smallFontPointSize
+                                        color:          qgcPal.text
+                                        opacity:        0.5
+                                    }
                                 }
                                 FactTextField {
                                     fact:               _atcAccelYMax
-                                    showUnits:          true
+
                                     Layout.preferredWidth: _fieldWidth
                                     Layout.alignment:   Qt.AlignRight
+                                    Layout.rightMargin: _margins
                                 }
                             }
                         }

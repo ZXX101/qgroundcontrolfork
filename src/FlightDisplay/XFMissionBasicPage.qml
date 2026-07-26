@@ -339,7 +339,7 @@ Item {
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
-                            source: "/xfres/deleteProtocol.png"
+                            source: "/xfressvg/deleteProtocol.svg"
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: fenceCardBg.right
                             anchors.leftMargin: -width / 2
@@ -442,7 +442,7 @@ Item {
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
-                            source: "/xfres/deleteProtocol.png"
+                            source: "/xfressvg/deleteProtocol.svg"
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: fenceCircleCardBg.right
                             anchors.leftMargin: -width / 2

@@ -48,7 +48,7 @@ Item {
             sourceSize.height:  height
             sourceSize.width:   width
             fillMode:           Image.PreserveAspectFit
-            source:             "/xfres/timer.png"
+            source:             "/xfressvg/timer.svg"
             anchors.verticalCenter: parent.verticalCenter
         }
 

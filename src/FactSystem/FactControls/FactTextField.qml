@@ -11,7 +11,7 @@ QGCTextField {
     id:                 control
     text:               fact ? fact.valueString : ""
     unitsLabel:         fact ? fact.units : ""
-    showUnits:          true
+    showUnits:          false
     showHelp:           false
     numericValuesOnly:  fact && !fact.typeIsString
 

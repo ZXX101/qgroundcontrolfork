@@ -67,10 +67,13 @@ SetupPage {
 
                 Column {
                     id:                 flightModeColumn
-                    anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
                     anchors.right:      parent.right
+                    anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+                    anchors.topMargin:  ScreenTools.defaultFontPixelWidth
+                    anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 3
+                    anchors.bottomMargin: ScreenTools.defaultFontPixelWidth
                     spacing:            ScreenTools.defaultFontPixelHeight
 
                     RowLayout {
@@ -225,10 +228,13 @@ SetupPage {
 
                 Column {
                     id:                 channelOptColumn
-                    anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
                     anchors.right:      parent.right
+                    anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+                    anchors.topMargin:  ScreenTools.defaultFontPixelWidth
+                    anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 3
+                    anchors.bottomMargin: ScreenTools.defaultFontPixelWidth
                     spacing:            ScreenTools.defaultFontPixelHeight
 
                     GridLayout {
@@ -280,10 +286,13 @@ SetupPage {
 
                 Column {
                     id:                 auxColumn
-                    anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.left:       parent.left
                     anchors.top:        parent.top
                     anchors.right:      parent.right
+                    anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+                    anchors.topMargin:  ScreenTools.defaultFontPixelWidth
+                    anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 3
+                    anchors.bottomMargin: ScreenTools.defaultFontPixelWidth
                     spacing:            ScreenTools.defaultFontPixelHeight
 
                     GridLayout {
