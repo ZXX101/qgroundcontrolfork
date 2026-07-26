@@ -84,19 +84,32 @@ SetupPage {
                         QGCLabel {
                             id:                 modeChannelLabel
                             text:               qsTr("Flight mode channel:")
-                            Layout.fillWidth:   true
                         }
 
                         QGCComboBox {
                             id:             modeChannelCombo
                             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 15
-                            Layout.alignment: Qt.AlignRight
                             model:          [ qsTr("Not assigned"), qsTr("Channel 1"), qsTr("Channel 2"),
                                 qsTr("Channel 3"),    qsTr("Channel 4"), qsTr("Channel 5"),
                                 qsTr("Channel 6"),    qsTr("Channel 7"), qsTr("Channel 8") ]
 
                             currentIndex:   _fltmodeCh.value
                             onActivated: (index) => { _fltmodeCh.value = index }
+                        }
+
+                        Item { width: _margins; visible: controller.simpleModesSupported }
+
+                        QGCLabel {
+                            text: qsTr("Simple Mode")
+                            visible: controller.simpleModesSupported
+                        }
+
+                        QGCComboBox {
+                            visible: controller.simpleModesSupported
+                            model:          controller.simpleModeNames
+                            sizeToContents: true
+                            currentIndex:   controller.simpleMode
+                            onActivated: (index) => { controller.simpleMode = index }
                         }
                     }
 
@@ -195,24 +208,7 @@ SetupPage {
                         }
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: _margins
-                        visible: controller.simpleModesSupported
 
-                        QGCLabel {
-                            text: qsTr("Simple Mode")
-                            Layout.fillWidth: true
-                        }
-
-                        QGCComboBox {
-                            Layout.alignment: Qt.AlignRight
-                            model:          controller.simpleModeNames
-                            sizeToContents: true
-                            currentIndex:   controller.simpleMode
-                            onActivated: (index) => { controller.simpleMode = index }
-                        }
-                    }
                 }
             }
 

@@ -32,14 +32,22 @@ SetupPage {
     Component {
         id: powerPageComponent
 
-        Flow {
-            id:         flowLayout
-            x:          ScreenTools.defaultFontPixelWidth * 2
-            width:      availableWidth - ScreenTools.defaultFontPixelWidth * 2
-            spacing:    _margins
+        Item {
+            x:      ScreenTools.defaultFontPixelWidth * 2
+            width:  Math.max(availableWidth - x, _minimumColumnWidth)
+            height: leftColumn.height
+
+            QGCPalette { id: qgcPal; colorGroupEnabled: true }
+
+            property real _margins:     ScreenTools.defaultFontPixelHeight / 2
+            property real _fieldWidth:  ScreenTools.defaultFontPixelWidth * 12
+            property real _minimumColumnWidth: Math.max(batt1Grid.implicitWidth,
+                                                        battery1Grid.implicitWidth,
+                                                        batt2Grid.implicitWidth,
+                                                        battery2Grid.implicitWidth) + _margins * 2
 
             property Fact _batt1Monitor:            controller.getParameterFact(-1, "BATT_MONITOR")
-            property Fact _batt2Monitor:            controller.getParameterFact(-1, "BATT2_MONITOR", false /* reportMissing */)
+            property Fact _batt2Monitor:            controller.getParameterFact(-1, "BATT2_MONITOR", false)
             property bool _batt2MonitorAvailable:   controller.parameterExists(-1, "BATT2_MONITOR")
             property bool _batt1MonitorEnabled:     _batt1Monitor.rawValue !== 0
             property bool _batt2MonitorEnabled:     _batt2MonitorAvailable && _batt2Monitor.rawValue !== 0
@@ -48,270 +56,298 @@ SetupPage {
             property bool _showBatt1Reboot:         _batt1MonitorEnabled && !_batt1ParamsAvailable
             property bool _showBatt2Reboot:         _batt2MonitorEnabled && !_batt2ParamsAvailable
             property bool _escCalibrationAvailable: controller.parameterExists(-1, "ESC_CALIBRATION")
-            property Fact _escCalibration:          controller.getParameterFact(-1, "ESC_CALIBRATION", false /* reportMissing */)
+            property Fact _escCalibration:          controller.getParameterFact(-1, "ESC_CALIBRATION", false)
+            property Fact _batt1MonitorFact:        controller.getParameterFact(-1, "BATT_MONITOR", false)
+            property Fact _batt1Capacity:           controller.getParameterFact(-1, "BATT_CAPACITY", false)
+            property Fact _batt1ArmVoltMin:         controller.getParameterFact(-1, "r.BATT_ARM_VOLT", false)
+            property Fact _batt2MonitorFact:        controller.getParameterFact(-1, "BATT2_MONITOR", false)
+            property Fact _batt2Capacity:           controller.getParameterFact(-1, "BATT2_CAPACITY", false)
+            property Fact _batt2ArmVoltMin:         controller.getParameterFact(-1, "r.BATT2_ARM_VOLT", false)
 
             property string _restartRequired: qsTr("Requires vehicle reboot")
 
-            QGCPalette { id: ggcPal; colorGroupEnabled: true }
+            Row {
+                id:         mainRow
+                spacing:    _margins * 2
+                width:      Math.max((availableWidth - parent.x) / 2, _minimumColumnWidth)
+                anchors.horizontalCenter: parent.horizontalCenter
 
-            // Battery1 Monitor settings only - used when only monitor param is available
-            Column {
-                spacing: _margins / 2
-                visible: !_batt1MonitorEnabled || !_batt1ParamsAvailable
-
-                QGCLabel {
-                    text:       qsTr("Battery 1")
-                    font.bold:   true
-                }
-
-                Rectangle {
-                    width:  batt1Content.implicitWidth + _margins * 2
-                    height: batt1Content.implicitHeight + _margins * 2
-                    color:  ggcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth * 0.5
-
-                    ColumnLayout {
-                        id:                 batt1Content
-                        anchors.centerIn:   parent
-                        spacing:            ScreenTools.defaultFontPixelWidth
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery1 monitor:") }
-                            Item { Layout.fillWidth: true }
-                            FactComboBox {
-                                id:         monitor1Combo
-                                fact:       _batt1Monitor
-                                indexModel: false
-                                sizeToContents: true
-                            }
-                        }
-
-                        QGCLabel {
-                            text:       _restartRequired
-                            visible:    _showBatt1Reboot
-                        }
-
-                        QGCButton {
-                            Layout.alignment: Qt.AlignRight
-                            text:       qsTr("Reboot vehicle")
-                            visible:    _showBatt1Reboot
-                            onClicked:  controller.vehicle.rebootVehicle()
-                        }
-                    }
-                }
-            }
-
-            // Battery 1 settings
-            Column {
-                id:         _batt1FullSettings
-                spacing:    _margins / 2
-                visible:    _batt1MonitorEnabled && _batt1ParamsAvailable
-
-                property Fact _battMonitor:      controller.getParameterFact(-1, "BATT_MONITOR", false)
-                property Fact _battCapacity:     controller.getParameterFact(-1, "BATT_CAPACITY", false)
-                property Fact _armVoltMin:       controller.getParameterFact(-1, "r.BATT_ARM_VOLT", false)
-
-                QGCLabel {
-                    text:       qsTr("Battery 1")
-                    font.bold:   true
-                }
-
-                Rectangle {
-                    width:  battery1Content.implicitWidth + _margins * 2
-                    height: battery1Content.implicitHeight + _margins * 2
-                    color:  ggcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth * 0.5
-
-                    ColumnLayout {
-                        id:                 battery1Content
-                        anchors.centerIn:   parent
-                        spacing:            ScreenTools.defaultFontPixelWidth
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery monitor:") }
-                            Item { Layout.fillWidth: true }
-                            FactComboBox {
-                                fact:       _batt1FullSettings._battMonitor
-                                indexModel: false
-                                sizeToContents: true
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery capacity:") }
-                            Item { Layout.fillWidth: true }
-                            FactTextField {
-                                fact:   _batt1FullSettings._battCapacity
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Minimum arming voltage:") }
-                            Item { Layout.fillWidth: true }
-                            FactTextField {
-                                fact:   _batt1FullSettings._armVoltMin
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Battery2 Monitor settings only - used when only monitor param is available
-            Column {
-                spacing: _margins / 2
-                visible: !_batt2MonitorEnabled || !_batt2ParamsAvailable
-
-                QGCLabel {
-                    text:       qsTr("Battery 2")
-                    font.bold:   true
-                }
-
-                Rectangle {
-                    width:  batt2Content.implicitWidth + _margins * 2
-                    height: batt2Content.implicitHeight + _margins * 2
-                    color:  ggcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth * 0.5
-
-                    ColumnLayout {
-                        id:                 batt2Content
-                        anchors.centerIn:   parent
-                        spacing:            ScreenTools.defaultFontPixelWidth
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery2 monitor:") }
-                            Item { Layout.fillWidth: true }
-                            FactComboBox {
-                                id:         monitor2Combo
-                                fact:       _batt2Monitor
-                                indexModel: false
-                                sizeToContents: true
-                            }
-                        }
-
-                        QGCLabel {
-                            text:       _restartRequired
-                            visible:    _showBatt2Reboot
-                        }
-
-                        QGCButton {
-                            Layout.alignment: Qt.AlignRight
-                            text:       qsTr("Reboot vehicle")
-                            visible:    _showBatt2Reboot
-                            onClicked:  controller.vehicle.rebootVehicle()
-                        }
-                    }
-                }
-            }
-
-            // Battery 2 settings - Used when full params are available
-            Column {
-                id:         batt2FullSettings
-                spacing:    _margins / 2
-                visible:    _batt2MonitorEnabled && _batt2ParamsAvailable
-
-                property Fact _battMonitor:      controller.getParameterFact(-1, "BATT2_MONITOR", false)
-                property Fact _battCapacity:     controller.getParameterFact(-1, "BATT2_CAPACITY", false)
-                property Fact _armVoltMin:       controller.getParameterFact(-1, "r.BATT2_ARM_VOLT", false)
-
-                QGCLabel {
-                    text:       qsTr("Battery 2")
-                    font.bold:   true
-                }
-
-                Rectangle {
-                    width:  battery2Content.implicitWidth + _margins * 2
-                    height: battery2Content.implicitHeight + _margins * 2
-                    color:  ggcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth * 0.5
-
-                    ColumnLayout {
-                        id:                 battery2Content
-                        anchors.centerIn:   parent
-                        spacing:            ScreenTools.defaultFontPixelWidth
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery monitor:") }
-                            Item { Layout.fillWidth: true }
-                            FactComboBox {
-                                fact:       batt2FullSettings._battMonitor
-                                indexModel: false
-                                sizeToContents: true
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Battery capacity:") }
-                            Item { Layout.fillWidth: true }
-                            FactTextField {
-                                fact:   batt2FullSettings._battCapacity
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth:   true
-                            spacing:            ScreenTools.defaultFontPixelWidth
-
-                            QGCLabel { text: qsTr("Minimum arming voltage:") }
-                            Item { Layout.fillWidth: true }
-                            FactTextField {
-                                fact:   batt2FullSettings._armVoltMin
-                            }
-                        }
-                    }
-                }
-            }
-
-            Column {
-                spacing:    _margins / 2
-                visible:    false // _escCalibrationAvailable
-
-                QGCLabel {
-                    text:       qsTr("ESC Calibration")
-                    font.bold:   true
-                }
-
-                Rectangle {
-                    width:  escCalibrationHolder.implicitWidth + _margins * 2
-                    height: escCalibrationHolder.implicitHeight + _margins * 2
-                    color:  ggcPal.windowShade
-                    radius: ScreenTools.defaultFontPixelWidth * 0.5
+                Column {
+                    id:         leftColumn
+                    width:      parent.width
+                    spacing:    _margins * 2
 
                     Column {
-                        id:         escCalibrationHolder
-                        anchors.centerIn: parent
+                        width:      parent.width
                         spacing:    _margins
+                        visible:    !_batt1MonitorEnabled || !_batt1ParamsAvailable
 
-                        Column {
-                            spacing: _margins
+                        QGCLabel {
+                            text:       qsTr("Battery 1")
+                            font.bold:  true
+                            font.pointSize: ScreenTools.mediumFontPointSize
+                        }
 
-                            QGCLabel {
-                                text:   qsTr("WARNING: Remove props prior to calibration!")
-                                color:  qgcPal.warningText
+                        Rectangle {
+                            width:  parent.width
+                            height: batt1Grid.height + _margins * 2
+                            color:  qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
+
+                            GridLayout {
+                                id:             batt1Grid
+                                anchors.margins: _margins
+                                anchors.left:   parent.left
+                                anchors.top:    parent.top
+                                width:          parent.width - _margins * 2
+                                columns:        2
+                                columnSpacing:  _margins
+                                rowSpacing:     _margins
+
+                                QGCLabel {
+                                    text: qsTr("Battery1 Monitor")
+                                    Layout.fillWidth: true
+                                }
+                                FactComboBox {
+                                    id:                 monitor1Combo
+                                    fact:               _batt1Monitor
+                                    indexModel:         false
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text:       _restartRequired
+                                    visible:    _showBatt1Reboot
+                                    Layout.columnSpan: 2
+                                }
+
+                                QGCButton {
+                                    text:       qsTr("Reboot vehicle")
+                                    visible:    _showBatt1Reboot
+                                    onClicked:  controller.vehicle.rebootVehicle()
+                                    Layout.alignment: Qt.AlignRight
+                                    Layout.columnSpan: 2
+                                }
                             }
+                        }
+                    }
 
-                            Row {
-                                spacing: _margins
+                    Column {
+                        width:      parent.width
+                        spacing:    _margins
+                        visible:    _batt1MonitorEnabled && _batt1ParamsAvailable
+
+                        QGCLabel {
+                            text:       qsTr("Battery 1")
+                            font.bold:  true
+                            font.pointSize: ScreenTools.mediumFontPointSize
+                        }
+
+                        Rectangle {
+                            width:  parent.width
+                            height: battery1Grid.height + _margins * 2
+                            color:  qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
+
+                            GridLayout {
+                                id:             battery1Grid
+                                anchors.margins: _margins
+                                anchors.left:   parent.left
+                                anchors.top:    parent.top
+                                width:          parent.width - _margins * 2
+                                columns:        2
+                                columnSpacing:  _margins
+                                rowSpacing:     _margins
+
+                                QGCLabel {
+                                    text: qsTr("Battery Monitor")
+                                    Layout.fillWidth: true
+                                }
+                                FactComboBox {
+                                    fact:               _batt1MonitorFact
+                                    indexModel:         false
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text: qsTr("Battery Capacity")
+                                    Layout.fillWidth: true
+                                }
+                                FactTextField {
+                                    fact:               _batt1Capacity
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text: qsTr("Minimum Arming Voltage")
+                                    Layout.fillWidth: true
+                                }
+                                FactTextField {
+                                    fact:               _batt1ArmVoltMin
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width:      parent.width
+                        spacing:    _margins
+                        visible:    !_batt2MonitorEnabled || !_batt2ParamsAvailable
+
+                        QGCLabel {
+                            text:       qsTr("Battery 2")
+                            font.bold:  true
+                            font.pointSize: ScreenTools.mediumFontPointSize
+                        }
+
+                        Rectangle {
+                            width:  parent.width
+                            height: batt2Grid.height + _margins * 2
+                            color:  qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
+
+                            GridLayout {
+                                id:             batt2Grid
+                                anchors.margins: _margins
+                                anchors.left:   parent.left
+                                anchors.top:    parent.top
+                                width:          parent.width - _margins * 2
+                                columns:        2
+                                columnSpacing:  _margins
+                                rowSpacing:     _margins
+
+                                QGCLabel {
+                                    text: qsTr("Battery2 Monitor")
+                                    Layout.fillWidth: true
+                                }
+                                FactComboBox {
+                                    id:                 monitor2Combo
+                                    fact:               _batt2Monitor
+                                    indexModel:         false
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text:       _restartRequired
+                                    visible:    _showBatt2Reboot
+                                    Layout.columnSpan: 2
+                                }
+
+                                QGCButton {
+                                    text:       qsTr("Reboot vehicle")
+                                    visible:    _showBatt2Reboot
+                                    onClicked:  controller.vehicle.rebootVehicle()
+                                    Layout.alignment: Qt.AlignRight
+                                    Layout.columnSpan: 2
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        id:         batt2FullSettings
+                        width:      parent.width
+                        spacing:    _margins
+                        visible:    _batt2MonitorEnabled && _batt2ParamsAvailable
+
+                        QGCLabel {
+                            text:       qsTr("Battery 2")
+                            font.bold:  true
+                            font.pointSize: ScreenTools.mediumFontPointSize
+                        }
+
+                        Rectangle {
+                            width:  parent.width
+                            height: battery2Grid.height + _margins * 2
+                            color:  qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
+
+                            GridLayout {
+                                id:             battery2Grid
+                                anchors.margins: _margins
+                                anchors.left:   parent.left
+                                anchors.top:    parent.top
+                                width:          parent.width - _margins * 2
+                                columns:        2
+                                columnSpacing:  _margins
+                                rowSpacing:     _margins
+
+                                QGCLabel {
+                                    text: qsTr("Battery Monitor")
+                                    Layout.fillWidth: true
+                                }
+                                FactComboBox {
+                                    fact:               _batt2MonitorFact
+                                    indexModel:         false
+                                    sizeToContents:     true
+                                    Layout.preferredWidth: Math.max(_fieldWidth, implicitWidth)
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text: qsTr("Battery Capacity")
+                                    Layout.fillWidth: true
+                                }
+                                FactTextField {
+                                    fact:               _batt2Capacity
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+
+                                QGCLabel {
+                                    text: qsTr("Minimum Arming Voltage")
+                                    Layout.fillWidth: true
+                                }
+                                FactTextField {
+                                    fact:               _batt2ArmVoltMin
+                                    Layout.preferredWidth: _fieldWidth
+                                    Layout.alignment:   Qt.AlignRight
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width:      parent.width
+                        spacing:    _margins
+                        visible:    false
+
+                        QGCLabel {
+                            text:       qsTr("ESC Calibration")
+                            font.bold:  true
+                            font.pointSize: ScreenTools.mediumFontPointSize
+                        }
+
+                        Rectangle {
+                            width:  parent.width
+                            height: escGrid.height + _margins * 2
+                            color:  qgcPal.windowShade
+                            radius: ScreenTools.buttonBorderRadius
+
+                            GridLayout {
+                                id:             escGrid
+                                anchors.margins: _margins
+                                anchors.left:   parent.left
+                                anchors.top:    parent.top
+                                width:          parent.width - _margins * 2
+                                columns:        2
+                                columnSpacing:  _margins
+                                rowSpacing:     _margins
+
+                                QGCLabel {
+                                    text:   qsTr("WARNING: Remove props prior to calibration!")
+                                    color:  qgcPal.warningText
+                                    Layout.columnSpan: 2
+                                }
 
                                 QGCButton {
                                     text: qsTr("Calibrate")
@@ -320,6 +356,7 @@ SetupPage {
                                 }
 
                                 Column {
+                                    Layout.columnSpan: 2
                                     enabled: _escCalibration && _escCalibration.rawValue === 3
                                     QGCLabel { text:   _escCalibration ? (_escCalibration.rawValue === 3 ? qsTr("Now perform these steps:") : qsTr("Click Calibrate to start, then:")) : "" }
                                     QGCLabel { text:   qsTr("- Disconnect USB and battery so flight controller powers down") }
@@ -336,8 +373,8 @@ SetupPage {
                     }
                 }
             }
-        } // Flow
-    } // Component - powerPageComponent
+        }
+    }
 
     Component {
         id: calcVoltageMultiplierDlgComponent

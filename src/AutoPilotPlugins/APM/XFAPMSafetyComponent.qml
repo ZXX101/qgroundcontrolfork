@@ -26,7 +26,7 @@ SetupPage {
 
         Item {
             x:      ScreenTools.defaultFontPixelWidth * 2
-            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
+            width:  Math.max(availableWidth - x, _minimumColumnWidth)
             height: leftColumn.height
 
             FactPanelController { id: controller }
@@ -35,6 +35,12 @@ SetupPage {
 
             property real _margins:     ScreenTools.defaultFontPixelHeight / 2
             property real _fieldWidth:  ScreenTools.defaultFontPixelWidth * 12
+            property real _minimumColumnWidth: Math.max(battGrid.implicitWidth,
+                                                        rcGrid.implicitWidth,
+                                                        gcsGrid.implicitWidth,
+                                                        fenceGrid.implicitWidth,
+                                                        avoidGrid.implicitWidth,
+                                                        logGrid.implicitWidth) + _margins * 2
 
             property Fact _battLowVoltage:      controller.getParameterFact(-1, "BATT_LOW_VOLT", false)
             property Fact _battFsLowAct:        controller.getParameterFact(-1, "BATT_FS_LOW_ACT", false)
@@ -69,7 +75,7 @@ SetupPage {
             Row {
                 id:         mainRow
                 spacing:    _margins * 2
-                width:      parent.width / 2
+                width:      Math.max((availableWidth - parent.x) / 2, _minimumColumnWidth)
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Column {

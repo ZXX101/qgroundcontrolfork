@@ -50,17 +50,30 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         currentIndex: bar.currentIndex
-        Loader {
-            id: generalPageLoader
+
+        property real _pagePadding: ScreenTools.defaultFontPixelWidth * 2
+
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            sourceComponent: generalPageComp
+            Loader {
+                id: generalPageLoader
+                anchors.fill: parent
+                anchors.leftMargin: parent.parent._pagePadding
+                anchors.rightMargin: parent.parent._pagePadding
+                sourceComponent: generalPageComp
+            }
         }
-        Loader {
-            id: flyviewLoader
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            sourceComponent: flyviewPageComp
+            Loader {
+                id: flyviewLoader
+                anchors.fill: parent
+                anchors.leftMargin: parent.parent._pagePadding
+                anchors.rightMargin: parent.parent._pagePadding
+                sourceComponent: flyviewPageComp
+            }
         }
         Loader {
             id: appmessageLoader
@@ -68,11 +81,16 @@ ColumnLayout {
             Layout.fillHeight: true
             source: "XFAppMessages.qml"
         }
-        Loader {
-            id: rtksettingsLoader
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            sourceComponent: rtksettingsComp
+            Loader {
+                id: rtksettingsLoader
+                anchors.fill: parent
+                anchors.leftMargin: parent.parent._pagePadding
+                anchors.rightMargin: parent.parent._pagePadding
+                sourceComponent: rtksettingsComp
+            }
         }
     }
     Component {
