@@ -160,7 +160,7 @@ Item {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfressvg/tools-expand.svg"
+                source: root._expanded ? "/xfres/tools-collapse.svg" : "/xfressvg/tools-expand.svg"
                 fillMode: Image.PreserveAspectFit
             }
         }
@@ -218,7 +218,7 @@ Item {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfres/tools-collapse.png" : "/xfressvg/tools-expand.svg"
+                source: root._expanded ? "/xfressvg/tools-collapse.svg" : "/xfressvg/tools-expand.svg"
                 fillMode: Image.PreserveAspectFit
                 mirror: true
             }

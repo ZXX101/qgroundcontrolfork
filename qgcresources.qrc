@@ -248,5 +248,6 @@
         <file alias="waypointSelected.svg">resources/XF/waypointSelected.svg</file>
         <file alias="collapseMission.svg">resources/XF/collapseMission.svg</file>
         <file alias="expandMission.svg">resources/XF/expandMission.svg</file>
+        <file alias="tools-collapse.svg">resources/XF/tools-collapse.svg</file>
     </qresource>
 </RCC>
