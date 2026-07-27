@@ -59,16 +59,60 @@ SetupPage {
             property Fact _atcAccelRMax:    controller.getParameterFact(-1, "ATC_ACCEL_R_MAX")
             property Fact _atcAccelYMax:    controller.getParameterFact(-1, "ATC_ACCEL_Y_MAX")
 
+            function shortUnitString(units) {
+                var unit = units ? units.trim() : ""
+                if (unit === "") {
+                    return ""
+                }
+
+                var unitMap = {
+                    "meter":       "m",
+                    "meters":      "m",
+                    "metre":       "m",
+                    "metres":      "m",
+                    "centimeter":  "cm",
+                    "centimeters": "cm",
+                    "millimeter":  "mm",
+                    "millimeters": "mm",
+                    "kilometer":   "km",
+                    "kilometers":  "km",
+                    "degree":      "°",
+                    "degrees":     "°",
+                    "deg":         "°",
+                    "cdeg":        "0.01°",
+                    "second":      "s",
+                    "seconds":     "s",
+                    "millisecond": "ms",
+                    "milliseconds": "ms",
+                    "percent":     "%"
+                }
+
+                var parts = unit.split("/")
+                for (var i = 0; i < parts.length; i++) {
+                    var key = parts[i].trim().toLowerCase()
+                    if (unitMap[key] !== undefined) {
+                        parts[i] = unitMap[key]
+                    }
+                }
+
+                unit = parts.join("/")
+                unit = unit.replace(/\/s\/s\/s$/, "/s³")
+                unit = unit.replace(/\/s\/s$/, "/s²")
+                return unit
+            }
+
             function rangeString(fact) {
-                if (fact.minIsDefaultForType && fact.maxIsDefaultForType) {
-                    return ""
+                var range = ""
+                if (!fact.minIsDefaultForType || !fact.maxIsDefaultForType) {
+                    var min = fact.minString
+                    var max = fact.maxString
+                    if (min !== "" || max !== "") {
+                        range = "(" + min + " ~ " + max + ")"
+                    }
                 }
-                var min = fact.minString
-                var max = fact.maxString
-                if (min === "" && max === "") {
-                    return ""
-                }
-                return "(" + min + " ~ " + max + ")"
+
+                var units = shortUnitString(fact.units)
+                return range + (range !== "" && units !== "" ? " " : "") + units
             }
 
             Row {

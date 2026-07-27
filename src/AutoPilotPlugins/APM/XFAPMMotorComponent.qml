@@ -116,7 +116,7 @@ SetupPage {
                         fillMode:               Image.PreserveAspectFit
                         smooth:                 true
                         antialiasing:           true
-                        source:                 frameClassToImage(_frameClass.rawValue)
+                        source:                 "/xfres/hexaMotor.png"
                     }
                 }
 
@@ -222,6 +222,31 @@ SetupPage {
 
                         Switch {
                             id: safetySwitch
+                            width:  ScreenTools.defaultFontPixelWidth * 5
+                            height: ScreenTools.defaultFontPixelHeight
+                            padding: 0
+
+                            contentItem: Item { }
+                            background: Item { }
+
+                            indicator: Rectangle {
+                                width:  safetySwitch.width
+                                height: safetySwitch.height
+                                radius: height / 2
+                                color:  safetySwitch.checked ? qgcPal.primaryButton : qgcPal.button
+
+                                Rectangle {
+                                    readonly property real _margin: Math.max(1, parent.height * 0.1)
+
+                                    x:      safetySwitch.checked ? parent.width - width - _margin : _margin
+                                    y:      _margin
+                                    width:  parent.height - _margin * 2
+                                    height: width
+                                    radius: height / 2
+                                    color:  qgcPal.buttonText
+                                }
+                            }
+
                             onClicked: {
                                 if (!checked) {
                                     throttleField.text = "0"

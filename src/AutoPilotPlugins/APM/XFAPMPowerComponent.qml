@@ -204,7 +204,7 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Battery 2")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
+                            // font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -262,7 +262,7 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Battery 2")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
+                            // font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {

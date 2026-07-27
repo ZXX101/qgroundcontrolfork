@@ -8,6 +8,7 @@ import QGroundControl.ScreenTools
 TextField {
     id:                 control
     color:              qgcPal.textFieldText
+    placeholderTextColor: Qt.rgba(1, 1, 1, 0.6)
     selectionColor:     qgcPal.textFieldText
     selectedTextColor:  qgcPal.textField
     activeFocusOnPress: true

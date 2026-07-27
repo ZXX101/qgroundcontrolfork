@@ -66,8 +66,8 @@ Item {
 
     Item {
         id:                     mainContent
-        anchors.topMargin:      ScreenTools.defaultFontPixelHeight
-        anchors.top:            headerLoader.sourceComponent === null ? (headingColumn.visible ? headingColumn.bottom : parent.top) : headerLoader.bottom
+        anchors.topMargin:      headerLoader.visible || headingColumn.visible ? ScreenTools.defaultFontPixelHeight : 0
+        anchors.top:            headerLoader.visible ? headerLoader.bottom : (headingColumn.visible ? headingColumn.bottom : parent.top)
         anchors.bottom:         parent.bottom
         anchors.left:           parent.left
         anchors.right:          parent.right

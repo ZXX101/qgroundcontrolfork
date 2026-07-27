@@ -49,8 +49,11 @@ SetupPage {
     Component {
         id:             sensorsPageComponent
 
-        Item {
-            x:      ScreenTools.defaultFontPixelWidth * 2
+        Item {            
+            anchors.left:       parent.left
+            anchors.right:      parent.right
+            anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
+            anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 2
             width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
             height: availableHeight
 
@@ -621,15 +624,16 @@ SetupPage {
             }
 
             // 传感器校准TabBar + StackLayout + 校准显示区域
-            Column {
+            ColumnLayout {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 anchors.left:       parent.left
                 anchors.right:      parent.right
+                spacing:            0
 
                 TabBar {
                     id:         sensorTabBar
-                    width:      parent.width
+                    Layout.fillWidth: true
                     spacing:    0
                     background: Rectangle { color: "transparent" }
 
@@ -756,10 +760,12 @@ SetupPage {
                 }
 
                 StackLayout {
-                    width:          parent.width
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    Layout.topMargin: ScreenTools.defaultFontPixelHeight
+                    Layout.preferredHeight: children[currentIndex] ? children[currentIndex].implicitHeight : 0
                     currentIndex:   sensorTabBar.currentIndex
                     clip:           true
-                    height:         children[currentIndex] ? children[currentIndex].implicitHeight : 0
 
                     // Compass Tab
                     RowLayout {
@@ -809,7 +815,6 @@ SetupPage {
                     // Accelerometer Tab
                     RowLayout {
                         spacing: _margins
-
                         QGCLabel {
                             Layout.fillWidth:   true
                             wrapMode:           Text.WordWrap
@@ -897,9 +902,9 @@ SetupPage {
 
                         QGCLabel {
                             text:           qsTr("Positive values are forward, right, and up. Negative values are backward, left, and down.")
-                            font.pointSize: ScreenTools.smallFontPointSize
+                            // font.pointSize: ScreenTools.smallFontPointSize
                             color:          qgcPal.text
-                            opacity:        0.5
+                            // opacity:        0.5
                             wrapMode:       Text.WordWrap
                             Layout.fillWidth: true
                         }
@@ -969,19 +974,26 @@ SetupPage {
                     }
                 }
 
+                Item {
+                    Layout.fillHeight: true
+                    visible:          sensorTabBar.currentIndex === 3
+                }
+
                 ProgressBar {
                     id:             progressBar
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
+                    Layout.fillWidth: true
                     visible:        sensorTabBar.currentIndex !== 3
                 }
 
-                Item { height: ScreenTools.defaultFontPixelHeight; width: 10; visible: sensorTabBar.currentIndex !== 3 }
+                Item {
+                    Layout.preferredHeight: ScreenTools.defaultFontPixelHeight
+                    visible:                sensorTabBar.currentIndex !== 3
+                }
 
                 Item {
                     id:     centerPanel
-                    width:  parent.width
-                    height: parent.height - y
+                    Layout.fillWidth:  true
+                    Layout.fillHeight: true
                     visible: sensorTabBar.currentIndex !== 3
 
                     TextArea {

@@ -241,25 +241,41 @@ Item {
                     Layout.fillWidth:   true
                     Layout.fillHeight:  true
                     Layout.leftMargin:  ScreenTools.defaultFontPixelWidth
+                    Layout.rightMargin: detailPanel.visible ? 0 : ScreenTools.defaultFontPixelWidth
                     columnSpacing:      ScreenTools.defaultFontPixelWidth
                     rowSpacing:         ScreenTools.defaultFontPixelHeight / 4
                     model:              controller.parameters
                     clip:               true
 
-                    property real _nameColWidth: ScreenTools.defaultFontPixelWidth * 10
-                    property var _colWidths: [_nameColWidth,
-                                              ScreenTools.defaultFontPixelWidth * 10,
-                                              ScreenTools.defaultFontPixelWidth * 18]
+                    property real _minimumNameColWidth:  ScreenTools.defaultFontPixelWidth * 10
+                    property real _nameColWidth:         _minimumNameColWidth
+                    property real _minimumRangeColWidth: ScreenTools.defaultFontPixelWidth * 10
+                    property real _valueColWidth:        ScreenTools.defaultFontPixelWidth * 18
+                    property real _rangeColWidth:        _minimumRangeColWidth
+                    property var _colWidths:             [_nameColWidth, _rangeColWidth, _valueColWidth]
                     contentWidth:       _colWidths[0] + _colWidths[1] + _colWidths[2] + columnSpacing * 2
+
+                    function _formatRangeValue(value, valueString) {
+                        var numericValue = Number(value)
+                        if (!isFinite(numericValue)) return valueString
+                        return numericValue.toFixed(2).replace(/\.?0+$/, "")
+                    }
 
                     function _updateNameColWidth(newWidth) {
                         if (newWidth > _nameColWidth) {
                             _nameColWidth = newWidth
+                            _updateRangeColWidth()
                         }
                     }
 
                     function _resetNameColWidth() {
-                        _nameColWidth = ScreenTools.defaultFontPixelWidth * 10
+                        _nameColWidth = _minimumNameColWidth
+                        _updateRangeColWidth()
+                    }
+
+                    function _updateRangeColWidth() {
+                        _rangeColWidth = Math.max(_minimumRangeColWidth,
+                                                  width - _nameColWidth - _valueColWidth - columnSpacing * 2)
                     }
 
                     onModelChanged: {
@@ -273,16 +289,32 @@ Item {
                         interval:       500
                         repeat:         false
                         onTriggered:    {
-                            _resetNameColWidth()
+                            tableView._resetNameColWidth()
+                            tableView.forceLayout()
+                            visibleNameWidthTimer.start()
+                        }
+                    }
+
+                    Timer {
+                        id:             visibleNameWidthTimer
+                        interval:       0
+                        repeat:         false
+                        onTriggered:    {
+                            tableView._updateNameColWidth(tableView.columnWidth(0))
                             tableView.forceLayout()
                         }
                     }
 
                     onTopRowChanged: forceLayoutTimer.start()
+                    onWidthChanged: {
+                        _updateRangeColWidth()
+                        forceLayout()
+                    }
+                    Component.onCompleted: _updateRangeColWidth()
 
                     delegate: Item {
                         id: delegateItem
-                        implicitWidth:  column === 0 ? Math.max(nameTextMetrics.width + infoBtnSize + 4, tableView._nameColWidth) :
+                        implicitWidth:  column === 0 ? Math.max(nameTextMetrics.width + infoBtnSize + 4, tableView._minimumNameColWidth) :
                                         tableView._colWidths[column]
                         implicitHeight: _rowHeight
                         clip:           true
@@ -363,7 +395,8 @@ Item {
                                 if (delegateFact.bitmaskStrings.length > 0) return qsTr("Bitmask")
                                 if (delegateFact.enumStrings.length > 0) return qsTr("%1 options").arg(delegateFact.enumStrings.length)
                                 if (!delegateFact.minIsDefaultForType || !delegateFact.maxIsDefaultForType)
-                                    return delegateFact.minString + " ~ " + delegateFact.maxString
+                                    return tableView._formatRangeValue(delegateFact.min, delegateFact.minString) + " ~ " +
+                                           tableView._formatRangeValue(delegateFact.max, delegateFact.maxString)
                                 return "-"
                             }
                             elide: Text.ElideRight
@@ -479,6 +512,8 @@ Item {
                         QGCFlickable {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
+                            Layout.leftMargin: ScreenTools.defaultFontPixelWidth
+                            Layout.rightMargin: ScreenTools.defaultFontPixelWidth
                             contentWidth: detailContent.width
                             contentHeight: detailContent.height
                             flickableDirection: Flickable.VerticalFlick

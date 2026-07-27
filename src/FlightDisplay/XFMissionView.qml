@@ -66,6 +66,7 @@ Item {
             QGCLabel {
                 text: qsTr("XF Mission")
                 font.pointSize: ScreenTools.largeFontPointSize
+                font.family: ScreenTools.tecentFontFamily
             }
             QGCButton {
                 text: qsTr("Back")

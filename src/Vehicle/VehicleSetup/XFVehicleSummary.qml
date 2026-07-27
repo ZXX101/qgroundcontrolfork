@@ -53,6 +53,20 @@ Rectangle {
         return sentence.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
     }
 
+    function applySummaryRowSpacing(summaryItem) {
+        if (!summaryItem) {
+            return
+        }
+
+        for (var i = 0; i < summaryItem.children.length; i++) {
+            var child = summaryItem.children[i]
+            if (child && child.hasOwnProperty("spacing")) {
+                child.spacing = ScreenTools.defaultFontPixelHeight * 0.5
+                return
+            }
+        }
+    }
+
     QGCPalette {
         id:                 qgcPal
         colorGroupEnabled:  enabled
@@ -102,7 +116,7 @@ Rectangle {
                     // Outer summary item rectangle
                     Rectangle {
                         width:      _summaryBoxWidth
-                        height:     ScreenTools.defaultFontPixelHeight * 13
+                        height:     ScreenTools.defaultFontPixelHeight * 13 * 1.3
                         color:      qgcPal.windowShade
                         visible:    modelData.summaryQmlSource.toString() !== ""
                         border.width: 1
@@ -149,6 +163,7 @@ Rectangle {
                                 anchors.fill:       parent
                                 anchors.margins:    ScreenTools.defaultFontPixelWidth
                                 source:             modelData.summaryQmlSource
+                                onLoaded:           applySummaryRowSpacing(item)
 
                                 property var vehicleComponent: modelData
                             }

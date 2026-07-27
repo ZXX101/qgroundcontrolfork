@@ -338,9 +338,9 @@ Rectangle {
 
     function getVehicleIdentifier() {
         if (!activeVehicle) return "--"
-        if (activeVehicle.serialString && activeVehicle.serialString.length > 0) {
-            return activeVehicle.serialString
-        }
+        // if (activeVehicle.serialString && activeVehicle.serialString.length > 0) {
+        //     return activeVehicle.serialString
+        // }
         if (activeVehicle.vehicleUID !== 0) {
             return activeVehicle.vehicleUIDStr
         }

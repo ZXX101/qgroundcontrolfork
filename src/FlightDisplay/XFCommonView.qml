@@ -464,7 +464,7 @@ Rectangle {
                         // color: qgcPal.colorGreen
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        source: deviceConfigExpanded ? "qrc:/xfres/menuExpand.png" : "qrc:/xfres/menuCollapse.png"
+                        source: deviceConfigExpanded ? "qrc:/xfressvg/menuExpand.svg" : "qrc:/xfressvg/menuCollapse.svg"
                     }
 
                     onClicked: {
