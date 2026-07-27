@@ -401,11 +401,10 @@ Item {
 
         function clearButtonClicked() {
             mainWindow.showMessageDialog(qsTr("Clear"),
-                                         qsTr("Are you sure you want to remove all mission items and clear the mission from the vehicle?"),
+                                         qsTr("Are you sure you want to clear the mission from the vehicle? The local mission will be kept."),
                                          Dialog.Yes | Dialog.Cancel,
                                          function() {
-                                             _planMasterController.removeAllFromVehicle();
-                                             _missionController.setCurrentPlanViewSeqNum(0, true);
+                                             _missionController.removeMissionFromVehicleOnly();
                                          })
         }
 

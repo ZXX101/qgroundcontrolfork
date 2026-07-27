@@ -153,15 +153,17 @@ Item {
             height: root._buttonSize
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
-            x: root._expanded ? 0 : (parent.width - width) / 2
+            x: 0
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfres/tools-collapse.svg" : "/xfressvg/tools-expand.svg"
+                source: "/xfressvg/tools-collapse.svg"
                 fillMode: Image.PreserveAspectFit
+                rotation: root._expanded ? -90 : 0
+                Behavior on rotation { NumberAnimation { duration: 200; easing.type: Easing.InOutCubic } }
             }
         }
 
@@ -170,7 +172,7 @@ Item {
             x: _toggleBtnLeft.x + _toggleBtnLeft.width + root._spacing
             anchors.verticalCenter: parent.verticalCenter
             spacing: root._spacing
-            visible: root._expanded
+            visible: root.width > root._buttonSize
             clip: true
 
             Repeater {
@@ -211,16 +213,17 @@ Item {
             height: root._buttonSize
             radius: height / 2
             color: root._hoveredToggle ? qgcPal.buttonHighlight : "transparent"
-            x: root._expanded ? parent.width - width : (parent.width - width) / 2
+            x: parent.width - width
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
                 anchors.centerIn: parent
                 width: root._buttonSize * root._iconScale
                 height: width
-                source: root._expanded ? "/xfressvg/tools-collapse.svg" : "/xfressvg/tools-expand.svg"
+                source: "/xfressvg/tools-collapse.svg"
                 fillMode: Image.PreserveAspectFit
-                mirror: true
+                rotation: root._expanded ? 90 : 0
+                Behavior on rotation { NumberAnimation { duration: 200; easing.type: Easing.InOutCubic } }
             }
         }
 
@@ -229,7 +232,7 @@ Item {
             x: _toggleBtnRight.x - root._spacing - width
             anchors.verticalCenter: parent.verticalCenter
             spacing: root._spacing
-            visible: root._expanded
+            visible: root.width > root._buttonSize
             clip: true
 
             Repeater {

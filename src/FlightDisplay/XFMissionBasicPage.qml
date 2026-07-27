@@ -304,13 +304,53 @@ Item {
                                 }
                                 Item { Layout.fillWidth: true }
                                 QGCRadioButton {
+                                    id: polyInclusionRadio
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                                    indicator: Rectangle {
+                                        implicitWidth:  polyInclusionRadio._indicatorSize
+                                        implicitHeight: polyInclusionRadio._indicatorSize
+                                        radius:         height / 2
+                                        color:          "transparent"
+                                        border.color:   "#1484FC"
+                                        border.width:   1
+                                        x:              polyInclusionRadio.leftPadding
+                                        y:              parent.height / 2 - height / 2
+                                        Rectangle {
+                                            anchors.centerIn: parent
+                                            width:  parent.width * 0.5
+                                            height: width
+                                            radius: height / 2
+                                            color:   "#1484FC"
+                                            visible: polyInclusionRadio.checked
+                                        }
+                                    }
                                     onClicked: fenceObject.inclusion = true
                                 }
                                 QGCRadioButton {
+                                    id: polyExclusionRadio
                                     text: qsTr("Exclusion")
                                     checked: !fenceObject.inclusion
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                                    indicator: Rectangle {
+                                        implicitWidth:  polyExclusionRadio._indicatorSize
+                                        implicitHeight: polyExclusionRadio._indicatorSize
+                                        radius:         height / 2
+                                        color:          "transparent"
+                                        border.color:   "#1484FC"
+                                        border.width:   1
+                                        x:              polyExclusionRadio.leftPadding
+                                        y:              parent.height / 2 - height / 2
+                                        Rectangle {
+                                            anchors.centerIn: parent
+                                            width:  parent.width * 0.5
+                                            height: width
+                                            radius: height / 2
+                                            color:   "#1484FC"
+                                            visible: polyExclusionRadio.checked
+                                        }
+                                    }
                                     onClicked: fenceObject.inclusion = false
                                 }
                             }
@@ -335,7 +375,7 @@ Item {
 
                         Image {
                             z: 1
-                            height: ScreenTools.minTouchPixels
+                            height: ScreenTools.minTouchPixels* 0.7
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
@@ -406,13 +446,53 @@ Item {
                                 }
                                 Item { Layout.fillWidth: true }
                                 QGCRadioButton {
+                                    id: circleInclusionRadio
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                                    indicator: Rectangle {
+                                        implicitWidth:  circleInclusionRadio._indicatorSize
+                                        implicitHeight: circleInclusionRadio._indicatorSize
+                                        radius:         height / 2
+                                        color:          "transparent"
+                                        border.color:   "#1484FC"
+                                        border.width:   1
+                                        x:              circleInclusionRadio.leftPadding
+                                        y:              parent.height / 2 - height / 2
+                                        Rectangle {
+                                            anchors.centerIn: parent
+                                            width:  parent.width * 0.5
+                                            height: width
+                                            radius: height / 2
+                                            color:   "#1484FC"
+                                            visible: circleInclusionRadio.checked
+                                        }
+                                    }
                                     onClicked: fenceObject.inclusion = true
                                 }
                                 QGCRadioButton {
+                                    id: circleExclusionRadio
                                     text: qsTr("Exclusion")
                                     checked: !fenceObject.inclusion
+                                    property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                                    indicator: Rectangle {
+                                        implicitWidth:  circleExclusionRadio._indicatorSize
+                                        implicitHeight: circleExclusionRadio._indicatorSize
+                                        radius:         height / 2
+                                        color:          "transparent"
+                                        border.color:   "#1484FC"
+                                        border.width:   1
+                                        x:              circleExclusionRadio.leftPadding
+                                        y:              parent.height / 2 - height / 2
+                                        Rectangle {
+                                            anchors.centerIn: parent
+                                            width:  parent.width * 0.5
+                                            height: width
+                                            radius: height / 2
+                                            color:   "#1484FC"
+                                            visible: circleExclusionRadio.checked
+                                        }
+                                    }
                                     onClicked: fenceObject.inclusion = false
                                 }
                             }
@@ -438,7 +518,7 @@ Item {
 
                         Image {
                             z: 1
-                            height: ScreenTools.minTouchPixels
+                            height: ScreenTools.minTouchPixels* 0.7
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit

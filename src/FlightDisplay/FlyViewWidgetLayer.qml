@@ -471,7 +471,7 @@ Item {
             property bool _showRTL: flightActionButtons._guidedController.showRTL
 
             visible:            true
-            opacity:            rtlButton._showRTL ? 1 : 0.5
+            opacity:            rtlButton._showRTL ? 1.0 : 0.6
 
             Column {
                 anchors.centerIn:   parent
@@ -481,7 +481,7 @@ Item {
                 Image {
                     width:                  flightActionButtons._buttonWidth * flightActionButtons._imageScale
                     height:                 width
-                    source:                 rtlButton._showRTL ? "/xfressvg/rtl-flying.svg" : "/xfres/rtl-not-flying.png"
+                    source:                 "/xfressvg/rtl-flying.svg"
                     fillMode:               Image.PreserveAspectFit
                     anchors.horizontalCenter: parent.horizontalCenter
                 }

@@ -131,7 +131,6 @@
         <file alias="mission.png">resources/XF/mission.png</file>
         <file alias="rangefinder.png">resources/XF/rangefinder.png</file>
         <file alias="rtl-flying.png">resources/XF/rtl-flying.png</file>
-        <file alias="rtl-not-flying.png">resources/XF/rtl-not-flying.png</file>
         <file alias="signal.png">resources/XF/signal.png</file>
         <file alias="takeoff-disabled.png">resources/XF/takeoff-disabled.png</file>
         <file alias="takeoff-enabled.png">resources/XF/takeoff-enabled.png</file>
@@ -164,7 +163,6 @@
         <file alias="deviceLog.png">resources/XF/deviceLog.png</file>
         <file alias="expandMission.png">resources/XF/expandMission.png</file>
         <file alias="flightParams.png">resources/XF/flightParams.png</file>
-        <file alias="hexaMotor.png">resources/XF/hexaMotor.png</file>
         <file alias="homePoint.png">resources/XF/homePoint.png</file>
         <file alias="link.png">resources/XF/link.png</file>
         <file alias="linkConnected.png">resources/XF/linkConnected.png</file>
@@ -175,10 +173,8 @@
         <file alias="mavlinkInspect.png">resources/XF/mavlinkInspect.png</file>
         <file alias="missionBasic.png">resources/XF/missionBasic.png</file>
         <file alias="missionList.png">resources/XF/missionList.png</file>
-        <file alias="octaMotor.png">resources/XF/octaMotor.png</file>
         <file alias="openMission.png">resources/XF/openMission.png</file>
         <file alias="paramHelp.png">resources/XF/paramHelp.png</file>
-        <file alias="quadMotor.png">resources/XF/quadMotor.png</file>
         <file alias="roi.png">resources/XF/roi.png</file>
         <file alias="roiSelected.png">resources/XF/roiSelected.png</file>
         <file alias="rtlAltitude.png">resources/XF/rtlAltitude.png</file>
@@ -188,10 +184,10 @@
         <file alias="softwareSettings.png">resources/XF/softwareSettings.png</file>
         <file alias="takeoffCancel.png">resources/XF/takeoffCancel.png</file>
         <file alias="takeoffSlider.png">resources/XF/takeoffSlider.png</file>
-        <file alias="triMotor.png">resources/XF/triMotor.png</file>
         <file alias="uavGrabWaypoint.png">resources/XF/uavGrabWaypoint.png</file>
         <file alias="waypoint.png">resources/XF/waypoint.png</file>
         <file alias="waypointSelected.png">resources/XF/waypointSelected.png</file>
+        <file alias="hexaMotor.png">resources/XF/hexaMotor.png</file>
     </qresource>
     <qresource prefix="/xfressvg">
         <file alias="addCommand.svg">resources/XF/addCommand.svg</file>
@@ -241,7 +237,6 @@
         <file alias="softwareSettings.svg">resources/XF/softwareSettings.svg</file>
         <file alias="takeoff-enabled.svg">resources/XF/takeoff-enabled.svg</file>
         <file alias="timer.svg">resources/XF/timer.svg</file>
-        <file alias="tools-expand.svg">resources/XF/tools-expand.svg</file>
         <file alias="uavGrabWaypoint.svg">resources/XF/uavGrabWaypoint.svg</file>
         <file alias="uav-icon.svg">resources/XF/uav-icon.svg</file>
         <file alias="waypoint.svg">resources/XF/waypoint.svg</file>
@@ -249,5 +244,8 @@
         <file alias="collapseMission.svg">resources/XF/collapseMission.svg</file>
         <file alias="expandMission.svg">resources/XF/expandMission.svg</file>
         <file alias="tools-collapse.svg">resources/XF/tools-collapse.svg</file>
+        <file alias="logo-groundstation.svg">resources/XF/logo-groundstation.svg</file>
+        <file alias="menuCollapse.svg">resources/XF/menuCollapse.svg</file>
+        <file alias="menuExpand.svg">resources/XF/menuExpand.svg</file>
     </qresource>
 </RCC>

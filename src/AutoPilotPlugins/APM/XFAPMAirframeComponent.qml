@@ -29,9 +29,11 @@ SetupPage {
         id: pageComponent
 
         ColumnLayout {
-            id:     mainColumn
-            x:      ScreenTools.defaultFontPixelWidth * 2
-            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
+            id:                  mainColumn
+            anchors.left:       parent.left
+            anchors.right:      parent.right
+            anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
+            anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 2
 
             property real _minW:                ScreenTools.defaultFontPixelWidth * 20
             property real _boxWidth:            _minW

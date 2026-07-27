@@ -97,8 +97,8 @@ Rectangle {
                     _horizontalPadding: 0
                     visible: popup.expanded
                     onClicked: {
-                        if (planMasterController) {
-                            planMasterController.removeAllFromVehicle();
+                        if (missionController) {
+                            missionController.removeAll();
                         }
                     }
                 }
@@ -358,7 +358,10 @@ Rectangle {
 
         Rectangle {
             id: bottomBar
-            Layout.preferredHeight: ScreenTools.toolbarHeight * 0.8
+            readonly property real buttonHeight: uploadLabel.implicitHeight * 1.7
+            readonly property real horizontalGap: ScreenTools.defaultFontPixelWidth * 3
+
+            Layout.preferredHeight: buttonHeight * 1.7
             Layout.fillWidth: true
             color: "#2A2A2A"
             radius: 0
@@ -367,19 +370,19 @@ Rectangle {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 3
-                anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 3
-                anchors.topMargin: ScreenTools.defaultFontPixelHeight * 0.75
-                anchors.bottomMargin: ScreenTools.defaultFontPixelHeight * 0.75
-                spacing: ScreenTools.defaultFontPixelWidth * 3
+                anchors.leftMargin: bottomBar.horizontalGap
+                anchors.rightMargin: bottomBar.horizontalGap
+                spacing: bottomBar.horizontalGap
 
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: parent.height * 1.4
+                    Layout.preferredHeight: bottomBar.buttonHeight
+                    Layout.alignment: Qt.AlignVCenter
                     color: "#109B38"
                     radius: ScreenTools.defaultFontPixelHeight / 4
 
                     QGCLabel {
+                        id: uploadLabel
                         anchors.centerIn: parent
                         text: qsTr("Upload")
                         color: "white"
@@ -396,7 +399,8 @@ Rectangle {
                 }
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: parent.height * 1.4
+                    Layout.preferredHeight: bottomBar.buttonHeight
+                    Layout.alignment: Qt.AlignVCenter
                     color: "#1969B3"
                     radius: ScreenTools.defaultFontPixelHeight / 4
 
@@ -419,7 +423,8 @@ Rectangle {
                 }
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: parent.height * 1.4
+                    Layout.preferredHeight: bottomBar.buttonHeight
+                    Layout.alignment: Qt.AlignVCenter
                     color: qgcPal.button
                     radius: ScreenTools.defaultFontPixelHeight / 4
 
@@ -434,8 +439,8 @@ Rectangle {
                         onClicked: {
                             if (typeof clearButtonClicked === "function") {
                                 clearButtonClicked();
-                            } else if (planMasterController) {
-                                planMasterController.removeAllFromVehicle();
+                            } else if (missionController) {
+                                missionController.removeMissionFromVehicleOnly();
                             }
                         }
                     }

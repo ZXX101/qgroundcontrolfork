@@ -30,9 +30,11 @@ SetupPage {
         id: pageComponent
 
         Item {
-            x:      ScreenTools.defaultFontPixelWidth * 2
-            width:  availableWidth - ScreenTools.defaultFontPixelWidth * 2
-            height: Math.max(leftColumn.height, rightColumn.height)
+            anchors.left:       parent.left
+            anchors.right:      parent.right
+            anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
+            anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 2
+            height:             Math.max(leftColumn.height, rightColumn.height)
 
             function setupPageCompleted() {
                 controller.start()
@@ -324,15 +326,59 @@ SetupPage {
                     spacing: ScreenTools.defaultFontPixelWidth
 
                     QGCRadioButton {
+                        id:         mode1Control
                         text:       qsTr("Mode 1")
                         checked:    controller.transmitterMode == 1
                         onClicked:  controller.transmitterMode = 1
+
+                        property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                        indicator: Rectangle {
+                            implicitWidth:  mode1Control._indicatorSize
+                            implicitHeight: mode1Control._indicatorSize
+                            radius:         height / 2
+                            color:          "transparent"
+                            border.color:   "#1484FC"
+                            border.width:   1
+                            x:              mode1Control.leftPadding
+                            y:              parent.height / 2 - height / 2
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width:            parent.width * 0.5
+                                height:           width
+                                radius:           height / 2
+                                color:            "#1484FC"
+                                visible:          mode1Control.checked
+                            }
+                        }
                     }
 
                     QGCRadioButton {
+                        id:         mode2Control
                         text:       qsTr("Mode 2")
                         checked:    controller.transmitterMode == 2
                         onClicked:  controller.transmitterMode = 2
+
+                        property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
+                        indicator: Rectangle {
+                            implicitWidth:  mode2Control._indicatorSize
+                            implicitHeight: mode2Control._indicatorSize
+                            radius:         height / 2
+                            color:          "transparent"
+                            border.color:   "#1484FC"
+                            border.width:   1
+                            x:              mode2Control.leftPadding
+                            y:              parent.height / 2 - height / 2
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width:            parent.width * 0.5
+                                height:           width
+                                radius:           height / 2
+                                color:            "#1484FC"
+                                visible:          mode2Control.checked
+                            }
+                        }
                     }
                 }
 

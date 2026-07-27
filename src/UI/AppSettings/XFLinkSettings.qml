@@ -165,7 +165,7 @@ QGCFlickable {
                             }
                         }
                         Image {
-                            height: ScreenTools.minTouchPixels
+                            height: ScreenTools.minTouchPixels* 0.7
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit

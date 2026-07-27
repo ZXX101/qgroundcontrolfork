@@ -191,6 +191,7 @@ public:
     Q_ENUM(SendToVehiclePreCheckState)
 
     Q_INVOKABLE SendToVehiclePreCheckState sendToVehiclePreCheck(void);
+    Q_INVOKABLE void removeMissionFromVehicleOnly(void);
 
     /// Determines if the mission has all data needed to be saved or sent to the vehicle.
     /// IMPORTANT NOTE: The return value is a VisualMissionItem::ReadForSaveState value. It is an int here to work around
@@ -213,7 +214,7 @@ public:
     bool load                       (const QJsonObject& json, QString& errorString) final;
     void loadFromVehicle            (void) final;
     void sendToVehicle              (void) final;
-    void removeAll                  (void) final;
+    Q_INVOKABLE void removeAll      (void) final;
     void removeAllFromVehicle       (void) final;
     bool syncInProgress             (void) const final;
     bool dirty                      (void) const final;
@@ -386,6 +387,7 @@ private:
     FlightPathSegmentHashTable  _flightPathSegmentHashTable;
     bool                        _firstItemsFromVehicle =        false;
     bool                        _itemsRequested =               false;
+    bool                        _keepLocalMissionOnRemove =     false;
     bool                        _inRecalcSequence =             false;
     MissionFlightStatus_t       _missionFlightStatus;
     AppSettings*                _appSettings =                  nullptr;

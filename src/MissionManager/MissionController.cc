@@ -2255,7 +2255,20 @@ void MissionController::removeAllFromVehicle(void)
     } else if (syncInProgress()) {
         qCWarning(MissionControllerLog) << "MissionControllerLog::removeAllFromVehicle called while syncInProgress";
     } else {
+        _keepLocalMissionOnRemove = false;
         _itemsRequested = true;
+        _missionManager->removeAll();
+    }
+}
+
+void MissionController::removeMissionFromVehicleOnly(void)
+{
+    if (_masterController->offline()) {
+        qCWarning(MissionControllerLog) << "MissionControllerLog::removeMissionFromVehicleOnly called while offline";
+    } else if (syncInProgress()) {
+        qCWarning(MissionControllerLog) << "MissionControllerLog::removeMissionFromVehicleOnly called while syncInProgress";
+    } else {
+        _keepLocalMissionOnRemove = true;
         _missionManager->removeAll();
     }
 }
@@ -2351,7 +2364,12 @@ void MissionController::_managerSendComplete(bool error)
 
 void MissionController::_managerRemoveAllComplete(bool error)
 {
-    if (!error) {
+    const bool keepLocalMission = _keepLocalMissionOnRemove;
+    _keepLocalMissionOnRemove = false;
+
+    if (!error && keepLocalMission) {
+        setDirty(true);
+    } else if (!error) {
         // Remove all from vehicle so we always update
         showPlanFromManagerVehicle();
     }
