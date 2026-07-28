@@ -113,7 +113,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Speed")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -202,7 +201,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Return To Home")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -272,7 +270,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Landing")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -337,14 +334,6 @@ SetupPage {
                                 id:         advancedTitle
                                 text:       qsTr("Advanced Parameters")
                                 font.bold:  true
-                                font.pointSize: ScreenTools.mediumFontPointSize
-                            }
-
-                            QGCLabel {
-                                text:       _advancedExpanded ? "▲" : "▼"
-                                font.bold:  true
-                                font.pointSize: ScreenTools.mediumFontPointSize
-                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
 

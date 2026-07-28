@@ -126,7 +126,6 @@
         <file alias="common.png">resources/XF/common.png</file>
         <file alias="gps.png">resources/XF/gps.png</file>
         <file alias="landing-in-progress.png">resources/XF/landing-in-progress.png</file>
-        <file alias="LogoFull.png">resources/XF/logo-groundstation.png</file>
         <file alias="message.png">resources/XF/message.png</file>
         <file alias="mission.png">resources/XF/mission.png</file>
         <file alias="rangefinder.png">resources/XF/rangefinder.png</file>

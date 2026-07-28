@@ -199,7 +199,6 @@ SetupPage {
                         QGCLabel {
                             text: qsTr("Rate Controller")
                             font.bold: true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -356,7 +355,6 @@ SetupPage {
                         QGCLabel {
                             text: qsTr("Attitude Controller")
                             font.bold: true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -495,7 +493,6 @@ SetupPage {
                         QGCLabel {
                             text: qsTr("Velocity Controller")
                             font.bold: true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -615,7 +612,6 @@ SetupPage {
                         QGCLabel {
                             text: qsTr("Position Controller")
                             font.bold: true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {

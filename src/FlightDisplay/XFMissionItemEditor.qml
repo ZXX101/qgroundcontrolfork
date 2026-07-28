@@ -395,10 +395,24 @@ Item {
                         }
                     }
                 }
-                FactTextField {
+                QGCTextField {
                     id: gimbalPitchField
-                    fact: _camera ? _camera.gimbalPitch : null
+                    text: _camera && _camera.gimbalPitch ? _camera.gimbalPitch.rawValue.toString() : ""
+                    numericValuesOnly: true
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                    onEditingFinished: {
+                        var rawText = text.trim();
+                        var rawValue = Number(rawText);
+                        if (rawText.length > 0 && !isNaN(rawValue) && rawValue >= -90 && rawValue <= 0) {
+                            clearValidationError();
+                            _camera.gimbalPitch.rawValue = rawValue;
+                        } else {
+                            var previousValue = _camera && _camera.gimbalPitch
+                                ? _camera.gimbalPitch.rawValue.toString()
+                                : "0";
+                            showValidationError(qsTr("Value must be between -90 and 0."), previousValue);
+                        }
+                    }
                 }
             }
 

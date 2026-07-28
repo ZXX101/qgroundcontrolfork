@@ -112,7 +112,7 @@ SetupPage {
 
                     Image {
                         anchors.fill:           parent
-                        anchors.margins:        ScreenTools.defaultFontPixelWidth * 2
+                        anchors.margins:        ScreenTools.defaultFontPixelWidth * 0.5
                         fillMode:               Image.PreserveAspectFit
                         smooth:                 true
                         antialiasing:           true

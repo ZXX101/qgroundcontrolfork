@@ -90,7 +90,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Low Battery Failsafe")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -142,7 +141,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("RC Loss Failsafe")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -194,7 +192,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("GCS Link Loss Failsafe")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -246,7 +243,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Geofence")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -309,7 +305,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Object Detection")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
@@ -375,7 +370,6 @@ SetupPage {
                         QGCLabel {
                             text:       qsTr("Telemetry Log")
                             font.bold:  true
-                            font.pointSize: ScreenTools.mediumFontPointSize
                         }
 
                         Rectangle {
