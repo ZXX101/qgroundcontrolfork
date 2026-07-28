@@ -58,10 +58,16 @@ Item {
         color: qgcPal.toolbarBackground
 
         RowLayout {
-            anchors.leftMargin: ScreenTools.defaultFontPixelWidth
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             spacing: ScreenTools.defaultFontPixelWidth
+
+            QGCToolBarButton {
+                Layout.preferredHeight: toolbar.height
+                icon.source:            "/xfressvg/logo-groundstation.svg"
+                logo:                   true
+                onClicked:              mainWindow.showToolSelectDialog()
+            }
 
             QGCLabel {
                 text: qsTr("XF Mission")
@@ -69,11 +75,13 @@ Item {
                 font.family: ScreenTools.tecentFontFamily
             }
             QGCButton {
-                text: qsTr("Back")
+                id:         buttonBack
+                text:       qsTr("Back")
+                iconSource: "qrc:/xfressvg/back.svg"
                 onClicked: {
                     if (mainWindow.allowViewSwitch()) {
                         xfMissionView.visible = false;
-                        flyView.visible = true;
+                        mainWindow.showFlyView();
                     }
                 }
             }
@@ -208,12 +216,16 @@ Item {
         id: missionButtons
         anchors.left: parent.left
         anchors.top: toolbar.bottom
-        anchors.margins: ScreenTools.defaultFontPixelWidth
-        spacing: ScreenTools.defaultFontPixelWidth / 2
+        anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 0.75
+        anchors.topMargin: ScreenTools.defaultFontPixelWidth * 0.75
+        spacing: ScreenTools.defaultFontPixelWidth * 0.25
+
+        property real _buttonWidth: ScreenTools.defaultFontPixelWidth * 7
+        property real _imageScale:  0.5
 
         Rectangle {
             id: waypointButton
-            width: ScreenTools.defaultFontPixelWidth * 6
+            width: missionButtons._buttonWidth
             height: width
             radius: ScreenTools.defaultFontPixelWidth / 2
             color: qgcPal.toolbarBackground
@@ -223,7 +235,7 @@ Item {
                 spacing: ScreenTools.defaultFontPixelHeight * 0.1
 
                 Image {
-                    width: ScreenTools.defaultFontPixelWidth * 3.5
+                    width: missionButtons._buttonWidth * missionButtons._imageScale
                     height: width
                     source: xfMissionView._currentMode === "waypoint" ?
                                 "qrc:/xfressvg/waypointSelected.svg" :
@@ -250,7 +262,7 @@ Item {
 
         Rectangle {
             id: roiButton
-            width: ScreenTools.defaultFontPixelWidth * 6
+            width: missionButtons._buttonWidth
             height: width
             radius: ScreenTools.defaultFontPixelWidth / 2
             color: qgcPal.toolbarBackground
@@ -260,7 +272,7 @@ Item {
                 spacing: ScreenTools.defaultFontPixelHeight * 0.1
 
                 Image {
-                    width: ScreenTools.defaultFontPixelWidth * 3.5
+                    width: missionButtons._buttonWidth * missionButtons._imageScale
                     height: width
                     source: (_missionController && _missionController.isROIActive) ?
                                 "qrc:/xfressvg/roiSelected.svg" :
