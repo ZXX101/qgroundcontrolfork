@@ -31,6 +31,8 @@ TextField {
     property bool   numericValuesOnly:  false   // true: Used as hint for mobile devices to show numeric only keyboard
     property alias  textColor:          control.color
     property bool   validationError:    false
+    property bool   showBorder:         qgcPal.globalTheme === QGCPalette.Light
+    property color  borderColor:        qgcPal.buttonBorder
 
     property real _helpLayoutWidth: 0
     property real _marginPadding:   ScreenTools.defaultFontPixelHeight / 3
@@ -84,8 +86,8 @@ TextField {
     }
 
     background: Rectangle {
-        border.width:   control.validationError ? 2 : (qgcPal.globalTheme === QGCPalette.Light ? 1 : 0)
-        border.color:   control.validationError ? qgcPal.colorRed : qgcPal.buttonBorder
+        border.width:   control.validationError ? 2 : (control.showBorder ? 1 : 0)
+        border.color:   control.validationError ? qgcPal.colorRed : control.borderColor
         radius:         ScreenTools.buttonBorderRadius
         color:          qgcPal.textField
         implicitWidth:  ScreenTools.implicitTextFieldWidth

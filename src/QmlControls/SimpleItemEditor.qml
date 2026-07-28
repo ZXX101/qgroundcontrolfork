@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtPositioning
 
 import QGroundControl
 import QGroundControl.ScreenTools
@@ -17,9 +18,10 @@ import QGroundControl.Palette
 //  4. 速度设置 - 可选的飞行速度设置
 //  5. 相机设置 - 相机触发相关参数
 Rectangle {
+    id:     _root
     width:  availableWidth
     height: editorColumn.height + (_margin * 2)
-    color:  qgcPal.windowShadeDark
+    color:  xfDarkBackgroundEnabled ? "#101010" : qgcPal.windowShadeDark
     radius: _radius
 
     property bool _specifiesAltitude:       missionItem.specifiesAltitude
@@ -29,6 +31,11 @@ Rectangle {
     property int  _globalAltMode:           missionItem.masterController.missionController.globalAltitudeMode
     property bool _globalAltModeIsMixed:    _globalAltMode == QGroundControl.AltitudeModeMixed
     property real _radius:                  ScreenTools.defaultFontPixelWidth / 2
+    property bool xfFieldOutlineEnabled:    false
+    property bool xfCoordinateFieldsEnabled: false
+    property bool xfDarkBackgroundEnabled: false
+    readonly property color _xfFieldOutlineColor: "#2A2A2A"
+    readonly property int _mavCmdNavWaypoint: 16
 
     function updateAltitudeModeText() {
         if (missionItem.altitudeMode === QGroundControl.AltitudeModeRelative) {
@@ -65,10 +72,65 @@ Rectangle {
         QGCLabel {
             width:          parent.width
             wrapMode:       Text.WordWrap
-            font.pointSize: ScreenTools.smallFontPointSize
+            // font.pointSize: ScreenTools.smallFontPointSize
             text:           missionItem.rawEdit ?
                                 qsTr("Provides advanced access to all commands/parameters. Be very careful!") :
                                 missionItem.commandDescription
+        }
+
+        GridLayout {
+            anchors.left:   parent.left
+            anchors.right:  parent.right
+            columns:        2
+            visible:        _root.xfCoordinateFieldsEnabled && missionItem.command === _root._mavCmdNavWaypoint
+
+            QGCLabel {
+                text: qsTr("Longitude")
+            }
+
+            QGCTextField {
+                Layout.fillWidth:       true
+                horizontalAlignment:    Text.AlignRight
+                numericValuesOnly:      true
+                text: missionItem.coordinate && !isNaN(missionItem.coordinate.longitude) ? missionItem.coordinate.longitude.toFixed(7) : "0"
+                showBorder: _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                borderColor: _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+
+                onEditingFinished: {
+                    const value = parseFloat(text)
+                    if (!isNaN(value) && missionItem.coordinate) {
+                        const coordinate = missionItem.coordinate
+                        missionItem.coordinate = QtPositioning.coordinate(
+                            isNaN(coordinate.latitude) ? 0 : coordinate.latitude,
+                            value,
+                            isNaN(coordinate.altitude) ? 0 : coordinate.altitude)
+                    }
+                }
+            }
+
+            QGCLabel {
+                text: qsTr("Latitude")
+            }
+
+            QGCTextField {
+                Layout.fillWidth:       true
+                horizontalAlignment:    Text.AlignRight
+                numericValuesOnly:      true
+                text: missionItem.coordinate && !isNaN(missionItem.coordinate.latitude) ? missionItem.coordinate.latitude.toFixed(7) : "0"
+                showBorder: _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                borderColor: _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+
+                onEditingFinished: {
+                    const value = parseFloat(text)
+                    if (!isNaN(value) && missionItem.coordinate) {
+                        const coordinate = missionItem.coordinate
+                        missionItem.coordinate = QtPositioning.coordinate(
+                            value,
+                            isNaN(coordinate.longitude) ? 0 : coordinate.longitude,
+                            isNaN(coordinate.altitude) ? 0 : coordinate.altitude)
+                    }
+                }
+            }
         }
 
         ColumnLayout {
@@ -130,7 +192,7 @@ Rectangle {
                 QGCLabel {
                     Layout.fillWidth:   true
                     wrapMode:           Text.WordWrap
-                    font.pointSize:     ScreenTools.smallFontPointSize
+                    // font.pointSize:     ScreenTools.smallFontPointSize
                     text:               qsTr("Altitude below specifies the approximate altitude of the ground. Normally 0 for landing back at original launch location.")
                     visible:            missionItem.isLandCommand
                 }
@@ -160,7 +222,7 @@ Rectangle {
                         QGCLabel {
                             Layout.alignment:   Qt.AlignBaseline
                             text:               qsTr("Altitude")
-                            font.pointSize:     ScreenTools.smallFontPointSize
+                            // font.pointSize:     ScreenTools.smallFontPointSize
                         }
                         QGCLabel {
                             id:                 altModeLabel
@@ -181,10 +243,12 @@ Rectangle {
                     id:                 altField
                     Layout.fillWidth:   true
                     fact:               missionItem.altitude
+                    showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                    borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
                 }
 
                 QGCLabel {
-                    font.pointSize:     ScreenTools.smallFontPointSize
+                    // font.pointSize:     ScreenTools.smallFontPointSize
                     text:               qsTr("Actual AMSL alt sent: %1 %2").arg(missionItem.amslAltAboveTerrain.valueString).arg(missionItem.amslAltAboveTerrain.units)
                     visible:            missionItem.altitudeMode === QGroundControl.AltitudeModeCalcAboveTerrain
                 }
@@ -203,7 +267,7 @@ Rectangle {
                         spacing:            0
 
                         QGCLabel {
-                            font.pointSize: ScreenTools.smallFontPointSize
+                            // font.pointSize: ScreenTools.smallFontPointSize
                             text:           object.name
                             visible:        object.name !== ""
                         }
@@ -213,6 +277,9 @@ Rectangle {
                             indexModel:         false
                             model:              object.enumStrings
                             fact:               object
+                            showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                            borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                            popupBorderColor:   _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.text
                         }
                     }
                 }
@@ -240,6 +307,7 @@ Rectangle {
                         text:           object.name
                         checked:        !isNaN(object.rawValue)
                         onClicked:      object.rawValue = checked ? 0 : NaN
+                        indicatorBorderColor: _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.text
                     }
                 }
 
@@ -249,6 +317,7 @@ Rectangle {
                     checked:    missionItem.speedSection.specifyFlightSpeed
                     onClicked:  missionItem.speedSection.specifyFlightSpeed = checked
                     visible:    missionItem.speedSection.available
+                    indicatorBorderColor: _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.text
                 }
 
 
@@ -260,6 +329,8 @@ Rectangle {
                         fact:               object
                         Layout.fillWidth:   true
                         enabled:            !object.readOnly
+                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
                     }
                 }
 
@@ -271,6 +342,8 @@ Rectangle {
                         fact:               object
                         Layout.fillWidth:   true
                         enabled:            !isNaN(object.rawValue)
+                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
                     }
                 }
 
@@ -279,12 +352,17 @@ Rectangle {
                     Layout.fillWidth:   true
                     enabled:            flightSpeedCheckbox.checked
                     visible:            missionItem.speedSection.available
+                    showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                    borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
                 }
             }
 
             CameraSection {
-                checked:    missionItem.cameraSection.settingsSpecified
+                checked:    xfWaypointLayoutEnabled || missionItem.cameraSection.settingsSpecified
                 visible:    missionItem.cameraSection.available
+                xfFieldOutlineEnabled: _root.xfFieldOutlineEnabled
+                xfFieldOutlineColor:   _root._xfFieldOutlineColor
+                xfWaypointLayoutEnabled: _root.xfCoordinateFieldsEnabled && missionItem.command === _root._mavCmdNavWaypoint
             }
         }
     }

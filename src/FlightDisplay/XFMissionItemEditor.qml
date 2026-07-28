@@ -10,452 +10,134 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
-import QtPositioning
 
 import QGroundControl
 import QGroundControl.Controls
-import QGroundControl.FactSystem
-import QGroundControl.FactControls
 import QGroundControl.Palette
 import QGroundControl.ScreenTools
 
 Item {
     id: rootLayout
 
+    property var missionItem
+    property var flightMap
+
+    readonly property var _masterController: missionItem ? missionItem.masterController : null
+
     Rectangle {
+        id: scrollArea
         anchors.fill: parent
         color: "#101010"
+
+        QGCFlickable {
+            id: editorFlickable
+            anchors.fill: parent
+            anchors.margins: ScreenTools.defaultFontPixelWidth
+            clip: true
+            contentWidth: width
+            contentHeight: contentColumn.height
+            flickableDirection: Flickable.VerticalFlick
+
+            Column {
+                id: contentColumn
+                width: editorFlickable.width
+                spacing: ScreenTools.defaultFontPixelHeight / 2
+
+                RowLayout {
+                    width: parent.width
+
+                    QGCLabel {
+                        text: qsTr("Command")
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    Item {
+                        id: commandPicker
+                        Layout.preferredWidth: commandInnerLayout.width
+                        Layout.preferredHeight: ScreenTools.implicitComboBoxHeight
+
+                        RowLayout {
+                            id: commandInnerLayout
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: ScreenTools.comboBoxPadding
+
+                            QGCLabel {
+                                text: missionItem ? missionItem.commandName : ""
+                            }
+
+                            QGCColoredImage {
+                                width: ScreenTools.defaultFontPixelWidth
+                                height: width
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
+                                antialiasing: true
+                                color: qgcPal.text
+                                source: "/qmlimages/arrow-down.png"
+                                visible: missionItem ? missionItem.isSimpleItem : false
+                            }
+                        }
+
+                        QGCMouseArea {
+                            fillItem: parent
+                            enabled: missionItem ? missionItem.isSimpleItem : false
+                            onClicked: commandDialog.createObject(mainWindow).open()
+                        }
+
+                        Component {
+                            id: commandDialog
+
+                            MissionCommandDialog {
+                                vehicle: _masterController ? _masterController.controllerVehicle : null
+                                missionItem: rootLayout.missionItem
+                                map: rootLayout.flightMap
+                                flyThroughCommandsAllowed: true
+                            }
+                        }
+                    }
+                }
+
+                Loader {
+                    id: editorLoader
+                    width: parent.width
+                    source: missionItem ? missionItem.editorQml : ""
+                    asynchronous: true
+
+                    onLoaded: {
+                        if (item && item.hasOwnProperty("xfFieldOutlineEnabled")) {
+                            item.xfFieldOutlineEnabled = true
+                        }
+                        if (item && item.hasOwnProperty("xfCoordinateFieldsEnabled")) {
+                            item.xfCoordinateFieldsEnabled = true
+                        }
+                        if (item && item.hasOwnProperty("xfDarkBackgroundEnabled")) {
+                            item.xfDarkBackgroundEnabled = true
+                        }
+                    }
+
+                    property var masterController: _masterController
+                    property real availableWidth: width
+                    property var editorRoot: rootLayout
+                }
+            }
+
+            ScrollIndicator.vertical: ScrollIndicator { }
+        }
     }
 
     QGCPalette {
         id: qgcPal
     }
 
-    property var missionItem
-    property var flightMap
-    property var _camera: missionItem ? missionItem.cameraSection : null
-    property var _speed: missionItem ? missionItem.speedSection : null
-    property var _masterController: missionItem ? missionItem.masterController : null
+    onMissionItemChanged: editorFlickable.contentY = 0
 
-    property var _cameraActionModel: [
-        {
-            text: qsTr("No change"),
-            value: 0
-        },
-        {
-            text: qsTr("Take photo"),
-            value: 6
-        },
-        {
-            text: qsTr("Start recording video"),
-            value: 4
-        },
-        {
-            text: qsTr("Stop recording video"),
-            value: 5
-        }
-    ]
+    Connections {
+        target: missionItem
 
-    function getCoord() {
-        if (!missionItem || !missionItem.coordinate) {
-            return QtPositioning.coordinate(0, 0, 0);
-        }
-        var coord = missionItem.coordinate;
-        var lat = isNaN(coord.latitude) ? 0 : coord.latitude;
-        var lon = isNaN(coord.longitude) ? 0 : coord.longitude;
-        var alt = isNaN(coord.altitude) ? missionItem.altitude.rawValue : coord.altitude;
-        if (isNaN(alt)) {
-            alt = 0;
-        }
-        return QtPositioning.coordinate(lat, lon, alt);
-    }
-
-    function setCoord(lat, lon, alt) {
-        if (!missionItem)
-            return;
-        var currentCoord = missionItem.coordinate;
-        var currentAlt = missionItem.altitude ? missionItem.altitude.rawValue : 0;
-        if (isNaN(currentAlt)) currentAlt = 0;
-
-        var newLat = !isNaN(lat) ? lat : (isNaN(currentCoord.latitude) ? 0 : currentCoord.latitude);
-        var newLon = !isNaN(lon) ? lon : (isNaN(currentCoord.longitude) ? 0 : currentCoord.longitude);
-        var newAlt = !isNaN(alt) ? alt : currentAlt;
-
-        missionItem.coordinate = QtPositioning.coordinate(newLat, newLon, newAlt);
-        missionItem.altitude.rawValue = newAlt;
-    }
-
-    function getSpeed() {
-        if (!_speed || !_speed.specifyFlightSpeed || !_speed.flightSpeed) {
-            return 5.0;
-        }
-        var v = _speed.flightSpeed.rawValue;
-        return isNaN(v) ? 5.0 : v;
-    }
-
-    function getSpeedEnabled() {
-        return _speed ? _speed.specifyFlightSpeed : false;
-    }
-
-    function setSpeedEnabled(enabled) {
-        if (_speed) {
-            _speed.specifyFlightSpeed = enabled;
-        }
-    }
-
-    function setSpeedValue(val) {
-        if (_speed && _speed.flightSpeed) {
-            _speed.flightSpeed.rawValue = val;
-        }
-    }
-
-    QGCFlickable {
-        anchors.fill: parent
-        anchors.margins: ScreenTools.defaultFontPixelWidth
-        clip: true
-        flickableDirection: Flickable.VerticalFlick
-        contentHeight: contentColumn.height
-
-        ColumnLayout {
-            id: contentColumn
-            width: parent.width
-            spacing: ScreenTools.defaultFontPixelHeight / 2
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Command")
-                }
-                Item { Layout.fillWidth: true }
-
-                Item {
-                    id: commandPicker
-                    Layout.preferredWidth: commandInnerLayout.width
-                    Layout.preferredHeight: ScreenTools.implicitComboBoxHeight
-
-                    RowLayout {
-                        id: commandInnerLayout
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: ScreenTools.comboBoxPadding
-
-                        QGCLabel {
-                            text: missionItem ? missionItem.commandName : ""
-                        }
-
-                        QGCColoredImage {
-                            height: ScreenTools.defaultFontPixelWidth
-                            width: height
-                            fillMode: Image.PreserveAspectFit
-                            smooth: true
-                            antialiasing: true
-                            color: qgcPal.text
-                            source: "/qmlimages/arrow-down.png"
-                        }
-                    }
-
-                    QGCMouseArea {
-                        fillItem: parent
-                        onClicked: {
-                            if (missionItem && missionItem.isSimpleItem) {
-                                commandDialog.createObject(mainWindow).open()
-                            }
-                        }
-                    }
-
-                    Component {
-                        id: commandDialog
-
-                        MissionCommandDialog {
-                            vehicle:                    _masterController ? _masterController.controllerVehicle : null
-                            missionItem:                rootLayout.missionItem
-                            map:                        rootLayout.flightMap
-                            flyThroughCommandsAllowed:  true
-                        }
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Longitude")
-                }
-                Item { Layout.fillWidth: true }
-                QGCTextField {
-                    id: lonField
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
-                    horizontalAlignment: Text.AlignRight
-                    text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.longitude) ? missionItem.coordinate.longitude.toFixed(7) : "0"
-                    onEditingFinished: {
-                        var val = parseFloat(text);
-                        if (!isNaN(val) && missionItem && missionItem.coordinate) {
-                            var coord = missionItem.coordinate;
-                            missionItem.coordinate = QtPositioning.coordinate(
-                                isNaN(coord.latitude) ? 0 : coord.latitude,
-                                val,
-                                isNaN(coord.altitude) ? 0 : coord.altitude);
-                        }
-                    }
-                }
-
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Latitude")
-                }
-                Item { Layout.fillWidth: true }
-
-                QGCTextField {
-                    id: latField
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 14
-                    horizontalAlignment: Text.AlignRight
-                    text: missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.latitude) ? missionItem.coordinate.latitude.toFixed(7) : "0"
-                    onEditingFinished: {
-                        var val = parseFloat(text);
-                        if (!isNaN(val) && missionItem && missionItem.coordinate) {
-                            var coord = missionItem.coordinate;
-                            missionItem.coordinate = QtPositioning.coordinate(
-                                val,
-                                isNaN(coord.longitude) ? 0 : coord.longitude,
-                                isNaN(coord.altitude) ? 0 : coord.altitude);
-                        }
-                    }
-                }
-
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Altitude")
-                }
-                Item { Layout.fillWidth: true }
-                QGCButton {
-                    text: "-10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        var c = getCoord();
-                        setCoord(NaN, NaN, c.altitude - 10);
-                    }
-                }
-                QGCButton {
-                    text: "+10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        var c = getCoord();
-                        setCoord(NaN, NaN, c.altitude + 10);
-                    }
-                }
-                FactTextField {
-                    id: altField
-                    fact: missionItem ? missionItem.altitude : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCCheckBox {
-                    id: speedCheckBox
-                    checked: _speed ? _speed.specifyFlightSpeed : false
-                    onClicked: {
-                        if (_speed) {
-                            _speed.specifyFlightSpeed = checked;
-                        }
-                    }
-                    visible: _speed ? _speed.available : false
-                }
-                QGCLabel {
-                    text: qsTr("Speed")
-                }
-                Item { Layout.fillWidth: true }
-                QGCButton {
-                    text: "-1"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    enabled: speedCheckBox.checked
-                    onClicked: {
-                        if (_speed && _speed.flightSpeed) {
-                            _speed.specifyFlightSpeed = true;
-                            var v = _speed.flightSpeed.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _speed.flightSpeed.rawValue = Math.max(0, cur - 1);
-                        }
-                    }
-                }
-                QGCButton {
-                    text: "+1"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    enabled: speedCheckBox.checked
-                    onClicked: {
-                        if (_speed && _speed.flightSpeed) {
-                            _speed.specifyFlightSpeed = true;
-                            var v = _speed.flightSpeed.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _speed.flightSpeed.rawValue = cur + 1;
-                        }
-                    }
-                }
-                FactTextField {
-                    id: speedField
-                    fact: _speed ? _speed.flightSpeed : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    enabled: speedCheckBox.checked
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Camera Action")
-                }
-                Item { Layout.fillWidth: true }
-                QGCComboBox {
-                    id: cameraActionCombo
-                    model: _cameraActionModel
-                    textRole: "text"
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
-                    currentIndex: {
-                        if (!_camera)
-                            return 0;
-                        var rawVal = _camera.cameraAction.rawValue;
-                        for (var i = 0; i < _cameraActionModel.length; i++) {
-                            if (_cameraActionModel[i].value == rawVal)
-                                return i;
-                        }
-                        return 0;
-                    }
-                    onActivated: {
-                        if (_camera && currentIndex >= 0) {
-                            _camera.cameraAction.rawValue = _cameraActionModel[currentIndex].value;
-                        }
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                QGCLabel {
-                    text: qsTr("Gimbal")
-                }
-                Item { Layout.fillWidth: true }
-                QGCCheckBoxSlider {
-                    id: gimbalCheckBox
-                    checked: _camera ? _camera.specifyGimbal : false
-                    onClicked: {
-                        if (_camera) {
-                            _camera.specifyGimbal = checked;
-                        }
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                visible: gimbalCheckBox.checked
-
-                QGCLabel {
-                    text: qsTr("Pitch")
-                }
-                Item { Layout.fillWidth: true }
-                QGCButton {
-                    text: "-10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        if (_camera && _camera.gimbalPitch) {
-                            var v = _camera.gimbalPitch.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _camera.gimbalPitch.rawValue = Math.max(-90, cur - 10);
-                        }
-                    }
-                }
-                QGCButton {
-                    text: "+10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        if (_camera && _camera.gimbalPitch) {
-                            var v = _camera.gimbalPitch.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _camera.gimbalPitch.rawValue = Math.min(0, cur + 10);
-                        }
-                    }
-                }
-                QGCTextField {
-                    id: gimbalPitchField
-                    text: _camera && _camera.gimbalPitch ? _camera.gimbalPitch.rawValue.toString() : ""
-                    numericValuesOnly: true
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    onEditingFinished: {
-                        var rawText = text.trim();
-                        var rawValue = Number(rawText);
-                        if (rawText.length > 0 && !isNaN(rawValue) && rawValue >= -90 && rawValue <= 0) {
-                            clearValidationError();
-                            _camera.gimbalPitch.rawValue = rawValue;
-                        } else {
-                            var previousValue = _camera && _camera.gimbalPitch
-                                ? _camera.gimbalPitch.rawValue.toString()
-                                : "0";
-                            showValidationError(qsTr("Value must be between -90 and 0."), previousValue);
-                        }
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                visible: gimbalCheckBox.checked
-
-                QGCLabel {
-                    text: qsTr("Yaw")
-                }
-                Item { Layout.fillWidth: true }
-                QGCButton {
-                    text: "-10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        if (_camera && _camera.gimbalYaw) {
-                            var v = _camera.gimbalYaw.rawValue;
-                            var cur = isNaN(v) ? 0 : v;
-                            _camera.gimbalYaw.rawValue = Math.max(-180, cur - 10);
-                        }
-                    }
-                }
-                QGCButton {
-                    text: "+10"
-                    _horizontalPadding: 0
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                        if (_camera && _camera.gimbalYaw) {
-                            _camera.gimbalYaw.rawValue = Math.min(180, _camera.gimbalYaw.rawValue + 10);
-                        }
-                    }
-                }
-                FactTextField {
-                    id: gimbalYawField
-                    fact: _camera ? _camera.gimbalYaw : null
-                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                }
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
+        function onCommandChanged() {
+            editorFlickable.contentY = 0
         }
     }
 }

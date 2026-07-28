@@ -12,6 +12,7 @@ CheckBox {
     property color  textColor:          _qgcPal.text
     property bool   textBold:           false
     property real   textFontPointSize:  ScreenTools.defaultFontPointSize
+    property color  indicatorBorderColor: _qgcPal.text
 
     property var    _qgcPal: QGCPalette { colorGroupEnabled: enabled }
     property bool   _noText: text === ""
@@ -41,7 +42,7 @@ CheckBox {
         x:              control.leftPadding
         y:              parent.height / 2 - height / 2
         color:          control.enabled ? "white" : _qgcPal.text
-        border.color:   _qgcPal.text
+        border.color:   control.indicatorBorderColor
         border.width:   1
         radius:         ScreenTools.buttonBorderRadius
         opacity:        control.checkedState === Qt.PartiallyChecked ? 0.5 : 1
