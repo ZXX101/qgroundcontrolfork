@@ -168,7 +168,7 @@ Item {
 
             RowLayout {
                 Layout.fillWidth: true
-
+                visible: false
                 QGCLabel {
                     text: qsTr("Flight Speed")
                 }
@@ -544,6 +544,15 @@ Item {
                 font.pointSize: ScreenTools.smallFontPointSize
                 color: qgcPal.text
             }
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: qgcPal.windowShade
+            }
+
+            //信息区域
+            
 
             Item {
                 Layout.fillHeight: true

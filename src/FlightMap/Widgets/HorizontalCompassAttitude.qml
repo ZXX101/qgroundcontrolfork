@@ -24,7 +24,7 @@ Rectangle {
     width:  mainRow.width + (_margin * 2)
     height: control._widgetSize + (_margin * 2)
     radius: height / 2  // 跑道形背景，两侧为半圆
-    color:  qgcPal.window
+    color:  Qt.rgba(qgcPal.window.r, qgcPal.window.g, qgcPal.window.b, 0.74)
 
     property real extraInset:           0
     property real extraValuesWidth:     dataPanel.implicitWidth
