@@ -134,7 +134,7 @@ Item {
     onMissionItemChanged: editorFlickable.contentY = 0
 
     Connections {
-        target: missionItem
+        target: missionItem && missionItem.isSimpleItem ? missionItem : null
 
         function onCommandChanged() {
             editorFlickable.contentY = 0

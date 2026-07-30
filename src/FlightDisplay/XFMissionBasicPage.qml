@@ -26,7 +26,9 @@ Item {
         color: "#101010"
     }
 
-    QGCPalette { id: qgcPal }
+    QGCPalette {
+        id: qgcPal
+    }
 
     property var _appSettings: QGroundControl.settingsManager.appSettings
     property var _defaultAltitude: _appSettings ? _appSettings.defaultMissionItemAltitude : null
@@ -40,60 +42,84 @@ Item {
 
     property bool _hasFences: geoFenceController && (geoFenceController.polygons.count > 0 || geoFenceController.circles.count > 0)
 
+    property real _missionPlannedDistance: missionController ? missionController.missionPlannedDistance : NaN
+    property real _missionMaxTelemetry: missionController ? missionController.missionMaxTelemetry : NaN
+    property real _missionTime: missionController ? missionController.missionTime : 0
+
+    property string _missionPlannedDistanceText: isNaN(_missionPlannedDistance) ? "-.-" : QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(_missionPlannedDistance).toFixed(0) + " " + QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsString
+    property string _missionMaxTelemetryText: isNaN(_missionMaxTelemetry) ? "-.-" : QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(_missionMaxTelemetry).toFixed(0) + " " + QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsString
+
+    function _getMissionTime() {
+        if (!_missionTime)
+            return "00:00:00";
+        var t = new Date(2021, 0, 0, 0, 0, Number(_missionTime));
+        var days = Qt.formatDateTime(t, 'dd');
+        if (days == 31) {
+            days = '0';
+            return Qt.formatTime(t, 'hh:mm:ss');
+        } else {
+            return days + " days " + Qt.formatTime(t, 'hh:mm:ss');
+        }
+    }
+
     function _selectFenceForEdit(index, type) {
         if (editingFenceIndex === index && editingFenceType === type) {
-            editingFenceIndex = -1
-            editingFenceType = -1
-            if (geoFenceController) geoFenceController.clearAllInteractive()
+            editingFenceIndex = -1;
+            editingFenceType = -1;
+            if (geoFenceController)
+                geoFenceController.clearAllInteractive();
         } else {
-            editingFenceIndex = index
-            editingFenceType = type
-            if (geoFenceController) geoFenceController.clearAllInteractive()
+            editingFenceIndex = index;
+            editingFenceType = type;
+            if (geoFenceController)
+                geoFenceController.clearAllInteractive();
             if (type === 0 && geoFenceController && index < geoFenceController.polygons.count) {
-                geoFenceController.polygons.get(index).interactive = true
+                geoFenceController.polygons.get(index).interactive = true;
             } else if (type === 1 && geoFenceController && index < geoFenceController.circles.count) {
-                geoFenceController.circles.get(index).interactive = true
+                geoFenceController.circles.get(index).interactive = true;
             }
         }
     }
 
     on_HasFencesChanged: {
         if (!_hasFences) {
-            editingFenceIndex = -1
-            editingFenceType = -1
+            editingFenceIndex = -1;
+            editingFenceType = -1;
         }
     }
 
     function _addFencePolygon() {
-        if (!geoFenceController || !flightMap) return
-        var topLeftCoord, bottomRightCoord
+        if (!geoFenceController || !flightMap)
+            return;
+        var topLeftCoord, bottomRightCoord;
         if (flightMap.centerViewport) {
-            var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height)
-            topLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y), false)
-            bottomRightCoord = flightMap.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height), false)
+            var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height);
+            topLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y), false);
+            bottomRightCoord = flightMap.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height), false);
         } else {
-            var center = flightMap.center
-            topLeftCoord = center.atDistanceAndAzimuth(1500, -45)
-            bottomRightCoord = center.atDistanceAndAzimuth(1500, 135)
+            var center = flightMap.center;
+            topLeftCoord = center.atDistanceAndAzimuth(1500, -45);
+            bottomRightCoord = center.atDistanceAndAzimuth(1500, 135);
         }
-        geoFenceController.addInclusionPolygon(topLeftCoord, bottomRightCoord)
-        _selectFenceForEdit(geoFenceController.polygons.count - 1, 0)
+        geoFenceController.addInclusionPolygon(topLeftCoord, bottomRightCoord);
+        _selectFenceForEdit(geoFenceController.polygons.count - 1, 0);
     }
 
     function _addFenceCircle() {
-        if (!geoFenceController || !flightMap) return
-        var topLeftCoord, bottomRightCoord
+        if (!geoFenceController || !flightMap)
+            return;
+        var topLeftCoord, bottomRightCoord;
         if (flightMap.centerViewport) {
-            var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height)
-            topLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y), false)
-            bottomRightCoord = flightMap.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height), false)
+            var rect = Qt.rect(flightMap.centerViewport.x, flightMap.centerViewport.y, flightMap.centerViewport.width, flightMap.centerViewport.height);
+            topLeftCoord = flightMap.toCoordinate(Qt.point(rect.x, rect.y), false);
+            bottomRightCoord = flightMap.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height), false);
         } else {
-            var center = flightMap.center
-            topLeftCoord = center.atDistanceAndAzimuth(750, -45)
-            bottomRightCoord = center.atDistanceAndAzimuth(750, 135)
+            var center = flightMap.center;
+            topLeftCoord = center.atDistanceAndAzimuth(750, -45);
+            bottomRightCoord = center.atDistanceAndAzimuth(750, 135);
         }
-        geoFenceController.addInclusionCircle(topLeftCoord, bottomRightCoord)
-        _selectFenceForEdit(geoFenceController.circles.count - 1, 1)
+        geoFenceController.addInclusionCircle(topLeftCoord, bottomRightCoord);
+        _selectFenceForEdit(geoFenceController.circles.count - 1, 1);
     }
 
     QGCFlickable {
@@ -114,12 +140,14 @@ Item {
                 QGCLabel {
                     text: qsTr("Mission Name")
                 }
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
                 QGCTextField {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 16
                     text: missionName
                     onTextChanged: {
-                        missionName = text
+                        missionName = text;
                     }
                 }
             }
@@ -130,7 +158,9 @@ Item {
                 QGCLabel {
                     text: qsTr("Flight Altitude")
                 }
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
                 QGCLabel {
                     text: "m"
                 }
@@ -140,7 +170,7 @@ Item {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_defaultAltitude) {
-                            _defaultAltitude.rawValue = Math.max(0, _defaultAltitude.rawValue - 10)
+                            _defaultAltitude.rawValue = Math.max(0, _defaultAltitude.rawValue - 10);
                         }
                     }
                 }
@@ -150,7 +180,7 @@ Item {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
                     onClicked: {
                         if (_defaultAltitude) {
-                            _defaultAltitude.rawValue = _defaultAltitude.rawValue + 10
+                            _defaultAltitude.rawValue = _defaultAltitude.rawValue + 10;
                         }
                     }
                 }
@@ -160,7 +190,7 @@ Item {
                     horizontalAlignment: Text.AlignRight
                     onEditingFinished: {
                         if (_defaultAltitude) {
-                            _defaultAltitude.rawValue = parseFloat(text)
+                            _defaultAltitude.rawValue = parseFloat(text);
                         }
                     }
                 }
@@ -172,7 +202,9 @@ Item {
                 QGCLabel {
                     text: qsTr("Flight Speed")
                 }
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
                 QGCLabel {
                     text: "m/s"
                 }
@@ -180,15 +212,13 @@ Item {
                     text: "-1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                    }
+                    onClicked: {}
                 }
                 QGCButton {
                     text: "+1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {
-                    }
+                    onClicked: {}
                 }
                 QGCTextField {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
@@ -203,7 +233,9 @@ Item {
                 QGCLabel {
                     text: qsTr("End Action")
                 }
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
                 QGCComboBox {
                     model: [qsTr("RTL"), qsTr("Land"), qsTr("Hover")]
                     currentIndex: 0
@@ -224,7 +256,9 @@ Item {
                     text: qsTr("Insert Fence")
                     font.bold: true
                 }
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 QGCButton {
                     text: "+"
@@ -290,7 +324,9 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Type:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 QGCLabel {
                                     text: qsTr("Polygon")
                                 }
@@ -302,27 +338,29 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Nature:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 QGCRadioButton {
                                     id: polyInclusionRadio
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
                                     property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
                                     indicator: Rectangle {
-                                        implicitWidth:  polyInclusionRadio._indicatorSize
+                                        implicitWidth: polyInclusionRadio._indicatorSize
                                         implicitHeight: polyInclusionRadio._indicatorSize
-                                        radius:         height / 2
-                                        color:          "transparent"
-                                        border.color:   "#1484FC"
-                                        border.width:   1
-                                        x:              polyInclusionRadio.leftPadding
-                                        y:              parent.height / 2 - height / 2
+                                        radius: height / 2
+                                        color: "transparent"
+                                        border.color: "#1484FC"
+                                        border.width: 1
+                                        x: polyInclusionRadio.leftPadding
+                                        y: parent.height / 2 - height / 2
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width:  parent.width * 0.5
+                                            width: parent.width * 0.5
                                             height: width
                                             radius: height / 2
-                                            color:   "#1484FC"
+                                            color: "#1484FC"
                                             visible: polyInclusionRadio.checked
                                         }
                                     }
@@ -334,20 +372,20 @@ Item {
                                     checked: !fenceObject.inclusion
                                     property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
                                     indicator: Rectangle {
-                                        implicitWidth:  polyExclusionRadio._indicatorSize
+                                        implicitWidth: polyExclusionRadio._indicatorSize
                                         implicitHeight: polyExclusionRadio._indicatorSize
-                                        radius:         height / 2
-                                        color:          "transparent"
-                                        border.color:   "#1484FC"
-                                        border.width:   1
-                                        x:              polyExclusionRadio.leftPadding
-                                        y:              parent.height / 2 - height / 2
+                                        radius: height / 2
+                                        color: "transparent"
+                                        border.color: "#1484FC"
+                                        border.width: 1
+                                        x: polyExclusionRadio.leftPadding
+                                        y: parent.height / 2 - height / 2
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width:  parent.width * 0.5
+                                            width: parent.width * 0.5
                                             height: width
                                             radius: height / 2
-                                            color:   "#1484FC"
+                                            color: "#1484FC"
                                             visible: polyExclusionRadio.checked
                                         }
                                     }
@@ -361,7 +399,9 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Vertices:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 QGCLabel {
                                     text: fenceObject.count
                                 }
@@ -375,7 +415,7 @@ Item {
 
                         Image {
                             z: 1
-                            height: ScreenTools.minTouchPixels* 0.7
+                            height: ScreenTools.minTouchPixels * 0.7
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
@@ -387,7 +427,8 @@ Item {
                             QGCMouseArea {
                                 fillItem: parent
                                 onClicked: {
-                                    if (geoFenceController) geoFenceController.deletePolygon(fenceIndex)
+                                    if (geoFenceController)
+                                        geoFenceController.deletePolygon(fenceIndex);
                                 }
                             }
                         }
@@ -432,7 +473,9 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Type:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 QGCLabel {
                                     text: qsTr("Circle")
                                 }
@@ -444,27 +487,29 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Nature:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 QGCRadioButton {
                                     id: circleInclusionRadio
                                     text: qsTr("Inclusion")
                                     checked: fenceObject.inclusion
                                     property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
                                     indicator: Rectangle {
-                                        implicitWidth:  circleInclusionRadio._indicatorSize
+                                        implicitWidth: circleInclusionRadio._indicatorSize
                                         implicitHeight: circleInclusionRadio._indicatorSize
-                                        radius:         height / 2
-                                        color:          "transparent"
-                                        border.color:   "#1484FC"
-                                        border.width:   1
-                                        x:              circleInclusionRadio.leftPadding
-                                        y:              parent.height / 2 - height / 2
+                                        radius: height / 2
+                                        color: "transparent"
+                                        border.color: "#1484FC"
+                                        border.width: 1
+                                        x: circleInclusionRadio.leftPadding
+                                        y: parent.height / 2 - height / 2
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width:  parent.width * 0.5
+                                            width: parent.width * 0.5
                                             height: width
                                             radius: height / 2
-                                            color:   "#1484FC"
+                                            color: "#1484FC"
                                             visible: circleInclusionRadio.checked
                                         }
                                     }
@@ -476,20 +521,20 @@ Item {
                                     checked: !fenceObject.inclusion
                                     property real _indicatorSize: ScreenTools.defaultFontPixelWidth * 2
                                     indicator: Rectangle {
-                                        implicitWidth:  circleExclusionRadio._indicatorSize
+                                        implicitWidth: circleExclusionRadio._indicatorSize
                                         implicitHeight: circleExclusionRadio._indicatorSize
-                                        radius:         height / 2
-                                        color:          "transparent"
-                                        border.color:   "#1484FC"
-                                        border.width:   1
-                                        x:              circleExclusionRadio.leftPadding
-                                        y:              parent.height / 2 - height / 2
+                                        radius: height / 2
+                                        color: "transparent"
+                                        border.color: "#1484FC"
+                                        border.width: 1
+                                        x: circleExclusionRadio.leftPadding
+                                        y: parent.height / 2 - height / 2
                                         Rectangle {
                                             anchors.centerIn: parent
-                                            width:  parent.width * 0.5
+                                            width: parent.width * 0.5
                                             height: width
                                             radius: height / 2
-                                            color:   "#1484FC"
+                                            color: "#1484FC"
                                             visible: circleExclusionRadio.checked
                                         }
                                     }
@@ -503,7 +548,9 @@ Item {
                                 QGCLabel {
                                     text: qsTr("Radius:")
                                 }
-                                Item { Layout.fillWidth: true }
+                                Item {
+                                    Layout.fillWidth: true
+                                }
                                 FactTextField {
                                     fact: fenceObject.radius
                                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
@@ -518,7 +565,7 @@ Item {
 
                         Image {
                             z: 1
-                            height: ScreenTools.minTouchPixels* 0.7
+                            height: ScreenTools.minTouchPixels * 0.7
                             width: height
                             sourceSize.height: height
                             fillMode: Image.PreserveAspectFit
@@ -530,7 +577,8 @@ Item {
                             QGCMouseArea {
                                 fillItem: parent
                                 onClicked: {
-                                    if (geoFenceController) geoFenceController.deleteCircle(fenceIndex)
+                                    if (geoFenceController)
+                                        geoFenceController.deleteCircle(fenceIndex);
                                 }
                             }
                         }
@@ -550,10 +598,74 @@ Item {
                 height: 1
                 color: qgcPal.windowShade
             }
+            ColumnLayout {
+                Layout.fillWidth: true
+                QGCLabel {
+                    text: qsTr("Global Info")
+                    font.bold: true
+                }
+                //信息区域
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: infoColumn.height + ScreenTools.defaultFontPixelHeight
+                    color: "black"
+                    radius: ScreenTools.defaultFontPixelWidth / 4
+                    border.width: 1
+                    border.color: qgcPal.windowShade
 
-            //信息区域
-            
+                    ColumnLayout {
+                        id: infoColumn
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: ScreenTools.defaultFontPixelWidth / 2
+                        anchors.rightMargin: ScreenTools.minTouchPixels / 2
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: ScreenTools.defaultFontPixelHeight / 4
 
+                        RowLayout {
+                            Layout.fillWidth: true
+
+                            QGCLabel {
+                                text: qsTr("Distance:")
+                            }
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                            QGCLabel {
+                                text: _missionPlannedDistanceText
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+
+                            QGCLabel {
+                                text: qsTr("Max Telemetry Distance:")
+                            }
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                            QGCLabel {
+                                text: _missionMaxTelemetryText
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+
+                            QGCLabel {
+                                text: qsTr("Time:")
+                            }
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                            QGCLabel {
+                                text: _getMissionTime()
+                            }
+                        }
+                    }
+                }
+            }
             Item {
                 Layout.fillHeight: true
             }
