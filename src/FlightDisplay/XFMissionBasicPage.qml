@@ -33,6 +33,7 @@ Item {
     property var _appSettings: QGroundControl.settingsManager.appSettings
     property var _defaultAltitude: _appSettings ? _appSettings.defaultMissionItemAltitude : null
     property var _missionSettings: missionController && missionController.visualItems.count > 0 ? missionController.visualItems.get(0) : null
+    property bool _updatingFlightSpeedText: false
     property string missionName: "Mission"
     property var geoFenceController: null
     property var flightMap: null
@@ -48,6 +49,32 @@ Item {
 
     property string _missionPlannedDistanceText: isNaN(_missionPlannedDistance) ? "-.-" : QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(_missionPlannedDistance).toFixed(0) + " " + QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsString
     property string _missionMaxTelemetryText: isNaN(_missionMaxTelemetry) ? "-.-" : QGroundControl.unitsConversion.metersToAppSettingsHorizontalDistanceUnits(_missionMaxTelemetry).toFixed(0) + " " + QGroundControl.unitsConversion.appSettingsHorizontalDistanceUnitsString
+
+    function _syncFlightSpeedText() {
+        if (!missionController || !flightSpeedField)
+            return;
+        var speed = missionController.basicFlightSpeed;
+        if (!isNaN(speed) && speed > 0) {
+            _updatingFlightSpeedText = true;
+            flightSpeedField.text = Number(speed).toFixed(1);
+            _updatingFlightSpeedText = false;
+        }
+    }
+
+    Component.onCompleted: {
+        if (missionController) {
+            missionController.ensureBasicFlightSpeedItem();
+            _syncFlightSpeedText();
+        }
+    }
+
+    Connections {
+        target: missionController
+
+        function onBasicFlightSpeedChanged() {
+            _syncFlightSpeedText();
+        }
+    }
 
     function _getMissionTime() {
         if (!_missionTime)
@@ -198,7 +225,14 @@ Item {
 
             RowLayout {
                 Layout.fillWidth: true
-                visible: false
+                visible: true
+                QGCCheckBox {
+                    checked: missionController ? missionController.basicFlightSpeedEnabled : false
+                    onClicked: {
+                        if (missionController)
+                            missionController.basicFlightSpeedEnabled = checked;
+                    }
+                }
                 QGCLabel {
                     text: qsTr("Flight Speed")
                 }
@@ -212,18 +246,36 @@ Item {
                     text: "-1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {}
+                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
+                    onClicked: {
+                        if (missionController)
+                            missionController.basicFlightSpeed = Math.max(0.1, missionController.basicFlightSpeed - 1);
+                    }
                 }
                 QGCButton {
                     text: "+1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    onClicked: {}
+                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
+                    onClicked: {
+                        if (missionController)
+                            missionController.basicFlightSpeed = missionController.basicFlightSpeed + 1;
+                    }
                 }
                 QGCTextField {
+                    id: flightSpeedField
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
-                    text: "10"
+                    text: "--"
+                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
                     horizontalAlignment: Text.AlignRight
+                    onEditingFinished: {
+                        if (_updatingFlightSpeedText || !missionController)
+                            return;
+                        var speed = Number(text);
+                        if (!isNaN(speed) && speed > 0)
+                            missionController.basicFlightSpeed = speed;
+                        _syncFlightSpeedText();
+                    }
                 }
             }
 

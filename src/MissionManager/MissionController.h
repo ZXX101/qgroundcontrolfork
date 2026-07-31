@@ -116,11 +116,16 @@ public:
     Q_PROPERTY(bool                 flyThroughCommandsAllowed       MEMBER _flyThroughCommandsAllowed   NOTIFY flyThroughCommandsAllowedChanged)
     Q_PROPERTY(double               minAMSLAltitude                 MEMBER _minAMSLAltitude             NOTIFY minAMSLAltitudeChanged)          ///< Minimum altitude associated with this mission. Used to calculate percentages for terrain status.
     Q_PROPERTY(double               maxAMSLAltitude                 MEMBER _maxAMSLAltitude             NOTIFY maxAMSLAltitudeChanged)          ///< Maximum altitude associated with this mission. Used to calculate percentages for terrain status.
+    Q_PROPERTY(bool                 basicFlightSpeedEnabled         READ basicFlightSpeedEnabled        WRITE setBasicFlightSpeedEnabled        NOTIFY basicFlightSpeedChanged)
+    Q_PROPERTY(double               basicFlightSpeed                READ basicFlightSpeed               WRITE setBasicFlightSpeed               NOTIFY basicFlightSpeedChanged)
+    Q_PROPERTY(int                  speedProfileRevision             READ speedProfileRevision                                            NOTIFY speedProfileRevisionChanged)
 
     Q_PROPERTY(QGroundControlQmlGlobal::AltMode globalAltitudeMode         READ globalAltitudeMode         WRITE setGlobalAltitudeMode NOTIFY globalAltitudeModeChanged)
     Q_PROPERTY(QGroundControlQmlGlobal::AltMode globalAltitudeModeDefault  READ globalAltitudeModeDefault  NOTIFY globalAltitudeModeChanged)                               ///< Default to use for newly created items
 
     Q_INVOKABLE void removeVisualItem(int viIndex);
+    Q_INVOKABLE void ensureBasicFlightSpeedItem(void);
+    Q_INVOKABLE double effectiveFlightSpeed(VisualMissionItem* missionItem) const;
 
     /// Add a new simple mission item to the list
     ///     @param coordinate: Coordinate for item
@@ -243,6 +248,11 @@ public:
     bool                multipleLandPatternsAllowed (void) const;
     double              minAMSLAltitude             (void) const { return _minAMSLAltitude; }
     double              maxAMSLAltitude             (void) const { return _maxAMSLAltitude; }
+    bool                basicFlightSpeedEnabled     (void) const;
+    double              basicFlightSpeed            (void) const;
+    int                 speedProfileRevision        (void) const { return _speedProfileRevision; }
+    void                setBasicFlightSpeedEnabled  (bool enabled);
+    void                setBasicFlightSpeed         (double speed);
 
     int missionItemCount            (void) const { return _missionItemCount; }
     int currentMissionIndex         (void) const;
@@ -307,6 +317,8 @@ signals:
     void previousCoordinateChanged          (void);
     void minAMSLAltitudeChanged             (double minAMSLAltitude);
     void maxAMSLAltitudeChanged             (double maxAMSLAltitude);
+    void basicFlightSpeedChanged            (void);
+    void speedProfileRevisionChanged        (void);
     void recalcTerrainProfile               (void);
     void _recalcMissionFlightStatusSignal   (void);
     void _recalcFlightPathSegmentsSignal    (void);
@@ -367,6 +379,8 @@ private:
     FlightPathSegment*      _createFlightPathSegmentWorker      (VisualItemPair& pair, bool mavlinkTerrainFrame);
     void                    _allItemsRemoved                    (void);
     void                    _firstItemAdded                     (void);
+    SimpleMissionItem*      _basicFlightSpeedItem               (void) const;
+    void                    _speedProfileChanged                (void);
 
     static double           _calcDistanceToHome                 (VisualMissionItem* currentItem, VisualMissionItem* homeItem);
     static double           _normalizeLat                       (double lat);
@@ -412,6 +426,8 @@ private:
     double                      _minAMSLAltitude =              0;
     double                      _maxAMSLAltitude =              0;
     bool                        _missionContainsVTOLTakeoff =   false;
+    double                      _basicFlightSpeedValue =        qQNaN();
+    int                         _speedProfileRevision =         0;
 
     QGroundControlQmlGlobal::AltMode _globalAltMode = QGroundControlQmlGlobal::AltitudeModeRelative;
 

@@ -25,6 +25,8 @@ Rectangle {
     border.color:       qgcPal.windowShade
 
     property var        missionItem
+    property real       effectiveSpeed: NaN
+    property int        speedProfileRevision: 0
     readonly property real deleteButtonWidth: waypointDeleteBtn.implicitWidth
 
     signal waypointClicked(int sequenceNumber)
@@ -65,7 +67,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       (missionItem && missionItem.coordinate && !isNaN(missionItem.coordinate.altitude)) ? missionItem.coordinate.altitude.toFixed(1) + " m" : "-- m"
+                    text:       (missionItem && missionItem.isSimpleItem && missionItem.altitude && !isNaN(missionItem.altitude.value)) ? Number(missionItem.altitude.value).toFixed(1) + " m" : "-- m"
                     font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }
@@ -79,7 +81,7 @@ Rectangle {
                     color:      qgcPal.text
                 }
                 QGCLabel {
-                    text:       (missionItem && !isNaN(missionItem.speed)) ? missionItem.speed.toFixed(1) + " m/s" : "-- m/s"
+                    text:       !isNaN(effectiveSpeed) ? Number(effectiveSpeed).toFixed(1) + " m/s" : "-- m/s"
                     font.pointSize: ScreenTools.defaultFontPointSize
                 }
             }

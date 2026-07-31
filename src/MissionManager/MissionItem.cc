@@ -450,9 +450,8 @@ void MissionItem::_param2Changed(QVariant value)
 {
     Q_UNUSED(value);
 
-    double flightSpeed = specifiedFlightSpeed();
-    if (!qIsNaN(flightSpeed)) {
-        emit specifiedFlightSpeedChanged(flightSpeed);
+    if (command() == MAV_CMD_DO_CHANGE_SPEED) {
+        emit specifiedFlightSpeedChanged(specifiedFlightSpeed());
     }
 }
 

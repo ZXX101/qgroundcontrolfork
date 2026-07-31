@@ -158,6 +158,7 @@ void MissionController::_newMissionItemsAvailableFromVehicle(bool removeAllReque
         _visualItems  = nullptr;
         _settingsItem = nullptr;
         _takeoffMissionItem = nullptr;
+        _basicFlightSpeedValue = qQNaN();
         _updateContainsItems(); // This will clear containsItems which will be set again below. This will re-pop Start Mission confirmation.
 
         QmlObjectListModel* newControllerMissionItems = new QmlObjectListModel(this);
@@ -201,6 +202,7 @@ void MissionController::_newMissionItemsAvailableFromVehicle(bool removeAllReque
         MissionController::_scanForAdditionalSettings(_visualItems, _masterController);
 
         _initAllVisualItems();
+        ensureBasicFlightSpeedItem();
         _updateContainsItems();
         emit newItemsFromVehicle();
     }
@@ -306,6 +308,13 @@ int MissionController::_nextSequenceNumber(void)
 
 VisualMissionItem* MissionController::_insertSimpleMissionItemWorker(QGeoCoordinate coordinate, MAV_CMD command, int visualItemIndex, bool makeCurrentItem)
 {
+    if (command != MAV_CMD_DO_CHANGE_SPEED) {
+        SimpleMissionItem* basicSpeedItem = _basicFlightSpeedItem();
+        if (basicSpeedItem && visualItemIndex == _visualItems->indexOf(basicSpeedItem)) {
+            ++visualItemIndex;
+        }
+    }
+
     int sequenceNumber = _nextSequenceNumber();
     SimpleMissionItem * newItem = new SimpleMissionItem(_masterController, _flyView, false /* forLoad */);
     newItem->setSequenceNumber(sequenceNumber);
@@ -380,8 +389,176 @@ VisualMissionItem* MissionController::insertTakeoffItem(QGeoCoordinate /*coordin
     }
 
     _firstItemAdded();
+    ensureBasicFlightSpeedItem();
 
     return _takeoffMissionItem;
+}
+
+SimpleMissionItem* MissionController::_basicFlightSpeedItem(void) const
+{
+    if (!_visualItems || !_takeoffMissionItem) {
+        return nullptr;
+    }
+
+    const int takeoffIndex = _visualItems->indexOf(_takeoffMissionItem);
+    if (takeoffIndex < 0 || takeoffIndex + 1 >= _visualItems->count()) {
+        return nullptr;
+    }
+
+    SimpleMissionItem* item = _visualItems->value<SimpleMissionItem*>(takeoffIndex + 1);
+    if (!item || item->command() != MAV_CMD_DO_CHANGE_SPEED) {
+        return nullptr;
+    }
+
+    const MissionItem& mavItem = item->missionItem();
+    const double speed = mavItem.param2();
+    const double expectedSpeedType = _controllerVehicle->multiRotor() ? 1 : 0;
+    const bool standardCommand = mavItem.frame() == MAV_FRAME_MISSION
+        && mavItem.param1() == expectedSpeedType
+        && (speed == -2 || speed > 0)
+        && mavItem.param3() == -1
+        && mavItem.param4() == 0
+        && mavItem.param5() == 0
+        && mavItem.param6() == 0
+        && mavItem.param7() == 0;
+    return standardCommand ? item : nullptr;
+}
+
+void MissionController::ensureBasicFlightSpeedItem(void)
+{
+    if (_flyView || !_takeoffMissionItem || _basicFlightSpeedItem()) {
+        emit basicFlightSpeedChanged();
+        return;
+    }
+
+    const int takeoffIndex = _visualItems->indexOf(_takeoffMissionItem);
+    if (takeoffIndex < 0) {
+        return;
+    }
+
+    SimpleMissionItem* item = qobject_cast<SimpleMissionItem*>(
+        _insertSimpleMissionItemWorker(QGeoCoordinate(), MAV_CMD_DO_CHANGE_SPEED, takeoffIndex + 1, false));
+    if (!item) {
+        return;
+    }
+
+    MissionItem& mavItem = item->missionItem();
+    mavItem.setFrame(MAV_FRAME_MISSION);
+    mavItem.setParam1(_controllerVehicle->multiRotor() ? 1 : 0);
+    mavItem.setParam3(-1);
+    mavItem.setParam4(0);
+    mavItem.setParam5(0);
+    mavItem.setParam6(0);
+    mavItem.setParam7(0);
+    // Set speed last. Its change signal revalidates the complete command.
+    mavItem.setParam2(-2);
+
+    if (qIsNaN(_basicFlightSpeedValue)) {
+        _basicFlightSpeedValue = _controllerVehicle->multiRotor()
+            ? _controllerVehicle->defaultHoverSpeed()
+            : _controllerVehicle->defaultCruiseSpeed();
+    }
+    emit basicFlightSpeedChanged();
+}
+
+bool MissionController::basicFlightSpeedEnabled(void) const
+{
+    const SimpleMissionItem* item = _basicFlightSpeedItem();
+    return item && item->missionItem().param2() > 0;
+}
+
+double MissionController::basicFlightSpeed(void) const
+{
+    const SimpleMissionItem* item = _basicFlightSpeedItem();
+    if (item && item->missionItem().param2() > 0) {
+        return item->missionItem().param2();
+    }
+    if (!qIsNaN(_basicFlightSpeedValue)) {
+        return _basicFlightSpeedValue;
+    }
+    return _controllerVehicle->multiRotor()
+        ? _controllerVehicle->defaultHoverSpeed()
+        : _controllerVehicle->defaultCruiseSpeed();
+}
+
+void MissionController::setBasicFlightSpeedEnabled(bool enabled)
+{
+    ensureBasicFlightSpeedItem();
+    SimpleMissionItem* item = _basicFlightSpeedItem();
+    if (!item) {
+        return;
+    }
+
+    if (enabled) {
+        double speed = basicFlightSpeed();
+        if (qIsNaN(speed) || speed <= 0) {
+            speed = 1;
+        }
+        _basicFlightSpeedValue = speed;
+        item->missionItem().setParam2(speed);
+    } else {
+        if (item->missionItem().param2() > 0) {
+            _basicFlightSpeedValue = item->missionItem().param2();
+        }
+        item->missionItem().setParam2(-2);
+    }
+    emit basicFlightSpeedChanged();
+}
+
+void MissionController::setBasicFlightSpeed(double speed)
+{
+    if (qIsNaN(speed) || speed <= 0) {
+        return;
+    }
+
+    ensureBasicFlightSpeedItem();
+    _basicFlightSpeedValue = speed;
+    if (SimpleMissionItem* item = _basicFlightSpeedItem()) {
+        if (item->missionItem().param2() > 0) {
+            item->missionItem().setParam2(speed);
+        }
+    }
+    emit basicFlightSpeedChanged();
+}
+
+double MissionController::effectiveFlightSpeed(VisualMissionItem* missionItem) const
+{
+    if (!_visualItems || !missionItem) {
+        return qQNaN();
+    }
+
+    double activeSpeed = qQNaN();
+    for (int i = 0; i < _visualItems->count(); ++i) {
+        VisualMissionItem* item = _visualItems->value<VisualMissionItem*>(i);
+        SimpleMissionItem* simpleItem = qobject_cast<SimpleMissionItem*>(item);
+
+        if (simpleItem && simpleItem->command() == MAV_CMD_DO_CHANGE_SPEED) {
+            const double speed = simpleItem->missionItem().param2();
+            if (speed == -2) {
+                activeSpeed = qQNaN();
+            } else if (speed > 0) {
+                activeSpeed = speed;
+            }
+        }
+
+        if (item == missionItem) {
+            return activeSpeed;
+        }
+
+        const double itemSpeed = item->specifiedFlightSpeed();
+        if (itemSpeed == -2) {
+            activeSpeed = qQNaN();
+        } else if (!qIsNaN(itemSpeed) && itemSpeed > 0) {
+            activeSpeed = itemSpeed;
+        }
+    }
+    return qQNaN();
+}
+
+void MissionController::_speedProfileChanged(void)
+{
+    ++_speedProfileRevision;
+    emit speedProfileRevisionChanged();
 }
 
 bool MissionController::multipleLandPatternsAllowed(void) const {
@@ -485,6 +662,11 @@ VisualMissionItem* MissionController::insertComplexMissionItemFromKMLOrSHP(QStri
 
 void MissionController::_insertComplexMissionItemWorker(const QGeoCoordinate& mapCenterCoordinate, ComplexMissionItem* complexItem, int visualItemIndex, bool makeCurrentItem)
 {
+    SimpleMissionItem* basicSpeedItem = _basicFlightSpeedItem();
+    if (basicSpeedItem && visualItemIndex == _visualItems->indexOf(basicSpeedItem)) {
+        ++visualItemIndex;
+    }
+
     int sequenceNumber = _nextSequenceNumber();
     bool surveyStyleItem = qobject_cast<SurveyComplexItem*>(complexItem) ||
             qobject_cast<CorridorScanComplexItem*>(complexItem) ||
@@ -548,6 +730,8 @@ void MissionController::removeVisualItem(int viIndex)
     }
 
     bool removeSurveyStyle = _visualItems->value<SurveyComplexItem*>(viIndex) || _visualItems->value<CorridorScanComplexItem*>(viIndex);
+    VisualMissionItem* itemToRemove = _visualItems->value<VisualMissionItem*>(viIndex);
+    SimpleMissionItem* pairedBasicSpeedItem = itemToRemove == _takeoffMissionItem ? _basicFlightSpeedItem() : nullptr;
     VisualMissionItem* item = qobject_cast<VisualMissionItem*>(_visualItems->removeAt(viIndex));
 
     if (item == _takeoffMissionItem) {
@@ -556,6 +740,18 @@ void MissionController::removeVisualItem(int viIndex)
 
     _deinitVisualItem(item);
     item->deleteLater();
+
+    if (pairedBasicSpeedItem) {
+        const int speedIndex = _visualItems->indexOf(pairedBasicSpeedItem);
+        if (speedIndex >= 0) {
+            _visualItems->removeAt(speedIndex);
+            _deinitVisualItem(pairedBasicSpeedItem);
+            pairedBasicSpeedItem->deleteLater();
+        }
+    }
+
+    ensureBasicFlightSpeedItem();
+    _speedProfileChanged();
 
     if (removeSurveyStyle) {
         // Determine if the mission still has another survey style item in it
@@ -610,6 +806,7 @@ void MissionController::removeAll(void)
         _visualItems->deleteLater();
         _settingsItem = nullptr;
         _takeoffMissionItem = nullptr;
+        _basicFlightSpeedValue = qQNaN();
         _visualItems = new QmlObjectListModel(this);
         _addMissionSettings(_visualItems);
         _initAllVisualItems();
@@ -1005,6 +1202,7 @@ void MissionController::_initLoadedVisualItems(QmlObjectListModel* loadedVisualI
     }
     _settingsItem = nullptr;
     _takeoffMissionItem = nullptr;
+    _basicFlightSpeedValue = qQNaN();
 
     _visualItems = loadedVisualItems;
 
@@ -1017,6 +1215,7 @@ void MissionController::_initLoadedVisualItems(QmlObjectListModel* loadedVisualI
     MissionController::_scanForAdditionalSettings(_visualItems, _masterController);
 
     _initAllVisualItems();
+    ensureBasicFlightSpeedItem();
 
     if (_visualItems->count() > 1) {
         _firstItemAdded();
@@ -1689,7 +1888,18 @@ void MissionController::_recalcMissionFlightStatus()
         // Speed, VTOL states changes are processed last since they take affect on the next item
 
         double newSpeed = item->specifiedFlightSpeed();
-        if (!qIsNaN(newSpeed)) {
+        const bool resetToDefaultSpeed = newSpeed == -2
+            || (simpleItem && simpleItem->command() == MAV_CMD_DO_CHANGE_SPEED && simpleItem->missionItem().param2() == -2);
+        if (resetToDefaultSpeed) {
+            if (_controllerVehicle->multiRotor()) {
+                newSpeed = _controllerVehicle->defaultHoverSpeed();
+            } else if (_controllerVehicle->vtol() && _missionFlightStatus.vtolMode == QGCMAVLink::VehicleClassMultiRotor) {
+                newSpeed = _controllerVehicle->defaultHoverSpeed();
+            } else {
+                newSpeed = _controllerVehicle->defaultCruiseSpeed();
+            }
+        }
+        if (!qIsNaN(newSpeed) && newSpeed > 0) {
             if (_controllerVehicle->multiRotor()) {
                 _missionFlightStatus.hoverSpeed = newSpeed;
             } else if (_controllerVehicle->vtol()) {
@@ -1962,6 +2172,10 @@ void MissionController::_initVisualItem(VisualMissionItem* visualItem)
 
     connect(visualItem, &VisualMissionItem::specifiesCoordinateChanged,                 this, &MissionController::_recalcFlightPathSegmentsSignal,  Qt::QueuedConnection);
     connect(visualItem, &VisualMissionItem::specifiedFlightSpeedChanged,                this, &MissionController::_recalcMissionFlightStatusSignal, Qt::QueuedConnection);
+    connect(visualItem, &VisualMissionItem::specifiedFlightSpeedChanged, this, [this, visualItem]() {
+        _speedProfileChanged();
+        ensureBasicFlightSpeedItem();
+    });
     connect(visualItem, &VisualMissionItem::specifiedGimbalYawChanged,                  this, &MissionController::_recalcMissionFlightStatusSignal, Qt::QueuedConnection);
     connect(visualItem, &VisualMissionItem::specifiedGimbalPitchChanged,                this, &MissionController::_recalcMissionFlightStatusSignal, Qt::QueuedConnection);
     connect(visualItem, &VisualMissionItem::specifiedVehicleYawChanged,                 this, &MissionController::_recalcMissionFlightStatusSignal, Qt::QueuedConnection);
@@ -2002,6 +2216,9 @@ void MissionController::_itemCommandChanged(void)
 {
     _recalcChildItems();
     emit _recalcFlightPathSegmentsSignal();
+    emit _recalcMissionFlightStatusSignal();
+    _speedProfileChanged();
+    ensureBasicFlightSpeedItem();
 }
 
 void MissionController::_managerVehicleChanged(Vehicle* managerVehicle)

@@ -66,6 +66,8 @@ Item {
                 id: waypointCardComponent
                 XFMissionWaypointCard {
                     missionItem:    object
+                    speedProfileRevision: missionController ? missionController.speedProfileRevision : 0
+                    effectiveSpeed: missionController && speedProfileRevision >= 0 ? missionController.effectiveFlightSpeed(object) : NaN
                     onWaypointClicked: (sequenceNumber) => {
                         if (missionController) {
                             missionController.setCurrentPlanViewSeqNum(sequenceNumber, false)
