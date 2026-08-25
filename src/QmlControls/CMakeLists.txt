@@ -223,6 +223,8 @@ qt_add_qml_module(QGroundControlControlsModule
         MainStatusIndicator.qml
         MainStatusIndicatorOfflinePage.qml
         PlanViewToolBar.qml
+        RCSignalIndicator.qml
+        RCSignalIndicatorPage.qml
         RemoteIDIndicatorPage.qml
         SignalStrength.qml
         VehicleMessageList.qml

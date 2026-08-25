@@ -6,6 +6,8 @@
     <!-- %%INSERT_PERMISSIONS -->
 
     <uses-permission android:name="android.permission.USB_PERMISSION"/>
+    <!-- 云卓RCSDK需要网络访问(链路状态查询/云台通讯走本机回环网段) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Need MulticastLock to receive broadcast UDP packets -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
     <!-- Needed to keep working while 'asleep' -->

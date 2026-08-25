@@ -165,6 +165,12 @@ Rectangle {
         z:                      1
         spacing:                ScreenTools.defaultFontPixelWidth
 
+        //遥控器链路信号质量指示器(云卓RCSDK),显示信号图标,点击弹出链路详情面板,SDK不可用时隐藏不占位
+        RCSignalIndicator {
+            anchors.top:    parent.top
+            anchors.bottom: parent.bottom
+        }
+
         //GPS指示器，显示卫星数量和定位类型
         VehicleGPSIndicator {
             id:                 vehicleGpsIndicator

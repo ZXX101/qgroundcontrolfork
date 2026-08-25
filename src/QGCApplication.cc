@@ -28,6 +28,7 @@
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
+#include <QtQml/QJSEngine>
 #include <QtQuick/QQuickImageProvider>
 #include <QtQuick/QQuickWindow>
 #include <QtQuickControls2/QQuickStyle>
@@ -61,6 +62,7 @@
 #include "QGCImageProvider.h"
 #include "QGCLoggingCategory.h"
 #include "QGroundControlQmlGlobal.h"
+#include "RCSignalQualityManager.h"
 #include "SettingsManager.h"
 #include "AppSettings.h"
 #include "ShapeFileHelper.h"
@@ -308,6 +310,13 @@ void QGCApplication::init()
     (void) qmlRegisterSingletonType<ShapeFileHelper>("QGroundControl.ShapeFileHelper", 1, 0, "ShapeFileHelper", [](QQmlEngine *, QJSEngine *) { return new ShapeFileHelper(); });
 
     qmlRegisterSingletonType<QGCMAVLink>("MAVLink", 1, 0, "MAVLink", mavlinkSingletonFactory);
+
+    // 遥控器链路信号质量(云卓RCSDK),单例跨平台常驻,Android遥控器上由JNI推送数据,其余平台恒为-1(不可用)
+    (void) qmlRegisterSingletonType<RCSignalQualityManager>("QGroundControl", 1, 0, "RCSignalQuality", [](QQmlEngine *, QJSEngine *) {
+        RCSignalQualityManager *manager = RCSignalQualityManager::instance();
+        QJSEngine::setObjectOwnership(manager, QJSEngine::CppOwnership);
+        return manager;
+    });
 
     // Although this should really be in _initForNormalAppBoot putting it here allowws us to create unit tests which pop up more easily
     if(QFontDatabase::addApplicationFont(":/fonts/opensans") < 0) {
