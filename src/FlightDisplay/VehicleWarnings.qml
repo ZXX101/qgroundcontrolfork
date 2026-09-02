@@ -21,7 +21,7 @@ Rectangle {
     width:              warningsCol.width
     color:              Qt.rgba(1, 1, 1, 0.5)
     radius:             ScreenTools.defaultFontPixelWidth / 2
-    visible:            _noGPSLockVisible || _prearmErrorVisible
+    visible:            false   // XF: 屏蔽所有车辆警告显示(GPS锁定警告/预解锁错误警告)
 
     property var  _activeVehicle:       QGroundControl.multiVehicleManager.activeVehicle
     property bool _noGPSLockVisible:    _activeVehicle && _activeVehicle.requiresGpsFix && !_activeVehicle.coordinate.isValid
