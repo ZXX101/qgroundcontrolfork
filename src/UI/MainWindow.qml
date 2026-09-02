@@ -579,6 +579,8 @@ ApplicationWindow {
     //-- Critical Vehicle Message Popup
     //紧急车辆消息弹窗，位于工具栏下方，显示车辆错误警告信息
     function showCriticalVehicleMessage(message) {
+        // XF: 屏蔽紧急车辆消息弹窗，不允许弹出
+        return
         closeIndicatorDrawer()
         if (criticalVehicleMessagePopup.visible || QGroundControl.videoManager.fullScreen) {
             // We received additional warning message while an older warning message was still displayed.
