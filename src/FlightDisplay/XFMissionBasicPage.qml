@@ -173,6 +173,8 @@ Item {
                 QGCTextField {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 16
                     text: missionName
+                    showBorder: true
+                    borderColor: qgcPal.windowShade
                     onTextChanged: {
                         missionName = text;
                     }
@@ -215,6 +217,8 @@ Item {
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                     text: _defaultAltitude ? _defaultAltitude.rawValue : "50"
                     horizontalAlignment: Text.AlignRight
+                    showBorder: true
+                    borderColor: qgcPal.windowShade
                     onEditingFinished: {
                         if (_defaultAltitude) {
                             _defaultAltitude.rawValue = parseFloat(text);
@@ -268,6 +272,8 @@ Item {
                     text: "--"
                     enabled: missionController ? missionController.basicFlightSpeedEnabled : false
                     horizontalAlignment: Text.AlignRight
+                    showBorder: true
+                    borderColor: qgcPal.windowShade
                     onEditingFinished: {
                         if (_updatingFlightSpeedText || !missionController)
                             return;
@@ -292,6 +298,8 @@ Item {
                     model: [qsTr("RTL"), qsTr("Land"), qsTr("Hover")]
                     currentIndex: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 12
+                    showBorder: true
+                    borderColor: qgcPal.windowShade
                 }
             }
 
