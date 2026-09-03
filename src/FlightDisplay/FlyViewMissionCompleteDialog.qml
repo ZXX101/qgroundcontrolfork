@@ -43,7 +43,8 @@ Item {
             _vehicleWasArmed = true
             _vehicleWasInMissionFlightMode = _vehicleInMissionFlightMode
         } else {
-            if (_showMissionCompleteDialog) {
+            // XF: 屏蔽任务完成自动弹窗
+            if (false && _showMissionCompleteDialog) {
                 missionCompleteDialogComponent.createObject(mainWindow).open()
             }
             _vehicleWasArmed = false

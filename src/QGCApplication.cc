@@ -498,6 +498,13 @@ void QGCApplication::showCriticalVehicleMessage(const QString &message)
 
 void QGCApplication::showAppMessage(const QString &message, const QString &title)
 {
+    // XF: 一刀切屏蔽所有 showAppMessage 弹窗，消息仅写入日志
+    static const bool suppressAppMessages = true;
+    if (suppressAppMessages) {
+        qCDebug(QGCApplicationLog) << "showAppMessage suppressed:" << title << message;
+        return;
+    }
+
     const QString dialogTitle = title.isEmpty() ? applicationName() : title;
 
     QObject *const rootQmlObject = _rootQmlObject();
