@@ -36,6 +36,15 @@ Rectangle {
     property bool xfDarkBackgroundEnabled: false
     readonly property color _xfFieldOutlineColor: "#2A2A2A"
     readonly property int _mavCmdNavWaypoint: 16
+    property real _effectiveFlightSpeed: {
+        // 向前查找速度设置指令，得到本航点实际使用的速度
+        var controller = missionItem.masterController.missionController
+        if (!controller) {
+            return NaN
+        }
+        var revision = controller.speedProfileRevision // 建立绑定依赖，速度变化时重新计算
+        return controller.effectiveFlightSpeed(missionItem)
+    }
 
     function updateAltitudeModeText() {
         if (missionItem.altitudeMode === QGroundControl.AltitudeModeRelative) {
@@ -369,13 +378,13 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth:   true
                     spacing:            _altRectMargin
-                    enabled:            flightSpeedCheckbox.checked
                     visible:            missionItem.speedSection.available
 
                     QGCButton {
                         text:                   "-1"
                         _horizontalPadding:     0
                         Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        enabled:                flightSpeedCheckbox.checked
                         onClicked:              missionItem.speedSection.flightSpeed.rawValue = Math.max(0.1, missionItem.speedSection.flightSpeed.rawValue - 1)
                     }
 
@@ -383,12 +392,25 @@ Rectangle {
                         text:                   "+1"
                         _horizontalPadding:     0
                         Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        enabled:                flightSpeedCheckbox.checked
                         onClicked:              missionItem.speedSection.flightSpeed.rawValue = missionItem.speedSection.flightSpeed.rawValue + 1
                     }
 
                     FactTextField {
                         fact:               missionItem.speedSection.flightSpeed
                         Layout.fillWidth:   true
+                        enabled:            flightSpeedCheckbox.checked
+                        visible:            flightSpeedCheckbox.checked
+                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                    }
+
+                    QGCTextField {
+                        Layout.fillWidth:   true
+                        visible:            !flightSpeedCheckbox.checked
+                        readOnly:           true
+                        horizontalAlignment: Text.AlignRight
+                        text:               !isNaN(_effectiveFlightSpeed) && _effectiveFlightSpeed > 0 ? Number(_effectiveFlightSpeed).toFixed(1) : "--"
                         showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
                         borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
                     }
