@@ -239,12 +239,31 @@ Rectangle {
                     }
                 }
 
-                FactTextField {
-                    id:                 altField
+                RowLayout {
                     Layout.fillWidth:   true
-                    fact:               missionItem.altitude
-                    showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
-                    borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                    spacing:            _altRectMargin
+
+                    QGCButton {
+                        text:                   "-10"
+                        _horizontalPadding:     0
+                        Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        onClicked:              missionItem.altitude.rawValue = Math.max(0, missionItem.altitude.rawValue - 10)
+                    }
+
+                    QGCButton {
+                        text:                   "+10"
+                        _horizontalPadding:     0
+                        Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        onClicked:              missionItem.altitude.rawValue = missionItem.altitude.rawValue + 10
+                    }
+
+                    FactTextField {
+                        id:                 altField
+                        Layout.fillWidth:   true
+                        fact:               missionItem.altitude
+                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                    }
                 }
 
                 QGCLabel {
@@ -347,13 +366,32 @@ Rectangle {
                     }
                 }
 
-                FactTextField {
-                    fact:               missionItem.speedSection.flightSpeed
+                RowLayout {
                     Layout.fillWidth:   true
+                    spacing:            _altRectMargin
                     enabled:            flightSpeedCheckbox.checked
                     visible:            missionItem.speedSection.available
-                    showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
-                    borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+
+                    QGCButton {
+                        text:                   "-1"
+                        _horizontalPadding:     0
+                        Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        onClicked:              missionItem.speedSection.flightSpeed.rawValue = Math.max(0.1, missionItem.speedSection.flightSpeed.rawValue - 1)
+                    }
+
+                    QGCButton {
+                        text:                   "+1"
+                        _horizontalPadding:     0
+                        Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                        onClicked:              missionItem.speedSection.flightSpeed.rawValue = missionItem.speedSection.flightSpeed.rawValue + 1
+                    }
+
+                    FactTextField {
+                        fact:               missionItem.speedSection.flightSpeed
+                        Layout.fillWidth:   true
+                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                    }
                 }
             }
 
