@@ -36,6 +36,7 @@ Rectangle {
     property bool xfDarkBackgroundEnabled: false
     readonly property color _xfFieldOutlineColor: "#2A2A2A"
     readonly property int _mavCmdNavWaypoint: 16
+    readonly property int _mavCmdDoChangeSpeed: 178
     property real _effectiveFlightSpeed: {
         // 向前查找速度设置指令，得到本航点实际使用的速度
         var controller = missionItem.masterController.missionController
@@ -352,13 +353,40 @@ Rectangle {
                 Repeater {
                     model: missionItem.textFieldFacts
 
-                    FactTextField {
-                        showUnits:          true
-                        fact:               object
+                    RowLayout {
+                        id:                 textFieldRow
                         Layout.fillWidth:   true
-                        enabled:            !object.readOnly
-                        showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
-                        borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                        spacing:            _altRectMargin
+
+                        // 更改速度指令(178)的 Speed 参数加 ±1 快捷按钮
+                        // 注意：参数名会随语言翻译（JSON 按文件名 context 翻译），需匹配译文
+                        property bool _isChangeSpeedField: missionItem.command === _root._mavCmdDoChangeSpeed &&
+                                                           (object.name === "Speed" || object.name === qsTranslate("MavCmdInfoCommon.json", "Speed"))
+
+                        QGCButton {
+                            text:                   "-1"
+                            _horizontalPadding:     0
+                            Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                            visible:                textFieldRow._isChangeSpeedField
+                            onClicked:              object.rawValue = Math.max(0.1, object.rawValue - 1)
+                        }
+
+                        QGCButton {
+                            text:                   "+1"
+                            _horizontalPadding:     0
+                            Layout.preferredWidth:  ScreenTools.defaultFontPixelWidth * 5
+                            visible:                textFieldRow._isChangeSpeedField
+                            onClicked:              object.rawValue = object.rawValue + 1
+                        }
+
+                        FactTextField {
+                            showUnits:          true
+                            fact:               object
+                            Layout.fillWidth:   true
+                            enabled:            !object.readOnly
+                            showBorder:         _root.xfFieldOutlineEnabled || qgcPal.globalTheme === QGCPalette.Light
+                            borderColor:        _root.xfFieldOutlineEnabled ? _root._xfFieldOutlineColor : qgcPal.buttonBorder
+                        }
                     }
                 }
 
