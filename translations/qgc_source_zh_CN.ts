@@ -6584,37 +6584,37 @@ Click Ok to start the auto-tuning process.
 <context>
     <name>FlyViewMissionCompleteDialog</name>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="65"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="66"/>
         <source>Flight Plan complete</source>
         <translation>飞行计划完成</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="81"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="82"/>
         <source>%1 Images Taken</source>
         <translation>%1 图像已拍摄</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="88"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="89"/>
         <source>Remove plan from vehicle</source>
         <translation>从飞机上移除飞行计划</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="99"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="100"/>
         <source>Leave plan on vehicle</source>
         <translation>在飞机上保留飞行计划</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="118"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="119"/>
         <source>Resume Mission From Waypoint %1</source>
         <translation>从%1航点恢复任务</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="129"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="130"/>
         <source>Resume Mission will rebuild the current mission from the last flown waypoint and upload it to the vehicle for the next flight.</source>
         <translation>恢复飞行任务将从上次飞行航点重建目前的飞行任务，并上载到飞机供下次飞行。</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="137"/>
+        <location filename="../src/FlightDisplay/FlyViewMissionCompleteDialog.qml" line="138"/>
         <source>If you are changing batteries for Resume Mission do not disconnect from the vehicle.</source>
         <translation>如果你为了继续执行任务而更换电池，请不要在地面站里点击“断开设备连接”。</translation>
     </message>
@@ -6809,12 +6809,12 @@ Click Ok to start the auto-tuning process.
         <translation type="unfinished">断开</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/FlyViewToolBar.qml" line="308"/>
+        <location filename="../src/QmlControls/FlyViewToolBar.qml" line="314"/>
         <source>Downloading</source>
         <translation type="unfinished">下载中</translation>
     </message>
     <message>
-        <location filename="../src/QmlControls/FlyViewToolBar.qml" line="317"/>
+        <location filename="../src/QmlControls/FlyViewToolBar.qml" line="323"/>
         <source>Click anywhere to hide</source>
         <translation type="unfinished">点击任意位置隐藏面板</translation>
     </message>
@@ -6894,32 +6894,32 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="132"/>
         <source>Mission</source>
-        <translation type="unfinished">任务</translation>
+        <translation>任务</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="174"/>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通用配置</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="390"/>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">清单</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="419"/>
         <source>Takeoff</source>
-        <translation type="unfinished"></translation>
+        <translation>起飞</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="419"/>
         <source>Land</source>
-        <translation type="unfinished"></translation>
+        <translation>降落</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/FlyViewWidgetLayer.qml" line="491"/>
         <source>RTL</source>
-        <translation type="unfinished"></translation>
+        <translation>返航</translation>
     </message>
 </context>
 <context>
@@ -9963,12 +9963,12 @@ Click Ok to start the auto-tuning process.
         <translation type="unfinished">退出</translation>
     </message>
     <message>
-        <location filename="../src/UI/MainWindow.qml" line="632"/>
+        <location filename="../src/UI/MainWindow.qml" line="634"/>
         <source>Vehicle Error</source>
         <translation type="unfinished">设备故障</translation>
     </message>
     <message>
-        <location filename="../src/UI/MainWindow.qml" line="657"/>
+        <location filename="../src/UI/MainWindow.qml" line="659"/>
         <source>Additional errors received</source>
         <translation type="unfinished">收到更多错误</translation>
     </message>
@@ -10235,39 +10235,39 @@ Click Ok to start the auto-tuning process.
 <context>
     <name>MissionController</name>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="793"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="990"/>
         <source>Mission item %1 is not an object</source>
         <translation>任务项 %1 不是对象</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="879"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1076"/>
         <source>Unsupported complex item type: %1</source>
         <translation>不支持的复杂项类型：%1</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="882"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1079"/>
         <source>Unknown item type: %1</source>
         <translation>未知项目类型：“%1”</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="905"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1102"/>
         <source>Could not find doJumpId: %1</source>
         <translation>找不到跳转点id（doJumpId）：%1</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="978"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1175"/>
         <source>The mission file is corrupted.</source>
         <translation>任务文件已损坏。</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="983"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1180"/>
         <source>The mission file is not compatible with this version of %1.</source>
         <translation>任务文件与此版本（%1）不兼容。</translation>
     </message>
     <message>
-        <location filename="../src/MissionManager/MissionController.cc" line="1031"/>
-        <location filename="../src/MissionManager/MissionController.cc" line="1046"/>
-        <location filename="../src/MissionManager/MissionController.cc" line="1070"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1230"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1245"/>
+        <location filename="../src/MissionManager/MissionController.cc" line="1269"/>
         <source>Mission: %1</source>
         <translation>任务： %1</translation>
     </message>
@@ -13721,7 +13721,7 @@ Click &apos;Ok&apos; to upload the Plan anyway.</translation>
 <context>
     <name>QGCApplication</name>
     <message>
-        <location filename="../src/QGCApplication.cc" line="384"/>
+        <location filename="../src/QGCApplication.cc" line="393"/>
         <source>The current user does not have the correct permissions to access serial devices. You should also remove modemmanager since it also interferes.&lt;br/&gt;&lt;br/&gt;If you are using Ubuntu, execute the following commands to fix these issues:&lt;br/&gt;&lt;pre&gt;sudo usermod -a -G dialout $USER&lt;br/&gt;sudo apt-get remove modemmanager&lt;/pre&gt;</source>
         <translation>当前用户没有访问串行设备的正确权限。您还应该删除调制解调器管理器，因为它也会干扰。
 如果您正在使用 Ubuntu， 执行以下命令来解决这些问题：
@@ -13729,22 +13729,22 @@ sudo usermod -a -G dialout $USER
 sudo apt-get 移除调制解调器管理器</translation>
     </message>
     <message>
-        <location filename="../src/QGCApplication.cc" line="410"/>
+        <location filename="../src/QGCApplication.cc" line="419"/>
         <source>The format for %1 saved settings has been modified. Your saved settings have been reset to defaults.</source>
         <translation>%1的格式已被更改。您之前保存的设置已经被重置。</translation>
     </message>
     <message>
-        <location filename="../src/QGCApplication.cc" line="458"/>
+        <location filename="../src/QGCApplication.cc" line="467"/>
         <source>Parameters are missing from firmware. You may be running a version of firmware which is not fully supported or your firmware has a bug in it. Missing params: %1</source>
         <translation>从固件中缺少参数。 您可能正在运行一个不完全支持的固件版本，或者您的固件里有一个错误。 缺少参数： %1</translation>
     </message>
     <message>
-        <location filename="../src/QGCApplication.cc" line="595"/>
+        <location filename="../src/QGCApplication.cc" line="611"/>
         <source>There is a newer version of %1 available. You can download it from %2.</source>
         <translation type="unfinished">There is a newer version of %1 available. You can download it from %2.</translation>
     </message>
     <message>
-        <location filename="../src/QGCApplication.cc" line="595"/>
+        <location filename="../src/QGCApplication.cc" line="611"/>
         <source>New Version Available</source>
         <translation type="unfinished">New Version Available</translation>
     </message>
@@ -14495,6 +14495,53 @@ sudo apt-get 移除调制解调器管理器</translation>
         <location filename="../src/UI/toolbar/RCRSSIIndicator.qml" line="44"/>
         <source>RSSI</source>
         <translation type="unfinished">RSSI</translation>
+    </message>
+</context>
+<context>
+    <name>RCSignalIndicator</name>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicator.qml" line="51"/>
+        <source>%1%</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RCSignalIndicatorPage</name>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="21"/>
+        <source>--</source>
+        <comment>No data to display</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="30"/>
+        <source>链路信号质量:%1%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="33"/>
+        <source>地面端信噪比</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="38"/>
+        <source>地面端功率</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="43"/>
+        <source>天空端信噪比</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="48"/>
+        <source>天空端功率</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/QmlControls/RCSignalIndicatorPage.qml" line="53"/>
+        <source>天空端MCS</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -20271,127 +20318,127 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
 <context>
     <name>XFMissionBasicPage</name>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="141"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="168"/>
         <source>Mission Name</source>
         <translation>任务名称</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="159"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="186"/>
         <source>Flight Altitude</source>
         <translation>飞行高度</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="203"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="237"/>
         <source>Flight Speed</source>
         <translation>飞行速度</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="234"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="286"/>
         <source>End Action</source>
         <translation>完结动作</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="240"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="292"/>
         <source>RTL</source>
         <translation>返航</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="240"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="292"/>
         <source>Land</source>
         <translation>降落</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="240"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="292"/>
         <source>Hover</source>
         <translation>悬停</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="256"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="308"/>
         <source>Insert Fence</source>
         <translation>插入围栏</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="274"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="326"/>
         <source>Polygon Fence</source>
         <translation>多边形围栏</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="278"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="330"/>
         <source>Circular Fence</source>
         <translation>圆形围栏</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="325"/>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="474"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="377"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="526"/>
         <source>Type:</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="331"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="383"/>
         <source>Polygon</source>
         <translation>多边形</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="480"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="532"/>
         <source>Circle</source>
         <translation>圆形</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="604"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="656"/>
         <source>Global Info</source>
         <translation>全局信息</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="629"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="681"/>
         <source>Distance:</source>
         <translation>距离：</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="643"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="695"/>
         <source>Max Telemetry Distance:</source>
         <translation>最大遥测距离</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="657"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="709"/>
         <source>Time:</source>
         <translation>时间：</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="339"/>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="488"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="391"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="540"/>
         <source>Nature:</source>
         <translation>围栏性质</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="346"/>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="495"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="398"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="547"/>
         <source>Inclusion</source>
         <translation>包含</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="371"/>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="520"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="423"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="572"/>
         <source>Exclusion</source>
         <translation>排斥</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="400"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="452"/>
         <source>Vertices:</source>
         <translation>围栏形状</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="409"/>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="559"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="461"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="611"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="549"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="601"/>
         <source>Radius:</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="591"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="643"/>
         <source>No fences. Click + to add.</source>
         <translation>暂无围栏,点击+号添加</translation>
     </message>
@@ -20571,22 +20618,22 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
 <context>
     <name>XFMissionWaypointCard</name>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="63"/>
+        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="65"/>
         <source>Altitude</source>
         <translation>高度</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="77"/>
+        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="79"/>
         <source>Speed</source>
         <translation>速度</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="91"/>
+        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="93"/>
         <source>Longitude</source>
         <translation>经度</translation>
     </message>
     <message>
-        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="105"/>
+        <location filename="../src/FlightDisplay/XFMissionWaypointCard.qml" line="107"/>
         <source>Latitude</source>
         <translation>纬度</translation>
     </message>

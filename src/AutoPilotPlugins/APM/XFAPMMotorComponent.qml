@@ -159,7 +159,7 @@ SetupPage {
                             Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                             text:               "3"
                             inputMethodHints:   Qt.ImhFormattedNumbersOnly
-                            validator:          IntValidator { bottom: 0; top: 30 }
+                            validator:          IntValidator { bottom: 0; top: 99999 }
                         }
 
                         QGCLabel {
