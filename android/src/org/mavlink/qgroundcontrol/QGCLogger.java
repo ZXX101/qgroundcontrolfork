@@ -2,6 +2,8 @@ package org.mavlink.qgroundcontrol;
 
 import android.util.Log;
 
+import com.xf.gcs.BuildConfig;
+
 /**
  * A centralized logging utility that manages log messages across the application.
  * It controls log levels and formats based on build configurations.

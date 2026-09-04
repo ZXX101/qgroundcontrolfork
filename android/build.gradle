@@ -54,7 +54,9 @@ android {
      *******************************************************/
 
     // namespace = androidPackageName
-    namespace = "org.mavlink.qgroundcontrol"
+    // 自定义包名,与原版QGC(org.mavlink.qgroundcontrol)区分,两者可共存且签名互不冲突
+    // AGP8要求manifest的package属性与namespace一致,故AndroidManifest.xml同步改为com.xf.gcs
+    namespace = "com.xf.gcs"
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
     ndkVersion = androidNdkVersion
