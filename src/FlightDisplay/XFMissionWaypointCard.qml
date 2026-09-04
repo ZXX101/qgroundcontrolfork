@@ -109,6 +109,15 @@ Rectangle {
         var lon = { "label": qsTr("Longitude"), "value": _lonText() }
         var lat = { "label": qsTr("Latitude"),  "value": _latText() }
 
+        var fields = _commandFields(alt, spd, lon, lat)
+        // 只有1个字段时补一个空白占位，让它保持在2字段布局的左侧位置
+        if (fields.length === 1) {
+            fields.push({ "label": "", "value": "" })
+        }
+        return fields
+    }
+
+    function _commandFields(alt, spd, lon, lat) {
         switch (missionItem.isSimpleItem ? missionItem.command : -1) {
         case 17:  // Loiter
         case 21:  // Land
@@ -195,13 +204,10 @@ Rectangle {
                     Layout.fillWidth: true
                     // implicitWidth 设为相同值，让 GridLayout 均分两列（内容不撑宽列），字段按Z字形排列
                     implicitWidth:  1
-                    // 只有1个字段时横跨两列，文字居中显示
-                    Layout.columnSpan: card._fields.length === 1 ? 2 : 1
 
                     QGCLabel {
                         Layout.fillWidth: true
                         elide:      Text.ElideRight
-                        horizontalAlignment: card._fields.length === 1 ? Text.AlignHCenter : Text.AlignLeft
                         text:       modelData.label
                         font.pointSize: ScreenTools.defaultFontPointSize
                         color:      qgcPal.text
@@ -209,7 +215,6 @@ Rectangle {
                     QGCLabel {
                         Layout.fillWidth: true
                         elide:      Text.ElideRight
-                        horizontalAlignment: card._fields.length === 1 ? Text.AlignHCenter : Text.AlignLeft
                         text:       modelData.value
                         font.pointSize: ScreenTools.defaultFontPointSize
                     }
