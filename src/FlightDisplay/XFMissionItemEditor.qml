@@ -56,12 +56,20 @@ Item {
 
                     Item {
                         id: commandPicker
-                        Layout.preferredWidth: commandInnerLayout.width
+                        Layout.preferredWidth: commandInnerLayout.width + ScreenTools.comboBoxPadding * 2
                         Layout.preferredHeight: ScreenTools.implicitComboBoxHeight
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "transparent"
+                            border.color: qgcPal.windowShade
+                            border.width: 1
+                            radius: ScreenTools.buttonBorderRadius
+                        }
 
                         RowLayout {
                             id: commandInnerLayout
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.centerIn: parent
                             spacing: ScreenTools.comboBoxPadding
 
                             QGCLabel {
