@@ -33,8 +33,8 @@ T.ComboBox {
     property bool   centeredLabel:  false
     property bool   sizeToContents: false
     property string alternateText:  ""
-    property bool   showBorder:     qgcPal.globalTheme === QGCPalette.Light
-    property color  borderColor:    qgcPal.buttonBorder
+    property bool   showBorder:     true
+    property color  borderColor:    qgcPal.windowShade
     property color  popupBorderColor: qgcPal.text
 
     property real   _popupWidth:    width
