@@ -191,15 +191,18 @@ ColumnLayout {
             }
 
             LabelledFactTextField {
+                Layout.fillWidth: true
                 label: qsTr("Server URL")
                 fact: rtkSettings.ntripURL
-                visible: rtkSettings.ntripEnabled.rawValue && fact.visible
+                visible: fact.visible
+                enabled: rtkSettings.ntripEnabled.rawValue
+                textFieldFillWidth: true
             }
 
             QGCLabel {
                 text: qsTr("Format: ntrip://user:pass@host:port/mountpoint")
                 font.pointSize: ScreenTools.smallFontPointSize
-                visible: rtkSettings.ntripEnabled.rawValue
+                enabled: rtkSettings.ntripEnabled.rawValue
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
             }
@@ -208,18 +211,20 @@ ColumnLayout {
                 Layout.fillWidth: true
                 text: qsTr("Send GGA Position (VRS)")
                 fact: rtkSettings.ntripSendGGA
-                visible: rtkSettings.ntripEnabled.rawValue && fact.visible
+                visible: fact.visible
+                enabled: rtkSettings.ntripEnabled.rawValue
             }
 
             FactCheckBoxSlider {
                 Layout.fillWidth: true
                 text: qsTr("Use NTRIP v1 Protocol")
                 fact: rtkSettings.ntripV1
-                visible: rtkSettings.ntripEnabled.rawValue && fact.visible
+                visible: fact.visible
+                enabled: rtkSettings.ntripEnabled.rawValue
             }
 
             RowLayout {
-                visible: rtkSettings.ntripEnabled.rawValue
+                enabled: rtkSettings.ntripEnabled.rawValue
                 Layout.fillWidth: true
 
                 QGCLabel {
@@ -244,22 +249,24 @@ ColumnLayout {
                 Layout.fillWidth: true
                 height: 1
                 color: qgcPal.windowShade
+                visible: false
             }
 
             QGCLabel {
                 text: qsTr("RTK GPS Base Station")
                 font.pointSize: ScreenTools.defaultFontPointSize
+                visible: false
             }
 
             FactCheckBoxSlider {
                 Layout.fillWidth: true
                 text: qsTr("AutoConnect")
                 fact: _settingsManager.autoConnectSettings.autoConnectRTKGPS
-                visible: fact.visible
+                visible: false
             }
 
             RowLayout {
-                visible: rtkSettings.useFixedBasePosition.visible
+                visible: false
 
                 QGCRadioButton {
                     text: qsTr("Survey-In")
@@ -280,7 +287,7 @@ ColumnLayout {
                 label: qsTr("Accuracy (u-blox only)")
                 fact: rtkSettings.surveyInAccuracyLimit
                 majorTickStepSize: 0.1
-                visible: !useFixedPosition && rtkSettings.surveyInAccuracyLimit.visible
+                visible: false
             }
 
             FactSlider {
@@ -289,37 +296,37 @@ ColumnLayout {
                 label: qsTr("Min Duration")
                 fact: rtkSettings.surveyInMinObservationDuration
                 majorTickStepSize: 10
-                visible: !useFixedPosition && rtkSettings.surveyInMinObservationDuration.visible
+                visible: false
             }
 
             LabelledFactTextField {
                 label: rtkSettings.fixedBasePositionLatitude.shortDescription
                 fact: rtkSettings.fixedBasePositionLatitude
-                visible: useFixedPosition && rtkSettings.fixedBasePositionLatitude.visible
+                visible: false
             }
 
             LabelledFactTextField {
                 label: rtkSettings.fixedBasePositionLongitude.shortDescription
                 fact: rtkSettings.fixedBasePositionLongitude
-                visible: useFixedPosition && rtkSettings.fixedBasePositionLongitude.visible
+                visible: false
             }
 
             LabelledFactTextField {
                 label: rtkSettings.fixedBasePositionAltitude.shortDescription
                 fact: rtkSettings.fixedBasePositionAltitude
-                visible: useFixedPosition && rtkSettings.fixedBasePositionAltitude.visible
+                visible: false
             }
 
             LabelledFactTextField {
                 label: rtkSettings.fixedBasePositionAccuracy.shortDescription
                 fact: rtkSettings.fixedBasePositionAccuracy
-                visible: useFixedPosition && rtkSettings.fixedBasePositionAccuracy.visible
+                visible: false
             }
 
             LabelledButton {
                 label: qsTr("Current Base Position")
                 buttonText: enabled ? qsTr("Save") : qsTr("Not Yet Valid")
-                visible: useFixedPosition
+                visible: false
                 enabled: QGroundControl.gpsRtk.valid.value
 
                 onClicked: {
