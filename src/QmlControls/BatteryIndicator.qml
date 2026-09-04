@@ -117,7 +117,7 @@ Item {
         id: batteryPopup
 
         ToolIndicatorPage {
-            showExpand:         expandedComponent ? true : false
+            showExpand:         false   // 隐藏右侧扩展面板和分隔线
             waitForParameters:  control.waitForParameters
             contentComponent:   batteryContentComponent
             expandedComponent:  batteryExpandedComponent
@@ -269,6 +269,14 @@ Item {
                 }
             }
 
+            //电量显示方式切换下拉框（百分比/电压/两者），保留在左侧电池信息顶部
+            LabelledFactComboBox {
+                label:  qsTr("Value")
+                fact:   _valueDisplayFact
+
+                property Fact _valueDisplayFact: QGroundControl.settingsManager.batteryIndicatorSettings.valueDisplay
+            }
+
             Repeater {
                 model: _activeVehicle ? _activeVehicle.batteries : 0
 
@@ -342,15 +350,6 @@ Item {
             SettingsGroupLayout {
                 heading:            qsTr("Battery Display")
                 Layout.fillWidth:   true
-
-                LabelledFactComboBox {
-                    id:             editModeCheckBox
-                    label:          qsTr("Value")
-                    fact:           _fact
-                    visible:        _fact,visible
-
-                    property Fact _fact: QGroundControl.settingsManager.batteryIndicatorSettings.valueDisplay
-                }
 
                 ColumnLayout {
                     QGCLabel { text: qsTr("Coloring") }

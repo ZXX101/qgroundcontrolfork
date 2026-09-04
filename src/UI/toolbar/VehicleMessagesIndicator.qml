@@ -60,7 +60,7 @@ Item {
         id: overallStatusIndicatorPage
 
         ToolIndicatorPage {
-            showExpand:         _activeVehicle.mainStatusIndicatorContentItem ? true : false
+            showExpand:         false   // 隐藏右侧扩展面板和分隔线
             waitForParameters:  _activeVehicle.mainStatusIndicatorContentItem ? true : false
             contentComponent:   mainStatusContentComponent
             expandedComponent:  mainStatusExpandedComponent
@@ -79,6 +79,7 @@ Item {
                 enabled:            _armed || !_healthAndArmingChecksSupported || _activeVehicle.healthAndArmingCheckReport.canArm
                 text:               _armed ? qsTr("Disarm") : (forceArm ? qsTr("Force Arm") : qsTr("Arm"))
                 Layout.alignment:   Qt.AlignLeft
+                visible:            false   // 隐藏Arm/Disarm解锁按钮
 
                 property bool forceArm: false
 
@@ -110,7 +111,7 @@ Item {
 
             SettingsGroupLayout {
                 heading:            qsTr("Sensor Status")
-                visible:            !_healthAndArmingChecksSupported
+                visible:            false   // 隐藏Sensor Status面板
 
                 GridLayout {
                     rowSpacing:     _spacing

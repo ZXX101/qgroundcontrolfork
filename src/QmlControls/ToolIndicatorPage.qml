@@ -20,7 +20,7 @@ RowLayout {
     id:         control
     spacing:    ScreenTools.defaultFontPixelWidth
 
-    property bool       showExpand:         false   // Controls whether the expand widget is shown or not
+    property bool       showExpand:         false   // Controls whether the expand widget is shown or not, also gates the expanded panel and divider
     property bool       waitForParameters:  false   // UI won't show until parameters are ready
     property Component  contentComponent            // Item for the normal view portion of the page
     property Component  expandedComponent           // Item for the expanded portion of the page
@@ -53,15 +53,15 @@ RowLayout {
         Layout.preferredWidth:  visible ? 1 : -1
         Layout.fillHeight:      true
         color:                  QGroundControl.globalPalette.groupBorder
-        visible:                expanded
+        visible:                expanded && showExpand
     }
     
     Loader {
         id:                     expandedItemLoader
         Layout.alignment:       Qt.AlignTop
         Layout.preferredWidth:  visible ? -1 : 0
-        visible:                expanded
-        sourceComponent:        expanded ? expandedComponent : undefined
+        visible:                expanded && showExpand
+        sourceComponent:        visible ? expandedComponent : undefined
 
         property var pageProperties: control.pageProperties
     }
