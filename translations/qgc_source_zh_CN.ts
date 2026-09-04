@@ -3727,7 +3727,7 @@ Please place your vehicle in water, click the button, and wait. Note that the th
     <message>
         <location filename="../src/Vehicle/Actuators/ActuatorActions.cc" line="54"/>
         <source>Actuator action command failed</source>
-        <translation type="unfinished">Actuator action command failed</translation>
+        <translation type="unfinished">执行器动作命令失败</translation>
     </message>
 </context>
 <context>
@@ -6447,17 +6447,17 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/QmlControls/FlightModeMenuIndicator.qml" line="129"/>
         <source>RTL Altitude</source>
-        <translation type="unfinished">RTL Altitude</translation>
+        <translation type="unfinished">返航高度</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlightModeMenuIndicator.qml" line="140"/>
         <source>Land Descent Rate:</source>
-        <translation type="unfinished">Land Descent Rate:</translation>
+        <translation type="unfinished">着陆率：</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/FlightModeMenuIndicator.qml" line="151"/>
         <source>Precision Landing</source>
-        <translation type="unfinished">Precision Landing</translation>
+        <translation type="unfinished">精确着陆</translation>
     </message>
 </context>
 <context>
@@ -7921,22 +7921,22 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="45"/>
         <source>Gripper Function</source>
-        <translation type="unfinished">Gripper Function</translation>
+        <translation type="unfinished">夹持器功能</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="54"/>
         <source>Change Loiter Radius</source>
-        <translation type="unfinished">Change Loiter Radius</translation>
+        <translation type="unfinished">更改悬停半径</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="55"/>
         <source>Change Max Ground Speed</source>
-        <translation type="unfinished">Change Max Ground Speed</translation>
+        <translation type="unfinished">改变最大地面速度</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="56"/>
         <source>Change Airspeed</source>
-        <translation type="unfinished">Change Airspeed</translation>
+        <translation type="unfinished">更改空速</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="62"/>
@@ -7946,22 +7946,22 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="63"/>
         <source>Set Home</source>
-        <translation type="unfinished">Set Home</translation>
+        <translation type="unfinished">设置返航点</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="64"/>
         <source>Set Estimator origin</source>
-        <translation type="unfinished">Set Estimator origin</translation>
+        <translation type="unfinished">设置估计器原点</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="65"/>
         <source>Set Flight Mode</source>
-        <translation type="unfinished">Set Flight Mode</translation>
+        <translation type="unfinished">设置飞行模式</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="66"/>
         <source>Change Heading</source>
-        <translation type="unfinished">Change Heading</translation>
+        <translation type="unfinished">更改航向</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="68"/>
@@ -8046,7 +8046,7 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="85"/>
         <source>Change the equivalent airspeed setpoint.</source>
-        <translation type="unfinished">Change the equivalent airspeed setpoint.</translation>
+        <translation type="unfinished">更改等效空速设定值。</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="86"/>
@@ -8126,12 +8126,12 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="242"/>
         <source>Airspeed</source>
-        <translation type="unfinished">Airspeed</translation>
+        <translation type="unfinished">空速</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="249"/>
         <source>Speed</source>
-        <translation type="unfinished">Speed</translation>
+        <translation type="unfinished">速度</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/GuidedActionsController.qml" line="259"/>
@@ -8439,32 +8439,32 @@ Click Ok to start the auto-tuning process.
     <message>
         <location filename="../src/Joystick/Joystick.h" line="363"/>
         <source>Gripper Close</source>
-        <translation type="unfinished">Gripper Close</translation>
+        <translation type="unfinished">关闭夹持器</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="364"/>
         <source>Gripper Open</source>
-        <translation type="unfinished">Gripper Open</translation>
+        <translation type="unfinished">打开夹持器</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="365"/>
         <source>Landing gear deploy</source>
-        <translation type="unfinished">Landing gear deploy</translation>
+        <translation type="unfinished">起落架展开</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="366"/>
         <source>Landing gear retract</source>
-        <translation type="unfinished">Landing gear retract</translation>
+        <translation type="unfinished">起落架收回</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="367"/>
         <source>Motor Interlock enable</source>
-        <translation type="unfinished">Motor Interlock enable</translation>
+        <translation type="unfinished">电机联锁启用</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="368"/>
         <source>Motor Interlock disable</source>
-        <translation type="unfinished">Motor Interlock disable</translation>
+        <translation type="unfinished">电机联锁禁用</translation>
     </message>
     <message>
         <location filename="../src/Joystick/Joystick.h" line="347"/>
@@ -9888,6 +9888,16 @@ Click Ok to start the auto-tuning process.
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="../src/UI/MainWindow.qml" line="136"/>
+        <source>Invalid input: %1</source>
+        <translation>输入无效：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/MainWindow.qml" line="139"/>
+        <source>There are invalid input values.</source>
+        <translation>存在无效输入值。</translation>
+    </message>
+    <message>
         <location filename="../src/UI/MainWindow.qml" line="142"/>
         <location filename="../src/UI/MainWindow.qml" line="390"/>
         <source>Analyze Tools</source>
@@ -10630,7 +10640,7 @@ Do you wish to proceed?</translation>
     <message>
         <location filename="../src/Vehicle/Actuators/MotorAssignment.cc" line="211"/>
         <source>Actuator test command failed</source>
-        <translation type="unfinished">Actuator test command failed</translation>
+        <translation type="unfinished">执行器测试命令失败</translation>
     </message>
 </context>
 <context>
@@ -11632,7 +11642,7 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4RadioComponentSummary.qml" line="36"/>
         <source>Yaw</source>
-        <translation>水平</translation>
+        <translation type="unfinished">偏航</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4RadioComponentSummary.qml" line="41"/>
@@ -12144,7 +12154,7 @@ Is this really what you want?</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneTECS.qml" line="31"/>
         <source>Altitude &amp; Airspeed</source>
-        <translation type="unfinished">Altitude &amp; Airspeed</translation>
+        <translation type="unfinished">高度和空速</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/PX4TuningComponentPlaneTECS.qml" line="40"/>
@@ -14476,12 +14486,12 @@ sudo apt-get 移除调制解调器管理器</translation>
     <message>
         <location filename="../src/QmlControls/RCChannelMonitor.qml" line="82"/>
         <source>Not Mapped</source>
-        <translation type="unfinished">Not Mapped</translation>
+        <translation type="unfinished">未映射</translation>
     </message>
     <message>
         <location filename="../src/QmlControls/RCChannelMonitor.qml" line="104"/>
         <source>Channel Monitor</source>
-        <translation type="unfinished">Channel Monitor</translation>
+        <translation type="unfinished">通道监测</translation>
     </message>
 </context>
 <context>
@@ -15448,12 +15458,12 @@ Click the Next button to upload calibration to board. Click Cancel if you don&ap
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/SafetyComponent.qml" line="495"/>
         <source>Loiter Time</source>
-        <translation>留待时间</translation>
+        <translation type="unfinished">悬停时间</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/SafetyComponent.qml" line="505"/>
         <source>Loiter Altitude</source>
-        <translation>留待高度</translation>
+        <translation type="unfinished">悬停高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/SafetyComponent.qml" line="518"/>
@@ -15949,7 +15959,7 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/UI/AppSettings/SerialSettings.qml" line="102"/>
         <source>Advanced Settings</source>
-        <translation type="unfinished">Advanced Settings</translation>
+        <translation type="unfinished">高级设置</translation>
     </message>
     <message>
         <location filename="../src/UI/AppSettings/SerialSettings.qml" line="119"/>
@@ -18648,30 +18658,30 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="108"/>
         <source>Battery1 Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池1监测器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="165"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="285"/>
         <source>Battery Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池监测器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="177"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="297"/>
         <source>Battery Capacity</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池容量</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="187"/>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="307"/>
         <source>Minimum Arming Voltage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最小解锁电压</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="227"/>
         <source>Battery2 Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电池2监测器</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/APM/XFAPMPowerComponent.qml" line="325"/>
@@ -20433,6 +20443,12 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <translation>编辑</translation>
     </message>
     <message>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="461"/>
+        <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="611"/>
+        <source>Done</source>
+        <translation>完成</translation>
+    </message>
+    <message>
         <location filename="../src/FlightDisplay/XFMissionBasicPage.qml" line="601"/>
         <source>Radius:</source>
         <translation>半径</translation>
@@ -20533,6 +20549,16 @@ ROTATION_NONE indicates component points in direction of flight.</translation>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="79"/>
         <source>Back</source>
         <translation>返回</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFMissionView.qml" line="109"/>
+        <source>Unable to go back: %1</source>
+        <translation>无法返回：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/FlightDisplay/XFMissionView.qml" line="110"/>
+        <source>Unable to go back.</source>
+        <translation>无法返回。</translation>
     </message>
     <message>
         <location filename="../src/FlightDisplay/XFMissionView.qml" line="249"/>
@@ -21464,12 +21490,12 @@ Click OK and then move all RC sticks and switches to their extreme positions.</s
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="476"/>
         <source>Loiter Time</source>
-        <translation type="unfinished">留待时间</translation>
+        <translation type="unfinished">悬停时间</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="488"/>
         <source>Loiter Altitude</source>
-        <translation type="unfinished">留待高度</translation>
+        <translation type="unfinished">悬停高度</translation>
     </message>
     <message>
         <location filename="../src/AutoPilotPlugins/PX4/XFSafetyComponent.qml" line="507"/>

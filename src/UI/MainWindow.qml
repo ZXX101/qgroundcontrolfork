@@ -89,6 +89,9 @@ ApplicationWindow {
         // Number of QGCTextField's with validation errors. Used to prevent closing panels with validation errors.
         property int                validationErrorCount:           0
 
+        // Validation error messages from QGCTextField's. Used to explain why view switching is blocked.
+        property var                validationErrorMessages:        []
+
         // Property to manage RemoteID quick access to settings page
         property bool               commingFromRIDIndicator:        false
     }
@@ -118,6 +121,24 @@ ApplicationWindow {
             mainWindow.activeFocusControl._onEditingFinished()
         }
         return globals.validationErrorCount <= previousValidationErrorCount
+    }
+
+    // Returns a human readable reason why view switching is currently blocked, or "" if switching is allowed
+    function viewSwitchBlockReason() {
+        if (globals.validationErrorMessages.length > 0) {
+            var uniqueMessages = []
+            for (var i = 0; i < globals.validationErrorMessages.length; i++) {
+                var message = globals.validationErrorMessages[i]
+                if (uniqueMessages.indexOf(message) === -1) {
+                    uniqueMessages.push(message)
+                }
+            }
+            return qsTr("Invalid input: %1").arg(uniqueMessages.join(", "))
+        }
+        if (globals.validationErrorCount > 0) {
+            return qsTr("There are invalid input values.")
+        }
+        return ""
     }
 
     function showPlanView() {

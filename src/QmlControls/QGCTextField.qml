@@ -70,7 +70,13 @@ TextField {
             validationError = true
             if (preventViewSiwtch) {
                 globals.validationErrorCount++
+                _validationCounted = true
             }
+        }
+        if (_validationCounted) {
+            _removeValidationErrorMessage()
+            _validationErrorMessage = errorString
+            globals.validationErrorMessages.push(errorString)
         }
     }
 
@@ -79,10 +85,32 @@ TextField {
         validationToolTip.originalValidValue = undefined
         if (validationError) {
             validationError = false
-            if (preventViewSiwtch) {
+            if (preventViewSiwtch && _validationCounted) {
                 globals.validationErrorCount--
+                _validationCounted = false
+                _removeValidationErrorMessage()
             }
         }
+    }
+
+    // Prevent a destroyed field with an active validation error from blocking view switching forever
+    Component.onDestruction: {
+        if (_validationCounted) {
+            _validationCounted = false
+            globals.validationErrorCount--
+            _removeValidationErrorMessage()
+        }
+    }
+
+    property bool   _validationCounted:         false
+    property string _validationErrorMessage:    ""
+
+    function _removeValidationErrorMessage() {
+        var index = globals.validationErrorMessages.indexOf(_validationErrorMessage)
+        if (index !== -1) {
+            globals.validationErrorMessages.splice(index, 1)
+        }
+        _validationErrorMessage = ""
     }
 
     background: Rectangle {

@@ -34,7 +34,7 @@ Item {
     property var _defaultAltitude: _appSettings ? _appSettings.defaultMissionItemAltitude : null
     property var _missionSettings: missionController && missionController.visualItems.count > 0 ? missionController.visualItems.get(0) : null
     property bool _updatingFlightSpeedText: false
-    property string missionName: "Mission"
+    property string missionName: "任务-1"
     property var geoFenceController: null
     property var flightMap: null
     property int editingFenceIndex: -1
@@ -465,9 +465,10 @@ Item {
                                 QGCLabel {
                                     text: fenceObject.count
                                 }
-                                QGCCheckBox {
-                                    text: qsTr("Edit")
-                                    checked: isEditing
+                                QGCButton {
+                                    text: isEditing ? qsTr("Done") : qsTr("Edit")
+                                    _horizontalPadding: 0
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 6
                                     onClicked: _selectFenceForEdit(fenceIndex, fenceType)
                                 }
                             }
@@ -615,9 +616,10 @@ Item {
                                     fact: fenceObject.radius
                                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                                 }
-                                QGCCheckBox {
-                                    text: qsTr("Edit")
-                                    checked: isEditing
+                                QGCButton {
+                                    text: isEditing ? qsTr("Done") : qsTr("Edit")
+                                    _horizontalPadding: 0
+                                    Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 6
                                     onClicked: _selectFenceForEdit(fenceIndex, fenceType)
                                 }
                             }

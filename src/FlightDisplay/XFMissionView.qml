@@ -82,9 +82,54 @@ Item {
                     if (mainWindow.allowViewSwitch()) {
                         xfMissionView.visible = false;
                         mainWindow.showFlyView();
+                    } else {
+                        backBlockedBanner.showBlockedReason(mainWindow.viewSwitchBlockReason());
                     }
                 }
             }
+        }
+    }
+
+    // Banner shown when the Back button is blocked by validation errors
+    Rectangle {
+        id: backBlockedBanner
+        anchors.top: toolbar.bottom
+        anchors.topMargin: ScreenTools.defaultFontPixelHeight / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        z: QGroundControl.zOrderTopMost
+        width: bannerLabel.width + ScreenTools.defaultFontPixelWidth * 2
+        height: bannerLabel.height + ScreenTools.defaultFontPixelHeight
+        radius: ScreenTools.defaultFontPixelWidth / 2
+        color: qgcPal.alertBackground
+        border.width: 1
+        border.color: qgcPal.alertBorder
+        visible: false
+
+        function showBlockedReason(reason) {
+            bannerLabel.text = reason !== "" ? qsTr("Unable to go back: %1").arg(reason)
+                                             : qsTr("Unable to go back.")
+            visible = true
+            bannerHideTimer.restart()
+        }
+
+        QGCLabel {
+            id: bannerLabel
+            anchors.centerIn: parent
+            width: Math.min(implicitWidth, ScreenTools.defaultFontPixelWidth * 60)
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            color: qgcPal.alertText
+        }
+
+        Timer {
+            id: bannerHideTimer
+            interval: 4000
+            onTriggered: backBlockedBanner.visible = false
+        }
+
+        QGCMouseArea {
+            fillItem: backBlockedBanner
+            onClicked: backBlockedBanner.visible = false
         }
     }
 
