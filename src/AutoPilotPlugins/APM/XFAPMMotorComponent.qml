@@ -88,7 +88,7 @@ SetupPage {
             id:                 mainLayout
             x:                  ScreenTools.defaultFontPixelWidth * 2
             width:              availableWidth - ScreenTools.defaultFontPixelWidth * 2
-            spacing:            ScreenTools.defaultFontPixelHeight
+            spacing:            ScreenTools.defaultFontPixelHeight * 0.5
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")
             property Fact _frameType:  airframeController.getParameterFact(-1, "FRAME_TYPE", false)
@@ -102,17 +102,19 @@ SetupPage {
             Flow {
                 Layout.fillWidth:   true
                 Layout.fillHeight:  true
-                spacing:            ScreenTools.defaultFontPixelWidth * 4
+                spacing:            ScreenTools.defaultFontPixelWidth * 2
 
                 Rectangle {
                     width:      ScreenTools.defaultFontPixelHeight * 12
                     height:     ScreenTools.defaultFontPixelHeight * 10
-                    color:      qgcPal.windowShade
+                    color:      qgcPal.window
                     radius:     ScreenTools.defaultFontPixelWidth * 0.5
 
                     Image {
                         anchors.fill:           parent
                         anchors.margins:        ScreenTools.defaultFontPixelWidth * 0.5
+                        anchors.topMargin:      0
+                        anchors.bottomMargin:   0
                         fillMode:               Image.PreserveAspectFit
                         smooth:                 true
                         antialiasing:           true
@@ -136,7 +138,7 @@ SetupPage {
 
                         QGCTextField {
                             id:                 throttleField
-                            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 6
                             text:               "0"
                             inputMethodHints:   Qt.ImhFormattedNumbersOnly
                             validator:          IntValidator { bottom: 0; top: 100 }
@@ -156,7 +158,7 @@ SetupPage {
 
                         QGCTextField {
                             id:                 durationField
-                            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
+                            Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 6
                             text:               "3"
                             inputMethodHints:   Qt.ImhFormattedNumbersOnly
                             validator:          IntValidator { bottom: 0; top: 99999 }
@@ -196,9 +198,11 @@ SetupPage {
                         }
                     }
 
-                    Flow {
+                    GridLayout {
                         Layout.fillWidth:   true
-                        spacing:            ScreenTools.defaultFontPixelWidth * 2
+                        columns:            4
+                        columnSpacing:      ScreenTools.defaultFontPixelWidth * 2
+                        rowSpacing:         ScreenTools.defaultFontPixelWidth * 2
 
                         Repeater {
                             id:         buttonRepeater
