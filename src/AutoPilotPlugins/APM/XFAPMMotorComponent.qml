@@ -73,6 +73,11 @@ SetupPage {
     }
 
     function motorTestIndexForPhysicalMotor(physicalMotor, frameClassValue, frameTypeValue) {
+        if (frameClassValue === 1 && frameTypeValue === 1) {
+            // ArduPilot QUAD X motor-test order to physical output order is 1,4,2,3.
+            return [1, 3, 4, 2][physicalMotor - 1]
+        }
+
         if (frameClassValue === 2 && frameTypeValue === 1) {
             // ArduPilot HEXA X motor-test order to physical output order is 5,1,4,6,2,3.
             return [2, 5, 6, 3, 1, 4][physicalMotor - 1]
@@ -92,6 +97,46 @@ SetupPage {
 
             property Fact _frameClass: airframeController.getParameterFact(-1, "FRAME_CLASS")
             property Fact _frameType:  airframeController.getParameterFact(-1, "FRAME_TYPE", false)
+            property int  _startAllMotorIndex: -1
+
+            function startAllMotorTests() {
+                _startAllMotorIndex = 0
+                runNextMotorTest()
+            }
+
+            function runNextMotorTest() {
+                if (_startAllMotorIndex < 0) {
+                    return
+                }
+
+                if (_startAllMotorIndex >= buttonRepeater.count) {
+                    stopMotorTestSequence()
+                    return
+                }
+
+                var throttleValue = parseInt(throttleField.text) || 0
+                var durationValue = parseInt(durationField.text) || 0
+                controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(_startAllMotorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
+                                              throttleValue, throttleValue === 0 ? 0 : durationValue, true)
+                _startAllMotorIndex++
+
+                // ArduPilot tests one motor at a time: a new DO_MOTOR_TEST command immediately
+                // replaces the motor being tested, so wait for the current motor to finish
+                // (plus a margin for link latency) before starting the next one.
+                startAllTimer.interval = durationValue * 1000 + 1000
+                startAllTimer.restart()
+            }
+
+            function stopMotorTestSequence() {
+                _startAllMotorIndex = -1
+                startAllTimer.stop()
+            }
+
+            Timer {
+                id:             startAllTimer
+                repeat:         true
+                onTriggered:    runNextMotorTest()
+            }
 
             QGCLabel {
                 text:           qsTr("Geometry: %1").arg(frameClassToGeometryName(_frameClass.rawValue))
@@ -177,20 +222,14 @@ SetupPage {
                         QGCButton {
                             text:       qsTr("Start All")
                             enabled:    safetySwitch.checked
-                            onClicked:  {
-                                var throttleValue = parseInt(throttleField.text) || 0
-                                var durationValue = parseInt(durationField.text) || 0
-                                for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
-                                    controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(motorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1),
-                                                                   throttleValue, throttleValue === 0 ? 0 : durationValue, true)
-                                }
-                            }
+                            onClicked:  startAllMotorTests()
                         }
 
                         QGCButton {
                             text:       qsTr("Stop All")
                             enabled:    safetySwitch.checked
                             onClicked:  {
+                                stopMotorTestSequence()
                                 for (var motorIndex = 0; motorIndex < buttonRepeater.count; motorIndex++) {
                                     controller.vehicle.motorTest(motorTestIndexForPhysicalMotor(motorIndex + 1, _frameClass.rawValue, _frameType ? _frameType.rawValue : -1), 0, 0, true)
                                 }
@@ -253,6 +292,7 @@ SetupPage {
 
                             onClicked: {
                                 if (!checked) {
+                                    stopMotorTestSequence()
                                     throttleField.text = "0"
                                 }
                             }
