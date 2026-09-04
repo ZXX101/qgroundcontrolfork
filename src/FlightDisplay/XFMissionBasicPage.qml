@@ -230,13 +230,6 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
                 visible: true
-                QGCCheckBox {
-                    checked: missionController ? missionController.basicFlightSpeedEnabled : false
-                    onClicked: {
-                        if (missionController)
-                            missionController.basicFlightSpeedEnabled = checked;
-                    }
-                }
                 QGCLabel {
                     text: qsTr("Flight Speed")
                 }
@@ -250,7 +243,6 @@ Item {
                     text: "-1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
                     onClicked: {
                         if (missionController)
                             missionController.basicFlightSpeed = Math.max(0.1, missionController.basicFlightSpeed - 1);
@@ -260,7 +252,6 @@ Item {
                     text: "+1"
                     _horizontalPadding: 0
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 5
-                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
                     onClicked: {
                         if (missionController)
                             missionController.basicFlightSpeed = missionController.basicFlightSpeed + 1;
@@ -270,7 +261,6 @@ Item {
                     id: flightSpeedField
                     Layout.preferredWidth: ScreenTools.defaultFontPixelWidth * 8
                     text: "--"
-                    enabled: missionController ? missionController.basicFlightSpeedEnabled : false
                     horizontalAlignment: Text.AlignRight
                     showBorder: true
                     borderColor: qgcPal.windowShade
@@ -278,8 +268,9 @@ Item {
                         if (_updatingFlightSpeedText || !missionController)
                             return;
                         var speed = Number(text);
-                        if (!isNaN(speed) && speed > 0)
-                            missionController.basicFlightSpeed = speed;
+                        if (!isNaN(speed)) {
+                            missionController.basicFlightSpeed = Math.max(0.1, speed);
+                        }
                         _syncFlightSpeedText();
                     }
                 }

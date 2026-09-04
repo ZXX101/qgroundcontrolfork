@@ -116,7 +116,6 @@ public:
     Q_PROPERTY(bool                 flyThroughCommandsAllowed       MEMBER _flyThroughCommandsAllowed   NOTIFY flyThroughCommandsAllowedChanged)
     Q_PROPERTY(double               minAMSLAltitude                 MEMBER _minAMSLAltitude             NOTIFY minAMSLAltitudeChanged)          ///< Minimum altitude associated with this mission. Used to calculate percentages for terrain status.
     Q_PROPERTY(double               maxAMSLAltitude                 MEMBER _maxAMSLAltitude             NOTIFY maxAMSLAltitudeChanged)          ///< Maximum altitude associated with this mission. Used to calculate percentages for terrain status.
-    Q_PROPERTY(bool                 basicFlightSpeedEnabled         READ basicFlightSpeedEnabled        WRITE setBasicFlightSpeedEnabled        NOTIFY basicFlightSpeedChanged)
     Q_PROPERTY(double               basicFlightSpeed                READ basicFlightSpeed               WRITE setBasicFlightSpeed               NOTIFY basicFlightSpeedChanged)
     Q_PROPERTY(int                  speedProfileRevision             READ speedProfileRevision                                            NOTIFY speedProfileRevisionChanged)
 
@@ -248,10 +247,8 @@ public:
     bool                multipleLandPatternsAllowed (void) const;
     double              minAMSLAltitude             (void) const { return _minAMSLAltitude; }
     double              maxAMSLAltitude             (void) const { return _maxAMSLAltitude; }
-    bool                basicFlightSpeedEnabled     (void) const;
     double              basicFlightSpeed            (void) const;
     int                 speedProfileRevision        (void) const { return _speedProfileRevision; }
-    void                setBasicFlightSpeedEnabled  (bool enabled);
     void                setBasicFlightSpeed         (double speed);
 
     int missionItemCount            (void) const { return _missionItemCount; }

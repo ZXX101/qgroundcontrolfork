@@ -47,6 +47,29 @@ Rectangle {
         return controller.effectiveFlightSpeed(missionItem)
     }
 
+    // 更改速度指令(178)只保留 Speed 参数，隐藏 Type/Throttle/Offset
+    // 注意：参数名会随语言翻译（JSON 按文件名 context 翻译），需匹配译文
+    function _isSpeedParamName(name) {
+        return name === "Speed" || name === qsTranslate("MavCmdInfoCommon.json", "Speed")
+    }
+
+    function _textFieldFactVisible(name) {
+        return missionItem.command !== _root._mavCmdDoChangeSpeed || _isSpeedParamName(name)
+    }
+
+    property int _visibleTextFieldFactsCount: {
+        if (missionItem.command !== _root._mavCmdDoChangeSpeed) {
+            return missionItem.textFieldFacts.count
+        }
+        var count = 0
+        for (var i = 0; i < missionItem.textFieldFacts.count; i++) {
+            if (_isSpeedParamName(missionItem.textFieldFacts.get(i).name)) {
+                count++
+            }
+        }
+        return count
+    }
+
     function updateAltitudeModeText() {
         if (missionItem.altitudeMode === QGroundControl.AltitudeModeRelative) {
             altModeLabel.text = QGroundControl.altitudeModeShortDescription(QGroundControl.AltitudeModeRelative)
@@ -294,6 +317,8 @@ Rectangle {
                     ColumnLayout {
                         Layout.fillWidth:   true
                         spacing:            0
+                        // 更改速度指令(178)隐藏 Type/Offset 下拉框
+                        visible:            missionItem.command !== _root._mavCmdDoChangeSpeed
 
                         QGCLabel {
                             // font.pointSize: ScreenTools.smallFontPointSize
@@ -318,7 +343,7 @@ Rectangle {
                 anchors.left:   parent.left
                 anchors.right:  parent.right
                 flow:           GridLayout.TopToBottom
-                rows:           missionItem.textFieldFacts.count +
+                rows:           _root._visibleTextFieldFactsCount +
                                 missionItem.nanFacts.count +
                                 (missionItem.speedSection.available ? 1 : 0)
                 columns:        2
@@ -326,7 +351,10 @@ Rectangle {
                 Repeater {
                     model: missionItem.textFieldFacts
 
-                    QGCLabel { text: object.name }
+                    QGCLabel {
+                        text:       object.name
+                        visible:    _root._textFieldFactVisible(object.name)
+                    }
                 }
 
                 Repeater {
@@ -357,11 +385,11 @@ Rectangle {
                         id:                 textFieldRow
                         Layout.fillWidth:   true
                         spacing:            _altRectMargin
+                        visible:            _root._textFieldFactVisible(object.name)
 
                         // 更改速度指令(178)的 Speed 参数加 ±1 快捷按钮
-                        // 注意：参数名会随语言翻译（JSON 按文件名 context 翻译），需匹配译文
                         property bool _isChangeSpeedField: missionItem.command === _root._mavCmdDoChangeSpeed &&
-                                                           (object.name === "Speed" || object.name === qsTranslate("MavCmdInfoCommon.json", "Speed"))
+                                                           _root._isSpeedParamName(object.name)
 
                         QGCButton {
                             text:                   "-1"

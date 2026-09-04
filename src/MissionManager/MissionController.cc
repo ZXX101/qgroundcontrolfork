@@ -411,11 +411,9 @@ SimpleMissionItem* MissionController::_basicFlightSpeedItem(void) const
     }
 
     const MissionItem& mavItem = item->missionItem();
-    const double speed = mavItem.param2();
     const double expectedSpeedType = _controllerVehicle->multiRotor() ? 1 : 0;
     const bool standardCommand = mavItem.frame() == MAV_FRAME_MISSION
         && mavItem.param1() == expectedSpeedType
-        && (speed == -2 || speed > 0)
         && mavItem.param3() == -1
         && mavItem.param4() == 0
         && mavItem.param5() == 0
@@ -426,7 +424,21 @@ SimpleMissionItem* MissionController::_basicFlightSpeedItem(void) const
 
 void MissionController::ensureBasicFlightSpeedItem(void)
 {
-    if (_flyView || !_takeoffMissionItem || _basicFlightSpeedItem()) {
+    if (_flyView || !_takeoffMissionItem) {
+        emit basicFlightSpeedChanged();
+        return;
+    }
+
+    if (qIsNaN(_basicFlightSpeedValue)) {
+        _basicFlightSpeedValue = 5.0;
+    }
+
+    if (SimpleMissionItem* existingItem = _basicFlightSpeedItem()) {
+        // Normalize MAVLink sentinel values (-1 no change / -2 default speed) to a real speed.
+        // The basic page speed setting always carries an actual flight speed.
+        if (existingItem->missionItem().param2() <= 0) {
+            existingItem->missionItem().setParam2(_basicFlightSpeedValue);
+        }
         emit basicFlightSpeedChanged();
         return;
     }
@@ -451,20 +463,9 @@ void MissionController::ensureBasicFlightSpeedItem(void)
     mavItem.setParam6(0);
     mavItem.setParam7(0);
     // Set speed last. Its change signal revalidates the complete command.
-    mavItem.setParam2(-2);
+    mavItem.setParam2(_basicFlightSpeedValue);
 
-    if (qIsNaN(_basicFlightSpeedValue)) {
-        _basicFlightSpeedValue = _controllerVehicle->multiRotor()
-            ? _controllerVehicle->defaultHoverSpeed()
-            : _controllerVehicle->defaultCruiseSpeed();
-    }
     emit basicFlightSpeedChanged();
-}
-
-bool MissionController::basicFlightSpeedEnabled(void) const
-{
-    const SimpleMissionItem* item = _basicFlightSpeedItem();
-    return item && item->missionItem().param2() > 0;
 }
 
 double MissionController::basicFlightSpeed(void) const
@@ -473,50 +474,21 @@ double MissionController::basicFlightSpeed(void) const
     if (item && item->missionItem().param2() > 0) {
         return item->missionItem().param2();
     }
-    if (!qIsNaN(_basicFlightSpeedValue)) {
-        return _basicFlightSpeedValue;
-    }
-    return _controllerVehicle->multiRotor()
-        ? _controllerVehicle->defaultHoverSpeed()
-        : _controllerVehicle->defaultCruiseSpeed();
-}
-
-void MissionController::setBasicFlightSpeedEnabled(bool enabled)
-{
-    ensureBasicFlightSpeedItem();
-    SimpleMissionItem* item = _basicFlightSpeedItem();
-    if (!item) {
-        return;
-    }
-
-    if (enabled) {
-        double speed = basicFlightSpeed();
-        if (qIsNaN(speed) || speed <= 0) {
-            speed = 1;
-        }
-        _basicFlightSpeedValue = speed;
-        item->missionItem().setParam2(speed);
-    } else {
-        if (item->missionItem().param2() > 0) {
-            _basicFlightSpeedValue = item->missionItem().param2();
-        }
-        item->missionItem().setParam2(-2);
-    }
-    emit basicFlightSpeedChanged();
+    return qIsNaN(_basicFlightSpeedValue) ? 5.0 : _basicFlightSpeedValue;
 }
 
 void MissionController::setBasicFlightSpeed(double speed)
 {
-    if (qIsNaN(speed) || speed <= 0) {
+    if (qIsNaN(speed)) {
         return;
     }
+    // No MAVLink sentinel values here: the basic page speed is always a real flight speed
+    speed = qMax(0.1, speed);
 
     ensureBasicFlightSpeedItem();
     _basicFlightSpeedValue = speed;
     if (SimpleMissionItem* item = _basicFlightSpeedItem()) {
-        if (item->missionItem().param2() > 0) {
-            item->missionItem().setParam2(speed);
-        }
+        item->missionItem().setParam2(speed);
     }
     emit basicFlightSpeedChanged();
 }
